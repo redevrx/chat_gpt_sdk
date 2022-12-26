@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:chat_gpt/chat_gpt.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:material_buttonx/materialButtonX.dart';

@@ -1,4 +1,4 @@
-import 'package:chat_gpt/src/model/err_data.dart';
+import 'package:chat_gpt_sdk/src/model/err_data.dart';
 
 class ReqError {
   late final ErrorData error ;

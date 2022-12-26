@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:chat_gpt/src/api/endpint.dart';
-import 'package:chat_gpt/src/constants.dart';
-import 'package:chat_gpt/src/model/ai_model.dart';
-import 'package:chat_gpt/src/model/complete_req.dart';
-import 'package:chat_gpt/src/model/complete_res.dart';
-import 'package:chat_gpt/src/model/engine_model.dart';
+import 'package:chat_gpt_sdk/src/api/endpint.dart';
+import 'package:chat_gpt_sdk/src/constants.dart';
+import 'package:chat_gpt_sdk/src/model/ai_model.dart';
+import 'package:chat_gpt_sdk/src/model/complete_req.dart';
+import 'package:chat_gpt_sdk/src/model/complete_res.dart';
+import 'package:chat_gpt_sdk/src/model/engine_model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,7 +33,7 @@ class ChatGPT {
   /// ### Build API Token
   /// @param [token]  token access OpenAI
   /// generate here https://beta.openai.com/account/api-keys
-  ChatGPT builder(String token, {String orgID = ""}) {
+  ChatGPT builder(String token, {String orgId = ""}) {
     _buildShared();
     Timer(const Duration(seconds: 1), () {
       _buildApi();

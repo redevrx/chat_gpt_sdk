@@ -1,4 +1,4 @@
-library chat_gpt;
+library chat_gpt_sdk;
 
 export './src/constants.dart';
 export './src/api/endpint.dart';

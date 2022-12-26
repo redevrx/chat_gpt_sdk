@@ -1,4 +1,4 @@
-import 'package:chat_gpt/src/model/model_data.dart';
+import 'package:chat_gpt_sdk/src/model/model_data.dart';
 import 'package:flutter/physics.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'ai_model.g.dart';

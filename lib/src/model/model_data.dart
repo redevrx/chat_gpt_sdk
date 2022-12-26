@@ -1,4 +1,4 @@
-import 'package:chat_gpt/src/model/permission.dart';
+import 'package:chat_gpt_sdk/src/model/permission.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'model_data.g.dart';
 

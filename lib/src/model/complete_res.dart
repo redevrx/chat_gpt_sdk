@@ -1,4 +1,4 @@
-import 'package:chat_gpt/src/model/usage.dart';
+import 'package:chat_gpt_sdk/src/model/usage.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'choices.dart';
 part 'complete_res.g.dart';
