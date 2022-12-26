@@ -1,7 +1,8 @@
 name: chat_gpt
 description: ChatGPT
-version: 0.0.1
-homepage:
+version: 1.0.0
+homepage: https://www.facebook.com/REDEVRX
+repository: https://github.com/coskuncay/flutter_chatgpt_api
 
 environment:
   sdk: '>=2.18.6 <3.0.0'
