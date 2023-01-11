@@ -1,6 +1,6 @@
 name: chat_gpt_sdk
-description: ChatGPT
-version: 1.0.1+2
+description: create chatbot and other bot with ChatGPT SDK
+version: 1.0.1+4
 homepage: https://www.facebook.com/REDEVRX
 repository: https://github.com/redevRx/Flutter-ChatGPT
 

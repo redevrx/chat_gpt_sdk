@@ -8,7 +8,7 @@ class InterceptorWrapper extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print("header: ${options.headers}");
+    // print("header: ${options.headers}");
     // if (options.path.split("/").last != "kCompletion") {
     //   options.headers.addAll(kHeaderOrg(prefs?.getString(kOrgIdKey) ?? ""));
     //   return handler.next(options);
@@ -17,14 +17,10 @@ class InterceptorWrapper extends Interceptor {
     return handler.next(options); // super.onRequest(options, handler);
   }
 
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    super.onResponse(response, handler);
-  }
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    print('ERROR[${err.response?.statusCode}] => Data: ${err.response?.data}');
+    print('have Error [${err.response?.statusCode}] => Data: ${err.response?.data}');
     super.onError(err, handler);
   }
 }

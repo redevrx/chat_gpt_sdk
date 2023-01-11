@@ -42,6 +42,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     subscription = ChatGPT.instance
         .builder("token")
         .onCompleteStream(request: request)
+        .asBroadcastStream()
         .listen((res) {
       setState(() {
         _response = res;
@@ -65,6 +66,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
   @override
   void dispose() {
     subscription?.cancel();
+    ///close stream complete text
+    api.close();
     super.dispose();
   }
 
@@ -140,7 +143,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
           children: [
             Text(
               _response?.choices.last.text ?? '...',
-              style: TextStyle(color: Colors.black, fontSize: 18.0),
+              style: const TextStyle(color: Colors.black, fontSize: 18.0),
             ),
             SizedBox(
               width: size.width,

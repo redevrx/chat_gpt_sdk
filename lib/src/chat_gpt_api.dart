@@ -8,6 +8,7 @@ import 'package:chat_gpt_sdk/src/model/complete_req.dart';
 import 'package:chat_gpt_sdk/src/model/complete_res.dart';
 import 'package:chat_gpt_sdk/src/model/engine_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api/intercepter.dart';
@@ -38,7 +39,7 @@ class ChatGPT {
     Timer(const Duration(seconds: 1), () {
       _buildApi();
       setToken(token);
-      setOrgId(orgID);
+      setOrgId('$orgID');
     });
     return instance;
   }
@@ -50,7 +51,7 @@ class ChatGPT {
 
   ///build base api
   void _buildApi() {
-    _dio = Dio(BaseOptions(sendTimeout: 5000,connectTimeout: 5000));
+    _dio = Dio(BaseOptions(sendTimeout: 5000,connectTimeout: 5000,receiveTimeout: 3000));
     _dio?.interceptors.add(InterceptorWrapper(_prefs));
   }
 
@@ -77,8 +78,8 @@ class ChatGPT {
         data: json.encode(request.toJson()),
         options: Options(headers: kHeader(token)));
     if (res?.statusCode != HttpStatus.ok) {
-      print(
-          "complete error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
+      // print(
+      //     "complete error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
     }
     return res?.data == null ? null : CompleteRes.fromJson(res?.data);
   }
@@ -94,7 +95,7 @@ class ChatGPT {
     return _completeControl.stream;
   }
 
-  final  _completeControl = StreamController<CompleteRes>();
+  final  _completeControl = StreamController<CompleteRes>.broadcast();
   void _completeText({required CompleteReq request}) {
     _dio
         ?.post("$kURL$kCompletion",
@@ -102,27 +103,28 @@ class ChatGPT {
     options: Options(headers: kHeader(token)))
         .asStream()
         .listen((response) {
-      if (response?.statusCode != HttpStatus.ok) {
-        print(
-            "complete error: ${response?.statusMessage} code: ${response?.statusCode} data: ${response?.data}");
+      if (response.statusCode != HttpStatus.ok) {
         _completeControl
           ..sink
           ..addError(
-              "complete error: ${response?.statusMessage} code: ${response?.statusCode} data: ${response?.data}");
+              "complete error: ${response.statusMessage} code: ${response.statusCode} data: ${response.data}");
       } else {
         _completeControl
           ..sink
-          ..add(CompleteRes.fromJson(response?.data));
+          ..add(CompleteRes.fromJson(response.data));
       }
     });
+  }
+
+  ///### close complete stream
+  void close(){
+    _completeControl.close();
   }
 
   ///
   Future<AiModel> listModel() async{
     final res = await _dio?.get("$kURL$kModelList");
     if (res?.statusCode != HttpStatus.ok) {
-      print(
-          " error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
     }
   return AiModel.fromJson(res?.data);
   }
@@ -131,10 +133,11 @@ class ChatGPT {
   Future<EngineModel> listEngine() async{
     final res = await _dio?.get("$kURL$kEngineList");
     if (res?.statusCode != HttpStatus.ok) {
-      print(
+      if (kDebugMode) {
+        print(
           "error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
+      }
     }
-    print("MyDATA: ${res?.data}");
     return EngineModel.fromJson(res?.data);
   }
 }

@@ -5,7 +5,7 @@ part 'choices.g.dart';
 class Choices {
   final String text;
   final int index;
-  final dynamic? logprobs;
+  final dynamic logprobs;
   final String finish_reason;
 
   Choices(this.text, this.index, this.logprobs, this.finish_reason);
