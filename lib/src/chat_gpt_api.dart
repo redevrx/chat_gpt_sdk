@@ -7,6 +7,7 @@ import 'package:chat_gpt_sdk/src/model/ai_model.dart';
 import 'package:chat_gpt_sdk/src/model/complete_req.dart';
 import 'package:chat_gpt_sdk/src/model/complete_res.dart';
 import 'package:chat_gpt_sdk/src/model/engine_model.dart';
+import 'package:chat_gpt_sdk/src/model/http_setup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,10 +35,10 @@ class ChatGPT {
   /// ### Build API Token
   /// @param [token]  token access OpenAI
   /// generate here https://beta.openai.com/account/api-keys
-  ChatGPT builder(String token, {String orgId = ""}) {
+  ChatGPT builder(String token, {String orgId = "",HttpSetup? baseOption}) {
     _buildShared();
     Timer(const Duration(seconds: 1), () {
-      _buildApi();
+      _buildApi(baseOption ?? HttpSetup().getHttpSetup());
       setToken(token);
       setOrgId('$orgID');
     });
@@ -50,8 +51,8 @@ class ChatGPT {
   }
 
   ///build base api
-  void _buildApi() {
-    _dio = Dio(BaseOptions(sendTimeout: 5000,connectTimeout: 5000,receiveTimeout: 3000));
+  void _buildApi(HttpSetup setup) {
+    _dio = Dio(BaseOptions(sendTimeout: setup.sendTimeout,connectTimeout: setup.connectTimeout,receiveTimeout: setup.receiveTimeout));
     _dio?.interceptors.add(InterceptorWrapper(_prefs));
   }
 

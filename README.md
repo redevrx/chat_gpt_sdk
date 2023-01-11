@@ -18,7 +18,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt:1.0.1+4
+chat_gpt:1.0.1+5
 pub get
 ```
 
@@ -35,7 +35,7 @@ Create ChatGPT Instance
      - https://beta.openai.com/account/org-settings
 
 ```dart
-final openAI = ChatGPT.instance.builder("token");
+final openAI = ChatGPT.instance.builder("token", baseOption: HttpSetup(receiveTimeout: 6000));
 ```
 
 - Text Complete API

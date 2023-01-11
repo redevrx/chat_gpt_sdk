@@ -40,7 +40,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
         model: kTranslateModelV3,
         max_tokens: 1000);
     subscription = ChatGPT.instance
-        .builder("token")
+        .builder("token",
+        baseOption: HttpSetup(receiveTimeout: 6000))
         .onCompleteStream(request: request)
         .asBroadcastStream()
         .listen((res) {

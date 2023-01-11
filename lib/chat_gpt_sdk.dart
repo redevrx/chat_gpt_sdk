@@ -6,3 +6,4 @@ export 'src/chat_gpt_api.dart';
 export 'src/model/err_data.dart';
 export 'src/model/complete_req.dart';
 export 'src/model/complete_res.dart';
+export 'src/model/http_setup.dart';
