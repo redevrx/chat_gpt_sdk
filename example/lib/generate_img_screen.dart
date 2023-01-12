@@ -18,7 +18,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
   void initState() {
     openAI = ChatGPT
     .instance
-    .builder("token",
+    .builder("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",
         baseOption: HttpSetup(receiveTimeout: 7000));
     super.initState();
   }
@@ -31,7 +31,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
   }
 
   void _generateImage() {
-    const prompt = "cat big";
+    const prompt = "cat eating snake blue red.";
 
     final request = GenerateImage(prompt,2);
     subscription = openAI.generateImageStream(request)

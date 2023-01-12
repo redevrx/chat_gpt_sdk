@@ -3,10 +3,10 @@ import 'dart:math';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
+import 'package:example/generate_img_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_buttonx/materialButtonX.dart';
 
-import 'generate_img_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -32,18 +32,16 @@ class _TranslateScreenState extends State<TranslateScreen> {
   final _txtWord = TextEditingController();
 
   CompleteRes? _response;
-  StreamSubscription? subscription;
+  StreamSubscription<CompleteRes?>? subscription;
 
-  final api = ChatGPT.instance;
+  late ChatGPT api;
 
   void _translateEngToThai() {
     final request = CompleteReq(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
         model: kTranslateModelV3,
         max_tokens: 1000);
-    subscription = ChatGPT.instance
-        .builder("token",
-        baseOption: HttpSetup(receiveTimeout: 6000))
+    subscription = api
         .onCompleteStream(request: request)
         .asBroadcastStream()
         .listen((res) {
@@ -66,6 +64,13 @@ class _TranslateScreenState extends State<TranslateScreen> {
         .listEngine();
   }
 
+  @override
+  void initState() {
+    api = ChatGPT.instance
+        .builder("",
+        baseOption: HttpSetup(receiveTimeout: 6000));
+    super.initState();
+  }
   @override
   void dispose() {
     subscription?.cancel();

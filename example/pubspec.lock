@@ -63,7 +63,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.2"
+    version: "1.0.2+1"
   checked_yaml:
     dependency: transitive
     description:

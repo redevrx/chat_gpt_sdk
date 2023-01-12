@@ -11,3 +11,6 @@ Fix bug  Http status error [429] error
 ## 1.0.2
   New Feature
    - Generation Image With Prompt
+   - 
+## 1.0.2 + 1
+  Fix Bug

@@ -21,7 +21,6 @@ class ChatGPT {
 
   static ChatGPT? _instance;
   static String? _token;
-  static String? _orgID;
   static Dio? _dio;
   static SharedPreferences? _prefs;
 
@@ -30,19 +29,15 @@ class ChatGPT {
   ///token access OpenAI
   static get token => _token;
 
-  ///organization ID
-  ///https://beta.openai.com/account/org-settings
-  static get orgID => _orgID;
 
   /// ### Build API Token
   /// @param [token]  token access OpenAI
   /// generate here https://beta.openai.com/account/api-keys
-  ChatGPT builder(String token, {String orgId = "", HttpSetup? baseOption}) {
+  ChatGPT builder(String token, {HttpSetup? baseOption}) {
     _buildShared();
     Timer(const Duration(seconds: 1), () {
       _buildApi(baseOption ?? HttpSetup().getHttpSetup());
       setToken(token);
-      setOrgId('$orgID');
     });
     return instance;
   }
@@ -67,12 +62,6 @@ class ChatGPT {
     await _prefs?.setString(kTokenKey, token);
   }
 
-  ///set new orgId
-  void setOrgId(String orgId) async {
-    _orgID = orgId;
-    await _prefs?.setString(kOrgIdKey, orgId);
-  }
-
   ///### About Method
   /// - Answer questions based on existing knowledge.
   /// - Create code to call the Stripe API using natural language.
@@ -81,8 +70,7 @@ class ChatGPT {
   /// https://beta.openai.com/examples
   Future<CompleteRes?> onCompleteText({required CompleteReq request}) async {
     final res = await _dio?.post("$kURL$kCompletion",
-        data: json.encode(request.toJson()),
-        options: Options(headers: kHeader(token)));
+        data: json.encode(request.toJson()));
     if (res?.statusCode != HttpStatus.ok) {
       // print(
       //     "complete error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
@@ -105,8 +93,7 @@ class ChatGPT {
   void _completeText({required CompleteReq request}) {
     _dio
         ?.post("$kURL$kCompletion",
-            data: json.encode(request.toJson()),
-            options: Options(headers: kHeader(token)))
+            data: json.encode(request.toJson()))
         .asStream()
         .listen((response) {
       if (response.statusCode != HttpStatus.ok) {
@@ -127,14 +114,14 @@ class ChatGPT {
     _completeControl.close();
   }
 
-  ///
+  ///find all list model ai
   Future<AiModel> listModel() async {
     final res = await _dio?.get("$kURL$kModelList");
     if (res?.statusCode != HttpStatus.ok) {}
     return AiModel.fromJson(res?.data);
   }
 
-  ///
+  /// find all list engine ai
   Future<EngineModel> listEngine() async {
     final res = await _dio?.get("$kURL$kEngineList");
     if (res?.statusCode != HttpStatus.ok) {
@@ -155,8 +142,7 @@ class ChatGPT {
   final _genImgController = StreamController<GenerateImgRes>.broadcast();
   void _generateImage(GenerateImage request) {
     _dio?.post("$kURL$kGenerateImage",
-        data: json.encode(request.toJson()),
-        options: Options(headers: kHeader(token)))
+        data: json.encode(request.toJson()))
     .asStream()
     .listen((response) {
       if (response.statusCode != HttpStatus.ok) {
@@ -179,8 +165,7 @@ class ChatGPT {
   ///generate image with prompt
   Future<GenerateImgRes?> generateImage(GenerateImage request) async {
     final response = await _dio?.post("$kURL$kGenerateImage",
-    data: json.encode(request.toJson()),
-    options: Options(headers: kHeader(token)));
+    data: json.encode(request.toJson()),);
 
     return response?.data != null ? GenerateImgRes.fromJson(response?.data): null;
   }
