@@ -7,3 +7,7 @@ Fix bug  Http status error [429] error
   - sendTimeout  
   - connectTimeout
   - receiveTimeout
+
+## 1.0.2
+  New Feature
+   - Generation Image With Prompt

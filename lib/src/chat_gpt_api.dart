@@ -7,6 +7,8 @@ import 'package:chat_gpt_sdk/src/model/ai_model.dart';
 import 'package:chat_gpt_sdk/src/model/complete_req.dart';
 import 'package:chat_gpt_sdk/src/model/complete_res.dart';
 import 'package:chat_gpt_sdk/src/model/engine_model.dart';
+import 'package:chat_gpt_sdk/src/model/generate_image_req.dart';
+import 'package:chat_gpt_sdk/src/model/generate_img_res.dart';
 import 'package:chat_gpt_sdk/src/model/http_setup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -35,7 +37,7 @@ class ChatGPT {
   /// ### Build API Token
   /// @param [token]  token access OpenAI
   /// generate here https://beta.openai.com/account/api-keys
-  ChatGPT builder(String token, {String orgId = "",HttpSetup? baseOption}) {
+  ChatGPT builder(String token, {String orgId = "", HttpSetup? baseOption}) {
     _buildShared();
     Timer(const Duration(seconds: 1), () {
       _buildApi(baseOption ?? HttpSetup().getHttpSetup());
@@ -52,7 +54,10 @@ class ChatGPT {
 
   ///build base api
   void _buildApi(HttpSetup setup) {
-    _dio = Dio(BaseOptions(sendTimeout: setup.sendTimeout,connectTimeout: setup.connectTimeout,receiveTimeout: setup.receiveTimeout));
+    _dio = Dio(BaseOptions(
+        sendTimeout: setup.sendTimeout,
+        connectTimeout: setup.connectTimeout,
+        receiveTimeout: setup.receiveTimeout));
     _dio?.interceptors.add(InterceptorWrapper(_prefs));
   }
 
@@ -96,12 +101,12 @@ class ChatGPT {
     return _completeControl.stream;
   }
 
-  final  _completeControl = StreamController<CompleteRes>.broadcast();
+  final _completeControl = StreamController<CompleteRes>.broadcast();
   void _completeText({required CompleteReq request}) {
     _dio
         ?.post("$kURL$kCompletion",
             data: json.encode(request.toJson()),
-    options: Options(headers: kHeader(token)))
+            options: Options(headers: kHeader(token)))
         .asStream()
         .listen((response) {
       if (response.statusCode != HttpStatus.ok) {
@@ -118,28 +123,65 @@ class ChatGPT {
   }
 
   ///### close complete stream
-  void close(){
+  void close() {
     _completeControl.close();
   }
 
   ///
-  Future<AiModel> listModel() async{
+  Future<AiModel> listModel() async {
     final res = await _dio?.get("$kURL$kModelList");
-    if (res?.statusCode != HttpStatus.ok) {
-    }
-  return AiModel.fromJson(res?.data);
+    if (res?.statusCode != HttpStatus.ok) {}
+    return AiModel.fromJson(res?.data);
   }
 
   ///
-  Future<EngineModel> listEngine() async{
+  Future<EngineModel> listEngine() async {
     final res = await _dio?.get("$kURL$kEngineList");
     if (res?.statusCode != HttpStatus.ok) {
       if (kDebugMode) {
         print(
-          "error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
+            "error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
       }
     }
     return EngineModel.fromJson(res?.data);
   }
-}
 
+  ///generate image with prompt
+  Stream<GenerateImgRes> generateImageStream(GenerateImage request) {
+    _generateImage(request);
+    return _genImgController.stream;
+  }
+
+  final _genImgController = StreamController<GenerateImgRes>.broadcast();
+  void _generateImage(GenerateImage request) {
+    _dio?.post("$kURL$kGenerateImage",
+        data: json.encode(request.toJson()),
+        options: Options(headers: kHeader(token)))
+    .asStream()
+    .listen((response) {
+      if (response.statusCode != HttpStatus.ok) {
+        _genImgController
+          ..sink
+          ..addError(
+              "generate image error: ${response.statusMessage} code: ${response.statusCode} data: ${response.data}");
+      } else {
+        _genImgController
+          ..sink
+          ..add(GenerateImgRes.fromJson(response.data));
+      }
+    });
+  }
+
+  void genImgClose() {
+    _genImgController.close();
+  }
+
+  ///generate image with prompt
+  Future<GenerateImgRes?> generateImage(GenerateImage request) async {
+    final response = await _dio?.post("$kURL$kGenerateImage",
+    data: json.encode(request.toJson()),
+    options: Options(headers: kHeader(token)));
+
+    return response?.data != null ? GenerateImgRes.fromJson(response?.data): null;
+  }
+}

@@ -95,6 +95,37 @@ final models = await openAI.listModel();
 ```dart
 final engines = await openAI.listEngine();
 ```
+- Generation Image
+  - prompt
+    - A text description of the desired image(s). The maximum length is 1000 characters.
+  - n
+    - The number of images to generate. Must be between 1 and 10.
+  - size
+    - The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
+  - response_format
+    - The format in which the generated images are returned. Must be one of url or b64_json.
+  - user
+    - A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
+
+```dart
+  openAI = ChatGPT
+        .instance
+        .builder("token",
+         baseOption: HttpSetup(receiveTimeout: 7000));
+
+const prompt = "Snake Red";
+
+final request = GenerateImage(prompt,2);
+
+               openAI.generateImageStream(request)
+              .asBroadcastStream()
+              .listen((it) {
+                print(it.data?.last?.url)
+              });
+
+/// cancel stream controller
+openAI.genImgClose();
+```
 
 ## Flutter Example
 

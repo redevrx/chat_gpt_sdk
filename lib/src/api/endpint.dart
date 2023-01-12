@@ -3,6 +3,8 @@ const kCompletion = 'completions';
 const kModelList = 'models';
 ///get list engine
 const kEngineList = 'engines';
+///generate image with prompt
+const kGenerateImage = 'images/generations';
 
 
 
