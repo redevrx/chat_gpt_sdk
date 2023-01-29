@@ -231,7 +231,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   @override
   void initState() {
     openAI = ChatGPT.instance.builder(
-            "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",
+            "token",
             baseOption: HttpSetup(receiveTimeout: 6000));
     super.initState();
   }
