@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
-import 'package:example/generate_img_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_buttonx/materialButtonX.dart';
-
 
 void main() => runApp(const MyApp());
 
@@ -16,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: GenImgScreen(),
+      home: TranslateScreen(),
     );
   }
 }
@@ -31,51 +28,45 @@ class _TranslateScreenState extends State<TranslateScreen> {
   /// text controller
   final _txtWord = TextEditingController();
 
-  CompleteRes? _response;
-  StreamSubscription<CompleteRes?>? subscription;
+  late ChatGPT openAI;
 
-  late ChatGPT api;
+  ///t => translate
+  final tController = StreamController<CompleteRes?>.broadcast();
 
-  void _translateEngToThai() {
+  void _translateEngToThai() async{
     final request = CompleteReq(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
-        model: kTranslateModelV3,
-        max_tokens: 1000);
-    subscription = api
+        max_tokens: 200,
+        model: kTranslateModelV3);
+    openAI
         .onCompleteStream(request: request)
         .asBroadcastStream()
         .listen((res) {
-      setState(() {
-        _response = res;
-      });
+      tController.sink.add(res);
     });
   }
 
-  void modelDataList() async{
-    final model = await ChatGPT.instance
-        .builder("token")
-        .listModel();
-
+  void modelDataList() async {
+    final model = await ChatGPT.instance.builder("token").listModel();
   }
 
-  void engineList() async{
-    final engines = await ChatGPT.instance
-        .builder("token")
-        .listEngine();
+  void engineList() async {
+    final engines = await ChatGPT.instance.builder("token").listEngine();
   }
 
   @override
   void initState() {
-    api = ChatGPT.instance
-        .builder("",
+    openAI = ChatGPT.instance.builder(
+        "token",
         baseOption: HttpSetup(receiveTimeout: 6000));
     super.initState();
   }
+
   @override
   void dispose() {
-    subscription?.cancel();
     ///close stream complete text
-    api.close();
+    openAI.close();
+    tController.close();
     super.dispose();
   }
 
@@ -123,67 +114,72 @@ class _TranslateScreenState extends State<TranslateScreen> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: MaterialButtonX(
-              message: "Translate",
-              height: 40.0,
-              width: 130.0,
-              color: Colors.blueAccent,
-              icon: Icons.translate,
-              iconSize: 18.0,
-              radius: 46.0,
-              onClick: () => _translateEngToThai())
-        ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: MaterialButtonX(
+                message: "Translate",
+                height: 40.0,
+                width: 130.0,
+                color: Colors.blueAccent,
+                icon: Icons.translate,
+                iconSize: 18.0,
+                radius: 46.0,
+                onClick: () => _translateEngToThai())),
       ],
     );
   }
 
   Widget _resultCard(Size size) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 32.0),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      alignment: Alignment.bottomCenter,
-      width: size.width * .86,
-      height: size.height * .3,
-      decoration: heroCard,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              _response?.choices.last.text ?? '...',
-              style: const TextStyle(color: Colors.black, fontSize: 18.0),
-            ),
-            SizedBox(
-              width: size.width,
-              child: const Divider(
-                color: Colors.grey,
-                thickness: 1,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  Icon(
-                    Icons.copy_outlined,
+    return StreamBuilder<CompleteRes?>(
+      stream: tController.stream,
+      builder: (context, snapshot) {
+        final text = snapshot.data?.choices.last.text ?? "Loading...";
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          alignment: Alignment.bottomCenter,
+          width: size.width * .86,
+          height: size.height * .3,
+          decoration: heroCard,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  text,
+                  style: const TextStyle(color: Colors.black, fontSize: 18.0),
+                ),
+                SizedBox(
+                  width: size.width,
+                  child: const Divider(
                     color: Colors.grey,
-                    size: 22.0,
+                    thickness: 1,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Icon(
-                      Icons.delete_forever,
-                      color: Colors.grey,
-                      size: 22.0,
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      Icon(
+                        Icons.copy_outlined,
+                        color: Colors.grey,
+                        size: 22.0,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Icon(
+                          Icons.delete_forever,
+                          color: Colors.grey,
+                          size: 22.0,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -361,3 +357,4 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 }
+

@@ -18,7 +18,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
   void initState() {
     openAI = ChatGPT
     .instance
-    .builder("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",
+    .builder("token",
         baseOption: HttpSetup(receiveTimeout: 7000));
     super.initState();
   }

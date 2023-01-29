@@ -8,7 +8,7 @@ part of 'usage.dart';
 
 Usage _$UsageFromJson(Map<String, dynamic> json) => Usage(
       json['prompt_tokens'] as int,
-      json['completion_tokens'] as int,
+      json['completion_tokens'] == null ? 0 : json['completion_tokens'] as int,
       json['total_tokens'] as int,
     );
 

@@ -25,4 +25,5 @@ Map<String, dynamic> _$CompleteReqToJson(CompleteReq instance) =>
       'top_p': instance.top_p,
       'frequency_penalty': instance.frequency_penalty,
       'presence_penalty': instance.presence_penalty,
+      "stop": instance.stop
     };

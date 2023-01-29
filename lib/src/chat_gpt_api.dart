@@ -19,16 +19,15 @@ import 'api/intercepter.dart';
 class ChatGPT {
   ChatGPT._();
 
-  static ChatGPT? _instance;
+  static final ChatGPT _instance = ChatGPT._();
   static String? _token;
   static Dio? _dio;
   static SharedPreferences? _prefs;
 
-  static ChatGPT get instance => _instance ?? ChatGPT._();
+  static ChatGPT get instance => _instance;
 
   ///token access OpenAI
   static get token => _token;
-
 
   /// ### Build API Token
   /// @param [token]  token access OpenAI
@@ -39,7 +38,7 @@ class ChatGPT {
       _buildApi(baseOption ?? HttpSetup().getHttpSetup());
       setToken(token);
     });
-    return instance;
+    return _instance;
   }
 
   ///new instance prefs for keep my data
@@ -72,8 +71,7 @@ class ChatGPT {
     final res = await _dio?.post("$kURL$kCompletion",
         data: json.encode(request.toJson()));
     if (res?.statusCode != HttpStatus.ok) {
-      // print(
-      //     "complete error: ${res?.statusMessage} code: ${res?.statusCode} data: ${res?.data}");
+     return Future.value(res?.data);
     }
     return res?.data == null ? null : CompleteRes.fromJson(res?.data);
   }
@@ -89,11 +87,11 @@ class ChatGPT {
     return _completeControl.stream;
   }
 
+
   final _completeControl = StreamController<CompleteRes>.broadcast();
   void _completeText({required CompleteReq request}) {
     _dio
-        ?.post("$kURL$kCompletion",
-            data: json.encode(request.toJson()))
+        ?.post("$kURL$kCompletion", data: json.encode(request.toJson()))
         .asStream()
         .listen((response) {
       if (response.statusCode != HttpStatus.ok) {
@@ -110,6 +108,7 @@ class ChatGPT {
   }
 
   ///### close complete stream
+  ///free memory
   void close() {
     _completeControl.close();
   }
@@ -141,10 +140,10 @@ class ChatGPT {
 
   final _genImgController = StreamController<GenerateImgRes>.broadcast();
   void _generateImage(GenerateImage request) {
-    _dio?.post("$kURL$kGenerateImage",
-        data: json.encode(request.toJson()))
-    .asStream()
-    .listen((response) {
+    _dio
+        ?.post("$kURL$kGenerateImage", data: json.encode(request.toJson()))
+        .asStream()
+        .listen((response) {
       if (response.statusCode != HttpStatus.ok) {
         _genImgController
           ..sink
@@ -164,9 +163,13 @@ class ChatGPT {
 
   ///generate image with prompt
   Future<GenerateImgRes?> generateImage(GenerateImage request) async {
-    final response = await _dio?.post("$kURL$kGenerateImage",
-    data: json.encode(request.toJson()),);
+    final response = await _dio?.post(
+      "$kURL$kGenerateImage",
+      data: json.encode(request.toJson()),
+    );
 
-    return response?.data != null ? GenerateImgRes.fromJson(response?.data): null;
+    return response?.data != null
+        ? GenerateImgRes.fromJson(response?.data)
+        : null;
   }
 }

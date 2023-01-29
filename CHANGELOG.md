@@ -13,4 +13,10 @@ Fix bug  Http status error [429] error
    - Generation Image With Prompt
    - 
 ## 1.0.2 + 1
-  Fix Bug
+ - Fix Bug
+
+## 1.0.2 + 2
+- Fix Bug
+- Add stop field in complete request
+- New example
+- Bloc code complete and error
