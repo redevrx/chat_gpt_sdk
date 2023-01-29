@@ -15,7 +15,7 @@ Fix bug  Http status error [429] error
 ## 1.0.2 + 1
  - Fix Bug
 
-## 1.0.2 + 2
+## 1.0.2 + 3
 - Fix Bug
 - Add stop field in complete request
 - New example
