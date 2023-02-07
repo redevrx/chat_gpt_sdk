@@ -18,7 +18,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt:1.0.2+3
+chat_gpt:1.0.2+4
 pub get
 ```
 
@@ -35,7 +35,7 @@ Create ChatGPT Instance
      - https://beta.openai.com/account/org-settings
 
 ```dart
-final openAI = ChatGPT.instance.builder("token", baseOption: HttpSetup(receiveTimeout: 6000));
+final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
 ```
 
 - Text Complete API
@@ -53,15 +53,18 @@ final openAI = ChatGPT.instance.builder("token", baseOption: HttpSetup(receiveTi
   - https://beta.openai.com/examples
 
 ```dart
-final request = CompleteReq(prompt: translateEngToThai(word: ''),
-                model: kTranslateModelV3, max_tokens: 200);
+final request = CompleteText(prompt: translateEngToThai(word: ''),
+                model: kTranslateModelV3, maxTokens: 200);
 
- openAI.onCompleteStream(request:request).listen((response) => print(response));
+ openAI.onCompleteStream(request:request).listen((response) => print(response))
+        .onError((err) {
+          print("$err");
+  });
 ```
 
 - Complete with StreamBuilder
 ```dart
-final tController = StreamController<CompleteRes?>.broadcast();
+final tController = StreamController<CTResponse?>.broadcast();
 
 openAI
         .onCompleteStream(request: request)
@@ -71,7 +74,7 @@ tController.sink.add(res);
 });
 
 ///ui code
-StreamBuilder<CompleteRes?>(
+StreamBuilder<CTResponse?>(
  stream: tController.stream,
  builder: (context, snapshot) {
    final data = snapshot.data;
@@ -85,7 +88,7 @@ StreamBuilder<CompleteRes?>(
 
 ```dart
   void _translateEngToThai() async{
-  final request = CompleteReq(
+  final request = CompleteText(
           prompt: translateEngToThai(word: _txtWord.text.toString()),
           max_tokens: 200,
           model: kTranslateModelV3);
@@ -98,10 +101,13 @@ StreamBuilder<CompleteRes?>(
 - Example Q&A 
   - Answer questions based on existing knowledge.
 ```dart
-final request = CompleteReq(prompt:'What is human life expectancy in the United States?'),
-                model: kTranslateModelV3, max_tokens: 200);
+final request = CompleteText(prompt:'What is human life expectancy in the United States?'),
+                model: kTranslateModelV3, maxTokens: 200);
 
- openAI.onCompleteStream(request:request).listen((response) => print(response));
+ openAI.onCompleteStream(request:request).listen((response) => print(response))
+        .onError((err) {
+           print("$err");
+});
 ```
 - Request
  
@@ -130,10 +136,10 @@ A: Human life expectancy in the United States is 78 years.
 - 
 - Generate with stream
 ```dart
-  openAI = ChatGPT
+  openAI = OpenAI
         .instance
-        .builder("token",
-         baseOption: HttpSetup(receiveTimeout: 7000));
+        .builder(toekn:"token",
+         baseOption: HttpSetup(receiveTimeout: 7000),isLogger:true);
 
 const prompt = "Snake Red";
 
@@ -181,6 +187,7 @@ final engines = await openAI.listEngine();
 ## Flutter Example
 
 ```dart
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -202,37 +209,41 @@ class _TranslateScreenState extends State<TranslateScreen> {
   /// text controller
   final _txtWord = TextEditingController();
 
-  late ChatGPT openAI;
+  late OpenAI openAI;
 
   ///t => translate
-  final tController = StreamController<CompleteRes?>.broadcast();
+  final tController = StreamController<CTResponse?>.broadcast();
 
   void _translateEngToThai() async{
-    final request = CompleteReq(
+    final request = CompleteText(
             prompt: translateEngToThai(word: _txtWord.text.toString()),
-            max_tokens: 200,
+            maxTokens: 200,
             model: kTranslateModelV3);
+
     openAI
             .onCompleteStream(request: request)
             .asBroadcastStream()
             .listen((res) {
       tController.sink.add(res);
+    })
+            .onError((err) {
+      print("$err");
     });
   }
 
   void modelDataList() async {
-    final model = await ChatGPT.instance.builder("token").listModel();
+    final model = await OpenAI.instance.build(token: "").listModel();
   }
 
   void engineList() async {
-    final engines = await ChatGPT.instance.builder("token").listEngine();
+    final engines = await OpenAI.instance.build(token: "").listEngine();
   }
 
   @override
   void initState() {
-    openAI = ChatGPT.instance.builder(
-            "token",
-            baseOption: HttpSetup(receiveTimeout: 6000));
+    openAI = OpenAI.instance.build(
+            token: token,
+            baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
     super.initState();
   }
 
@@ -303,7 +314,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   }
 
   Widget _resultCard(Size size) {
-    return StreamBuilder<CompleteRes?>(
+    return StreamBuilder<CTResponse?>(
       stream: tController.stream,
       builder: (context, snapshot) {
         final text = snapshot.data?.choices.last.text ?? "Loading...";
@@ -531,7 +542,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 }
-
 ```
 
 <img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t39.30808-6/321956306_528473869217638_4959635231571092650_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeEsI7hsLNIsex_AQIFeovLlaTgrIWLcvzxpOCshYty_PPUQAgRUmw5tl-qeumSqGBW1lSxtoz1449ouRHh7NUD2&_nc_ohc=srpexGELFdEAX9MTvJB&tn=aWCijFs0IEeQXzfE&_nc_ht=scontent.fkkc3-1.fna&oh=00_AfBUXtzuy_azZp-xQBZ3ShOPxxihSRpI0Uiv7HN6IiwlYw&oe=63C3F664" width="350" height="350">

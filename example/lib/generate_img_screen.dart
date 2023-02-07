@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class GenImgScreen extends StatefulWidget {
   const GenImgScreen({Key? key}) : super(key: key);
 
@@ -11,15 +13,14 @@ class GenImgScreen extends StatefulWidget {
 
 class _GenImgScreenState extends State<GenImgScreen> {
   String img = "";
-  late ChatGPT openAI;
+  late OpenAI openAI;
   StreamSubscription? subscription;
 
   @override
   void initState() {
-    openAI = ChatGPT
-    .instance
-    .builder("token",
-        baseOption: HttpSetup(receiveTimeout: 7000));
+    openAI = OpenAI.instance.build(
+        token: token,
+        baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
     super.initState();
   }
 
@@ -30,10 +31,10 @@ class _GenImgScreenState extends State<GenImgScreen> {
     super.dispose();
   }
 
-  void _generateImage() {
-    const prompt = "cat eating snake blue red.";
+  void _generateImage() async{
+    const prompt = "King Snake.";
 
-    final request = GenerateImage(prompt,2);
+    final request = GenerateImage(prompt,1);
     subscription = openAI.generateImageStream(request)
     .asBroadcastStream()
     .listen((it) {
@@ -41,6 +42,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
         img = "${it.data?.last?.url}";
       });
     });
+
   }
 
   @override

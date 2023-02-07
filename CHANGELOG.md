@@ -20,3 +20,6 @@ Fix bug  Http status error [429] error
 - Add stop field in complete request
 - New example
 - Bloc code complete and error
+
+## 1.0.2 + 4
+ - Refactor and Fix Bug

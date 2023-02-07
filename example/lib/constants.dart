@@ -21,3 +21,6 @@ final heroNav = BoxDecoration(
           blurRadius: 18,
           spreadRadius: .5)
     ]);
+
+
+const token = "your-token";

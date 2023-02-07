@@ -1,6 +1,6 @@
 name: chat_gpt_sdk
 description: create chat bot and other bot with ChatGPT SDK
-version: 1.0.2+3
+version: 1.0.2+4
 homepage: https://www.facebook.com/REDEVRX
 repository: https://github.com/redevRx/Flutter-ChatGPT
 
@@ -11,16 +11,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  json_annotation: ^4.7.0
   dio: ^4.0.6
   shared_preferences: ^2.0.15
-  json_serializable: ^6.5.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-  build_runner: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

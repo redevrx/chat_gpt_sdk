@@ -28,37 +28,41 @@ class _TranslateScreenState extends State<TranslateScreen> {
   /// text controller
   final _txtWord = TextEditingController();
 
-  late ChatGPT openAI;
+  late OpenAI openAI;
 
   ///t => translate
-  final tController = StreamController<CompleteRes?>.broadcast();
+  final tController = StreamController<CTResponse?>.broadcast();
 
   void _translateEngToThai() async{
-    final request = CompleteReq(
+    final request = CompleteText(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
-        max_tokens: 200,
+        maxTokens: 200,
         model: kTranslateModelV3);
+
     openAI
         .onCompleteStream(request: request)
         .asBroadcastStream()
         .listen((res) {
       tController.sink.add(res);
+    })
+    .onError((err) {
+      print("$err");
     });
   }
 
   void modelDataList() async {
-    final model = await ChatGPT.instance.builder("token").listModel();
+    final model = await OpenAI.instance.build(token: "").listModel();
   }
 
   void engineList() async {
-    final engines = await ChatGPT.instance.builder("token").listEngine();
+    final engines = await OpenAI.instance.build(token: "").listEngine();
   }
 
   @override
   void initState() {
-    openAI = ChatGPT.instance.builder(
-        "token",
-        baseOption: HttpSetup(receiveTimeout: 6000));
+    openAI = OpenAI.instance.build(
+        token: token,
+        baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
     super.initState();
   }
 
@@ -129,7 +133,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   }
 
   Widget _resultCard(Size size) {
-    return StreamBuilder<CompleteRes?>(
+    return StreamBuilder<CTResponse?>(
       stream: tController.stream,
       builder: (context, snapshot) {
         final text = snapshot.data?.choices.last.text ?? "Loading...";
