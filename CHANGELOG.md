@@ -23,3 +23,6 @@ Fix bug  Http status error [429] error
 
 ## 1.0.2 + 4
  - Refactor and Fix Bug
+
+## 2.0.0
+- add b64 field in response generate image
