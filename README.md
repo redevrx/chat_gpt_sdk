@@ -18,7 +18,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt:1.0.2+4
+chat_gpt: 2.0.0
 pub get
 ```
 
@@ -544,7 +544,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
 }
 ```
 
-<img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t39.30808-6/321956306_528473869217638_4959635231571092650_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeEsI7hsLNIsex_AQIFeovLlaTgrIWLcvzxpOCshYty_PPUQAgRUmw5tl-qeumSqGBW1lSxtoz1449ouRHh7NUD2&_nc_ohc=srpexGELFdEAX9MTvJB&tn=aWCijFs0IEeQXzfE&_nc_ht=scontent.fkkc3-1.fna&oh=00_AfBUXtzuy_azZp-xQBZ3ShOPxxihSRpI0Uiv7HN6IiwlYw&oe=63C3F664" width="350" height="350">
+<img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t39.30808-6/321956306_528473869217638_4959635231571092650_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=YumrmcfO7jAAX9N9Ygd&tn=aWCijFs0IEeQXzfE&_nc_ht=scontent.fkkc3-1.fna&oh=00_AfCQk9ebz2qnPl2pshugchDnaEXMPe6rogXpdzc3UCfcmg&oe=63EF77E4" width="350" height="760">
 
 ### Video Tutorials
  - <a href='https://www.youtube.com/watch?v=qUEUMxGW_0Q&ab_channel=idealBy'>Flutter Chat bot</a>

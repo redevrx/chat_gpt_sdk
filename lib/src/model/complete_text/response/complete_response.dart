@@ -25,9 +25,9 @@ class CTResponse {
         Usage.fromJson(json['usage'] as Map<String, dynamic>),
       );
 
-  Map<String, dynamic> toJson() => _CompleteResToJson(this);
+  Map<String, dynamic> toJson() => responseToJson(this);
 
-  Map<String, dynamic> _CompleteResToJson(CTResponse instance) =>
+  Map<String, dynamic> responseToJson(CTResponse instance) =>
       <String, dynamic>{
         'id': instance.id,
         'object': instance.object,
