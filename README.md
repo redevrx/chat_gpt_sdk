@@ -50,6 +50,8 @@ final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveT
       - Translate natural language to SQL queries.
       - Create code to call the Stripe API using natural language.
       - Find the time complexity of a function.
+    - kGPT35Turbo: gpt-3.5-turbo 
+      - Given a chat conversation, the model will return a chat completion response
   - https://beta.openai.com/examples
 
 ```dart
@@ -183,6 +185,51 @@ final models = await openAI.listModel();
 ```dart
 final engines = await openAI.listEngine();
 ```
+
+- Support 'gpt-3.5-turbo'
+*  Create Instance Example:
+```dart
+ @override
+  void initState() {
+    openAI = OpenAI.instance.build(
+        token: "Your Token",
+        baseOption: HttpSetup(receiveTimeout: 6000),
+        isLogger: true);
+    super.initState();
+  }
+```
+* Create Request
+```dart
+  final request = ChatCompleteText(
+        messages: [{"role": "user", "content": "Hello world!"}],
+        model: kGPT35Turbo, // is model kGPT35Turbo => 'gpt-3.5-turbo'
+        maxTokens: 800,
+        temperature: 0.5);
+```
+* Complete with StreamBuilder
+```dart
+final tController = StreamController<GPTResponse?>.broadcast();
+    openAI
+        .onChatCompleteStream(request: request)
+        .asBroadcastStream()
+        .listen((res) {
+      tController.sink.add(res);
+    });
+```
+* Complete with Feature
+```dart
+void _callGPT35Turbo() async {
+    final request = ChatCompleteText(
+        messages: [{"role": "user", "content": "Hello world!"}],
+        model: kGPT35Turbo, // is model kGPT35Turbo => 'gpt-3.5-turbo'
+        maxTokens: 800,
+        temperature: 0.5);
+    dynamic data = await openAI.onChatCompleteText(request: request);
+    print(data!.choices[0].message.content);
+}
+```
+* You can also visit the example implemented in example/lib/screens/page_chat.dart
+
 
 ## Flutter Example
 

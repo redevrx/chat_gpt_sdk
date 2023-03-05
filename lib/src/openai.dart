@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/src/client/client.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete_text/request/chat_complete_text.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete_text/response/chat_complete_response.dart';
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart';
@@ -130,10 +132,58 @@ class OpenAI {
     });
   }
 
+  ///### About Method [onChatCompleteText]
+  /// Given a chat conversation, the model will return a chat completion response.
+  /// https://platform.openai.com/docs/api-reference/chat
+  Future<GPTResponse?> onChatCompleteText(
+      {required ChatCompleteText request}) async {
+    return _client.post("$kURL$kChatCompletions", request.toJson(),
+        onSuccess: (it) {
+      return GPTResponse.fromJson(it);
+    });
+  }
+
+  ///### About Method [onChatCompleteStream]
+  /// https://platform.openai.com/docs/api-reference/chat
+  Stream<GPTResponse?> onChatCompleteStream(
+      {required ChatCompleteText request}) {
+    _chatCompleteText(request: request);
+    return _chatCompleteControl.stream;
+  }
+
+  final _chatCompleteControl = StreamController<GPTResponse>.broadcast();
+  void _chatCompleteText({required ChatCompleteText request}) {
+    _client
+        .postStream("$kURL$kChatCompletions", request.toJson())
+        .listen((rawData) {
+      if (rawData.statusCode != HttpStatus.ok) {
+        _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
+        _chatCompleteControl
+          ..sink
+          ..addError(
+              "complete error: ${rawData.statusMessage} code: ${rawData.statusCode} data: ${rawData.data}");
+      } else {
+        _client.log.debugString(
+            "============= success ==================\nresponse body :${rawData.data}");
+        _chatCompleteControl
+          ..sink
+          ..add(GPTResponse.fromJson(rawData.data));
+      }
+    }).onError((err) {
+      if (err is DioError) {
+        _chatCompleteControl
+          ..sink
+          ..addError(
+              "complete error: status code :${err.error}\n error body :${err.response?.data}");
+      }
+    });
+  }
+
   ///### close complete stream
   ///free memory [close]
   void close() {
     _completeControl.close();
+    _chatCompleteControl.close();
   }
 
   ///generate image with prompt [generateImageStream]

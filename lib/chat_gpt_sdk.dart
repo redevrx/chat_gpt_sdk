@@ -9,3 +9,6 @@ export 'src/model/gen_image/request/generate_image.dart';
 export 'src/model/gen_image/response/GenImgResponse.dart';
 export 'src/model/openai_model/openai_models.dart';
 export 'src/model/openai_engine/engine_model.dart';
+export 'src/model/chat_complete_text/response/message.dart';
+export 'src/model/chat_complete_text/request/chat_complete_text.dart';
+export 'src/model/chat_complete_text/response/chat_complete_response.dart';
