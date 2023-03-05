@@ -187,7 +187,7 @@ final engines = await openAI.listEngine();
 ```
 
 - Support 'gpt-3.5-turbo'
- -  Create Instance Example:
+--  Create Instance Example:
 ```dart
  @override
   void initState() {
@@ -198,7 +198,7 @@ final engines = await openAI.listEngine();
     super.initState();
   }
 ```
- - Create Request
+-- Create Request
 ```dart
   final request = ChatCompleteText(
         messages: [{"role": "user", "content": "Hello world!"}],
@@ -206,7 +206,7 @@ final engines = await openAI.listEngine();
         maxTokens: 800,
         temperature: 0.5);
 ```
- - Complete with StreamBuilder
+-- Complete with StreamBuilder
 ```dart
 final tController = StreamController<GPTResponse?>.broadcast();
     openAI
@@ -216,7 +216,7 @@ final tController = StreamController<GPTResponse?>.broadcast();
       tController.sink.add(res);
     });
 ```
- - Complete with Feature
+-- Complete with Feature
 ```dart
 void _callGPT35Turbo() async {
     final request = ChatCompleteText(
@@ -225,10 +225,10 @@ void _callGPT35Turbo() async {
         maxTokens: 800,
         temperature: 0.5);
     dynamic data = await openAI.onChatCompleteText(request: request);
-    print(data);
+    print(data!.choices[0].message.content);
 }
 ```
- - You can also visit the example implemented in example/lib/screens/page_chat.dart
+-- You can also visit the example implemented in example/lib/screens/page_chat.dart
 
 
 ## Flutter Example
