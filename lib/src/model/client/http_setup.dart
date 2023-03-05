@@ -1,9 +1,12 @@
 class HttpSetup {
-  final int sendTimeout;
-  final int connectTimeout;
-  final int receiveTimeout;
+   Duration sendTimeout;
+   Duration connectTimeout;
+   Duration receiveTimeout;
 
-  HttpSetup({this.sendTimeout = 5000, this.connectTimeout = 5000, this.receiveTimeout = 5000});
+  HttpSetup({this.sendTimeout = Duration.zero, this.connectTimeout = Duration.zero, this.receiveTimeout = Duration.zero});
 
-  HttpSetup getHttpSetup() => HttpSetup();
+  HttpSetup httpSetup() => HttpSetup()
+  ..sendTimeout = Duration(seconds: 6)
+  ..connectTimeout = Duration(seconds: 6)
+  ..receiveTimeout = Duration(seconds: 6);
 }

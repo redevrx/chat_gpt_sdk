@@ -7,5 +7,5 @@ class RequestError extends BaseErrorWrapper {
   RequestError({this.message, this.code});
 
   @override
-  String toString() => "status code :$code\nmessage :$message\n";
+  String toString() => "\nstatus code :$code  message :$message\n";
 }

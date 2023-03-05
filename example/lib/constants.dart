@@ -23,4 +23,4 @@ final heroNav = BoxDecoration(
     ]);
 
 
-const token = "your-token";
+const token = "";

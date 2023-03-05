@@ -33,20 +33,42 @@ class _TranslateScreenState extends State<TranslateScreen> {
   ///t => translate
   final tController = StreamController<CTResponse?>.broadcast();
 
-  void _translateEngToThai() async{
+  void _translateEngToThai() async {
     final request = CompleteText(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
         maxTokens: 200,
-        model: kTranslateModelV3);
+        model: kTextDavinci3);
 
-    openAI
-        .onCompleteStream(request: request)
-        .asBroadcastStream()
-        .listen((res) {
+    openAI.onCompletionStream(request: request).asBroadcastStream().listen((res) {
       tController.sink.add(res);
-    })
-    .onError((err) {
+    }).onError((err) {
       print("$err");
+    });
+  }
+
+  ///ID of the model to use. Currently, only and are supported
+  ///[kChatGptTurboModel]
+  ///[kChatGptTurbo0301Model]
+  void _chatGpt3Example() async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: kChatGptTurbo0301Model);
+
+    final response = await openAI.onChatCompletion(request: request);
+    for (var element in response!.choices) {
+      print("data -> ${element.message.content}");
+    }
+  }
+
+  void _chatGpt3ExampleStream() async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: kChatGptTurbo0301Model);
+
+    openAI.onChatCompletionStream(request: request).listen((it) {
+      debugPrint("${it?.choices.last.message}");
+    }).onError((err) {
+      print(err);
     });
   }
 
@@ -62,7 +84,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void initState() {
     openAI = OpenAI.instance.build(
         token: token,
-        baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
+        baseOption: HttpSetup(
+            receiveTimeout: const Duration(seconds: 5),
+            connectTimeout: const Duration(seconds: 5)),
+        isLogger: true);
     super.initState();
   }
 
@@ -127,7 +152,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 icon: Icons.translate,
                 iconSize: 18.0,
                 radius: 46.0,
-                onClick: () => _translateEngToThai())),
+                onClick: () =>_translateEngToThai())),
       ],
     );
   }
@@ -361,4 +386,3 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 }
-

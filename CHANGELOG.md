@@ -26,3 +26,16 @@ Fix bug  Http status error [429] error
 
 ## 2.0.0
 - add b64 field in response generate image
+
+## 2.0.1
+- update client library
+- change method name
+  - onCompleteText as onCompletion
+  - onCompleteStream as onCompletionStream
+- Support ChatGPT 3.5 turbo
+  - Add new Model
+  - kChatGptTurboModel
+  - kChatGptTurbo0301Model
+  - New Method
+  - onChatCompletion
+  - onChatCompletionStream

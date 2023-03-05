@@ -9,14 +9,17 @@ const kModelList = 'models';
 const kEngineList = 'engines';
 ///generate image with prompt
 const kGenerateImage = 'images/generations';
+///
+const kChatGptTurbo = 'chat/completions';
 
 
 
 ///model name
-const kTranslateModelV3 = 'text-davinci-003';
-const kTranslateModelV2 = 'text-davinci-002';
-
-const kCodeTranslateModelV2 = 'code-davinci-002';
+const kTextDavinci3 = 'text-davinci-003';
+const kTextDavinci2 = 'text-davinci-002';
+const kCodeDavinci2 = 'code-davinci-002';
+const kChatGptTurboModel = 'gpt-3.5-turbo'; // gpt 3.5
+const kChatGptTurbo0301Model = 'gpt-3.5-turbo-0301';
 
 Map<String, String> kHeader(String token, {String orgId = ""}) => {
       "Content-Type": 'application/json',

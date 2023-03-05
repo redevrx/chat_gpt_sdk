@@ -1,18 +1,18 @@
 name: chat_gpt_sdk
 description: create chat bot and other bot with ChatGPT SDK
-version: 2.0.0
+version: 2.0.1
 homepage: https://www.facebook.com/REDEVRX
 repository: https://github.com/redevRx/Flutter-ChatGPT
 
 environment:
-  sdk: '>=2.18.6 <3.0.0'
+  sdk: '>=2.19.3 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^4.0.6
-  shared_preferences: ^2.0.15
+  dio: ^5.0.1
+  shared_preferences: ^2.0.17
 
 dev_dependencies:
   flutter_test:

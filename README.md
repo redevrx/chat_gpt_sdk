@@ -18,8 +18,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.0.0
-pub get
+chat_gpt: 2.0.1
 ```
 
 ## Example
@@ -35,7 +34,7 @@ Create ChatGPT Instance
      - https://beta.openai.com/account/org-settings
 
 ```dart
-final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
+final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),isLogger: true);
 ```
 
 - Text Complete API
@@ -56,7 +55,7 @@ final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveT
 final request = CompleteText(prompt: translateEngToThai(word: ''),
                 model: kTranslateModelV3, maxTokens: 200);
 
- openAI.onCompleteStream(request:request).listen((response) => print(response))
+ openAI.onCompletionStream(request:request).listen((response) => print(response))
         .onError((err) {
           print("$err");
   });
@@ -67,7 +66,7 @@ final request = CompleteText(prompt: translateEngToThai(word: ''),
 final tController = StreamController<CTResponse?>.broadcast();
 
 openAI
-        .onCompleteStream(request: request)
+        .onCompletionStream(request: request)
 .asBroadcastStream()
         .listen((res) {
 tController.sink.add(res);
@@ -93,7 +92,7 @@ StreamBuilder<CTResponse?>(
           max_tokens: 200,
           model: kTranslateModelV3);
 
-  final response = await openAI.onCompleteText(request: request);
+  final response = await openAI.onCompletion(request: request);
   print(response);
 }
 ```
@@ -104,7 +103,7 @@ StreamBuilder<CTResponse?>(
 final request = CompleteText(prompt:'What is human life expectancy in the United States?'),
                 model: kTranslateModelV3, maxTokens: 200);
 
- openAI.onCompleteStream(request:request).listen((response) => print(response))
+ openAI.onCompletionStream(request:request).listen((response) => print(response))
         .onError((err) {
            print("$err");
 });
@@ -119,6 +118,21 @@ Q: What is human life expectancy in the United States?
 
 ```dart
 A: Human life expectancy in the United States is 78 years.
+```
+
+- Support ChatGPT 3.5 Turbo
+
+```dart
+  void _chatGpt3Example() async {
+  final request = ChatCompleteText(messages: [
+    Map.of({"role": "user", "content": 'Hello!'})
+  ], maxToken: 200, model: kChatGptTurbo0301Model);
+
+  final response = await openAI.onChatCompletion(request: request);
+  for (var element in response!.choices) {
+    print("data -> ${element.message.content}");
+  }
+}
 ```
 
 
@@ -139,7 +153,7 @@ A: Human life expectancy in the United States is 78 years.
   openAI = OpenAI
         .instance
         .builder(toekn:"token",
-         baseOption: HttpSetup(receiveTimeout: 7000),isLogger:true);
+         baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),isLogger:true);
 
 const prompt = "Snake Red";
 
@@ -187,18 +201,6 @@ final engines = await openAI.listEngine();
 ## Flutter Example
 
 ```dart
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: TranslateScreen(),
-    );
-  }
-}
-
 class TranslateScreen extends StatefulWidget {
   const TranslateScreen({Key? key}) : super(key: key);
   @override
@@ -214,20 +216,42 @@ class _TranslateScreenState extends State<TranslateScreen> {
   ///t => translate
   final tController = StreamController<CTResponse?>.broadcast();
 
-  void _translateEngToThai() async{
+  void _translateEngToThai() async {
     final request = CompleteText(
             prompt: translateEngToThai(word: _txtWord.text.toString()),
             maxTokens: 200,
-            model: kTranslateModelV3);
+            model: kTextDavinci3);
 
-    openAI
-            .onCompleteStream(request: request)
-            .asBroadcastStream()
-            .listen((res) {
+    openAI.onCompletionStream(request: request).asBroadcastStream().listen((res) {
       tController.sink.add(res);
-    })
-            .onError((err) {
+    }).onError((err) {
       print("$err");
+    });
+  }
+
+  ///ID of the model to use. Currently, only and are supported
+  ///[kChatGptTurboModel]
+  ///[kChatGptTurbo0301Model]
+  void _chatGpt3Example() async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: kChatGptTurbo0301Model);
+
+    final response = await openAI.onChatCompletion(request: request);
+    for (var element in response!.choices) {
+      print("data -> ${element.message.content}");
+    }
+  }
+
+  void _chatGpt3ExampleStream() async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: kChatGptTurbo0301Model);
+
+    openAI.onChatCompletionStream(request: request).listen((it) {
+      debugPrint("${it?.choices.last.message}");
+    }).onError((err) {
+      print(err);
     });
   }
 
@@ -243,7 +267,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void initState() {
     openAI = OpenAI.instance.build(
             token: token,
-            baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
+            baseOption: HttpSetup(
+                    receiveTimeout: const Duration(seconds: 5),
+                    connectTimeout: const Duration(seconds: 5)),
+            isLogger: true);
     super.initState();
   }
 
@@ -308,7 +335,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                         icon: Icons.translate,
                         iconSize: 18.0,
                         radius: 46.0,
-                        onClick: () => _translateEngToThai())),
+                        onClick: () =>_translateEngToThai())),
       ],
     );
   }

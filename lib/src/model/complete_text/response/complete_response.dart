@@ -27,8 +27,7 @@ class CTResponse {
 
   Map<String, dynamic> toJson() => responseToJson(this);
 
-  Map<String, dynamic> responseToJson(CTResponse instance) =>
-      <String, dynamic>{
+  Map<String, dynamic> responseToJson(CTResponse instance) => <String, dynamic>{
         'id': instance.id,
         'object': instance.object,
         'created': instance.created,

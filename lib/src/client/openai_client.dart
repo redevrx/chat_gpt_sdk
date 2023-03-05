@@ -21,7 +21,6 @@ class OpenAIClient extends OpenAIWrapper {
   Future<T> get<T>(String url,
       {required T Function(Map<String, dynamic>) onSuccess}) async {
   try {
-    log.debugString("string request");
     final rawData = await _dio.get(url);
 
     if (rawData.statusCode == HttpStatus.ok) {
@@ -33,14 +32,13 @@ class OpenAIClient extends OpenAIWrapper {
       throw RequestError(message: "${rawData.data}", code: rawData.statusCode);
     }
   } on DioError catch (err) {
-    throw RequestError(message: "${err.error}", code: err.response?.statusCode);
+    throw RequestError(message: "${err.message}", code: err.response?.statusCode);
   }
   }
 
   Future<T> post<T>(String url,Map<String,dynamic> request,
       {required T Function(Map<String, dynamic>) onSuccess}) async {
     try {
-      log.debugString("string request");
       log.debugString("request body :$request");
 
       final rawData = await _dio.post(url,
@@ -55,13 +53,11 @@ class OpenAIClient extends OpenAIWrapper {
         throw RequestError(message: "${rawData.data}", code: rawData.statusCode);
       }
     } on DioError catch (err){
-      throw RequestError(message: "${err.error}", code: err.response?.statusCode);
+      throw RequestError(message: "${err.message} \ndata:${err.response?.data}", code: err.response?.statusCode);
     }
   }
 
   Stream<Response> postStream(String url,Map<String,dynamic> request)  {
-    log.debugString("string request $url");
-    log.debugString("request body :$request");
     return  _dio.post(url,
         data: json.encode(request)).asStream();
   }

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/src/client/client.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/ChatCompleteText.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dart';
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart';
@@ -49,7 +51,7 @@ class OpenAI {
     _buildShared();
 
     if ("$token".isEmpty) throw MissionTokenException();
-    final setup = baseOption == null ? HttpSetup() : baseOption;
+    final setup = baseOption == null ? HttpSetup().httpSetup() : baseOption;
 
     final dio = Dio(BaseOptions(
         sendTimeout: setup.sendTimeout,
@@ -87,7 +89,7 @@ class OpenAI {
   /// - Classify items into categories via example.
   /// - look more
   /// https://beta.openai.com/examples
-  Future<CTResponse?> onCompleteText({required CompleteText request}) async {
+  Future<CTResponse?> onCompletion({required CompleteText request}) async {
     return _client.post("$kURL$kCompletion", request.toJson(), onSuccess: (it) {
       return CTResponse.fromJson(it);
     });
@@ -99,33 +101,78 @@ class OpenAI {
   /// - Classify items into categories via example.
   /// - look more
   /// https://beta.openai.com/examples
-  Stream<CTResponse?> onCompleteStream({required CompleteText request}) {
+  Stream<CTResponse?> onCompletionStream({required CompleteText request}) {
     _completeText(request: request);
-    return _completeControl.stream;
+    return _completeControl!.stream;
   }
 
-  final _completeControl = StreamController<CTResponse>.broadcast();
+  StreamController<CTResponse>? _completeControl =
+      StreamController<CTResponse>.broadcast();
   void _completeText({required CompleteText request}) {
     _client.postStream("$kURL$kCompletion", request.toJson()).listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
         _completeControl
-          ..sink
+          ?..sink
           ..addError(
               "complete error: ${rawData.statusMessage} code: ${rawData.statusCode} data: ${rawData.data}");
       } else {
         _client.log.debugString(
             "============= success ==================\nresponse body :${rawData.data}");
         _completeControl
-          ..sink
+          ?..sink
           ..add(CTResponse.fromJson(rawData.data));
       }
     }).onError((err) {
       if (err is DioError) {
         _completeControl
-          ..sink
+          ?..sink
           ..addError(
               "complete error: status code :${err.error}\n error body :${err.response?.data}");
+      }
+    });
+  }
+
+  ///Given a chat conversation, the model will return a chat completion response.
+  Future<ChatCTResponse?> onChatCompletion({required ChatCompleteText request}) {
+    return _client.post("$kURL$kChatGptTurbo", request.toJson(),
+        onSuccess: (it) {
+      return ChatCTResponse.fromJson(it);
+    });
+  }
+
+  ///Given a chat conversation, the model will return a chat completion response.
+  Stream<ChatCTResponse?> onChatCompletionStream(
+      {required ChatCompleteText request}) {
+    _chatCompleteText(request: request);
+    return _chatCompleteControl!.stream;
+  }
+
+  StreamController<ChatCTResponse>? _chatCompleteControl =
+      StreamController<ChatCTResponse>.broadcast();
+  void _chatCompleteText({required ChatCompleteText request}) {
+    _client
+        .postStream("$kURL$kChatGptTurbo", request.toJson())
+        .listen((rawData) {
+      if (rawData.statusCode != HttpStatus.ok) {
+        _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
+        _chatCompleteControl
+          ?..sink
+          ..addError(
+              "chat complete error: ${rawData.statusMessage} code: ${rawData.statusCode} data: ${rawData.data}");
+      } else {
+        _client.log.debugString(
+            "============= success ==================\nresponse body :${rawData.data}");
+        _chatCompleteControl
+          ?..sink
+          ..add(ChatCTResponse.fromJson(rawData.data));
+      }
+    }).onError((err) {
+      if (err is DioError) {
+        _chatCompleteControl
+          ?..sink
+          ..addError(
+              "chat complete error: status code :${err.error}\n error body :${err.response?.data}");
       }
     });
   }
@@ -133,7 +180,8 @@ class OpenAI {
   ///### close complete stream
   ///free memory [close]
   void close() {
-    _completeControl.close();
+    _completeControl?.close();
+    _chatCompleteControl?.close();
   }
 
   ///generate image with prompt [generateImageStream]
