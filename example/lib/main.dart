@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
+import 'package:example/screens/page_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:material_buttonx/materialButtonX.dart';
 
@@ -12,8 +13,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: TranslateScreen(),
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const TranslateScreen(),
+        '/chat': (context) => const PageChat(),
+      },
     );
   }
 }
@@ -33,19 +38,15 @@ class _TranslateScreenState extends State<TranslateScreen> {
   ///t => translate
   final tController = StreamController<CTResponse?>.broadcast();
 
-  void _translateEngToThai() async{
+  void _translateEngToThai() async {
     final request = CompleteText(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
         maxTokens: 200,
         model: kTranslateModelV3);
 
-    openAI
-        .onCompleteStream(request: request)
-        .asBroadcastStream()
-        .listen((res) {
+    openAI.onCompleteStream(request: request).asBroadcastStream().listen((res) {
       tController.sink.add(res);
-    })
-    .onError((err) {
+    }).onError((err) {
       print("$err");
     });
   }
@@ -62,7 +63,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void initState() {
     openAI = OpenAI.instance.build(
         token: token,
-        baseOption: HttpSetup(receiveTimeout: 6000),isLogger: true);
+        baseOption: HttpSetup(receiveTimeout: 6000),
+        isLogger: true);
     super.initState();
   }
 
@@ -222,6 +224,16 @@ class _TranslateScreenState extends State<TranslateScreen> {
               Icons.person,
               color: Colors.indigoAccent,
               size: 22.0,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/chat');
+              },
+              child: const Icon(
+                Icons.chat,
+                color: Colors.indigoAccent,
+                size: 22.0,
+              ),
             )
           ],
         ),
@@ -361,4 +373,3 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 }
-
