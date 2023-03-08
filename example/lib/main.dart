@@ -63,7 +63,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void _chatGpt3ExampleStream() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: kChatGptTurbo0301Model);
+    ], maxToken: 400, model: kChatGptTurboModel);
 
     openAI.onChatCompletionStream(request: request).listen((it) {
       debugPrint("${it?.choices.last.message}");
@@ -85,8 +85,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
     openAI = OpenAI.instance.build(
         token: token,
         baseOption: HttpSetup(
-            receiveTimeout: const Duration(seconds: 5),
-            connectTimeout: const Duration(seconds: 5)),
+            receiveTimeout: const Duration(seconds: 20),
+            connectTimeout: const Duration(seconds: 6)),
         isLogger: true);
     super.initState();
   }
@@ -152,7 +152,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 icon: Icons.translate,
                 iconSize: 18.0,
                 radius: 46.0,
-                onClick: () =>_translateEngToThai())),
+                onClick: () =>_chatGpt3ExampleStream())),
       ],
     );
   }

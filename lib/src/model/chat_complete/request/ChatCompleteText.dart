@@ -21,8 +21,8 @@ class ChatCompleteText {
   /// where the model considers the results of the tokens with top_p probability
   /// mass. So 0.1 means only the tokens comprising the top 10% probability
   /// mass are considered.
-  ///We generally recommend altering this or temperature but not both. [top_p]
-  final double? top_p;
+  ///We generally recommend altering this or temperature but not both. [topP]
+  final double? topP;
 
   ///How many chat completion choices to generate for each input message. [n]
   final int? n;
@@ -75,7 +75,7 @@ class ChatCompleteText {
         required this.model,
       required this.messages,
       this.temperature = .3,
-      this.top_p = 1.0,
+      this.topP = 1.0,
       this.n = 1,
       this.stream = false,
       this.stop,
@@ -88,7 +88,7 @@ class ChatCompleteText {
         "model": this.model,
         "messages": this.messages,
         "temperature": this.temperature,
-        "top_p": this.top_p,
+        "top_p": this.topP,
         "n": this.n,
         "stream": this.stream,
         "stop": this.stop,

@@ -58,6 +58,7 @@ class OpenAIClient extends OpenAIWrapper {
   }
 
   Stream<Response> postStream(String url,Map<String,dynamic> request)  {
+    log.debugString("request body :$request");
     return  _dio.post(url,
         data: json.encode(request)).asStream();
   }

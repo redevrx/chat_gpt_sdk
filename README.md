@@ -18,7 +18,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.0.1
+chat_gpt: 2.0.2
 ```
 
 ## Example

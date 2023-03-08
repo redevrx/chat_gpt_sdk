@@ -39,3 +39,7 @@ Fix bug  Http status error [429] error
   - New Method
   - onChatCompletion
   - onChatCompletionStream
+
+## 2.0.2
+- Fix bug
+- change top_p to topP in ChatComplete
