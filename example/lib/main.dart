@@ -39,7 +39,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
         maxTokens: 200,
         model: kTextDavinci3);
 
-    openAI.onCompletionStream(request: request).asBroadcastStream().listen((res) {
+    openAI
+        .onCompletionStream(request: request)
+        .asBroadcastStream()
+        .listen((res) {
       tController.sink.add(res);
     }).onError((err) {
       print("$err");
@@ -85,8 +88,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
     openAI = OpenAI.instance.build(
         token: token,
         baseOption: HttpSetup(
-            receiveTimeout: const Duration(seconds: 20),
-            connectTimeout: const Duration(seconds: 6)),
+            receiveTimeout: const Duration(seconds: 6),
+            connectTimeout: const Duration(seconds: 6),
+            sendTimeout: const Duration(seconds: 6)),
         isLogger: true);
     super.initState();
   }
@@ -152,7 +156,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 icon: Icons.translate,
                 iconSize: 18.0,
                 radius: 46.0,
-                onClick: () =>_chatGpt3ExampleStream())),
+                onClick: () => _chatGpt3ExampleStream())),
       ],
     );
   }

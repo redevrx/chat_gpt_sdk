@@ -51,7 +51,7 @@ class OpenAI {
     _buildShared();
 
     if ("$token".isEmpty) throw MissionTokenException();
-    final setup = baseOption == null ? HttpSetup().httpSetup() : baseOption;
+    final setup = baseOption == null ? HttpSetup() : baseOption;
 
     final dio = Dio(BaseOptions(
         sendTimeout: setup.sendTimeout,

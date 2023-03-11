@@ -26,9 +26,9 @@ class CompleteText {
     frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? .0,
     presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? .0,
   );
-  Map<String,dynamic> toJson() => _CompleteReqToJson(this);
+  Map<String,dynamic> toJson() => completeReqToJson(this);
 
-  Map<String, dynamic> _CompleteReqToJson(CompleteText instance) =>
+  Map<String, dynamic> completeReqToJson(CompleteText instance) =>
       <String, dynamic>{
         'prompt': instance.prompt,
         'model': instance.model,
