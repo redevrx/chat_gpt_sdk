@@ -13,6 +13,7 @@ import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_models.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'client/exception/openai_exception.dart';
 import 'client/interceptor/interceptor_wrapper.dart';
@@ -57,7 +58,16 @@ class OpenAI {
         sendTimeout: setup.sendTimeout,
         connectTimeout: setup.connectTimeout,
         receiveTimeout: setup.receiveTimeout));
-
+    if (setup.proxy.isNotEmpty) {
+      dio.httpClientAdapter = IOHttpClientAdapter()
+        ..onHttpClientCreate = (client) {
+          client.findProxy = (uri) {
+            // "PROXY localhost:7890"
+            return setup.proxy;
+          };
+          return client;
+        };
+    }
     dio.interceptors.add(InterceptorWrapper(_prefs, token!));
 
     _client = OpenAIClient(dio: dio, isLogging: isLogger);
