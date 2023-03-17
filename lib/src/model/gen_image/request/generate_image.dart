@@ -1,3 +1,18 @@
+///The size of the generated images.
+enum GeneratedImageSize {
+  size1024("1024x1024"),
+  size512("512x512"),
+  size256("256x256");
+
+  const GeneratedImageSize(this.size);
+  final String size;
+}
+
+enum GeneratedResponseFormat {
+  url,
+  b64_json;
+}
+
 class GenerateImage {
   /// prompt string Required A text description of the desired image(s). The maximum length is 1000 characters.
   final String prompt;
@@ -14,14 +29,30 @@ class GenerateImage {
   ///A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
   final String user;
 
-  GenerateImage(this.prompt, this.n,
-      {this.size = "1024x1024", this.response_format = "url", this.user = ""});
+  GenerateImage(
+    this.prompt,
+    this.n, {
+    String? size,
+    GeneratedImageSize? generateImageSize,
+    String? response_format,
+    GeneratedResponseFormat? generatedResponseFormat,
+    this.user = "",
+  })  : assert((size == null) || (generateImageSize == null),
+            'size and generatedImageSize  must not both be valid.'),
+        assert((response_format == null) || (generatedResponseFormat == null),
+            'response_format and generatedResponseFormat  must not both be valid.'),
+        assert(1 <= n && n <= 10, 'n must be between 1 and 10.'),
+        this.size =
+            size ?? generateImageSize?.size ?? GeneratedImageSize.size1024.size,
+        this.response_format = response_format ??
+            generatedResponseFormat?.toString() ??
+            GeneratedResponseFormat.url.name;
 
   Map<String, dynamic> toJson() => Map.of({
-    "prompt": this.prompt,
-    "n": this.n,
-    "size": this.size,
-    "response_format": this.response_format,
-    "user": this.user
-  });
+        "prompt": this.prompt,
+        "n": this.n,
+        "size": this.size,
+        "response_format": this.response_format,
+        "user": this.user
+      });
 }
