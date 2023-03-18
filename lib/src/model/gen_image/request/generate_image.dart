@@ -1,13 +1,14 @@
 ///The size of the generated images.
-enum GeneratedImageSize {
+enum GenerateImageSize {
   size1024("1024x1024"),
   size512("512x512"),
   size256("256x256");
 
-  const GeneratedImageSize(this.size);
+  const GenerateImageSize(this.size);
   final String size;
 }
 
+///The format in which the generated images are returned. Must be one of url or b64_json.
 enum GeneratedResponseFormat {
   url,
   b64_json;
@@ -33,7 +34,7 @@ class GenerateImage {
     this.prompt,
     this.n, {
     String? size,
-    GeneratedImageSize? generateImageSize,
+    GenerateImageSize? generateImageSize,
     String? response_format,
     GeneratedResponseFormat? generatedResponseFormat,
     this.user = "",
@@ -42,10 +43,20 @@ class GenerateImage {
         assert((response_format == null) || (generatedResponseFormat == null),
             'response_format and generatedResponseFormat  must not both be valid.'),
         assert(1 <= n && n <= 10, 'n must be between 1 and 10.'),
+        assert(
+            size == null ||
+                GenerateImageSize.values.map((e) => e.size).contains(size),
+            'size must be null or [${GenerateImageSize.values.map((e) => e.size).join(',')}]'),
+        assert(
+            response_format == null ||
+                GeneratedResponseFormat.values
+                    .map((e) => e.name)
+                    .contains(response_format),
+            'response_format($response_format) must be null or [${GeneratedResponseFormat.values.map((e) => e.name).join(',')}]'),
         this.size =
-            size ?? generateImageSize?.size ?? GeneratedImageSize.size1024.size,
+            size ?? generateImageSize?.size ?? GenerateImageSize.size1024.size,
         this.response_format = response_format ??
-            generatedResponseFormat?.toString() ??
+            generatedResponseFormat?.name ??
             GeneratedResponseFormat.url.name;
 
   Map<String, dynamic> toJson() => Map.of({
