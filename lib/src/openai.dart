@@ -48,7 +48,7 @@ class OpenAI {
   ///build environment for openai [build]
   ///setup http client
   ///setup logger
-  OpenAI build({String? token, HttpSetup? baseOption, bool isLogger = false}) {
+  OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false}) {
     _buildShared();
 
     if ("$token".isEmpty) throw MissionTokenException();
@@ -62,7 +62,7 @@ class OpenAI {
       dio.httpClientAdapter = IOHttpClientAdapter()
         ..onHttpClientCreate = (client) {
           client.findProxy = (uri) {
-            // "PROXY localhost:7890"
+            /// "PROXY localhost:7890"
             return setup.proxy;
           };
           return client;
@@ -70,7 +70,7 @@ class OpenAI {
     }
     dio.interceptors.add(InterceptorWrapper(_prefs, token!));
 
-    _client = OpenAIClient(dio: dio, isLogging: isLogger);
+    _client = OpenAIClient(dio: dio, isLogging: isLog);
     setToken(token);
 
     return instance;

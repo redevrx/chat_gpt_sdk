@@ -18,7 +18,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.0.4
+chat_gpt: 2.0.5
 ```
 
 ## Example
@@ -173,7 +173,8 @@ openAI.genImgClose();
   void _generateImage() {
   const prompt = "cat eating snake blue red.";
 
-  final request = GenerateImage(prompt,2);
+  final request = GenerateImage(prompt, 1,size: ImageSize.size256,
+          response_format: Format.url);;
   final response = openAI.generateImage(request);
   print("img url :${response.data?.last?.url}");
 }

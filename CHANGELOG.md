@@ -43,3 +43,7 @@ Fix bug  Http status error [429] error
 ## 2.0.2
 - Fix bug
 - change top_p to topP in ChatComplete
+
+## 2.0.5
+- HttpSetup add proxy
+- Generate Image Change parameter to enum

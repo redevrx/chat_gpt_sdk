@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TranslateScreen(),
+      home: MainScreen(),
     );
   }
 }
@@ -87,11 +87,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void initState() {
     openAI = OpenAI.instance.build(
         token: token,
-        baseOption: HttpSetup(
-            receiveTimeout: const Duration(seconds: 6),
-            connectTimeout: const Duration(seconds: 6),
-            sendTimeout: const Duration(seconds: 6)),
-        isLogger: true);
+        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 8)),
+        isLog: true);
     super.initState();
   }
 
@@ -156,7 +153,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 icon: Icons.translate,
                 iconSize: 18.0,
                 radius: 46.0,
-                onClick: () => _chatGpt3ExampleStream())),
+                onClick: () => _translateEngToThai())),
       ],
     );
   }
@@ -386,6 +383,87 @@ class _TranslateScreenState extends State<TranslateScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  late OpenAI openAI;
+  final mController = StreamController<ChatCTResponse?>.broadcast();
+
+  @override
+  void initState() {
+    openAI = OpenAI.instance.build(
+        token: token,
+        baseOption: HttpSetup(
+            receiveTimeout: const Duration(seconds: 6),
+            connectTimeout: const Duration(seconds: 6),
+            sendTimeout: const Duration(seconds: 6)),
+        isLog: true);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    ///close stream complete text
+    openAI.close();
+    mController.close();
+    super.dispose();
+  }
+
+  void _chatGpt3ExampleStream() async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'What is Java?'})
+    ], maxToken: 400, model: kChatGptTurboModel);
+    openAI
+        .onChatCompletionStream(request: request)
+        .asBroadcastStream()
+        .listen((it) {
+      mController..sink..add(it);
+      setState(() {});
+    }).onError((err) {
+      print(err);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20.0),
+            StreamBuilder<ChatCTResponse?>(
+              stream: mController.stream,
+              builder: (context, snapshot) {
+                final text =
+                    snapshot.data?.choices.last.message.content ?? "Loading...";
+                if (snapshot.connectionState == ConnectionState.done)
+                  return Text("Done");
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  return Text("Waiting");
+                return Text(text);
+              },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _chatGpt3ExampleStream();
+          setState(() {});
+        },
+        child: const Icon(Icons.arrow_forward_outlined),
       ),
     );
   }
