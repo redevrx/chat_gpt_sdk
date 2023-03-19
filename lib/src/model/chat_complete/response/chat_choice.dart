@@ -5,8 +5,7 @@ class ChatChoice {
   final Message message;
   final String? finishReason;
 
-  ChatChoice(
-      {required this.index, required this.message, required this.finishReason});
+  ChatChoice({required this.index, required this.message, this.finishReason});
 
   factory ChatChoice.fromJson(Map<String, dynamic> json) => ChatChoice(
         index: json["index"],
