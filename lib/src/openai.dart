@@ -18,7 +18,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'client/exception/openai_exception.dart';
 import 'client/interceptor/interceptor_wrapper.dart';
 
-class OpenAI {
+abstract class IOpenAI {
+  OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false});
+  listModel();
+  listEngine();
+  Future<CTResponse?> onCompletion({required CompleteText request});
+  Stream<CTResponse?> onCompletionWithSSE({required CompleteText request});
+}
+
+class OpenAI implements IOpenAI{
   OpenAI._();
 
   ///instance of openai [instance]
@@ -47,7 +55,8 @@ class OpenAI {
 
   ///build environment for openai [build]
   ///setup http client
-  ///setup logger
+  ///setup logger\
+  @override
   OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false}) {
     _buildShared();
 
@@ -77,6 +86,7 @@ class OpenAI {
   }
 
   ///find all list model ai [listModel]
+  @override
   Future<AiModel> listModel() async {
     return _client.get<AiModel>(
       "$kURL$kModelList",
@@ -87,6 +97,7 @@ class OpenAI {
   }
 
   /// find all list engine ai [listEngine]
+  @override
   Future<EngineModel> listEngine() async {
     return _client.get<EngineModel>("$kURL$kEngineList", onSuccess: (it) {
       return EngineModel.fromJson(it);
@@ -99,6 +110,7 @@ class OpenAI {
   /// - Classify items into categories via example.
   /// - look more
   /// https://beta.openai.com/examples
+  @override
   Future<CTResponse?> onCompletion({required CompleteText request}) async {
     return _client.post("$kURL$kCompletion", request.toJson(), onSuccess: (it) {
       return CTResponse.fromJson(it);
@@ -119,7 +131,7 @@ class OpenAI {
   StreamController<CTResponse>? _completeControl =
       StreamController<CTResponse>.broadcast();
   void _completeText({required CompleteText request}) {
-    _client.postStream("$kURL$kCompletion", request.toJson()).listen((rawData) {
+    _client.postStream("$kURL$kCompletion", request.toJson()..addAll({"stream":true})).listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
         _completeControl
@@ -241,5 +253,14 @@ class OpenAI {
         onSuccess: (it) {
       return GenImgResponse.fromJson(it);
     });
+  }
+
+  @override
+  Stream<CTResponse?> onCompletionWithSSE({required CompleteText request}) {
+   _client.sse("$kURL$kCompletion", request.toJson()..addAll({"stream":true})).then((value) {
+     //
+   });
+
+   return Stream.value(null);
   }
 }
