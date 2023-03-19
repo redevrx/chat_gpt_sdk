@@ -4,31 +4,31 @@ import 'package:flutter_test/flutter_test.dart';
 main() {
   test('default value', () async {
     final target = GenerateImage('test', 2,
-        size: ImageSize.size1024, response_format: Format.url);
+        size: ImageSize.size1024, responseFormat: Format.url);
     expect(target.prompt, 'test');
     expect(target.n, 2);
 
     expect(target.size?.size, '1024x1024');
-    expect(target.response_format?.name, 'url');
+    expect(target.responseFormat?.name, 'url');
     expect(target.user, '');
   });
 
   test('set value with enum', () async {
     final target1 = GenerateImage('test', 1,
         size: ImageSize.size256,
-        response_format: Format.b64_json,
+        responseFormat: Format.b64_json,
         user: 'user');
     expect(target1.prompt, 'test');
     expect(target1.n, 1);
 
     expect(target1.size?.size, '256x256');
-    expect(target1.response_format?.name, 'b64_json');
+    expect(target1.responseFormat?.name, 'b64_json');
     expect(target1.user, 'user');
 
     final target2 = GenerateImage('test', 2,
-        size: ImageSize.size512, response_format: Format.url, user: 'user');
+        size: ImageSize.size512, responseFormat: Format.url, user: 'user');
     expect(target2.size?.size, '512x512');
-    expect(target2.response_format?.name, 'url');
+    expect(target2.responseFormat?.name, 'url');
 
     final target3 =
         GenerateImage('test', 1, size: ImageSize.size1024, user: 'user');
@@ -58,7 +58,7 @@ main() {
     test('example', () {
       final json = GenerateImage('test', 1,
               size: ImageSize.size256,
-              response_format: Format.b64_json,
+              responseFormat: Format.b64_json,
               user: 'user')
           .toJson();
 

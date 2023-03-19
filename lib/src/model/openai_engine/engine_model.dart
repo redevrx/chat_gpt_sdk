@@ -12,8 +12,8 @@ class EngineModel {
         json['object'] as String,
       );
 
-  Map<String, dynamic> toJson() => _EngineModelToJson(this);
-  Map<String, dynamic> _EngineModelToJson(EngineModel instance) =>
+  Map<String, dynamic> toJson() => engineModelToJson(this);
+  Map<String, dynamic> engineModelToJson(EngineModel instance) =>
       <String, dynamic>{
         'data': instance.data,
         'object': instance.object,

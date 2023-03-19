@@ -47,3 +47,11 @@ Fix bug  Http status error [429] error
 ## 2.0.5
 - HttpSetup add proxy
 - Generate Image Change parameter to enum
+
+## 2.0.6
+- Deprecated Methods
+  - onChatCompletionStream
+  - onCompletionStream
+- Support Stream Parameter Make SSE With Generate Prompt
+  - onCompletionSSE
+  - onChatCompletionSSE

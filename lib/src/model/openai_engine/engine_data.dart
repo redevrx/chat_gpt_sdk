@@ -11,9 +11,9 @@ class EngineData {
     json['owner'] as String,
     json['ready'] as bool,
   );
-  Map<String,dynamic> toJson() => _EngineDataToJson(this);
+  Map<String,dynamic> toJson() => engineDataToJson(this);
 
-  Map<String, dynamic> _EngineDataToJson(EngineData instance) =>
+  Map<String, dynamic> engineDataToJson(EngineData instance) =>
       <String, dynamic>{
         'id': instance.id,
         'object': instance.object,

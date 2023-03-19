@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/src/client/client.dart';
@@ -23,10 +24,22 @@ abstract class IOpenAI {
   listModel();
   listEngine();
   Future<CTResponse?> onCompletion({required CompleteText request});
-  Stream<CTResponse?> onCompletionWithSSE({required CompleteText request});
+  void onCompletionSSE(
+      {required CompleteText request,
+      required Function(Stream<List<int>> value) complete});
+  Future<ChatCTResponse?> onChatCompletion({
+    required ChatCompleteText request,
+  });
+  void onChatCompletionSSE(
+      {required ChatCompleteText request,
+      required Function(Stream<List<int>> value) complete});
+  Stream<GenImgResponse> generateImageStream(GenerateImage request);
+  Future<GenImgResponse?> generateImage(GenerateImage request);
 }
 
-class OpenAI implements IOpenAI{
+const msgDeprecate = "not support in version 2.0.6";
+
+class OpenAI implements IOpenAI {
   OpenAI._();
 
   ///instance of openai [instance]
@@ -123,6 +136,7 @@ class OpenAI implements IOpenAI{
   /// - Classify items into categories via example.
   /// - look more
   /// https://beta.openai.com/examples
+  @Deprecated(msgDeprecate)
   Stream<CTResponse?> onCompletionStream({required CompleteText request}) {
     _completeText(request: request);
     return _completeControl!.stream;
@@ -131,7 +145,7 @@ class OpenAI implements IOpenAI{
   StreamController<CTResponse>? _completeControl =
       StreamController<CTResponse>.broadcast();
   void _completeText({required CompleteText request}) {
-    _client.postStream("$kURL$kCompletion", request.toJson()..addAll({"stream":true})).listen((rawData) {
+    _client.postStream("$kURL$kCompletion", request.toJson()).listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
         _completeControl
@@ -156,7 +170,9 @@ class OpenAI implements IOpenAI{
   }
 
   ///Given a chat conversation, the model will return a chat completion response.
-  Future<ChatCTResponse?> onChatCompletion({required ChatCompleteText request}) {
+  @override
+  Future<ChatCTResponse?> onChatCompletion(
+      {required ChatCompleteText request}) {
     return _client.post("$kURL$kChatGptTurbo", request.toJson(),
         onSuccess: (it) {
       return ChatCTResponse.fromJson(it);
@@ -164,6 +180,7 @@ class OpenAI implements IOpenAI{
   }
 
   ///Given a chat conversation, the model will return a chat completion response.
+  @Deprecated(msgDeprecate)
   Stream<ChatCTResponse?> onChatCompletionStream(
       {required ChatCompleteText request}) {
     _chatCompleteText(request: request);
@@ -201,12 +218,14 @@ class OpenAI implements IOpenAI{
 
   ///### close complete stream
   ///free memory [close]
+  @Deprecated(msgDeprecate)
   void close() {
     _completeControl?.close();
     _chatCompleteControl?.close();
   }
 
   ///generate image with prompt [generateImageStream]
+  @override
   Stream<GenImgResponse> generateImageStream(GenerateImage request) {
     _generateImage(request);
     return _genImgController.stream;
@@ -248,6 +267,7 @@ class OpenAI implements IOpenAI{
   }
 
   ///generate image with prompt
+  @override
   Future<GenImgResponse?> generateImage(GenerateImage request) async {
     return _client.post("$kURL$kGenerateImage", request.toJson(),
         onSuccess: (it) {
@@ -256,11 +276,20 @@ class OpenAI implements IOpenAI{
   }
 
   @override
-  Stream<CTResponse?> onCompletionWithSSE({required CompleteText request}) {
-   _client.sse("$kURL$kCompletion", request.toJson()..addAll({"stream":true})).then((value) {
-     //
-   });
+  void onChatCompletionSSE(
+      {required ChatCompleteText request,
+      required Function(Stream<List<int>> value) complete}) {
+    return _client.sse(
+        "$kURL$kChatGptTurbo", request.toJson()..addAll({"stream": true}),
+        complete: (it) => complete(it));
+  }
 
-   return Stream.value(null);
+  @override
+  void onCompletionSSE(
+      {required CompleteText request,
+      required Function(Stream<List<int>> value) complete}) {
+    return _client.sse(
+        '$kURL$kCompletion', request.toJson()..addAll({"stream": true}),
+        complete: (it) => complete(it));
   }
 }

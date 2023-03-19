@@ -34,7 +34,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
   void _generateImage() async {
     const prompt = "King Snake.";
 
-    final request = GenerateImage(prompt, 1,size: ImageSize.size256,response_format: Format.url);
+    final request = GenerateImage(prompt, 1,size: ImageSize.size256,responseFormat: Format.url);
     subscription =
         openAI.generateImageStream(request).asBroadcastStream().listen((it) {
       setState(() {

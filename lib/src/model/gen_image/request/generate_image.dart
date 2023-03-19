@@ -25,7 +25,7 @@ class GenerateImage {
   final ImageSize? size;
 
   ///The format in which the generated images are returned. Must be one of url or b64_json.
-  final Format? response_format;
+  final Format? responseFormat;
 
   ///A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
   final String user;
@@ -34,7 +34,7 @@ class GenerateImage {
     this.prompt,
     this.n, {
     this.size = ImageSize.size1024,
-    this.response_format = Format.url,
+    this.responseFormat = Format.url,
     this.user = "",
   })  : assert(1 <= n && n <= 10, 'n must be between 1 and 10.');
 
@@ -42,7 +42,7 @@ class GenerateImage {
         "prompt": this.prompt,
         "n": this.n,
         "size": this.size?.size,
-        "response_format": this.response_format?.name,
+        "response_format": this.responseFormat?.name,
         "user": this.user
       });
 }

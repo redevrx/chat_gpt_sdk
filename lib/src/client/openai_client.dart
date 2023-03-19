@@ -1,15 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:chat_gpt_sdk/src/client/base_client.dart';
 import 'package:chat_gpt_sdk/src/client/exception/request_error.dart';
 import 'package:chat_gpt_sdk/src/logger/logger.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:universal_html/html.dart' as html;
-
-import '../../chat_gpt_sdk.dart';
 
 class OpenAIClient extends OpenAIWrapper {
   OpenAIClient({required Dio dio, bool isLogging = false}) {
@@ -69,5 +64,17 @@ class OpenAIClient extends OpenAIWrapper {
   Stream<Response> postStream(String url, Map<String, dynamic> request) {
     log.debugString("request body :$request");
     return _dio.post(url, data: json.encode(request)).asStream();
+  }
+
+  void sse(String url, Map<String, dynamic> request,
+      {required Function(Stream<List<int>> value) complete}) {
+    log.debugString("request body :$request");
+    _dio
+        .post(url,
+            data: json.encode(request),
+            options: Options(responseType: ResponseType.stream))
+        .then((it) {
+      complete(it.data.stream);
+    });
   }
 }

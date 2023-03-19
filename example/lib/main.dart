@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
@@ -83,20 +84,67 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final engines = await OpenAI.instance.build(token: "").listEngine();
   }
 
-  void testing() async{
+  void completeWithSSE() {
     final request = CompleteText(
-        prompt: "Hello World",
-        maxTokens: 200,
-        model: kTextDavinci3);
+        prompt: "Hello world", maxTokens: 200, model: kTextDavinci3);
+    openAI.onCompletionSSE(
+        request: request,
+        complete: (it) {
+          it.map((data) => utf8.decode(data)).listen((data) {
+            ///
+            final raw = data
+                .replaceAll(RegExp("data: "), '')
+                .replaceAll(RegExp("[DONE]"), '');
 
-    await openAI.onCompletionWithSSE(request: request);
+            /// convert data
+            String message = "";
+            dynamic mJson = json.decode(raw);
+            if (mJson is Map) {
+              ///[message]
+              message +=
+                  " ${mJson['choices'].last['text'].toString().replaceAll(RegExp("\n"), '')}";
+            }
+            debugPrint("${message}");
+          }).onError((e) {
+            ///handle error
+          });
+        });
+  }
+
+  void chatCompleteWithSSE() {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: kChatGptTurbo0301Model);
+
+    openAI.onChatCompletionSSE(
+        request: request,
+        complete: (it) {
+          it.map((it) => utf8.decode(it)).listen((data) {
+            final raw = data
+                .replaceAll(RegExp("data: "), '')
+                .replaceAll(RegExp("[DONE]"), '')
+                .replaceAll("[]", '')
+                .trim();
+
+            if (raw != null || raw.isNotEmpty) {
+              ///
+              final mJson = json.decode(raw);
+              if (mJson is Map) {
+                debugPrint(
+                    "-> :${(mJson['choices'] as List).last['delta']['content'] ?? "not fond content"}");
+              }
+            }
+          }).onError((e) {
+            ///handle error
+          });
+        });
   }
 
   @override
   void initState() {
     openAI = OpenAI.instance.build(
         token: token,
-        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 8)),
+        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 20)),
         isLog: true);
     super.initState();
   }
@@ -162,7 +210,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 icon: Icons.translate,
                 iconSize: 18.0,
                 radius: 46.0,
-                onClick: () => testing())),
+                onClick: () => _translateEngToThai())),
       ],
     );
   }

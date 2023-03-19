@@ -10,9 +10,9 @@ class Usage {
     json['completion_tokens'] == null ? 0 : json['completion_tokens'] as int,
     json['total_tokens'] as int,
   );
-  Map<String,dynamic> toJson() => _UsageToJson(this);
+  Map<String,dynamic> toJson() => usageToJson(this);
 
-  Map<String, dynamic> _UsageToJson(Usage instance) => <String, dynamic>{
+  Map<String, dynamic> usageToJson(Usage instance) => <String, dynamic>{
     'prompt_tokens': instance.promptTokens,
     'completion_tokens': instance.completionTokens,
     'total_tokens': instance.totalTokens,
