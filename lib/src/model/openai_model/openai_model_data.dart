@@ -7,20 +7,21 @@ class ModelData {
   final List<Permission>? permission;
 
   ModelData(this.id, this.object, this.ownerBy, this.permission);
-  factory ModelData.fromJson(Map<String,dynamic> json) => ModelData(
-    json['id'] as String,
-    json['object'] as String,
-    json['owned_by'] as String,
-    json['permission'] == null ? null : (json['permission'] as List<dynamic>)
-        .map((e) => Permission.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
+  factory ModelData.fromJson(Map<String, dynamic> json) => ModelData(
+        json['id'] as String,
+        json['object'] as String,
+        json['owned_by'] as String,
+        json['permission'] == null
+            ? null
+            : (json['permission'] as List<dynamic>)
+                .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+                .toList(),
+      );
 
-  Map<String,dynamic> toJson() =><String, dynamic>{
-    'id': id,
-    'object': object,
-    'owned_by': ownerBy,
-    'permission': permission,
-  };
-
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'object': object,
+        'owned_by': ownerBy,
+        'permission': permission?.map((e) => e.toJson()).toList(),
+      };
 }

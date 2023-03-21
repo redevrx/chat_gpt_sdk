@@ -13,7 +13,7 @@ class AiModel {
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'data': data,
+        'data': data.map((e) => e.toJson()).toList(),
         'object': object,
       };
 }
