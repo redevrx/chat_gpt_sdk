@@ -2,7 +2,7 @@ class Permission {
   final String id;
   final String object;
   final int created;
-  final bool allowCreate_engine;
+  final bool allowCreateEngine;
   final bool allowSampling;
   final bool allowLogprobs;
   final bool allowSearchIndices;
@@ -12,7 +12,7 @@ class Permission {
   final dynamic group;
   final bool? isBlocking;
 
-  Permission(this.id, this.object, this.created, this.allowCreate_engine, this.allowSampling, this.allowLogprobs,
+  Permission(this.id, this.object, this.created, this.allowCreateEngine, this.allowSampling, this.allowLogprobs,
       this.allowSearchIndices, this.allowView, this.allowFineTuning, this.organization, this.group, this.isBlocking);
 
   factory Permission.fromJson(Map<String,dynamic> json) =>  Permission(
@@ -34,7 +34,7 @@ class Permission {
     'id': id,
     'object': object,
     'created': created,
-    'allow_create_engine': allowCreate_engine,
+    'allow_create_engine': allowCreateEngine,
     'allow_sampling': allowSampling,
     'allow_logprobs': allowLogprobs,
     'allow_search_indices': allowSearchIndices,
