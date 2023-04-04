@@ -6,6 +6,7 @@ class ImageData {
 
   String? url;
   String? b64Json;
+  final String id = "${DateTime.now().millisecondsSinceEpoch}";
 
   factory ImageData.fromJson(Map<String, dynamic> json) => ImageData(
     url: json["url"],

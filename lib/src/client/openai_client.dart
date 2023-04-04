@@ -18,10 +18,10 @@ class OpenAIClient extends OpenAIWrapper {
   ///[log]
   late Logger log;
 
-  Future<T> get<T>(String url,
+  Future<T> get<T>(String url,CancelToken cancelToken ,
       {required T Function(Map<String, dynamic>) onSuccess}) async {
     try {
-      final rawData = await _dio.get(url);
+      final rawData = await _dio.get(url,cancelToken: cancelToken);
 
       if (rawData.statusCode == HttpStatus.ok) {
         log.debugString(
@@ -38,12 +38,12 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
-  Future<T> post<T>(String url, Map<String, dynamic> request,
+  Future<T> post<T>(String url,CancelToken cancelToken, Map<String, dynamic> request,
       {required T Function(Map<String, dynamic>) onSuccess}) async {
     try {
       log.debugString("request body :$request");
 
-      final rawData = await _dio.post(url, data: json.encode(request));
+      final rawData = await _dio.post(url, data: json.encode(request),cancelToken: cancelToken);
       if (rawData.statusCode == HttpStatus.ok) {
         log.debugString("status code :${rawData.statusCode}");
         log.debugString(
@@ -61,20 +61,22 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
-  Stream<Response> postStream(String url, Map<String, dynamic> request) {
+  Stream<Response> postStream(String url,CancelToken cancelToken, Map<String, dynamic> request) {
     log.debugString("request body :$request");
-    return _dio.post(url, data: json.encode(request)).asStream();
+    return _dio.post(url, data: json.encode(request),cancelToken: cancelToken).asStream();
   }
 
-  void sse(String url, Map<String, dynamic> request,
+  void sse(String url,CancelToken cancelToken, Map<String, dynamic> request,
       {required Function(Stream<List<int>> value) complete}) {
     log.debugString("request body :$request");
     _dio
-        .post(url,
+        .post(url,cancelToken: cancelToken,
             data: json.encode(request),
             options: Options(responseType: ResponseType.stream))
         .then((it) {
       complete(it.data.stream);
+    }).catchError((e){
+      log.debugString("error :$e");
     });
   }
 }

@@ -18,7 +18,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.0.6
+chat_gpt: 2.0.7
 ```
 
 ## Example
@@ -51,38 +51,6 @@ final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveT
       - Find the time complexity of a function.
   - https://beta.openai.com/examples
 
-```dart
-final request = CompleteText(prompt: translateEngToThai(word: ''),
-                model: kTranslateModelV3, maxTokens: 200);
-
- openAI.onCompletionStream(request:request).listen((response) => print(response))
-        .onError((err) {
-          print("$err");
-  });
-```
-
-- Complete with StreamBuilder
-```dart
-final tController = StreamController<CTResponse?>.broadcast();
-
-openAI
-        .onCompletionStream(request: request)
-.asBroadcastStream()
-        .listen((res) {
-tController.sink.add(res);
-});
-
-///ui code
-StreamBuilder<CTResponse?>(
- stream: tController.stream,
- builder: (context, snapshot) {
-   final data = snapshot.data;
-   if(snapshot.connectionState == ConnectionState.done) return something 
-   if(snapshot.connectionState == ConnectionState.waiting) return something
-   return something
-})
-```
-
 - Complete with Feature
 
 ```dart
@@ -93,8 +61,28 @@ StreamBuilder<CTResponse?>(
           model: kTranslateModelV3);
 
   final response = await openAI.onCompletion(request: request);
+  
+  ///cancel request
+  openAI.cancelAIGenerate();
   print(response);
 }
+```
+
+- Complete with FutureBuilder
+```dart
+Future<CTResponse?>? _translateFuture;
+
+_translateFuture = openAI.onCompletion(request: request);
+
+///ui code
+FutureBuilder<CTResponse?>(
+ future: tController.stream,
+ builder: (context, snapshot) {
+   final data = snapshot.data;
+   if(snapshot.connectionState == ConnectionState.done) return something 
+   if(snapshot.connectionState == ConnectionState.waiting) return something
+   return something
+})
 ```
 
 - Support SSE(Server Send Event)
@@ -140,10 +128,7 @@ StreamBuilder<CTResponse?>(
 final request = CompleteText(prompt:'What is human life expectancy in the United States?'),
                 model: kTranslateModelV3, maxTokens: 200);
 
- openAI.onCompletionStream(request:request).listen((response) => print(response))
-        .onError((err) {
-           print("$err");
-});
+ final response = await openAI.onCompletion(request:request);
 ```
 - Request
  
@@ -185,26 +170,7 @@ A: Human life expectancy in the United States is 78 years.
   - user
     - A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
 - 
-- Generate with stream
-```dart
-  openAI = OpenAI
-        .instance
-        .builder(toekn:"token",
-         baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),isLogger:true);
 
-const prompt = "Snake Red";
-
-final request = GenerateImage(prompt,2);
-
-               openAI.generateImageStream(request)
-              .asBroadcastStream()
-              .listen((it) {
-                print(it.data?.last?.url)
-              });
-
-/// cancel stream controller
-openAI.genImgClose();
-```
 - Generate with feature
 ```dart
   void _generateImage() {
@@ -239,6 +205,7 @@ final engines = await openAI.listEngine();
 ## Flutter Example
 
 ```dart
+
 class TranslateScreen extends StatefulWidget {
   const TranslateScreen({Key? key}) : super(key: key);
   @override
@@ -254,17 +221,20 @@ class _TranslateScreenState extends State<TranslateScreen> {
   ///t => translate
   final tController = StreamController<CTResponse?>.broadcast();
 
+  Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
     final request = CompleteText(
             prompt: translateEngToThai(word: _txtWord.text.toString()),
             maxTokens: 200,
-            model: kTextDavinci3);
+            model: Model.TextDavinci3);
 
-    openAI.onCompletionStream(request: request).asBroadcastStream().listen((res) {
-      tController.sink.add(res);
-    }).onError((err) {
-      print("$err");
-    });
+    _translateFuture = openAI.onCompletion(request: request);
+
+  }
+
+  /// ### can stop generate prompt
+  void cancelAIGenerate(){
+    openAI.cancelAIGenerate();
   }
 
   ///ID of the model to use. Currently, only and are supported
@@ -273,7 +243,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void _chatGpt3Example() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: kChatGptTurbo0301Model);
+    ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -281,17 +251,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     }
   }
 
-  void _chatGpt3ExampleStream() async {
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: kChatGptTurbo0301Model);
-
-    openAI.onChatCompletionStream(request: request).listen((it) {
-      debugPrint("${it?.choices.last.message}");
-    }).onError((err) {
-      print(err);
-    });
-  }
 
   void modelDataList() async {
     final model = await OpenAI.instance.build(token: "").listModel();
@@ -301,21 +260,74 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final engines = await OpenAI.instance.build(token: "").listEngine();
   }
 
+  void completeWithSSE() {
+    final request = CompleteText(
+            prompt: "Hello world", maxTokens: 200, model: Model.TextDavinci3);
+    openAI.onCompletionSSE(
+            request: request,
+            complete: (it) {
+              it.map((data) => utf8.decode(data)).listen((data) {
+                ///
+                final raw = data
+                        .replaceAll(RegExp("data: "), '')
+                        .replaceAll(RegExp("[DONE]"), '');
+
+                /// convert data
+                String message = "";
+                dynamic mJson = json.decode(raw);
+                if (mJson is Map) {
+                  ///[message]
+                  message +=
+                  " ${mJson['choices'].last['text'].toString().replaceAll(RegExp("\n"), '')}";
+                }
+                debugPrint("${message}");
+              }).onError((e) {
+                ///handle error
+              });
+            });
+  }
+
+  void chatCompleteWithSSE() {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: ChatModel.ChatGptTurboModel);
+
+    openAI.onChatCompletionSSE(
+            request: request,
+            complete: (it) {
+              it.map((it) => utf8.decode(it)).listen((data) {
+                final raw = data
+                        .replaceAll(RegExp("data: "), '')
+                        .replaceAll(RegExp("[DONE]"), '')
+                        .replaceAll("[]", '')
+                        .trim();
+
+                if (raw != null || raw.isNotEmpty) {
+                  ///
+                  final mJson = json.decode(raw);
+                  if (mJson is Map) {
+                    debugPrint(
+                            "-> :${(mJson['choices'] as List).last['delta']['content'] ?? "not fond content"}");
+                  }
+                }
+              }).onError((e) {
+                ///handle error
+                debugPrint("error ---> $e");
+              });
+            });
+  }
+
   @override
   void initState() {
     openAI = OpenAI.instance.build(
             token: token,
-            baseOption: HttpSetup(
-                    receiveTimeout: const Duration(seconds: 5),
-                    connectTimeout: const Duration(seconds: 5)),
-            isLogger: true);
+            baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 20),connectTimeout: const Duration(seconds: 20)),
+            isLog: true);
     super.initState();
   }
 
   @override
   void dispose() {
-    ///close stream complete text
-    openAI.close();
     tController.close();
     super.dispose();
   }
@@ -373,14 +385,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
                         icon: Icons.translate,
                         iconSize: 18.0,
                         radius: 46.0,
-                        onClick: () =>_translateEngToThai())),
+                        onClick: () =>  _translateEngToThai())),
       ],
     );
   }
 
   Widget _resultCard(Size size) {
-    return StreamBuilder<CTResponse?>(
-      stream: tController.stream,
+    return FutureBuilder<CTResponse?>(
+      future: _translateFuture,
       builder: (context, snapshot) {
         final text = snapshot.data?.choices.last.text ?? "Loading...";
         return Container(
@@ -607,6 +619,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 }
+
 ```
 
 <img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t39.30808-6/321956306_528473869217638_4959635231571092650_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=YumrmcfO7jAAX9N9Ygd&tn=aWCijFs0IEeQXzfE&_nc_ht=scontent.fkkc3-1.fna&oh=00_AfCQk9ebz2qnPl2pshugchDnaEXMPe6rogXpdzc3UCfcmg&oe=63EF77E4" width="350" height="760">

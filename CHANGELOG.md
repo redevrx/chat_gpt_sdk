@@ -55,3 +55,10 @@ Fix bug  Http status error [429] error
 - Support Stream Parameter Make SSE With Generate Prompt
   - onCompletionSSE
   - onChatCompletionSSE
+
+
+## 2.0.7
+- Update
+  - Stop Generating prompt Method
+  - parentId message in response data
+  - change model string to enum type

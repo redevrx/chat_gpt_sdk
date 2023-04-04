@@ -3,6 +3,7 @@ class Choices {
   final int index;
   final dynamic logprobs;
   final String? finishReason;
+  final String id = "${DateTime.now().millisecondsSinceEpoch}";
 
   Choices(this.text, this.index, this.logprobs, this.finishReason);
 

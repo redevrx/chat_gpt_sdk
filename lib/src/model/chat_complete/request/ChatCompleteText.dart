@@ -1,11 +1,27 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
+enum ChatModel { ChatGptTurboModel, ChatGptTurbo0301Model }
+
+extension ChatModelExtension on ChatModel {
+  String get name {
+    switch (this) {
+      case ChatModel.ChatGptTurbo0301Model:
+        return kChatGptTurbo0301Model;
+      case ChatModel.ChatGptTurboModel:
+        return kChatGptTurboModel;
+      default:
+        return "";
+    }
+  }
+}
+
+
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
   /// gpt-3.5-turbo-0301 are supported. [model]
   ///[kChatGptTurboModel]
   ///[kChatGptTurbo0301Model]
-  final String model;
+  final ChatModel model;
 
   ///The messages to generate chat completions for,
   /// in the chat format. [messages]
@@ -71,8 +87,7 @@ class ChatCompleteText {
   final String? user;
 
   ChatCompleteText(
-      {
-        required this.model,
+      {required this.model,
       required this.messages,
       this.temperature = .3,
       this.topP = 1.0,
@@ -85,7 +100,7 @@ class ChatCompleteText {
       this.user = ""});
 
   Map<String, dynamic> toJson() => Map.of({
-        "model": this.model,
+        "model": this.model.name,
         "messages": this.messages,
         "temperature": this.temperature,
         "top_p": this.topP,
@@ -95,7 +110,7 @@ class ChatCompleteText {
         "max_tokens": this.maxToken,
         "presence_penalty": this.presencePenalty,
         "frequency_penalty": this.frequencyPenalty,
-       // "logit_bias": this.logitBias,
+        // "logit_bias": this.logitBias,
         "user": this.user
       });
 }

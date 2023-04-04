@@ -8,6 +8,7 @@ class ChatCTResponse {
   final int created;
   final List<ChatChoice> choices;
   final Usage usage;
+  final String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
 
   ChatCTResponse(
       {required this.id,

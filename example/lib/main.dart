@@ -34,20 +34,20 @@ class _TranslateScreenState extends State<TranslateScreen> {
   ///t => translate
   final tController = StreamController<CTResponse?>.broadcast();
 
+  Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
     final request = CompleteText(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
         maxTokens: 200,
-        model: kTextDavinci3);
+        model: Model.TextDavinci3);
 
-    openAI
-        .onCompletionStream(request: request)
-        .asBroadcastStream()
-        .listen((res) {
-      tController.sink.add(res);
-    }).onError((err) {
-      print("$err");
-    });
+    _translateFuture = openAI.onCompletion(request: request);
+
+  }
+
+  /// ### can stop generate prompt
+  void cancelAIGenerate(){
+    openAI.cancelAIGenerate();
   }
 
   ///ID of the model to use. Currently, only and are supported
@@ -56,7 +56,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void _chatGpt3Example() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: kChatGptTurbo0301Model);
+    ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -64,17 +64,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     }
   }
 
-  void _chatGpt3ExampleStream() async {
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 400, model: kChatGptTurboModel);
-
-    openAI.onChatCompletionStream(request: request).listen((it) {
-      debugPrint("${it?.choices.last.message}");
-    }).onError((err) {
-      print(err);
-    });
-  }
 
   void modelDataList() async {
     final model = await OpenAI.instance.build(token: "").listModel();
@@ -86,7 +75,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   void completeWithSSE() {
     final request = CompleteText(
-        prompt: "Hello world", maxTokens: 200, model: kTextDavinci3);
+        prompt: "Hello world", maxTokens: 200, model: Model.TextDavinci3);
     openAI.onCompletionSSE(
         request: request,
         complete: (it) {
@@ -114,7 +103,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void chatCompleteWithSSE() {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: kChatGptTurbo0301Model);
+    ], maxToken: 200, model: ChatModel.ChatGptTurboModel);
 
     openAI.onChatCompletionSSE(
         request: request,
@@ -136,6 +125,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
             }
           }).onError((e) {
             ///handle error
+            debugPrint("error ---> $e");
           });
         });
   }
@@ -144,15 +134,13 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void initState() {
     openAI = OpenAI.instance.build(
         token: token,
-        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 20)),
+        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 20),connectTimeout: const Duration(seconds: 20)),
         isLog: true);
     super.initState();
   }
 
   @override
   void dispose() {
-    ///close stream complete text
-    openAI.close();
     tController.close();
     super.dispose();
   }
@@ -210,14 +198,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 icon: Icons.translate,
                 iconSize: 18.0,
                 radius: 46.0,
-                onClick: () => _translateEngToThai())),
+                onClick: () =>  _translateEngToThai())),
       ],
     );
   }
 
   Widget _resultCard(Size size) {
-    return StreamBuilder<CTResponse?>(
-      stream: tController.stream,
+    return FutureBuilder<CTResponse?>(
+      future: _translateFuture,
       builder: (context, snapshot) {
         final text = snapshot.data?.choices.last.text ?? "Loading...";
         return Container(

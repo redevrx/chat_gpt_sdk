@@ -1,6 +1,7 @@
 class Message {
   final String role;
   final String content;
+  final String id = "${DateTime.now().millisecondsSinceEpoch}";
 
   Message({required this.role, required this.content});
 

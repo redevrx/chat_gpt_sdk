@@ -1,6 +1,7 @@
 import 'message.dart';
 
 class ChatChoice {
+  final String id = "${DateTime.now().millisecondsSinceEpoch}";
   final int index;
   final Message message;
   final String? finishReason;

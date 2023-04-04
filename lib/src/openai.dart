@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/src/client/client.dart';
@@ -35,6 +34,7 @@ abstract class IOpenAI {
       required Function(Stream<List<int>> value) complete});
   Stream<GenImgResponse> generateImageStream(GenerateImage request);
   Future<GenImgResponse?> generateImage(GenerateImage request);
+  void cancelAIGenerate();
 }
 
 const msgDeprecate = "not support in version 2.0.6";
@@ -52,6 +52,9 @@ class OpenAI implements IOpenAI {
   static String? _token;
 
   static SharedPreferences? _prefs;
+
+  ///
+  final _cancel = CancelToken();
 
   ///new instance prefs for keep my data
   void _buildShared() async {
@@ -102,7 +105,7 @@ class OpenAI implements IOpenAI {
   @override
   Future<AiModel> listModel() async {
     return _client.get<AiModel>(
-      "$kURL$kModelList",
+      "$kURL$kModelList",_cancel,
       onSuccess: (it) {
         return AiModel.fromJson(it);
       },
@@ -112,7 +115,7 @@ class OpenAI implements IOpenAI {
   /// find all list engine ai [listEngine]
   @override
   Future<EngineModel> listEngine() async {
-    return _client.get<EngineModel>("$kURL$kEngineList", onSuccess: (it) {
+    return _client.get<EngineModel>("$kURL$kEngineList",_cancel, onSuccess: (it) {
       return EngineModel.fromJson(it);
     });
   }
@@ -125,7 +128,7 @@ class OpenAI implements IOpenAI {
   /// https://beta.openai.com/examples
   @override
   Future<CTResponse?> onCompletion({required CompleteText request}) async {
-    return _client.post("$kURL$kCompletion", request.toJson(), onSuccess: (it) {
+    return _client.post("$kURL$kCompletion", _cancel,request.toJson(), onSuccess: (it) {
       return CTResponse.fromJson(it);
     });
   }
@@ -137,6 +140,17 @@ class OpenAI implements IOpenAI {
   /// - look more
   /// https://beta.openai.com/examples
   @Deprecated(msgDeprecate)
+  /**
+   * try it
+   * ```dart
+   *   final request = CompleteText(
+      prompt: translateEngToThai(word: _txtWord.text.toString()),
+      maxTokens: 200,
+      model: Model.TextDavinci3);
+
+      final response = openAI.onCompletion(request: request).asStream();
+   * ```
+   */
   Stream<CTResponse?> onCompletionStream({required CompleteText request}) {
     _completeText(request: request);
     return _completeControl!.stream;
@@ -145,7 +159,7 @@ class OpenAI implements IOpenAI {
   StreamController<CTResponse>? _completeControl =
       StreamController<CTResponse>.broadcast();
   void _completeText({required CompleteText request}) {
-    _client.postStream("$kURL$kCompletion", request.toJson()).listen((rawData) {
+    _client.postStream("$kURL$kCompletion",_cancel, request.toJson()).listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
         _completeControl
@@ -173,7 +187,7 @@ class OpenAI implements IOpenAI {
   @override
   Future<ChatCTResponse?> onChatCompletion(
       {required ChatCompleteText request}) {
-    return _client.post("$kURL$kChatGptTurbo", request.toJson(),
+    return _client.post("$kURL$kChatGptTurbo",_cancel, request.toJson(),
         onSuccess: (it) {
       return ChatCTResponse.fromJson(it);
     });
@@ -191,7 +205,7 @@ class OpenAI implements IOpenAI {
       StreamController<ChatCTResponse>.broadcast();
   void _chatCompleteText({required ChatCompleteText request}) {
     _client
-        .postStream("$kURL$kChatGptTurbo", request.toJson())
+        .postStream("$kURL$kChatGptTurbo",_cancel, request.toJson())
         .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
@@ -234,7 +248,7 @@ class OpenAI implements IOpenAI {
   final _genImgController = StreamController<GenImgResponse>.broadcast();
   void _generateImage(GenerateImage request) {
     _client
-        .postStream("$kURL$kGenerateImage", request.toJson())
+        .postStream("$kURL$kGenerateImage",_cancel, request.toJson())
         .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
@@ -269,7 +283,7 @@ class OpenAI implements IOpenAI {
   ///generate image with prompt
   @override
   Future<GenImgResponse?> generateImage(GenerateImage request) async {
-    return _client.post("$kURL$kGenerateImage", request.toJson(),
+    return _client.post("$kURL$kGenerateImage",_cancel, request.toJson(),
         onSuccess: (it) {
       return GenImgResponse.fromJson(it);
     });
@@ -280,7 +294,7 @@ class OpenAI implements IOpenAI {
       {required ChatCompleteText request,
       required Function(Stream<List<int>> value) complete}) {
     return _client.sse(
-        "$kURL$kChatGptTurbo", request.toJson()..addAll({"stream": true}),
+        "$kURL$kChatGptTurbo", _cancel,request.toJson()..addAll({"stream": true}),
         complete: (it) => complete(it));
   }
 
@@ -289,7 +303,14 @@ class OpenAI implements IOpenAI {
       {required CompleteText request,
       required Function(Stream<List<int>> value) complete}) {
     return _client.sse(
-        '$kURL$kCompletion', request.toJson()..addAll({"stream": true}),
+        '$kURL$kCompletion',_cancel, request.toJson()..addAll({"stream": true}),
         complete: (it) => complete(it));
   }
+
+  @override
+  void cancelAIGenerate() {
+   _cancel.cancel();
+  }
+
+
 }

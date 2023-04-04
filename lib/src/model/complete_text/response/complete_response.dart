@@ -4,6 +4,7 @@ import 'choices.dart';
 
 ///CT is Complete text [CTResponse]
 class CTResponse {
+  final String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
   final String id;
   final String object;
   final int created;
