@@ -9,8 +9,10 @@ const kModelList = 'models';
 const kEngineList = 'engines';
 ///generate image with prompt
 const kGenerateImage = 'images/generations';
-///
+///chat completion
 const kChatGptTurbo = 'chat/completions';
+///edit promopt
+const kEditPrompt = 'edits';
 
 
 
@@ -18,8 +20,12 @@ const kChatGptTurbo = 'chat/completions';
 const kTextDavinci3 = 'text-davinci-003';
 const kTextDavinci2 = 'text-davinci-002';
 const kCodeDavinci2 = 'code-davinci-002';
+///chat complete
 const kChatGptTurboModel = 'gpt-3.5-turbo'; // gpt 3.5
 const kChatGptTurbo0301Model = 'gpt-3.5-turbo-0301';
+///edits
+const kEditsTextModel = 'text-davinci-edit-001';
+const kEditsCoedModel = 'code-davinci-edit-001';
 
 Map<String, String> kHeader(String token, {String orgId = ""}) => {
       "Content-Type": 'application/json',

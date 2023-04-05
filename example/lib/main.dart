@@ -42,12 +42,23 @@ class _TranslateScreenState extends State<TranslateScreen> {
         model: Model.TextDavinci3);
 
     _translateFuture = openAI.onCompletion(request: request);
-
   }
 
   /// ### can stop generate prompt
-  void cancelAIGenerate(){
+  void cancelAIGenerate() {
     openAI.cancelAIGenerate();
+  }
+
+  void editPrompt() async {
+    final response = await openAI.editor.onEdit(EditRequest(
+        model: EditModel.TextEditModel,
+        input: 'What day of the wek is it?',
+        instruction: 'Fix the spelling mistakes'));
+
+    print(response.choices.last.text);
+
+    ///stop edit
+   /// openAI.editor.cancelEdit();
   }
 
   ///ID of the model to use. Currently, only and are supported
@@ -60,10 +71,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
-      print("data -> ${element.message.content}");
+      print("data -> ${element.message?.content}");
     }
   }
-
 
   void modelDataList() async {
     final model = await OpenAI.instance.build(token: "").listModel();
@@ -76,28 +86,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void completeWithSSE() {
     final request = CompleteText(
         prompt: "Hello world", maxTokens: 200, model: Model.TextDavinci3);
-    openAI.onCompletionSSE(
-        request: request,
-        complete: (it) {
-          it.map((data) => utf8.decode(data)).listen((data) {
-            ///
-            final raw = data
-                .replaceAll(RegExp("data: "), '')
-                .replaceAll(RegExp("[DONE]"), '');
-
-            /// convert data
-            String message = "";
-            dynamic mJson = json.decode(raw);
-            if (mJson is Map) {
-              ///[message]
-              message +=
-                  " ${mJson['choices'].last['text'].toString().replaceAll(RegExp("\n"), '')}";
-            }
-            debugPrint("${message}");
-          }).onError((e) {
-            ///handle error
-          });
-        });
+    openAI.onCompletionSSE(request: request).listen((it) {
+      debugPrint(it.choices.last.text);
+    });
   }
 
   void chatCompleteWithSSE() {
@@ -105,36 +96,18 @@ class _TranslateScreenState extends State<TranslateScreen> {
       Map.of({"role": "user", "content": 'Hello!'})
     ], maxToken: 200, model: ChatModel.ChatGptTurboModel);
 
-    openAI.onChatCompletionSSE(
-        request: request,
-        complete: (it) {
-          it.map((it) => utf8.decode(it)).listen((data) {
-            final raw = data
-                .replaceAll(RegExp("data: "), '')
-                .replaceAll(RegExp("[DONE]"), '')
-                .replaceAll("[]", '')
-                .trim();
-
-            if (raw != null || raw.isNotEmpty) {
-              ///
-              final mJson = json.decode(raw);
-              if (mJson is Map) {
-                debugPrint(
-                    "-> :${(mJson['choices'] as List).last['delta']['content'] ?? "not fond content"}");
-              }
-            }
-          }).onError((e) {
-            ///handle error
-            debugPrint("error ---> $e");
-          });
-        });
+    openAI.onChatCompletionSSE(request: request).listen((it) {
+      debugPrint(it.choices.last.message?.content);
+    });
   }
 
   @override
   void initState() {
     openAI = OpenAI.instance.build(
         token: token,
-        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 20),connectTimeout: const Duration(seconds: 20)),
+        baseOption: HttpSetup(
+            receiveTimeout: const Duration(seconds: 20),
+            connectTimeout: const Duration(seconds: 20)),
         isLog: true);
     super.initState();
   }
@@ -198,7 +171,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 icon: Icons.translate,
                 iconSize: 18.0,
                 radius: 46.0,
-                onClick: () =>  _translateEngToThai())),
+                onClick: () => _translateEngToThai())),
       ],
     );
   }

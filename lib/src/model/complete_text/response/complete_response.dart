@@ -10,7 +10,7 @@ class CTResponse {
   final int created;
   final String model;
   final List<Choices> choices;
-  final Usage usage;
+  final Usage? usage;
 
   CTResponse(
       this.id, this.object, this.created, this.model, this.choices, this.usage);
@@ -23,7 +23,7 @@ class CTResponse {
         (json['choices'] as List<dynamic>)
             .map((e) => Choices.fromJson(e as Map<String, dynamic>))
             .toList(),
-        Usage.fromJson(json['usage'] as Map<String, dynamic>),
+      json['usage'] == null ? null :Usage.fromJson(json['usage'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => responseToJson(this);

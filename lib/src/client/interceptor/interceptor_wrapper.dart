@@ -10,8 +10,7 @@ class InterceptorWrapper extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final mToken = token.isEmpty ? "${prefs?.getString(kTokenKey)}" : token;
-    options.headers.addAll(kHeader("$mToken"));
+    options.headers.addAll(kHeader("${prefs?.getString(kTokenKey)}"));
     return handler.next(options); // super.onRequest(options, handler);
   }
 

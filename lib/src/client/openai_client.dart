@@ -18,10 +18,10 @@ class OpenAIClient extends OpenAIWrapper {
   ///[log]
   late Logger log;
 
-  Future<T> get<T>(String url,CancelToken cancelToken ,
+  Future<T> get<T>(String url, CancelToken cancelToken,
       {required T Function(Map<String, dynamic>) onSuccess}) async {
     try {
-      final rawData = await _dio.get(url,cancelToken: cancelToken);
+      final rawData = await _dio.get(url, cancelToken: cancelToken);
 
       if (rawData.statusCode == HttpStatus.ok) {
         log.debugString(
@@ -38,12 +38,14 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
-  Future<T> post<T>(String url,CancelToken cancelToken, Map<String, dynamic> request,
+  Future<T> post<T>(
+      String url, CancelToken cancelToken, Map<String, dynamic> request,
       {required T Function(Map<String, dynamic>) onSuccess}) async {
     try {
       log.debugString("request body :$request");
 
-      final rawData = await _dio.post(url, data: json.encode(request),cancelToken: cancelToken);
+      final rawData = await _dio.post(url,
+          data: json.encode(request), cancelToken: cancelToken);
       if (rawData.statusCode == HttpStatus.ok) {
         log.debugString("status code :${rawData.statusCode}");
         log.debugString(
@@ -61,22 +63,59 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
-  Stream<Response> postStream(String url,CancelToken cancelToken, Map<String, dynamic> request) {
+  Stream<Response> postStream(
+      String url, CancelToken cancelToken, Map<String, dynamic> request) {
     log.debugString("request body :$request");
-    return _dio.post(url, data: json.encode(request),cancelToken: cancelToken).asStream();
+    return _dio
+        .post(url, data: json.encode(request), cancelToken: cancelToken)
+        .asStream();
   }
 
-  void sse(String url,CancelToken cancelToken, Map<String, dynamic> request,
-      {required Function(Stream<List<int>> value) complete}) {
+  Stream<T> sse<T>(
+      String url, CancelToken cancelToken, Map<String, dynamic> request,
+      {required T Function(Map<String, dynamic> value) complete}) {
     log.debugString("request body :$request");
+    final controller = StreamController<T>.broadcast();
+
     _dio
-        .post(url,cancelToken: cancelToken,
+        .post(url,
+            cancelToken: cancelToken,
             data: json.encode(request),
             options: Options(responseType: ResponseType.stream))
         .then((it) {
-      complete(it.data.stream);
-    }).catchError((e){
-      log.debugString("error :$e");
+      it.data.stream.listen((it) {
+        final raw = utf8.decode(it);
+        final dataList =
+            raw.split("\n").where((element) => element.isNotEmpty).toList();
+
+        for (final data in dataList) {
+          if (data.startsWith("data: ")) {
+            ///remove data:
+            final mData = data.substring(6);
+            if (mData.startsWith("[DONE]")) {
+              log.debugString("stream response is done");
+              return;
+            }
+            print(mData);
+
+            ///decode data
+            controller
+              ..sink
+              ..add(complete(jsonDecode(mData)));
+          }
+        }
+      }, onDone: () {
+        controller.close();
+      }, onError: (err, t) {
+        controller
+          ..sink
+          ..addError(err, t);
+      });
+    }, onError: (err, t) {
+      controller
+        ..sink
+        ..addError(err, t);
     });
+    return controller.stream;
   }
 }

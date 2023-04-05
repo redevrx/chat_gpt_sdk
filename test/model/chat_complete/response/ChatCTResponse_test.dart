@@ -26,9 +26,9 @@ void main() {
     expect(chatCTResponse.object, "object_test");
     expect(chatCTResponse.created, 1);
     expect(chatCTResponse.choices.length, 1);
-    expect(chatCTResponse.usage.promptTokens, 10);
-    expect(chatCTResponse.usage.completionTokens, 20);
-    expect(chatCTResponse.usage.totalTokens, 30);
+    expect(chatCTResponse.usage?.promptTokens, 10);
+    expect(chatCTResponse.usage?.completionTokens, 20);
+    expect(chatCTResponse.usage?.totalTokens, 30);
   });
 
   test('ChatCTResponse can be instantiated from json', () {
@@ -56,9 +56,9 @@ void main() {
     expect(chatCTResponse.object, "object_test");
     expect(chatCTResponse.created, 1);
     expect(chatCTResponse.choices.length, 1);
-    expect(chatCTResponse.usage.promptTokens, 10);
-    expect(chatCTResponse.usage.completionTokens, 20);
-    expect(chatCTResponse.usage.totalTokens, 30);
+    expect(chatCTResponse.usage?.promptTokens, 10);
+    expect(chatCTResponse.usage?.completionTokens, 20);
+    expect(chatCTResponse.usage?.totalTokens, 30);
   });
 
   test('toJson should return a map with the same fields', () {

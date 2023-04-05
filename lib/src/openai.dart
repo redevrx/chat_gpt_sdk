@@ -7,6 +7,8 @@ import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dar
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart';
+import 'package:chat_gpt_sdk/src/model/edits/request/edit_request.dart';
+import 'package:chat_gpt_sdk/src/model/edits/response/edit_response.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/response/GenImgResponse.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart';
@@ -23,15 +25,12 @@ abstract class IOpenAI {
   listModel();
   listEngine();
   Future<CTResponse?> onCompletion({required CompleteText request});
-  void onCompletionSSE(
-      {required CompleteText request,
-      required Function(Stream<List<int>> value) complete});
+  Stream<CTResponse> onCompletionSSE({required CompleteText request});
   Future<ChatCTResponse?> onChatCompletion({
     required ChatCompleteText request,
   });
-  void onChatCompletionSSE(
-      {required ChatCompleteText request,
-      required Function(Stream<List<int>> value) complete});
+  Stream<ChatCTResponse> onChatCompletionSSE(
+      {required ChatCompleteText request});
   Stream<GenImgResponse> generateImageStream(GenerateImage request);
   Future<GenImgResponse?> generateImage(GenerateImage request);
   void cancelAIGenerate();
@@ -53,7 +52,7 @@ class OpenAI implements IOpenAI {
 
   static SharedPreferences? _prefs;
 
-  ///
+  ///cancel request
   final _cancel = CancelToken();
 
   ///new instance prefs for keep my data
@@ -75,29 +74,30 @@ class OpenAI implements IOpenAI {
   @override
   OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false}) {
     _buildShared();
+    Future.delayed(Duration(seconds: 1), () {
+      if ("$token".isEmpty) throw MissionTokenException();
+      final setup = baseOption == null ? HttpSetup() : baseOption;
+      setToken(token!);
 
-    if ("$token".isEmpty) throw MissionTokenException();
-    final setup = baseOption == null ? HttpSetup() : baseOption;
-
-    final dio = Dio(BaseOptions(
-        sendTimeout: setup.sendTimeout,
-        connectTimeout: setup.connectTimeout,
-        receiveTimeout: setup.receiveTimeout));
-    if (setup.proxy.isNotEmpty) {
-      dio.httpClientAdapter = IOHttpClientAdapter()
-        ..onHttpClientCreate = (client) {
-          client.findProxy = (uri) {
-            /// "PROXY localhost:7890"
-            return setup.proxy;
+      final dio = Dio(BaseOptions(
+          sendTimeout: setup.sendTimeout,
+          connectTimeout: setup.connectTimeout,
+          receiveTimeout: setup.receiveTimeout));
+      if (setup.proxy.isNotEmpty) {
+        dio.httpClientAdapter = IOHttpClientAdapter()
+          ..onHttpClientCreate = (client) {
+            client.findProxy = (uri) {
+              /// "PROXY localhost:7890"
+              return setup.proxy;
+            };
+            return client;
           };
-          return client;
-        };
-    }
-    dio.interceptors.add(InterceptorWrapper(_prefs, token!));
+      }
+      dio.interceptors.add(InterceptorWrapper(_prefs, token!));
 
-    _client = OpenAIClient(dio: dio, isLogging: isLog);
-    setToken(token);
-
+      _client = OpenAIClient(dio: dio, isLogging: isLog);
+      setToken(token);
+    });
     return instance;
   }
 
@@ -105,7 +105,8 @@ class OpenAI implements IOpenAI {
   @override
   Future<AiModel> listModel() async {
     return _client.get<AiModel>(
-      "$kURL$kModelList",_cancel,
+      "$kURL$kModelList",
+      _cancel,
       onSuccess: (it) {
         return AiModel.fromJson(it);
       },
@@ -115,7 +116,8 @@ class OpenAI implements IOpenAI {
   /// find all list engine ai [listEngine]
   @override
   Future<EngineModel> listEngine() async {
-    return _client.get<EngineModel>("$kURL$kEngineList",_cancel, onSuccess: (it) {
+    return _client.get<EngineModel>("$kURL$kEngineList", _cancel,
+        onSuccess: (it) {
       return EngineModel.fromJson(it);
     });
   }
@@ -128,7 +130,8 @@ class OpenAI implements IOpenAI {
   /// https://beta.openai.com/examples
   @override
   Future<CTResponse?> onCompletion({required CompleteText request}) async {
-    return _client.post("$kURL$kCompletion", _cancel,request.toJson(), onSuccess: (it) {
+    return _client.post("$kURL$kCompletion", _cancel, request.toJson(),
+        onSuccess: (it) {
       return CTResponse.fromJson(it);
     });
   }
@@ -159,7 +162,9 @@ class OpenAI implements IOpenAI {
   StreamController<CTResponse>? _completeControl =
       StreamController<CTResponse>.broadcast();
   void _completeText({required CompleteText request}) {
-    _client.postStream("$kURL$kCompletion",_cancel, request.toJson()).listen((rawData) {
+    _client
+        .postStream("$kURL$kCompletion", _cancel, request.toJson())
+        .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
         _completeControl
@@ -187,7 +192,7 @@ class OpenAI implements IOpenAI {
   @override
   Future<ChatCTResponse?> onChatCompletion(
       {required ChatCompleteText request}) {
-    return _client.post("$kURL$kChatGptTurbo",_cancel, request.toJson(),
+    return _client.post("$kURL$kChatGptTurbo", _cancel, request.toJson(),
         onSuccess: (it) {
       return ChatCTResponse.fromJson(it);
     });
@@ -205,7 +210,7 @@ class OpenAI implements IOpenAI {
       StreamController<ChatCTResponse>.broadcast();
   void _chatCompleteText({required ChatCompleteText request}) {
     _client
-        .postStream("$kURL$kChatGptTurbo",_cancel, request.toJson())
+        .postStream("$kURL$kChatGptTurbo", _cancel, request.toJson())
         .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
@@ -248,7 +253,7 @@ class OpenAI implements IOpenAI {
   final _genImgController = StreamController<GenImgResponse>.broadcast();
   void _generateImage(GenerateImage request) {
     _client
-        .postStream("$kURL$kGenerateImage",_cancel, request.toJson())
+        .postStream("$kURL$kGenerateImage", _cancel, request.toJson())
         .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
         _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
@@ -283,34 +288,53 @@ class OpenAI implements IOpenAI {
   ///generate image with prompt
   @override
   Future<GenImgResponse?> generateImage(GenerateImage request) async {
-    return _client.post("$kURL$kGenerateImage",_cancel, request.toJson(),
+    return _client.post("$kURL$kGenerateImage", _cancel, request.toJson(),
         onSuccess: (it) {
       return GenImgResponse.fromJson(it);
     });
   }
 
   @override
-  void onChatCompletionSSE(
-      {required ChatCompleteText request,
-      required Function(Stream<List<int>> value) complete}) {
-    return _client.sse(
-        "$kURL$kChatGptTurbo", _cancel,request.toJson()..addAll({"stream": true}),
-        complete: (it) => complete(it));
+  Stream<ChatCTResponse> onChatCompletionSSE(
+      {required ChatCompleteText request}) {
+    return _client.sse("$kURL$kChatGptTurbo", _cancel,
+        request.toJson()..addAll({"stream": true}), complete: (it) {
+      return ChatCTResponse.fromJson(it);
+    });
   }
 
   @override
-  void onCompletionSSE(
-      {required CompleteText request,
-      required Function(Stream<List<int>> value) complete}) {
-    return _client.sse(
-        '$kURL$kCompletion',_cancel, request.toJson()..addAll({"stream": true}),
-        complete: (it) => complete(it));
+  Stream<CTResponse> onCompletionSSE({required CompleteText request}) {
+    return _client.sse('$kURL$kCompletion', _cancel,
+        request.toJson()..addAll({"stream": true}), complete: (it) {
+      return CTResponse.fromJson(it);
+    });
   }
 
   @override
   void cancelAIGenerate() {
-   _cancel.cancel();
+    _cancel.cancel();
   }
 
+  ///edit prompt
+  _Edit get editor => _Edit(_client);
+}
 
+class _Edit {
+  final OpenAIClient _client;
+  _Edit(this._client);
+
+  final _cancel = CancelToken();
+
+  ///
+  Future<EditResponse> onEdit(EditRequest request) {
+    return _client.post(kURL + kEditPrompt, _cancel, request.toJson(),
+        onSuccess: (it) {
+      return EditResponse.fromJson(it);
+    });
+  }
+
+  void cancelEdit() {
+    _cancel.cancel();
+  }
 }

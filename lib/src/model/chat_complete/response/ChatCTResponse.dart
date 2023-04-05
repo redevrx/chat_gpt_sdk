@@ -7,7 +7,7 @@ class ChatCTResponse {
   final String object;
   final int created;
   final List<ChatChoice> choices;
-  final Usage usage;
+  final Usage? usage;
   final String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
 
   ChatCTResponse(
@@ -23,7 +23,7 @@ class ChatCTResponse {
         created: json["created"],
         choices: List<ChatChoice>.from(
             json["choices"].map((x) => ChatChoice.fromJson(x))),
-        usage: Usage.fromJson(json["usage"]),
+        usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,6 +31,6 @@ class ChatCTResponse {
         "object": object,
         "created": created,
         "choices": List<dynamic>.from(choices.map((x) => x.toJson())),
-        "usage": usage.toJson(),
+        "usage": usage?.toJson(),
       };
 }

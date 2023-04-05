@@ -32,8 +32,8 @@ void main() {
       final chatChoice = ChatChoice.fromJson(json);
 
       expect(chatChoice.index, 1);
-      expect(chatChoice.message.role, 'bot');
-      expect(chatChoice.message.content, 'Hello, world!');
+      expect(chatChoice.message?.role, 'bot');
+      expect(chatChoice.message?.content, 'Hello, world!');
       expect(chatChoice.finishReason, null);
     });
 
