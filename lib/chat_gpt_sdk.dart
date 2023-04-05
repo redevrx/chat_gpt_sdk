@@ -13,3 +13,4 @@ export 'src/model/chat_complete/request/ChatCompleteText.dart';
 export 'src/model/chat_complete/response/ChatCTResponse.dart';
 export 'src/model/edits/request/edit_request.dart';
 export 'src/model/edits/response/edit_response.dart';
+export 'src/model/gen_image/request/edit_image.dart';

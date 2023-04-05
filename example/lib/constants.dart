@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 
 final heroCard = BoxDecoration(
     color: Colors.white,

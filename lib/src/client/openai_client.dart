@@ -118,4 +118,28 @@ class OpenAIClient extends OpenAIWrapper {
     });
     return controller.stream;
   }
+
+  Future<T> postFormData<T>(
+      String url, CancelToken cancelToken, FormData request,
+      {required T Function(Map<String, dynamic> value) complete}) async{
+    try {
+      final response = await _dio.post(url,data:request);
+
+      if (response.statusCode == HttpStatus.ok) {
+        log.debugString("status code :${response.statusCode}");
+        log.debugString(
+            "============= success ==================\nresponse body :${response.data}");
+        return complete(response.data);
+      } else {
+        log.errorLog(code: response.statusCode, error: "${response.data}");
+        throw RequestError(
+            message: "${response.data}", code: response.statusCode);
+      }
+
+    }on DioError catch(err){
+      throw RequestError(
+          message: "${err.message} \ndata:${err.response?.data}",
+          code: err.response?.statusCode);
+    }
+  }
 }

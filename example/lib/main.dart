@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_buttonx/materialButtonX.dart';
 
 void main() => runApp(const MyApp());
@@ -41,7 +43,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
         maxTokens: 200,
         model: Model.TextDavinci3);
 
-    _translateFuture = openAI.onCompletion(request: request);
+   // _translateFuture = openAI.onCompletion(request: request);
+
+    editImage();
   }
 
   /// ### can stop generate prompt
@@ -49,8 +53,19 @@ class _TranslateScreenState extends State<TranslateScreen> {
     openAI.cancelAIGenerate();
   }
 
+  void editImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    ///passe to rgba
+    final response = await openAI.editor.editImage(
+        EditImageRequest(image: Pair("${image?.path}",'${image?.name}'), prompt: 'King Snake'));
+
+    print(response.data?.last?.url);
+  }
+
+
   void editPrompt() async {
-    final response = await openAI.editor.onEdit(EditRequest(
+    final response = await openAI.editor.prompt(EditRequest(
         model: EditModel.TextEditModel,
         input: 'What day of the wek is it?',
         instruction: 'Fix the spelling mistakes'));
@@ -58,7 +73,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     print(response.choices.last.text);
 
     ///stop edit
-   /// openAI.editor.cancelEdit();
+    /// openAI.editor.cancelEdit();
   }
 
   ///ID of the model to use. Currently, only and are supported

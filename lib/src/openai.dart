@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/ChatCompleteText.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dart';
@@ -327,10 +328,18 @@ class _Edit {
   final _cancel = CancelToken();
 
   ///
-  Future<EditResponse> onEdit(EditRequest request) {
+  Future<EditResponse> prompt(EditRequest request) {
     return _client.post(kURL + kEditPrompt, _cancel, request.toJson(),
         onSuccess: (it) {
       return EditResponse.fromJson(it);
+    });
+  }
+
+  Future<GenImgResponse> editImage(EditImageRequest request) async{
+    final mRequest = await request.convert();
+    return _client.postFormData(kURL + kImageEdit, _cancel, mRequest,
+        complete: (it) {
+      return GenImgResponse.fromJson(it);
     });
   }
 

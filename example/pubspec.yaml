@@ -39,6 +39,7 @@ dependencies:
   chat_gpt_sdk:
     path: ../
   material_buttonx: ^2.0.3
+  image_picker: ^0.8.7+1
 
 dev_dependencies:
   flutter_test:

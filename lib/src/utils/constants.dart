@@ -11,8 +11,10 @@ const kEngineList = 'engines';
 const kGenerateImage = 'images/generations';
 ///chat completion
 const kChatGptTurbo = 'chat/completions';
-///edit promopt
+///edit prompt
 const kEditPrompt = 'edits';
+///image edit
+const kImageEdit = 'images/edits';
 
 
 
