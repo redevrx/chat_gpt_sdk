@@ -34,7 +34,7 @@ class Embedding {
   }
 
   ///cancel embedding
-  void cancel() {
+  void cancelEmbedding() {
     _client.log.log("stop openAI embedding");
     _cancel.cancel();
   }

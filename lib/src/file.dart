@@ -49,7 +49,7 @@ class OpenAIFile {
   }
 
   ///cancel file
-  void cancelEdit() {
+  void cancelFile() {
     _client.log.log("stop openAI");
     _cancel.cancel();
   }

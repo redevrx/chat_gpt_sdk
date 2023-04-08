@@ -43,8 +43,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
         maxTokens: 200,
         model: Model.TextDavinci3);
 
-    // _translateFuture = openAI.onCompletion(request: request);
- getFile();
+    _translateFuture = openAI.onCompletion(request: request);
   }
 
   /// ### can stop generate prompt
