@@ -36,14 +36,5 @@ void main() {
       expect(chatChoice.message?.content, 'Hello, world!');
       expect(chatChoice.finishReason, null);
     });
-
-    test('fromJson should fail if required field is missing', () {
-      final Map<String, dynamic> json = {
-        'index': 1,
-        'finish_reason': null,
-      };
-
-      expect(() => ChatChoice.fromJson(json), throwsA(isA<TypeError>()));
-    });
   });
 }

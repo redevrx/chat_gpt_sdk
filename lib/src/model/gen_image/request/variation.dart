@@ -1,34 +1,14 @@
+import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_image.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
-class EditFile {
-  final String path;
-  final String name;
-
-  EditFile(this.path, this.name);
-
-  @override
-  String toString() => "[${path},${name}]";
-}
-
-class EditImageRequest {
+class Variation {
   ///The image to edit. Must be a valid PNG file, less than 4MB,
   /// and square. If mask is not provided, image must have transparency,
   /// which will be used as the mask.[image]
   /// file name is image
   final EditFile image;
-
-  ///An additional image whose fully transparent areas
-  /// (e.g. where alpha is zero) indicate where should be edited.
-  /// Must be a valid PNG file, less than 4MB, and have
-  /// the same dimensions as image. [mask]
-  /// file name is mask
-  final EditFile? mask;
-
-  ///A text description of the desired image(s).
-  /// The maximum length is 1000 characters.[prompt]
-  final String prompt;
 
   ///The number of images to generate. Must be between 1 and 10.[n]
   final int n;
@@ -44,10 +24,8 @@ class EditImageRequest {
   /// which can help OpenAI to monitor and detect abuse.[user]
   final String? user;
 
-  EditImageRequest(
+  Variation(
       {required this.image,
-      this.mask,
-      required this.prompt,
       this.n = 2,
       this.size = ImageSize.size1024,
       this.responseFormat = Format.url,
@@ -57,11 +35,6 @@ class EditImageRequest {
     return FormData.fromMap({
       'image': await MultipartFile.fromFile(image.path,
           filename: image.name, contentType: MediaType('image', 'png')),
-      'mask': mask == null
-          ? null
-          : await MultipartFile.fromFile(image.path,
-              filename: image.name, contentType: MediaType('image', 'png')),
-      'prompt': prompt,
       'n': n,
       'size': size.size,
       'response_format': responseFormat.name,
@@ -71,8 +44,6 @@ class EditImageRequest {
 
   Map<String, dynamic> toJson() => Map.of({
         'image': image,
-        'mask': mask,
-        'prompt': prompt,
         'n': n,
         'size': size.size,
         'response_format': responseFormat.name,

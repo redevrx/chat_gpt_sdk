@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
+import 'package:chat_gpt_sdk/src/embedding.dart';
+import 'package:chat_gpt_sdk/src/file.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/ChatCompleteText.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dart';
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart';
@@ -11,6 +14,7 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.
 import 'package:chat_gpt_sdk/src/model/edits/request/edit_request.dart';
 import 'package:chat_gpt_sdk/src/model/edits/response/edit_response.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/request/variation.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/response/GenImgResponse.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_models.dart';
@@ -20,6 +24,7 @@ import 'package:dio/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'client/exception/openai_exception.dart';
 import 'client/interceptor/interceptor_wrapper.dart';
+import 'edit.dart';
 
 abstract class IOpenAI {
   OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false});
@@ -94,7 +99,7 @@ class OpenAI implements IOpenAI {
             return client;
           };
       }
-      dio.interceptors.add(InterceptorWrapper(_prefs, token!));
+      dio.interceptors.add(InterceptorWrapper(_prefs, token));
 
       _client = OpenAIClient(dio: dio, isLogging: isLog);
       setToken(token);
@@ -167,20 +172,20 @@ class OpenAI implements IOpenAI {
         .postStream("$kURL$kCompletion", _cancel, request.toJson())
         .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
-        _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
+        _client.log.log("code: ${rawData.statusCode}, error: ${rawData.data}");
         _completeControl
           ?..sink
           ..addError(
               "complete error: ${rawData.statusMessage} code: ${rawData.statusCode} data: ${rawData.data}");
       } else {
-        _client.log.debugString(
-            "============= success ==================\nresponse body :${rawData.data}");
+        _client.log.log("============= success ==================");
         _completeControl
           ?..sink
           ..add(CTResponse.fromJson(rawData.data));
       }
     }).onError((err) {
       if (err is DioError) {
+        _client.log.error(err, err.stackTrace);
         _completeControl
           ?..sink
           ..addError(
@@ -214,20 +219,20 @@ class OpenAI implements IOpenAI {
         .postStream("$kURL$kChatGptTurbo", _cancel, request.toJson())
         .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
-        _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
+        _client.log.log("code: ${rawData.statusCode}, error: ${rawData.data}");
         _chatCompleteControl
           ?..sink
           ..addError(
               "chat complete error: ${rawData.statusMessage} code: ${rawData.statusCode} data: ${rawData.data}");
       } else {
-        _client.log.debugString(
-            "============= success ==================\nresponse body :${rawData.data}");
+        _client.log.log("============= success ==================");
         _chatCompleteControl
           ?..sink
           ..add(ChatCTResponse.fromJson(rawData.data));
       }
     }).onError((err) {
       if (err is DioError) {
+        _client.log.error(err, err.stackTrace);
         _chatCompleteControl
           ?..sink
           ..addError(
@@ -257,27 +262,27 @@ class OpenAI implements IOpenAI {
         .postStream("$kURL$kGenerateImage", _cancel, request.toJson())
         .listen((rawData) {
       if (rawData.statusCode != HttpStatus.ok) {
-        _client.log.errorLog(code: rawData.statusCode, error: rawData.data);
+        _client.log.log("code: ${rawData.statusCode}, error: ${rawData.data}");
         _genImgController
           ..sink
           ..addError(
               "generate image error: ${rawData.statusMessage} code: ${rawData.statusCode} data: ${rawData.data}");
       } else {
-        _client.log.debugString(
-            "============= success ==================\nresponse body :${rawData.data}");
+        _client.log.log(
+            "============= success ==================\nresponse data :${rawData.data}");
         _genImgController
           ..sink
           ..add(GenImgResponse.fromJson(rawData.data));
       }
-    }).onError((err) => {
-              if (err is DioError)
-                {
-                  _genImgController
-                    ..sink
-                    ..addError(
-                        "generate image error: message :${err.message}\nerror body :${err.response?.data}, code: ${err.response?.statusCode}")
-                }
-            });
+    }).onError((err) {
+      if (err is DioError) {
+        _client.log.error(err, err.stackTrace);
+        _genImgController
+          ..sink
+          ..addError(
+              "generate image error: message :${err.message}\nerror body :${err.response?.data}, code: ${err.response?.statusCode}");
+      }
+    });
   }
 
   /// close generate image stream[genImgClose]
@@ -314,36 +319,19 @@ class OpenAI implements IOpenAI {
 
   @override
   void cancelAIGenerate() {
+    _client.log.log('stop openAI');
     _cancel.cancel();
   }
 
   ///edit prompt
-  _Edit get editor => _Edit(_client);
-}
+  Edit get editor => Edit(_client);
 
-class _Edit {
-  final OpenAIClient _client;
-  _Edit(this._client);
+  ///embedding
+  Embedding get embed => Embedding(_client);
 
-  final _cancel = CancelToken();
+  ///audio
+  Audio get audio => Audio(_client);
 
-  ///
-  Future<EditResponse> prompt(EditRequest request) {
-    return _client.post(kURL + kEditPrompt, _cancel, request.toJson(),
-        onSuccess: (it) {
-      return EditResponse.fromJson(it);
-    });
-  }
-
-  Future<GenImgResponse> editImage(EditImageRequest request) async{
-    final mRequest = await request.convert();
-    return _client.postFormData(kURL + kImageEdit, _cancel, mRequest,
-        complete: (it) {
-      return GenImgResponse.fromJson(it);
-    });
-  }
-
-  void cancelEdit() {
-    _cancel.cancel();
-  }
+  ///files
+ OpenAIFile get file => OpenAIFile(_client);
 }
