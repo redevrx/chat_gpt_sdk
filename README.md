@@ -125,18 +125,12 @@ FutureBuilder<CTResponse?>(
 
 - GPT-3 with SSE
 ```dart
-  void completeWithSSE() {
+ void completeWithSSE() {
   final request = CompleteText(
-          prompt: "Hello world", maxTokens: 200, model: kTextDavinci3);
-  openAI.onCompletionSSE(
-          request: request,
-          complete: (it) {
-            it.map((data) => utf8.decode(data)).listen((data) {
-              debugPrint("$data");
-            }).onError((e) {
-              ///handle error
-            });
-          });
+          prompt: "Hello world", maxTokens: 200, model: Model.TextDavinci3);
+  openAI.onCompletionSSE(request: request).listen((it) {
+    debugPrint(it.choices.last.text);
+  });
 }
 ```
 
@@ -145,20 +139,14 @@ FutureBuilder<CTResponse?>(
 - Support SSE(Server Send Event)
   - GPT-3.5 Turbo
 ```dart
-  void chatCompleteWithSSE() {
+ void chatCompleteWithSSE() {
   final request = ChatCompleteText(messages: [
     Map.of({"role": "user", "content": 'Hello!'})
-  ], maxToken: 200, model: kChatGptTurbo0301Model);
+  ], maxToken: 200, model: ChatModel.ChatGptTurboModel);
 
-  openAI.onChatCompletionSSE(
-          request: request,
-          complete: (it) {
-            it.map((it) => utf8.decode(it)).listen((data) {
-              debugPrint("$data");
-            }).onError((e) {
-              ///handle error
-            });
-          });
+  openAI.onChatCompletionSSE(request: request).listen((it) {
+    debugPrint(it.choices.last.message?.content);
+  });
 }
 ```
 - Chat Complete
