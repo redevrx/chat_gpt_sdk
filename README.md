@@ -263,7 +263,6 @@ void editPrompt() async {
 - Stop Generate Prompt
 ```dart
 openAI.cancelAIGenerate();
-}
 ```
 
 - Stop Edit
@@ -271,13 +270,11 @@ openAI.cancelAIGenerate();
   - prompt
 ```dart
 openAI.cancelEdit();
-}
 ```
 
 - Stop Embedding
 ```dart
 openAI.cancelEmbedding();
-}
 ```
 
 - Stop Audio
@@ -285,7 +282,6 @@ openAI.cancelEmbedding();
   - transcript
 ```dart
 openAI.cancelAudio();
-}
 ```
 
 - Stop File
@@ -294,7 +290,6 @@ openAI.cancelAudio();
   - delete file
 ```dart
 openAI.cancelFile();
-}
 ```
 
 ## File
