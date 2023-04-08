@@ -25,13 +25,9 @@ supervised and reinforcement learning techniques.
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/redevRx/Flutter-ChatGPT?style=social">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/redevRx/Flutter-ChatGPT/dart.yml?label=tests">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/redevRx/Flutter-ChatGPT/release.yml?label=build">
-<img alt="GitHub" src="https://img.shields.io/github/license/anasfik/openai">
-<img alt="Pub Version" src="https://img.shields.io/pub/v/dart_openai">
-<img alt="Pub Likes" src="https://img.shields.io/pub/likes/dart_openai">
-<img alt="Pub Points" src="https://img.shields.io/pub/points/dart_openai">
-<img alt="Pub Popularity" src="https://img.shields.io/pub/popularity/dart_openai">
+<img alt="GitHub" src="https://img.shields.io/github/license/redevRx/Flutter-ChatGPT">
 
-</p>
+</p
 </br>
 
 ## Features
@@ -55,7 +51,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.0.7
+chat_gpt: 2.0.8
 ```
 
 ## Create OpenAI Instance
