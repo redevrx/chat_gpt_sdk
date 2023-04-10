@@ -25,3 +25,11 @@ export 'src/model/file/response/delete_file.dart';
 export 'src/model/file/response/file_data.dart';
 export 'src/model/file/response/file_response.dart';
 export 'src/model/file/response/upload_response.dart';
+export 'src/model/fine_tune/request/create_fine.dart';
+export 'src/model/fine_tune/response/fine_event.dart';
+export 'src/model/fine_tune/response/fine_tune_delete.dart';
+export 'src/model/fine_tune/response/fine_tune_hyper.dart';
+export 'src/model/fine_tune/response/fine_tune_response.dart';
+export 'src/model/fine_tune/response/training_file.dart';
+
+

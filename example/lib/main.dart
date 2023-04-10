@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:material_buttonx/materialButtonX.dart';
 
 void main() => runApp(const MyApp());
@@ -50,6 +48,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
     openAI.cancelAIGenerate();
   }
 
+  void createTineTune() async {
+    final request = CreateFineTune(trainingFile: 'The ID of an uploaded file');
+   final response =  await openAI.fineTune.create(request);
+  }
 
   ///ID of the model to use. Currently, only and are supported
   ///[kChatGptTurboModel]
