@@ -2,6 +2,9 @@ import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/client/exception/openai_exception.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/choices.dart';
+import 'package:chat_gpt_sdk/src/model/openai_engine/engine_data.dart';
+import 'package:chat_gpt_sdk/src/model/openai_model/openai_model_data.dart';
+import 'package:chat_gpt_sdk/src/model/openai_model/permission.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -138,4 +141,76 @@ void main() async {
       verifyNever(openAI.onChatCompletionSSE(request: request));
     });
   });
+
+  group('chatGPT Image Generate With Prompt test case', () {
+    test('chatGPT Image Generate With Prompt success case  test', () async {
+      final request = GenerateImage('snake red eating cat.', 2);
+
+      when(openAI.generateImage(request))
+          .thenAnswer((_) async => GenImgResponse());
+
+      final response = await openAI.generateImage(request);
+
+      verify(await openAI.generateImage(request));
+      expect(response, TypeMatcher<GenImgResponse>());
+    });
+
+    test('chatGPT Image Generate With Prompt success case return value test',
+        () async {
+      final request = GenerateImage('snake red eating cat.', 2);
+
+      when(openAI.generateImage(request))
+          .thenAnswer((_) async => GenImgResponse(created: 1221120));
+
+      final response = await openAI.generateImage(request);
+
+      verify(await openAI.generateImage(request));
+      expect(response, TypeMatcher<GenImgResponse>());
+      expect(response?.created, 1221120);
+    });
+
+    test('chatGPT Image Generate With Prompt error case with n is 0 test',
+        () async {
+      final request = GenerateImage('snake red eating cat.', 1);
+
+      when(openAI.generateImage(request))
+          .thenAnswer((_) async => GenImgResponse(created: 1221120));
+
+      final response = await openAI.generateImage(request);
+
+      verify(await openAI.generateImage(request));
+      expect(response, TypeMatcher<GenImgResponse>());
+      expect(response?.created, 1221120);
+      expect(response?.data, null);
+      expect(() => GenerateImage('snake red eating cat.', 0),
+          throwsAssertionError);
+    });
+  });
+
+  group('chatGPT Models & Engine test', () {
+    test('chatGPT Models success case test', () async {
+      when(openAI.listModel()).thenAnswer((_) async => AiModel([
+            ModelData('id', '', 'ownerBy', [
+              Permission('id', 'object', 12, false, false, false, false, false,
+                  false, 'organization', 'group', false)
+            ])
+          ], '12'));
+
+      final response = await openAI.listModel();
+      expect(response, TypeMatcher<AiModel>());
+      verify(await openAI.listModel());
+      expect(response.object, '12');
+    });
+
+    test('chatGPT Engine success case test', () async {
+      when(openAI.listEngine()).thenAnswer((_) async =>
+          EngineModel([EngineData('id', 'object', 'owner', false)], 'object'));
+
+      final response = await  openAI.listEngine();
+
+      verify(openAI.listEngine());
+      expect(response.object, 'object');
+    });
+  });
+
 }
