@@ -448,7 +448,6 @@ final engines = await openAI.listEngine();
 ## Flutter Example
 
 ```dart
-
 class TranslateScreen extends StatefulWidget {
   const TranslateScreen({Key? key}) : super(key: key);
   @override
@@ -461,8 +460,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   late OpenAI openAI;
 
-  ///t => translate
-  final tController = StreamController<CTResponse?>.broadcast();
 
   Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
@@ -472,108 +469,20 @@ class _TranslateScreenState extends State<TranslateScreen> {
             model: Model.TextDavinci3);
 
     _translateFuture = openAI.onCompletion(request: request);
-
   }
 
-  /// ### can stop generate prompt
-  void cancelAIGenerate(){
-    openAI.cancelAIGenerate();
-  }
-
-  ///ID of the model to use. Currently, only and are supported
-  ///[kChatGptTurboModel]
-  ///[kChatGptTurbo0301Model]
-  void _chatGpt3Example() async {
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
-
-    final response = await openAI.onChatCompletion(request: request);
-    for (var element in response!.choices) {
-      print("data -> ${element.message.content}");
-    }
-  }
-
-
-  void modelDataList() async {
-    final model = await OpenAI.instance.build(token: "").listModel();
-  }
-
-  void engineList() async {
-    final engines = await OpenAI.instance.build(token: "").listEngine();
-  }
-
-  void completeWithSSE() {
-    final request = CompleteText(
-            prompt: "Hello world", maxTokens: 200, model: Model.TextDavinci3);
-    openAI.onCompletionSSE(
-            request: request,
-            complete: (it) {
-              it.map((data) => utf8.decode(data)).listen((data) {
-                ///
-                final raw = data
-                        .replaceAll(RegExp("data: "), '')
-                        .replaceAll(RegExp("[DONE]"), '');
-
-                /// convert data
-                String message = "";
-                dynamic mJson = json.decode(raw);
-                if (mJson is Map) {
-                  ///[message]
-                  message +=
-                  " ${mJson['choices'].last['text'].toString().replaceAll(RegExp("\n"), '')}";
-                }
-                debugPrint("${message}");
-              }).onError((e) {
-                ///handle error
-              });
-            });
-  }
-
-  void chatCompleteWithSSE() {
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.ChatGptTurboModel);
-
-    openAI.onChatCompletionSSE(
-            request: request,
-            complete: (it) {
-              it.map((it) => utf8.decode(it)).listen((data) {
-                final raw = data
-                        .replaceAll(RegExp("data: "), '')
-                        .replaceAll(RegExp("[DONE]"), '')
-                        .replaceAll("[]", '')
-                        .trim();
-
-                if (raw != null || raw.isNotEmpty) {
-                  ///
-                  final mJson = json.decode(raw);
-                  if (mJson is Map) {
-                    debugPrint(
-                            "-> :${(mJson['choices'] as List).last['delta']['content'] ?? "not fond content"}");
-                  }
-                }
-              }).onError((e) {
-                ///handle error
-                debugPrint("error ---> $e");
-              });
-            });
-  }
 
   @override
   void initState() {
     openAI = OpenAI.instance.build(
             token: token,
-            baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 20),connectTimeout: const Duration(seconds: 20)),
+            baseOption: HttpSetup(
+                    receiveTimeout: const Duration(seconds: 20),
+                    connectTimeout: const Duration(seconds: 20)),
             isLog: true);
     super.initState();
   }
 
-  @override
-  void dispose() {
-    tController.close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -628,7 +537,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                         icon: Icons.translate,
                         iconSize: 18.0,
                         radius: 46.0,
-                        onClick: () =>  _translateEngToThai())),
+                        onClick: () => _translateEngToThai())),
       ],
     );
   }
@@ -862,7 +771,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 }
-
 ```
 
 <img src="https://scontent.fkkc3-1.fna.fbcdn.net/v/t39.30808-6/321956306_528473869217638_4959635231571092650_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=YumrmcfO7jAAX9N9Ygd&tn=aWCijFs0IEeQXzfE&_nc_ht=scontent.fkkc3-1.fna&oh=00_AfCQk9ebz2qnPl2pshugchDnaEXMPe6rogXpdzc3UCfcmg&oe=63EF77E4" width="350" height="760">

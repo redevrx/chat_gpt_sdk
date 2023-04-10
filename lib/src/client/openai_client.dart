@@ -34,7 +34,7 @@ class OpenAIClient extends OpenAIWrapper {
       }
     } on DioError catch (err) {
       log.log(
-          "error code: ${err.response?.statusCode}, message :${err.message}");
+          "error code: ${err.response?.statusCode}, message :${err.message} + ${err.response?.data}");
       throw RequestError(
           message: "${err.message}", code: err.response?.statusCode);
     }
@@ -103,7 +103,7 @@ class OpenAIClient extends OpenAIWrapper {
       }
     } on DioError catch (err) {
       log.log(
-          "error code: ${err.response?.statusCode}, message :${err.message}");
+          "error code: ${err.response?.statusCode}, message :${err.message}\ndata: ${err.response?.data}");
       throw RequestError(
           message: "${err.message}", code: err.response?.statusCode);
     }
@@ -128,7 +128,7 @@ class OpenAIClient extends OpenAIWrapper {
       }
     } on DioError catch (err) {
       log.log(
-          "error code: ${err.response?.statusCode}, message :${err.message}");
+          "error code: ${err.response?.statusCode}, message :${err.message}\ndata:${err.response?.data}");
       throw RequestError(
           message: "${err.message} \ndata:${err.response?.data}",
           code: err.response?.statusCode);
