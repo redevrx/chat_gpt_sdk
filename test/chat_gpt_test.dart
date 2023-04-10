@@ -5,11 +5,10 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/choices.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'chat_gpt_test.mocks.dart';
 
-@GenerateMocks([OpenAI, SharedPreferences])
+@GenerateMocks([OpenAI])
 void main() async {
   final openAI = MockOpenAI();
 

@@ -98,3 +98,4 @@ Fix bug  Http status error [429] error
     - Cancel
     - Delete
   - Moderations
+- Remove Method Deprecate

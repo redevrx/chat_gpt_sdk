@@ -38,8 +38,8 @@ class FineTune {
         onSuccess: (it) => FineTuneDelete.fromJson(it));
   }
 
-  Future<List<FineTuneModel>> listStream(String fineTuneId) async {
-    return _client.get(kURL + kFineTune + "/${fineTuneId}/events", _cancel,
+  Stream<List<FineTuneModel>> listStream(String fineTuneId)  {
+    return _client.getStream(kURL + kFineTune + "/${fineTuneId}/events", _cancel,
         onSuccess: (it) {
       final data = it['data'] as List;
       return data.map((e) => FineTuneModel.formJson(e)).toList();

@@ -3,15 +3,31 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i7;
+import 'dart:async' as _i12;
 
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart' as _i6;
 import 'package:chat_gpt_sdk/src/audio.dart' as _i4;
 import 'package:chat_gpt_sdk/src/edit.dart' as _i2;
 import 'package:chat_gpt_sdk/src/embedding.dart' as _i3;
 import 'package:chat_gpt_sdk/src/file.dart' as _i5;
+import 'package:chat_gpt_sdk/src/fine_tuned.dart' as _i6;
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/ChatCompleteText.dart'
+    as _i16;
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dart'
+    as _i15;
+import 'package:chat_gpt_sdk/src/model/client/http_setup.dart' as _i11;
+import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart'
+    as _i14;
+import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart'
+    as _i13;
+import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart'
+    as _i18;
+import 'package:chat_gpt_sdk/src/model/gen_image/response/GenImgResponse.dart'
+    as _i17;
+import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart' as _i10;
+import 'package:chat_gpt_sdk/src/model/openai_model/openai_models.dart' as _i9;
+import 'package:chat_gpt_sdk/src/moderations.dart' as _i7;
+import 'package:chat_gpt_sdk/src/openai.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:shared_preferences/shared_preferences.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -64,8 +80,8 @@ class _FakeOpenAIFile_3 extends _i1.SmartFake implements _i5.OpenAIFile {
         );
 }
 
-class _FakeOpenAI_4 extends _i1.SmartFake implements _i6.OpenAI {
-  _FakeOpenAI_4(
+class _FakeFineTune_4 extends _i1.SmartFake implements _i6.FineTune {
+  _FakeFineTune_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -74,8 +90,8 @@ class _FakeOpenAI_4 extends _i1.SmartFake implements _i6.OpenAI {
         );
 }
 
-class _FakeAiModel_5 extends _i1.SmartFake implements _i6.AiModel {
-  _FakeAiModel_5(
+class _FakeModeration_5 extends _i1.SmartFake implements _i7.Moderation {
+  _FakeModeration_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -84,8 +100,28 @@ class _FakeAiModel_5 extends _i1.SmartFake implements _i6.AiModel {
         );
 }
 
-class _FakeEngineModel_6 extends _i1.SmartFake implements _i6.EngineModel {
-  _FakeEngineModel_6(
+class _FakeOpenAI_6 extends _i1.SmartFake implements _i8.OpenAI {
+  _FakeOpenAI_6(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAiModel_7 extends _i1.SmartFake implements _i9.AiModel {
+  _FakeAiModel_7(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeEngineModel_8 extends _i1.SmartFake implements _i10.EngineModel {
+  _FakeEngineModel_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -97,11 +133,16 @@ class _FakeEngineModel_6 extends _i1.SmartFake implements _i6.EngineModel {
 /// A class which mocks [OpenAI].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockOpenAI extends _i1.Mock implements _i6.OpenAI {
+class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
   MockOpenAI() {
     _i1.throwOnMissingStub(this);
   }
 
+  @override
+  String get token => (super.noSuchMethod(
+        Invocation.getter(#token),
+        returnValue: '',
+      ) as String);
   @override
   _i2.Edit get editor => (super.noSuchMethod(
         Invocation.getter(#editor),
@@ -135,6 +176,22 @@ class MockOpenAI extends _i1.Mock implements _i6.OpenAI {
         ),
       ) as _i5.OpenAIFile);
   @override
+  _i6.FineTune get fineTune => (super.noSuchMethod(
+        Invocation.getter(#fineTune),
+        returnValue: _FakeFineTune_4(
+          this,
+          Invocation.getter(#fineTune),
+        ),
+      ) as _i6.FineTune);
+  @override
+  _i7.Moderation get moderation => (super.noSuchMethod(
+        Invocation.getter(#moderation),
+        returnValue: _FakeModeration_5(
+          this,
+          Invocation.getter(#moderation),
+        ),
+      ) as _i7.Moderation);
+  @override
   void setToken(String? token) => super.noSuchMethod(
         Invocation.method(
           #setToken,
@@ -143,17 +200,9 @@ class MockOpenAI extends _i1.Mock implements _i6.OpenAI {
         returnValueForMissingStub: null,
       );
   @override
-  String getToken() => (super.noSuchMethod(
-        Invocation.method(
-          #getToken,
-          [],
-        ),
-        returnValue: '',
-      ) as String);
-  @override
-  _i6.OpenAI build({
+  _i8.OpenAI build({
     String? token,
-    _i6.HttpSetup? baseOption,
+    _i11.HttpSetup? baseOption,
     bool? isLog = false,
   }) =>
       (super.noSuchMethod(
@@ -166,7 +215,7 @@ class MockOpenAI extends _i1.Mock implements _i6.OpenAI {
             #isLog: isLog,
           },
         ),
-        returnValue: _FakeOpenAI_4(
+        returnValue: _FakeOpenAI_6(
           this,
           Invocation.method(
             #build,
@@ -178,136 +227,89 @@ class MockOpenAI extends _i1.Mock implements _i6.OpenAI {
             },
           ),
         ),
-      ) as _i6.OpenAI);
+      ) as _i8.OpenAI);
   @override
-  _i7.Future<_i6.AiModel> listModel() => (super.noSuchMethod(
+  _i12.Future<_i9.AiModel> listModel() => (super.noSuchMethod(
         Invocation.method(
           #listModel,
           [],
         ),
-        returnValue: _i7.Future<_i6.AiModel>.value(_FakeAiModel_5(
+        returnValue: _i12.Future<_i9.AiModel>.value(_FakeAiModel_7(
           this,
           Invocation.method(
             #listModel,
             [],
           ),
         )),
-      ) as _i7.Future<_i6.AiModel>);
+      ) as _i12.Future<_i9.AiModel>);
   @override
-  _i7.Future<_i6.EngineModel> listEngine() => (super.noSuchMethod(
+  _i12.Future<_i10.EngineModel> listEngine() => (super.noSuchMethod(
         Invocation.method(
           #listEngine,
           [],
         ),
-        returnValue: _i7.Future<_i6.EngineModel>.value(_FakeEngineModel_6(
+        returnValue: _i12.Future<_i10.EngineModel>.value(_FakeEngineModel_8(
           this,
           Invocation.method(
             #listEngine,
             [],
           ),
         )),
-      ) as _i7.Future<_i6.EngineModel>);
+      ) as _i12.Future<_i10.EngineModel>);
   @override
-  _i7.Future<_i6.CTResponse?> onCompletion(
-          {required _i6.CompleteText? request}) =>
+  _i12.Future<_i13.CTResponse?> onCompletion(
+          {required _i14.CompleteText? request}) =>
       (super.noSuchMethod(
         Invocation.method(
           #onCompletion,
           [],
           {#request: request},
         ),
-        returnValue: _i7.Future<_i6.CTResponse?>.value(),
-      ) as _i7.Future<_i6.CTResponse?>);
+        returnValue: _i12.Future<_i13.CTResponse?>.value(),
+      ) as _i12.Future<_i13.CTResponse?>);
   @override
-  _i7.Stream<_i6.CTResponse?> onCompletionStream(
-          {required _i6.CompleteText? request}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #onCompletionStream,
-          [],
-          {#request: request},
-        ),
-        returnValue: _i7.Stream<_i6.CTResponse?>.empty(),
-      ) as _i7.Stream<_i6.CTResponse?>);
-  @override
-  _i7.Future<_i6.ChatCTResponse?> onChatCompletion(
-          {required _i6.ChatCompleteText? request}) =>
+  _i12.Future<_i15.ChatCTResponse?> onChatCompletion(
+          {required _i16.ChatCompleteText? request}) =>
       (super.noSuchMethod(
         Invocation.method(
           #onChatCompletion,
           [],
           {#request: request},
         ),
-        returnValue: _i7.Future<_i6.ChatCTResponse?>.value(),
-      ) as _i7.Future<_i6.ChatCTResponse?>);
+        returnValue: _i12.Future<_i15.ChatCTResponse?>.value(),
+      ) as _i12.Future<_i15.ChatCTResponse?>);
   @override
-  _i7.Stream<_i6.ChatCTResponse?> onChatCompletionStream(
-          {required _i6.ChatCompleteText? request}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #onChatCompletionStream,
-          [],
-          {#request: request},
-        ),
-        returnValue: _i7.Stream<_i6.ChatCTResponse?>.empty(),
-      ) as _i7.Stream<_i6.ChatCTResponse?>);
-  @override
-  void close() => super.noSuchMethod(
-        Invocation.method(
-          #close,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  _i7.Stream<_i6.GenImgResponse> generateImageStream(
-          _i6.GenerateImage? request) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #generateImageStream,
-          [request],
-        ),
-        returnValue: _i7.Stream<_i6.GenImgResponse>.empty(),
-      ) as _i7.Stream<_i6.GenImgResponse>);
-  @override
-  void genImgClose() => super.noSuchMethod(
-        Invocation.method(
-          #genImgClose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  _i7.Future<_i6.GenImgResponse?> generateImage(_i6.GenerateImage? request) =>
+  _i12.Future<_i17.GenImgResponse?> generateImage(
+          _i18.GenerateImage? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #generateImage,
           [request],
         ),
-        returnValue: _i7.Future<_i6.GenImgResponse?>.value(),
-      ) as _i7.Future<_i6.GenImgResponse?>);
+        returnValue: _i12.Future<_i17.GenImgResponse?>.value(),
+      ) as _i12.Future<_i17.GenImgResponse?>);
   @override
-  _i7.Stream<_i6.ChatCTResponse> onChatCompletionSSE(
-          {required _i6.ChatCompleteText? request}) =>
+  _i12.Stream<_i15.ChatCTResponse> onChatCompletionSSE(
+          {required _i16.ChatCompleteText? request}) =>
       (super.noSuchMethod(
         Invocation.method(
           #onChatCompletionSSE,
           [],
           {#request: request},
         ),
-        returnValue: _i7.Stream<_i6.ChatCTResponse>.empty(),
-      ) as _i7.Stream<_i6.ChatCTResponse>);
+        returnValue: _i12.Stream<_i15.ChatCTResponse>.empty(),
+      ) as _i12.Stream<_i15.ChatCTResponse>);
   @override
-  _i7.Stream<_i6.CTResponse> onCompletionSSE(
-          {required _i6.CompleteText? request}) =>
+  _i12.Stream<_i13.CTResponse> onCompletionSSE(
+          {required _i14.CompleteText? request}) =>
       (super.noSuchMethod(
         Invocation.method(
           #onCompletionSSE,
           [],
           {#request: request},
         ),
-        returnValue: _i7.Stream<_i6.CTResponse>.empty(),
-      ) as _i7.Stream<_i6.CTResponse>);
+        returnValue: _i12.Stream<_i13.CTResponse>.empty(),
+      ) as _i12.Stream<_i13.CTResponse>);
   @override
   void cancelAIGenerate() => super.noSuchMethod(
         Invocation.method(
@@ -316,169 +318,4 @@ class MockOpenAI extends _i1.Mock implements _i6.OpenAI {
         ),
         returnValueForMissingStub: null,
       );
-}
-
-/// A class which mocks [SharedPreferences].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockSharedPreferences extends _i1.Mock implements _i8.SharedPreferences {
-  MockSharedPreferences() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  Set<String> getKeys() => (super.noSuchMethod(
-        Invocation.method(
-          #getKeys,
-          [],
-        ),
-        returnValue: <String>{},
-      ) as Set<String>);
-  @override
-  Object? get(String? key) => (super.noSuchMethod(Invocation.method(
-        #get,
-        [key],
-      )) as Object?);
-  @override
-  bool? getBool(String? key) => (super.noSuchMethod(Invocation.method(
-        #getBool,
-        [key],
-      )) as bool?);
-  @override
-  int? getInt(String? key) => (super.noSuchMethod(Invocation.method(
-        #getInt,
-        [key],
-      )) as int?);
-  @override
-  double? getDouble(String? key) => (super.noSuchMethod(Invocation.method(
-        #getDouble,
-        [key],
-      )) as double?);
-  @override
-  String? getString(String? key) => (super.noSuchMethod(Invocation.method(
-        #getString,
-        [key],
-      )) as String?);
-  @override
-  bool containsKey(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #containsKey,
-          [key],
-        ),
-        returnValue: false,
-      ) as bool);
-  @override
-  List<String>? getStringList(String? key) =>
-      (super.noSuchMethod(Invocation.method(
-        #getStringList,
-        [key],
-      )) as List<String>?);
-  @override
-  _i7.Future<bool> setBool(
-    String? key,
-    bool? value,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setBool,
-          [
-            key,
-            value,
-          ],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<bool> setInt(
-    String? key,
-    int? value,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setInt,
-          [
-            key,
-            value,
-          ],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<bool> setDouble(
-    String? key,
-    double? value,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setDouble,
-          [
-            key,
-            value,
-          ],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<bool> setString(
-    String? key,
-    String? value,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setString,
-          [
-            key,
-            value,
-          ],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<bool> setStringList(
-    String? key,
-    List<String>? value,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setStringList,
-          [
-            key,
-            value,
-          ],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<bool> remove(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #remove,
-          [key],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<bool> commit() => (super.noSuchMethod(
-        Invocation.method(
-          #commit,
-          [],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<bool> clear() => (super.noSuchMethod(
-        Invocation.method(
-          #clear,
-          [],
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-  @override
-  _i7.Future<void> reload() => (super.noSuchMethod(
-        Invocation.method(
-          #reload,
-          [],
-        ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
 }

@@ -11,12 +11,12 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-## ChatGPT Application with flutter
+# ChatGPT Application with flutter
 ChatGPT is a chat-bot launched by OpenAI in November 2022. It is built on top
 of OpenAI's GPT-3.5 family of large language models, and is fine-tuned with both
 supervised and reinforcement learning techniques.
 
-## OpenAI Powerful Library
+# OpenAI Powerful Library
 
 <br>
 <p align="center">
@@ -24,10 +24,8 @@ supervised and reinforcement learning techniques.
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/redevRx/Flutter-ChatGPT">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/redevRx/Flutter-ChatGPT?style=social">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/redevRx/Flutter-ChatGPT/dart.yml?label=tests">
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/redevRx/Flutter-ChatGPT/release.yml?label=build">
 <img alt="GitHub" src="https://img.shields.io/github/license/redevRx/Flutter-ChatGPT">
-
-</p
+</p>
 </br>
 
 ## Features
@@ -36,14 +34,19 @@ supervised and reinforcement learning techniques.
 - [x] [Create OpenAI Instance](#create-openai-instance)
 - [x] [Change Access Token](#change-access-token)
 - [x] [Complete Text](#complete-text)
+  - Support Server Sent Event
 - [x] [Chat Complete (GPT-3.5 Turbo)](#chat-complete-gpt-35-turbo)
+  - Support Server Sent Event
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
 - [x] [Editing](#edit)
-- [x] [Stop Generate](#stopping-generate)
+- [x] [Cancel Generate](#cancel-generate)
 - [x] [File](#file)
 - [x] [Audio](#audio)
 - [x] [Embedding](#embedding)
+- [x] [Fine-Tune](#fine-tune)
+  - Support Server Sent Event
+- [x] [Moderations](#modelengine)
 - [x] [Model And Engine](#modelengine)
 - [x] [Flutter Code Example](#flutter-example)
 - [x] [Video Tutorial](#video-tutorials)
@@ -52,7 +55,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.0.8
+chat_gpt: 2.0.9
 ```
 
 ## Create OpenAI Instance
@@ -73,6 +76,9 @@ final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveT
 
 ```dart
 openAI.setToken('new-token');
+
+///get toekn
+openAI.token;
 ```
 
 ## Complete Text
@@ -247,7 +253,7 @@ void editPrompt() async {
   print(response.data?.last?.url);
 }
 ```
-## Stopping Generate
+## Cancel Generate
 
 - Stop Generate Prompt
 ```dart
@@ -359,6 +365,63 @@ void embedding() async {
   final response = await openAI.embed.embedding(request);
 
   print(response.data.last.embedding);
+}
+```
+
+## Fine Tune
+
+- Create Fine Tune
+```dart
+void createTineTune() async {
+  final request = CreateFineTune(trainingFile: 'The ID of an uploaded file');
+  final response = await openAI.fineTune.create(request);
+}
+```
+
+- Fine Tune List
+```dart
+ void tineTuneList() async {
+    final response = await openAI.fineTune.list();
+  }
+```
+
+- Fine Tune List Stream (SSE)
+```dart
+ void tineTuneListStream() {
+    openAI.fineTune.listStream('fineTuneId').listen((it) {
+      ///handled data
+    });
+  }
+```
+
+-  Fine Tune Get by Id
+```dart
+void tineTuneById() async {
+    final response = await openAI.fineTune.retrieve('fineTuneId');
+  }
+```
+
+- Cancel Fine Tune
+```dart
+  void tineTuneCancel() async {
+    final response = await openAI.fineTune.cancel('fineTuneId');
+  }
+```
+
+- Delete Fine Tune
+```dart
+ void deleteTineTune() async {
+    final response = await openAI.fineTune.delete('model');
+  }
+```
+
+## Moderations
+
+- Create Moderation
+```dart
+  void createModeration() async {
+  final response = await openAI.moderation
+          .create(input: 'input', model: ModerationModel.TextLast);
 }
 ```
 

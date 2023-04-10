@@ -31,5 +31,9 @@ export 'src/model/fine_tune/response/fine_tune_delete.dart';
 export 'src/model/fine_tune/response/fine_tune_hyper.dart';
 export 'src/model/fine_tune/response/fine_tune_response.dart';
 export 'src/model/fine_tune/response/training_file.dart';
+export 'src/model/moderation/response/categories.dart';
+export 'src/model/moderation/response/category_scores.dart';
+export 'src/model/moderation/response/moderation_data.dart';
+export 'src/model/moderation/response/moderation_result.dart';
 
 

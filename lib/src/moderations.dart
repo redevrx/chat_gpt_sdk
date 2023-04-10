@@ -1,6 +1,5 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:dio/dio.dart';
-
 import 'client/client.dart';
 import 'model/moderation/response/moderation_data.dart';
 

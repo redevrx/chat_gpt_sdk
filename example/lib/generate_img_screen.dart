@@ -24,22 +24,14 @@ class _GenImgScreenState extends State<GenImgScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    openAI.genImgClose();
-    subscription?.cancel();
-    super.dispose();
-  }
-
   void _generateImage() async {
     const prompt = "King Snake.";
 
-    final request = GenerateImage(prompt, 1,size: ImageSize.size256,responseFormat: Format.url);
-    subscription =
-        openAI.generateImageStream(request).asBroadcastStream().listen((it) {
-      setState(() {
-        img = "${it.data?.last?.url}";
-      });
+    final request = GenerateImage(prompt, 1,
+        size: ImageSize.size256, responseFormat: Format.url);
+    final response = await openAI.generateImage(request);
+    setState(() {
+      img = "${response?.data?.last?.url}";
     });
   }
 

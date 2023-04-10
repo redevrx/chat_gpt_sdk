@@ -30,8 +30,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   late OpenAI openAI;
 
-  ///t => translate
-  final tController = StreamController<CTResponse?>.broadcast();
 
   Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
@@ -43,55 +41,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     _translateFuture = openAI.onCompletion(request: request);
   }
 
-  /// ### can stop generate prompt
-  void cancelAIGenerate() {
-    openAI.cancelAIGenerate();
-  }
-
-  void createTineTune() async {
-    final request = CreateFineTune(trainingFile: 'The ID of an uploaded file');
-   final response =  await openAI.fineTune.create(request);
-  }
-
-  ///ID of the model to use. Currently, only and are supported
-  ///[kChatGptTurboModel]
-  ///[kChatGptTurbo0301Model]
-  void _chatGpt3Example() async {
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
-
-    final response = await openAI.onChatCompletion(request: request);
-    for (var element in response!.choices) {
-      print("data -> ${element.message?.content}");
-    }
-  }
-
-  void modelDataList() async {
-    final model = await OpenAI.instance.build(token: "").listModel();
-  }
-
-  void engineList() async {
-    final engines = await OpenAI.instance.build(token: "").listEngine();
-  }
-
-  void completeWithSSE() {
-    final request = CompleteText(
-        prompt: "Hello world", maxTokens: 200, model: Model.TextDavinci3);
-    openAI.onCompletionSSE(request: request).listen((it) {
-      debugPrint(it.choices.last.text);
-    });
-  }
-
-  void chatCompleteWithSSE() {
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.ChatGptTurboModel);
-
-    openAI.onChatCompletionSSE(request: request).listen((it) {
-      debugPrint(it.choices.last.message?.content);
-    });
-  }
 
   @override
   void initState() {
@@ -104,11 +53,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    tController.close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

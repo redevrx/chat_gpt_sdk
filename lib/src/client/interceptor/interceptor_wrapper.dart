@@ -1,17 +1,13 @@
+import 'package:chat_gpt_sdk/src/utils/keep_token.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/constants.dart';
 
 class InterceptorWrapper extends Interceptor {
-  final SharedPreferences? prefs;
-  final String token;
-  InterceptorWrapper(this.prefs,this.token);
-
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     print(options.baseUrl);
-    options.headers.addAll(kHeader("${prefs?.getString(kTokenKey)}"));
+    options.headers.addAll(kHeader("${TokenBuilder.build.token}"));
     return handler.next(options); // super.onRequest(options, handler);
   }
 
