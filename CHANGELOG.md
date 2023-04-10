@@ -62,3 +62,39 @@ Fix bug  Http status error [429] error
   - Stop Generating prompt Method
   - parentId message in response data
   - change model string to enum type
+
+## 2.0.8
+- Features
+  - Edit 
+    - Edit Prompt
+    - Edit Image
+    - Variations
+  - Cancel Generate
+    - Complete Text
+    - Chat Complete
+    - Edit
+    - File
+    - Audio
+    - Embedding
+  - File
+    - Get File
+    - Upload File
+    - Delete File
+    - Retrieve File
+    - Retrieve Content File
+  - Audio
+    - Audio Translate
+    - Audio Transcribe
+  - Embedding
+  - Update README
+
+## 2.0.9
+- Features
+  - Fine-tunes
+    - Create Fine tune
+    - Fine Tune List
+    - Fine Tune List Stream (SSE)
+    - Retrieve
+    - Cancel
+    - Delete
+  - Moderations

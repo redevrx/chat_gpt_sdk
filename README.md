@@ -12,7 +12,7 @@ and the Flutter guide for
 -->
 
 ## ChatGPT Application with flutter
-ChatGPT is a chatbot launched by OpenAI in November 2022. It is built on top
+ChatGPT is a chat-bot launched by OpenAI in November 2022. It is built on top
 of OpenAI's GPT-3.5 family of large language models, and is fine-tuned with both
 supervised and reinforcement learning techniques.
 
@@ -43,6 +43,7 @@ supervised and reinforcement learning techniques.
 - [x] [Stop Generate](#stopping-generate)
 - [x] [File](#file)
 - [x] [Audio](#audio)
+- [x] [Embedding](#embedding)
 - [x] [Model And Engine](#modelengine)
 - [x] [Flutter Code Example](#flutter-example)
 - [x] [Video Tutorial](#video-tutorials)
@@ -168,7 +169,7 @@ FutureBuilder<CTResponse?>(
   - Answer questions based on existing knowledge.
 ```dart
 final request = CompleteText(prompt:'What is human life expectancy in the United States?'),
-                model: kTranslateModelV3, maxTokens: 200);
+                model: Model.TextDavinci3, maxTokens: 200);
 
  final response = await openAI.onCompletion(request:request);
 ```
@@ -344,6 +345,20 @@ void audioTranscribe() async {
   AudioRequest(file: EditFile(mAudio.path, 'name'), prompt: '...');
 
   final response = await openAI.audio.transcribes(request);
+}
+```
+## Embedding
+
+- Embedding
+```dart
+void embedding() async {
+  final request = EmbedRequest(
+          model: EmbedModel.EmbedTextModel,
+          input: 'The food was delicious and the waiter');
+
+  final response = await openAI.embed.embedding(request);
+
+  print(response.data.last.embedding);
 }
 ```
 

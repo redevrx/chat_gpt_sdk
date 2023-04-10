@@ -6,6 +6,7 @@ import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/embedding.dart';
 import 'package:chat_gpt_sdk/src/file.dart';
+import 'package:chat_gpt_sdk/src/fine_tuned.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/ChatCompleteText.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dart';
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart';
@@ -334,4 +335,7 @@ class OpenAI implements IOpenAI {
 
   ///files
  OpenAIFile get file => OpenAIFile(_client);
+
+ ///fine-tune
+ FineTune get fineTune => FineTune(_client);
 }

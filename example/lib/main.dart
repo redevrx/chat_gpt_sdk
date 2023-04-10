@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_buttonx/materialButtonX.dart';
@@ -51,96 +50,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     openAI.cancelAIGenerate();
   }
 
-  void getFile() async {
-    final response = await openAI.file.get();
-    print(response.data);
-  }
-  
-  void uploadFile() async {
-    final request = UploadFile(file: EditFile('file-path', 'file-name'),purpose: 'fine-tune');
-    final response = await openAI.file.uploadFile(request);
-    print(response);
-  }
-
-  void delete() async {
-    final response = await openAI.file.delete("file-Id");
-    print(response);
-  }
-
-  void retrieve() async {
-    final response = await openAI.file.retrieve("file-Id");
-    print(response);
-  }
-
-  void retrieveContent() async {
-    final response = await openAI.file.retrieveContent("file-Id");
-    print(response);
-  }
-
-  void audioTranslate() async {
-    final mAudio = File('mp3-path');
-    final request =
-        AudioRequest(file: EditFile(mAudio.path, 'name'), prompt: '...');
-
-    final response = await openAI.audio.translate(request);
-  }
-
-  void audioTranscribe() async {
-    final mAudio = File('mp3-path');
-    final request =
-        AudioRequest(file: EditFile(mAudio.path, 'name'), prompt: '...');
-
-    final response = await openAI.audio.transcribes(request);
-  }
-
-  void editImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    final response = await openAI.editor.editImage(EditImageRequest(
-        image: EditFile("${image?.path}", '${image?.name}'),
-        mask: EditFile('file path', 'file name'),
-        size: ImageSize.size1024,
-        prompt: 'King Snake'));
-
-    print(response.data?.last?.url);
-
-    ///stop edit
-    /// openAI.editor.cancelEdit();
-  }
-
-  void variation() async {
-    final XFile? image =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    final request =
-        Variation(image: EditFile('${image?.path}', '${image?.name}'));
-    final response = await openAI.editor.variation(request);
-
-    print(response.data?.last?.url);
-  }
-
-  void embedding() async {
-    final request = EmbedRequest(
-        model: EmbedModel.EmbedTextModel,
-        input: 'The food was delicious and the waiter');
-
-    final response = await openAI.embed.embedding(request);
-
-    print(response.data.last.embedding);
-  }
-
-  void editPrompt() async {
-    final response = await openAI.editor.prompt(EditRequest(
-        model: EditModel.TextEditModel,
-        input: 'What day of the wek is it?',
-        instruction: 'Fix the spelling mistakes'));
-
-    print(response.choices.last.text);
-
-    ///stop edit
-    /// openAI.editor.cancelEdit();
-  }
 
   ///ID of the model to use. Currently, only and are supported
   ///[kChatGptTurboModel]

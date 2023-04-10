@@ -24,6 +24,12 @@ const kTranscription = 'audio/transcriptions';
 const kTranslations = 'audio/translations';
 ///files
 const kFile = 'files';
+///fine tune
+const kFineTune = 'fine-tunes';
+/// fine tune model
+const kFineTuneModel = 'models';
+///moderations
+const kModeration = 'moderations';
 
 
 
@@ -39,6 +45,15 @@ const kEditsTextModel = 'text-davinci-edit-001';
 const kEditsCoedModel = 'code-davinci-edit-001';
 ///embeddings
 const kEmbedTextModel = 'text-embedding-ada-002';
+///fine tune models
+const kAdaModel = 'ada';
+const kBabbageModel = 'babbage';
+const kCurieModel = 'curie';
+const kDavinciModel = 'davinci';
+///moderation model
+const kTextMStable = 'text-moderation-stable';
+const kTextMLast = 'text-moderation-latest';
+
 
 Map<String, String> kHeader(String token, {String orgId = ""}) => {
       "Content-Type": 'application/json',

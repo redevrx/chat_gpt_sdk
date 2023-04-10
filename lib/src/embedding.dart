@@ -14,20 +14,6 @@ class Embedding {
   /// that can be easily consumed by machine learning
   /// models and algorithms.[embedding]
   ///
-  /**
-   * ### Example
-   * ```dart
-   *   void embedding() async {
-      final request = EmbedRequest(
-      model: EmbedModel.EmbedTextModel,
-      input: 'The food was delicious and the waiter');
-
-      final response = await openAI.embed.embedding(request);
-
-      print(response.data.last.embedding);
-      }
-   * ```
-   */
   Future<EmbedResponse> embedding(EmbedRequest request) async {
     return _client.post(kURL + kEmbedding, _cancel, request.toJson(),
         onSuccess: (it) => EmbedResponse.fromJson(it));

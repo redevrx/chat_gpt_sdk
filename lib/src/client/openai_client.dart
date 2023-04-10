@@ -40,6 +40,53 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
+  Stream<T> getStream<T>(String url, CancelToken cancelToken,
+      {required T Function(Map<String, dynamic>) onSuccess}) {
+    final controller = StreamController<T>.broadcast();
+
+    log.log("starting request");
+    _dio
+        .get(url,
+            cancelToken: cancelToken,
+            options: Options(responseType: ResponseType.stream))
+        .then((it) {
+      (it.data.stream as Stream).listen((it) {
+        final rawData = utf8.decode(it);
+
+        final dataList =
+            rawData.split("\n").where((element) => element.isNotEmpty).toList();
+
+        for (final line in dataList) {
+          if (line.startsWith("data: ")) {
+            final data = line.substring(6);
+            if (data.startsWith("[DONE]")) {
+              log.log("stream response is done");
+              return;
+            }
+
+            controller
+              ..sink
+              ..add(onSuccess(json.decode(data)));
+          }
+        }
+      }, onDone: () {
+        controller.close();
+      }, onError: (err, t) {
+        log.error(err, t);
+        controller
+          ..sink
+          ..addError(err, t);
+      });
+    },onError: (err,t){
+      log.error(err, t);
+      controller
+        ..sink
+        ..addError(err, t);
+    });
+
+    return controller.stream;
+  }
+
   Future<T> delete<T>(String url, CancelToken cancelToken,
       {required T Function(Map<String, dynamic>) onSuccess}) async {
     try {
@@ -123,7 +170,6 @@ class OpenAIClient extends OpenAIWrapper {
               log.log("stream response is done");
               return;
             }
-            print(mData);
 
             ///decode data
             controller

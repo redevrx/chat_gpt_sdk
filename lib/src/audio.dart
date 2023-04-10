@@ -11,18 +11,6 @@ class Audio {
   final _cancel = CancelToken();
 
   ///Transcribes audio into the input language.[transcribes]
-  /**
-   * ### Example
-   * ```dart
-   *   void audioTranscribe() async {
-      final mAudio = File('mp3-path');
-      final request =
-      AudioRequest(file: EditFile(mAudio.path, 'name'), prompt: '...');
-
-      final response = await openAI.audio.transcribes(request);
-      }
-   * ```
-   */
   Future<AudioResponse> transcribes(AudioRequest request) async {
     final mRequest = await request.toJson();
     return _client.postFormData(kURL + kTranscription, _cancel, mRequest,
@@ -30,18 +18,6 @@ class Audio {
   }
 
   ///Translates audio into into English.[translate]
-  /***
-   * ### Example
-   * ```dart
-   *  void audioTranslate() async {
-      final mAudio = File('mp3-path');
-      final request =
-      AudioRequest(file: EditFile(mAudio.path, 'name'), prompt: '...');
-
-      final response = await openAI.audio.translate(request);
-      }
-   * ```
-   */
   Future<AudioResponse> translate(AudioRequest request) async {
     final mRequest = await request.toJson();
     return _client.postFormData(kURL + kTranslations, _cancel, mRequest,
