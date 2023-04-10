@@ -1,6 +1,8 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/client/exception/openai_exception.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice_sse.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/choices.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_data.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_model_data.dart';
@@ -17,7 +19,7 @@ void main() async {
 
   group('chatGPT-3 text completion test', () {
     test('text completion use success case', () async {
-      final request = CompleteText(prompt: 'snake', model: Model.TextDavinci3);
+      final request = CompleteText(prompt: 'snake', model: Model.kTextDavinci3);
       final choice = [Choices('', 1, '', '')];
 
       when(openAI.onCompletion(request: request)).thenAnswer(
@@ -28,7 +30,7 @@ void main() async {
     });
 
     test('text completion success case with return result', () async {
-      final request = CompleteText(prompt: 'snake', model: Model.TextDavinci3);
+      final request = CompleteText(prompt: 'snake', model: Model.kTextDavinci3);
       final choice = [Choices('', 1, '', '')];
 
       when(openAI.onCompletion(request: request)).thenAnswer(
@@ -39,11 +41,11 @@ void main() async {
       expect(response?.object, 'object');
       expect(response?.id, 'id');
       expect(response?.model, 'model');
-      expect(response!, TypeMatcher<CTResponse>());
+      expect(response!, const TypeMatcher<CTResponse>());
     });
 
     test('text completion error case with prompt empty', () async {
-      final request = CompleteText(prompt: '', model: Model.TextDavinci3);
+      final request = CompleteText(prompt: '', model: Model.kTextDavinci3);
       when(openAI.onCompletion(request: request))
           .thenAnswer((_) => throw RequestError(message: 'error', code: 404));
       verifyNever(openAI.onCompletion(request: request));
@@ -53,20 +55,20 @@ void main() async {
   group('chatGPT-3 text completion with stream SSE test', () {
     test('text completion stream case success', () async {
       final request =
-          CompleteText(prompt: 'snake is ?', model: Model.TextDavinci3);
+          CompleteText(prompt: 'snake is ?', model: Model.kTextDavinci3);
       final choice = [Choices('', 1, '', '')];
 
       when(openAI.onCompletionSSE(request: request)).thenAnswer((_) =>
           Stream.value(CTResponse('id', 'object', 1, 'model', choice, null)));
 
-      final response = await openAI.onCompletionSSE(request: request);
+      final response = openAI.onCompletionSSE(request: request);
 
       verify(openAI.onCompletionSSE(request: request));
-      expect(response, TypeMatcher<Stream<CTResponse>>());
+      expect(response, const TypeMatcher<Stream<CTResponse>>());
     });
 
     test('text completion stream case error', () async {
-      final request = CompleteText(prompt: '', model: Model.TextDavinci3);
+      final request = CompleteText(prompt: '', model: Model.kTextDavinci3);
 
       when(openAI.onCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError(message: 'message', code: 404));
@@ -79,7 +81,7 @@ void main() async {
     test('chat completion success case test', () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
+      ], maxToken: 200, model: ChatModel.chatGptTurboModel);
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletion(request: request)).thenAnswer((_) async =>
@@ -100,7 +102,7 @@ void main() async {
         () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": ''})
-      ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
+      ], maxToken: 200, model: ChatModel.chatGptTurboModel);
 
       when(openAI.onChatCompletion(request: request))
           .thenAnswer((_) => throw RequestError(message: '', code: 404));
@@ -113,11 +115,11 @@ void main() async {
     test('openAI chat completion stream success case test', () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
-      final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
+      ], maxToken: 200, model: ChatModel.chatGptTurboModel);
+      final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletionSSE(request: request)).thenAnswer(
-          (realInvocation) => Stream.value(ChatCTResponse(
+          (realInvocation) => Stream.value(ChatCTResponseSSE(
               id: 'id',
               object: 'object',
               created: 1,
@@ -125,16 +127,16 @@ void main() async {
               usage: null)));
 
       final response = await openAI.onChatCompletionSSE(request: request).first;
-      verify(await openAI.onChatCompletionSSE(request: request));
+      verify(openAI.onChatCompletionSSE(request: request));
       expect(response.id, 'id');
       expect(response.object, 'object');
-      expect(response, TypeMatcher<ChatCTResponse>());
+      expect(response, const TypeMatcher<ChatCTResponseSSE>());
     });
 
     test('openAI chat completion stream error case test', () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
+      ], maxToken: 200, model: ChatModel.chatGptTurbo0301Model);
 
       when(openAI.onChatCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError());
@@ -152,7 +154,7 @@ void main() async {
       final response = await openAI.generateImage(request);
 
       verify(await openAI.generateImage(request));
-      expect(response, TypeMatcher<GenImgResponse>());
+      expect(response, const TypeMatcher<GenImgResponse>());
     });
 
     test('chatGPT Image Generate With Prompt success case return value test',
@@ -165,7 +167,7 @@ void main() async {
       final response = await openAI.generateImage(request);
 
       verify(await openAI.generateImage(request));
-      expect(response, TypeMatcher<GenImgResponse>());
+      expect(response, const TypeMatcher<GenImgResponse>());
       expect(response?.created, 1221120);
     });
 
@@ -179,7 +181,7 @@ void main() async {
       final response = await openAI.generateImage(request);
 
       verify(await openAI.generateImage(request));
-      expect(response, TypeMatcher<GenImgResponse>());
+      expect(response, const TypeMatcher<GenImgResponse>());
       expect(response?.created, 1221120);
       expect(response?.data, null);
       expect(() => GenerateImage('snake red eating cat.', 0),
@@ -197,7 +199,7 @@ void main() async {
           ], '12'));
 
       final response = await openAI.listModel();
-      expect(response, TypeMatcher<AiModel>());
+      expect(response, const TypeMatcher<AiModel>());
       verify(await openAI.listModel());
       expect(response.object, '12');
     });

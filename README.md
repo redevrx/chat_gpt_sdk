@@ -55,7 +55,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.0.9
+chat_gpt: 2.1.0
 ```
 
 ## Create OpenAI Instance
@@ -103,7 +103,7 @@ openAI.token;
   final request = CompleteText(
           prompt: translateEngToThai(word: _txtWord.text.toString()),
           max_tokens: 200,
-          model: kTranslateModelV3);
+          model: Model.kTextDavinci3);
 
   final response = await openAI.onCompletion(request: request);
   
@@ -121,7 +121,7 @@ _translateFuture = openAI.onCompletion(request: request);
 
 ///ui code
 FutureBuilder<CTResponse?>(
- future: tController.stream,
+ future: _translateFuture,
  builder: (context, snapshot) {
    final data = snapshot.data;
    if(snapshot.connectionState == ConnectionState.done) return something 
@@ -134,7 +134,7 @@ FutureBuilder<CTResponse?>(
 ```dart
  void completeWithSSE() {
   final request = CompleteText(
-          prompt: "Hello world", maxTokens: 200, model: Model.TextDavinci3);
+          prompt: "Hello world", maxTokens: 200, model: Model.kTextDavinci3);
   openAI.onCompletionSSE(request: request).listen((it) {
     debugPrint(it.choices.last.text);
   });
@@ -149,7 +149,7 @@ FutureBuilder<CTResponse?>(
  void chatCompleteWithSSE() {
   final request = ChatCompleteText(messages: [
     Map.of({"role": "user", "content": 'Hello!'})
-  ], maxToken: 200, model: ChatModel.ChatGptTurboModel);
+  ], maxToken: 200, model: ChatModel.chatGptTurboModel);
 
   openAI.onChatCompletionSSE(request: request).listen((it) {
     debugPrint(it.choices.last.message?.content);
@@ -162,7 +162,7 @@ FutureBuilder<CTResponse?>(
   void chatComplete() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.ChatGptTurbo0301Model);
+    ], maxToken: 200, model: ChatModel.chatGptTurbo0301Model);
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -175,7 +175,7 @@ FutureBuilder<CTResponse?>(
   - Answer questions based on existing knowledge.
 ```dart
 final request = CompleteText(prompt:'What is human life expectancy in the United States?'),
-                model: Model.TextDavinci3, maxTokens: 200);
+                model: Model.kTextDavinci3, maxTokens: 200);
 
  final response = await openAI.onCompletion(request:request);
 ```
@@ -222,7 +222,7 @@ A: Human life expectancy in the United States is 78 years.
 ```dart
 void editPrompt() async {
     final response = await openAI.editor.prompt(EditRequest(
-        model: EditModel.TextEditModel,
+        model: EditModel.textEditModel,
         input: 'What day of the wek is it?',
         instruction: 'Fix the spelling mistakes'));
 
@@ -264,19 +264,19 @@ openAI.cancelAIGenerate();
   - image
   - prompt
 ```dart
-openAI.cancelEdit();
+openAI.edit.cancelEdit();
 ```
 
 - Stop Embedding
 ```dart
-openAI.cancelEmbedding();
+openAI.embed.cancelEmbedding();
 ```
 
 - Stop Audio
   - translate
   - transcript
 ```dart
-openAI.cancelAudio();
+openAI.audio.cancelAudio();
 ```
 
 - Stop File
@@ -284,7 +284,7 @@ openAI.cancelAudio();
   - get file
   - delete file
 ```dart
-openAI.cancelFile();
+openAI.file.cancelFile();
 ```
 
 ## File
@@ -359,7 +359,7 @@ void audioTranscribe() async {
 ```dart
 void embedding() async {
   final request = EmbedRequest(
-          model: EmbedModel.EmbedTextModel,
+          model: EmbedModel.embedTextModel,
           input: 'The food was delicious and the waiter');
 
   final response = await openAI.embed.embedding(request);
@@ -421,7 +421,7 @@ void tineTuneById() async {
 ```dart
   void createModeration() async {
   final response = await openAI.moderation
-          .create(input: 'input', model: ModerationModel.TextLast);
+          .create(input: 'input', model: ModerationModel.textLast);
 }
 ```
 
@@ -466,9 +466,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final request = CompleteText(
             prompt: translateEngToThai(word: _txtWord.text.toString()),
             maxTokens: 200,
-            model: Model.TextDavinci3);
+            model: Model.kTextDavinci3);
 
     _translateFuture = openAI.onCompletion(request: request);
+
   }
 
 

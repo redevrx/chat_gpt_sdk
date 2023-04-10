@@ -1,7 +1,7 @@
 import 'package:chat_gpt_sdk/src/model/edits/request/edit_request.dart';
 import 'package:chat_gpt_sdk/src/model/edits/response/edit_response.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_image.dart';
-import 'package:chat_gpt_sdk/src/model/gen_image/response/GenImgResponse.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:dio/dio.dart';
 

@@ -11,7 +11,20 @@ enum ImageSize {
 ///The format in which the generated images are returned. Must be one of url or b64_json.
 enum Format {
   url,
-  b64_json;
+  b64Json;
+}
+
+extension FormatExtension on Format {
+  String getName(){
+    switch(this){
+      case Format.url:
+        return 'url';
+      case Format.b64Json:
+        return 'b64_json';
+      default:
+        return '';
+    }
+  }
 }
 
 class GenerateImage {
@@ -39,10 +52,10 @@ class GenerateImage {
   })  : assert(1 <= n && n <= 10, 'n must be between 1 and 10.');
 
   Map<String, dynamic> toJson() => Map.of({
-        "prompt": this.prompt,
-        "n": this.n,
-        "size": this.size?.size,
-        "response_format": this.responseFormat?.name,
-        "user": this.user
+        "prompt": prompt,
+        "n": n,
+        "size": size?.size,
+        "response_format": responseFormat?.getName(),
+        "user": user
       });
 }

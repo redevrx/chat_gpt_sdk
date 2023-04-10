@@ -16,13 +16,13 @@ main() {
   test('set value with enum', () async {
     final target1 = GenerateImage('test', 1,
         size: ImageSize.size256,
-        responseFormat: Format.b64_json,
+        responseFormat: Format.b64Json,
         user: 'user');
     expect(target1.prompt, 'test');
     expect(target1.n, 1);
 
     expect(target1.size?.size, '256x256');
-    expect(target1.responseFormat?.name, 'b64_json');
+    expect(target1.responseFormat?.getName(), 'b64_json');
     expect(target1.user, 'user');
 
     final target2 = GenerateImage('test', 2,
@@ -58,7 +58,7 @@ main() {
     test('example', () {
       final json = GenerateImage('test', 1,
               size: ImageSize.size256,
-              responseFormat: Format.b64_json,
+              responseFormat: Format.b64Json,
               user: 'user')
           .toJson();
 

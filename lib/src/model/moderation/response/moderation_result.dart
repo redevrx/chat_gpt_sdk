@@ -18,10 +18,10 @@ class ModerationResult {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['categories'] = categories.toJson();
-    _data['category_scores'] = categoryScores.toJson();
-    _data['flagged'] = flagged;
-    return _data;
+    final data = <String, dynamic>{};
+    data['categories'] = categories.toJson();
+    data['category_scores'] = categoryScores.toJson();
+    data['flagged'] = flagged;
+    return data;
   }
 }

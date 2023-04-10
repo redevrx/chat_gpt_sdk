@@ -20,3 +20,4 @@ class ChatChoice {
         "finish_reason": finishReason ?? "",
       };
 }
+

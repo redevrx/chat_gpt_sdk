@@ -2,7 +2,7 @@ import 'package:chat_gpt_sdk/src/model/embedding/request/embed_request.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'client/client.dart';
-import 'model/embedding/response/embedResponse.dart';
+import 'model/embedding/response/embed_response.dart';
 
 class Embedding {
   final OpenAIClient _client;

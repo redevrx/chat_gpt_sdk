@@ -27,14 +27,14 @@ class Categories {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['hate'] = hate;
-    _data['hate/threatening'] = hateThreatening;
-    _data['self-harm'] = selfHarm;
-    _data['sexual'] = sexual;
-    _data['sexual/minors'] = sexualMinors;
-    _data['violence'] = violence;
-    _data['violence/graphic'] = violenceGraphic;
-    return _data;
+    final data = <String, dynamic>{};
+    data['hate'] = hate;
+    data['hate/threatening'] = hateThreatening;
+    data['self-harm'] = selfHarm;
+    data['sexual'] = sexual;
+    data['sexual/minors'] = sexualMinors;
+    data['violence'] = violence;
+    data['violence/graphic'] = violenceGraphic;
+    return data;
   }
 }

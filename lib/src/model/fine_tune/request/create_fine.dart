@@ -1,17 +1,17 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
-enum FineModel { ADA, Babbage, Curie, Davinci }
+enum FineModel { ada, babbage, curie, davinci }
 
-extension fineModel on FineModel {
+extension FineModelExtension on FineModel {
   String getName() {
     switch (this) {
-      case FineModel.ADA:
+      case FineModel.ada:
         return kAdaModel;
-      case FineModel.Babbage:
+      case FineModel.babbage:
         return kBabbageModel;
-      case FineModel.Curie:
+      case FineModel.curie:
         return kCurieModel;
-      case FineModel.Davinci:
+      case FineModel.davinci:
         return kDavinciModel;
       default:
         return '';
@@ -127,7 +127,7 @@ class CreateFineTune {
   CreateFineTune(
       {required this.trainingFile,
       this.validationFile,
-      this.model = FineModel.Curie,
+      this.model = FineModel.curie,
       this.nEpochs = 4,
       this.batchSize,
       this.learningRateMultiplier,

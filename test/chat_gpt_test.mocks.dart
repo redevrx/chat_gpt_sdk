@@ -10,10 +10,12 @@ import 'package:chat_gpt_sdk/src/edit.dart' as _i2;
 import 'package:chat_gpt_sdk/src/embedding.dart' as _i3;
 import 'package:chat_gpt_sdk/src/file.dart' as _i5;
 import 'package:chat_gpt_sdk/src/fine_tuned.dart' as _i6;
-import 'package:chat_gpt_sdk/src/model/chat_complete/request/ChatCompleteText.dart'
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_complete_text.dart'
     as _i16;
-import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dart'
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_ct_response.dart'
     as _i15;
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart'
+    as _i19;
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart' as _i11;
 import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart'
     as _i14;
@@ -21,7 +23,7 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.
     as _i13;
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart'
     as _i18;
-import 'package:chat_gpt_sdk/src/model/gen_image/response/GenImgResponse.dart'
+import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart'
     as _i17;
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart' as _i10;
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_models.dart' as _i9;
@@ -289,7 +291,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
         returnValue: _i12.Future<_i17.GenImgResponse?>.value(),
       ) as _i12.Future<_i17.GenImgResponse?>);
   @override
-  _i12.Stream<_i15.ChatCTResponse> onChatCompletionSSE(
+  _i12.Stream<_i19.ChatCTResponseSSE> onChatCompletionSSE(
           {required _i16.ChatCompleteText? request}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -297,8 +299,8 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           [],
           {#request: request},
         ),
-        returnValue: _i12.Stream<_i15.ChatCTResponse>.empty(),
-      ) as _i12.Stream<_i15.ChatCTResponse>);
+        returnValue: _i12.Stream<_i19.ChatCTResponseSSE>.empty(),
+      ) as _i12.Stream<_i19.ChatCTResponseSSE>);
   @override
   _i12.Stream<_i13.CTResponse> onCompletionSSE(
           {required _i14.CompleteText? request}) =>

@@ -30,6 +30,9 @@ jobs:
       - name: Get all Flutter Packages
         run: flutter pub get
 
+      - name: flutter analyze code
+        run: flutter analyze
+
       - name: Run Flutter Test
         run: flutter test
 

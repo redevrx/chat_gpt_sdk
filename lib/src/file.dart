@@ -25,26 +25,26 @@ class OpenAIFile {
   /// by one organization can be up to 1 GB. Please
   /// contact us if you need to increase the storage limit.[uploadFile]
   Future<UploadResponse> uploadFile(UploadFile request) async {
-    final mRequest = await request.getForm();
+    final mRequest =  await request.getForm();
     return _client.postFormData(kURL + kFile, _cancel, mRequest,
         complete: (it) => UploadResponse.fromJson(it));
   }
 
   ///Delete a file.
   Future<DeleteFile> delete(String fileId) async {
-    return _client.delete(kURL + kFile + "/{$fileId}", _cancel,
+    return _client.delete("$kURL$kFile/{$fileId}", _cancel,
         onSuccess: (it) => DeleteFile.fromJson(it));
   }
 
   ///Returns information about a specific file.
   Future<UploadResponse> retrieve(String fileId) async {
-    return _client.get(kURL + kFile + "/${fileId}", _cancel,
+    return _client.get("$kURL$kFile/$fileId", _cancel,
         onSuccess: (it) => UploadResponse.fromJson(it));
   }
 
   ///Returns the contents of the specified file
   Future<dynamic> retrieveContent(String fileId) async {
-    return _client.get(kURL + kFile + '/${fileId}/content', _cancel,
+    return _client.get('$kURL$kFile/$fileId/content', _cancel,
         onSuccess: (it) => it as dynamic);
   }
 

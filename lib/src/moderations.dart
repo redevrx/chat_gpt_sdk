@@ -23,7 +23,7 @@ class Moderation {
   /// lower than for text-moderation-latest.
   Future<ModerationData> create(
       {required String input,
-      ModerationModel model = ModerationModel.TextLast}) async {
+      ModerationModel model = ModerationModel.textLast}) async {
     return _client.post(
         kURL + kModeration, _cancel, {"input": input, "model": model.getName()},
         onSuccess: (it) => ModerationData.fromJson(it));

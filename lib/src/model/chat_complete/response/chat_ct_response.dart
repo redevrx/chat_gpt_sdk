@@ -34,3 +34,4 @@ class ChatCTResponse {
         "usage": usage?.toJson(),
       };
 }
+

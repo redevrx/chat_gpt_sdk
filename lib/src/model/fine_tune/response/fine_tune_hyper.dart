@@ -11,14 +11,6 @@ class FineTuneHyperParams {
   /// The prompt loss weight used for fine-tuning.
   final double? promptLossWeight;
 
-  @override
-  int get hashCode {
-    return batchSize.hashCode ^
-        learningRateMultiplier.hashCode ^
-        nEpochs.hashCode ^
-        promptLossWeight.hashCode;
-  }
-
   const FineTuneHyperParams({
     required this.batchSize,
     required this.learningRateMultiplier,

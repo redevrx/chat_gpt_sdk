@@ -1,23 +1,21 @@
-import 'dart:io';
-
 import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_image.dart';
 import 'package:dio/dio.dart';
 
 ///audio response format.[AudioFormat]
-enum AudioFormat { Json, Text, SRT, VerboseJson, VTT }
+enum AudioFormat { json, text, srt, verboseJson, vtt }
 
-extension audioFormat on AudioFormat {
+extension AudioFormatExtension on AudioFormat {
   String getName() {
     switch (this) {
-      case AudioFormat.Json:
+      case AudioFormat.json:
         return 'json';
-      case AudioFormat.Text:
+      case AudioFormat.text:
         return 'text';
-      case AudioFormat.SRT:
+      case AudioFormat.srt:
         return 'srt';
-      case AudioFormat.VerboseJson:
+      case AudioFormat.verboseJson:
         return 'verbose_json';
-      case AudioFormat.VTT:
+      case AudioFormat.vtt:
         return 'vtt';
       default:
         return '';
@@ -69,7 +67,7 @@ class AudioRequest {
       'prompt': prompt,
       "model": "whisper-1",
       'response_format': responseFormat == null
-          ? AudioFormat.Json.getName()
+          ? AudioFormat.json.getName()
           : responseFormat?.getName(),
       'temperature': temperature,
       'language': language

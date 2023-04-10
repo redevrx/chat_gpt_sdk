@@ -99,3 +99,8 @@ Fix bug  Http status error [429] error
     - Delete
   - Moderations
 - Remove Method Deprecate
+
+## 2.1.0
+ - Fix Bug
+ - Chat Complete SSE change json name
+ - update docs

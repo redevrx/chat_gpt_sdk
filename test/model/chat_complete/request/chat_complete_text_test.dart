@@ -9,7 +9,7 @@ void main() {
         {"speaker": "Bot", "text": "Hi there! How can I help you?"}
       ];
       final chatCompleteText = ChatCompleteText(
-          model: ChatModel.ChatGptTurboModel,
+          model: ChatModel.chatGptTurboModel,
           messages: messages,
           temperature: 0.5,
           topP: 0.9,
@@ -39,7 +39,7 @@ void main() {
 
     test('toJson() with default values', () {
       final chatCompleteText = ChatCompleteText(
-        model: ChatModel.ChatGptTurboModel,
+        model: ChatModel.chatGptTurboModel,
         messages: [
           {'speaker': 'user', 'text': 'Hello!'},
           {'speaker': 'chatbot', 'text': 'Hi, how can I assist you today?'},

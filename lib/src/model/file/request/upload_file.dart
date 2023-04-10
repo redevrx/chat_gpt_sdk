@@ -15,9 +15,9 @@ class UploadFile {
 
   UploadFile({required this.file, this.purpose = 'fine-tune'});
 
-  FormData getForm() {
+  Future<FormData> getForm() async {
     return FormData.fromMap({
-      'file': MultipartFile.fromFile(file.path,filename: file.name),
+      'file': await MultipartFile.fromFile(file.path,filename: file.name),
       'purpose': purpose
     });
   }

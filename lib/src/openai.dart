@@ -1,17 +1,17 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/embedding.dart';
 import 'package:chat_gpt_sdk/src/file.dart';
 import 'package:chat_gpt_sdk/src/fine_tuned.dart';
-import 'package:chat_gpt_sdk/src/model/chat_complete/request/ChatCompleteText.dart';
-import 'package:chat_gpt_sdk/src/model/chat_complete/response/ChatCTResponse.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_complete_text.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_ct_response.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart';
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart';
-import 'package:chat_gpt_sdk/src/model/gen_image/response/GenImgResponse.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_models.dart';
 import 'package:chat_gpt_sdk/src/moderations.dart';
@@ -32,7 +32,7 @@ abstract class IOpenAI {
   Future<ChatCTResponse?> onChatCompletion({
     required ChatCompleteText request,
   });
-  Stream<ChatCTResponse> onChatCompletionSSE(
+  Stream<ChatCTResponseSSE> onChatCompletionSSE(
       {required ChatCompleteText request});
   Future<GenImgResponse?> generateImage(GenerateImage request);
   void cancelAIGenerate();
@@ -48,16 +48,11 @@ class OpenAI implements IOpenAI {
 
   late OpenAIClient _client;
 
-  /// openai token
-  /// use for access for chat gpt [_token]
-  static String? _token;
-
   ///cancel request
   final _cancel = CancelToken();
 
   /// set new token
   void setToken(String token) async {
-    _token = token;
     TokenBuilder.build.setToken(token);
   }
 
@@ -69,7 +64,7 @@ class OpenAI implements IOpenAI {
   @override
   OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false}) {
     if ("$token".isEmpty) throw MissionTokenException();
-    final setup = baseOption == null ? HttpSetup() : baseOption;
+    final setup = baseOption ?? HttpSetup();
     setToken(token!);
 
     final dio = Dio(BaseOptions(
@@ -153,11 +148,11 @@ class OpenAI implements IOpenAI {
   ///Given a chat conversation,
   /// the model will return a chat completion response. [onChatCompletionSSE]
   @override
-  Stream<ChatCTResponse> onChatCompletionSSE(
+  Stream<ChatCTResponseSSE> onChatCompletionSSE(
       {required ChatCompleteText request}) {
     return _client.sse("$kURL$kChatGptTurbo", _cancel,
         request.toJson()..addAll({"stream": true}), complete: (it) {
-      return ChatCTResponse.fromJson(it);
+      return ChatCTResponseSSE.fromJson(it);
     });
   }
 

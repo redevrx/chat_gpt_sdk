@@ -2,14 +2,14 @@ import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
 import 'moderation_result.dart';
 
-enum ModerationModel { TextStable, TextLast }
+enum ModerationModel { textStable, textLast }
 
-extension moderationModel on ModerationModel {
+extension ModerationModelES on ModerationModel {
   String getName() {
     switch (this) {
-      case ModerationModel.TextLast:
+      case ModerationModel.textLast:
         return kTextMLast;
-      case ModerationModel.TextStable:
+      case ModerationModel.textStable:
         return kTextMStable;
       default:
         return '';
@@ -36,10 +36,10 @@ class ModerationData {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['model'] = model;
-    _data['results'] = results.map((e) => e.toJson()).toList();
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['model'] = model;
+    data['results'] = results.map((e) => e.toJson()).toList();
+    return data;
   }
 }

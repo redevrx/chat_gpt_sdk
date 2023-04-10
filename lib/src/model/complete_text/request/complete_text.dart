@@ -1,11 +1,11 @@
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
-enum Model { TextDavinci3, kTextDavinci2, kCodeDavinci2 }
+enum Model { kTextDavinci3, kTextDavinci2, kCodeDavinci2 }
 
 extension ModelExtension on Model {
   String get name {
     switch (this) {
-      case Model.TextDavinci3:
+      case Model.kTextDavinci3:
         return kTextDavinci3;
       case Model.kTextDavinci2:
         return kTextDavinci2;

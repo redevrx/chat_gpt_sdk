@@ -6,7 +6,7 @@ void main() {
     test('fromJson creates a valid instance', () {
       final json = {
         'prompt': 'Hello world!',
-        'model': Model.TextDavinci3.name,
+        'model': Model.kTextDavinci3.name,
         'temperature': 0.8,
         'max_tokens': 150,
         'top_p': 0.9,
@@ -18,7 +18,7 @@ void main() {
       final completeText = CompleteText.fromJson(json);
 
       expect(completeText.prompt, 'Hello world!');
-      expect(completeText.model.name, Model.TextDavinci3.name);
+      expect(completeText.model.name, Model.kTextDavinci3.name);
       expect(completeText.temperature, 0.8);
       expect(completeText.maxTokens, 150);
       expect(completeText.topP, 0.9);
@@ -30,7 +30,7 @@ void main() {
     test('toJson returns a valid Map', () {
       final completeText = CompleteText(
         prompt: 'Hello world!',
-        model: Model.TextDavinci3,
+        model: Model.kTextDavinci3,
         temperature: 0.8,
         maxTokens: 150,
         topP: 0.9,
@@ -42,7 +42,7 @@ void main() {
       final json = completeText.toJson();
 
       expect(json['prompt'], 'Hello world!');
-      expect(json['model'], Model.TextDavinci3.name);
+      expect(json['model'], Model.kTextDavinci3.name);
       expect(json['temperature'], 0.8);
       expect(json['max_tokens'], 150);
       expect(json['top_p'], 0.9);
@@ -53,10 +53,10 @@ void main() {
 
     test('constructor creates a valid instance with default values', () {
       final completeText =
-          CompleteText(prompt: 'Hello world!', model: Model.TextDavinci3);
+          CompleteText(prompt: 'Hello world!', model: Model.kTextDavinci3);
 
       expect(completeText.prompt, 'Hello world!');
-      expect(completeText.model, Model.TextDavinci3);
+      expect(completeText.model, Model.kTextDavinci3);
       expect(completeText.temperature, 0.3);
       expect(completeText.maxTokens, 100);
       expect(completeText.topP, 1.0);

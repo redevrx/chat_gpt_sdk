@@ -24,22 +24,22 @@ class FineTune {
   }
 
   Future<FineTuneModel> retrieve(String fineTuneId) async {
-    return _client.get(kURL + kFineTune + "/${fineTuneId}", _cancel,
+    return _client.get("$kURL$kFineTune/$fineTuneId", _cancel,
         onSuccess: (it) => FineTuneModel.formJson(it));
   }
 
   Future<FineTuneModel> cancel(String fineTuneId) async {
-    return _client.post(kURL + kFineTune + "/${fineTuneId}/cancel", _cancel, {},
+    return _client.post("$kURL$kFineTune/$fineTuneId/cancel", _cancel, {},
         onSuccess: (it) => FineTuneModel.formJson(it));
   }
 
   Future<FineTuneDelete> delete(String model) {
-    return _client.delete(kURL + kFineTuneModel + "/${model}", _cancel,
+    return _client.delete("$kURL$kFineTuneModel/$model", _cancel,
         onSuccess: (it) => FineTuneDelete.fromJson(it));
   }
 
   Stream<List<FineTuneModel>> listStream(String fineTuneId)  {
-    return _client.getStream(kURL + kFineTune + "/${fineTuneId}/events", _cancel,
+    return _client.getStream("$kURL$kFineTune/$fineTuneId/events", _cancel,
         onSuccess: (it) {
       final data = it['data'] as List;
       return data.map((e) => FineTuneModel.formJson(e)).toList();

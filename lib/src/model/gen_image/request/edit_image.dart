@@ -9,7 +9,7 @@ class EditFile {
   EditFile(this.path, this.name);
 
   @override
-  String toString() => "[${path},${name}]";
+  String toString() => "[$path,$name]";
 }
 
 class EditImageRequest {

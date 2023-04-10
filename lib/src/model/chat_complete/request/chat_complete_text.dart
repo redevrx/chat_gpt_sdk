@@ -1,13 +1,13 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
-enum ChatModel { ChatGptTurboModel, ChatGptTurbo0301Model }
+enum ChatModel { chatGptTurboModel, chatGptTurbo0301Model }
 
 extension ChatModelExtension on ChatModel {
   String get name {
     switch (this) {
-      case ChatModel.ChatGptTurbo0301Model:
+      case ChatModel.chatGptTurbo0301Model:
         return kChatGptTurbo0301Model;
-      case ChatModel.ChatGptTurboModel:
+      case ChatModel.chatGptTurboModel:
         return kChatGptTurboModel;
       default:
         return "";
@@ -100,17 +100,17 @@ class ChatCompleteText {
       this.user = ""});
 
   Map<String, dynamic> toJson() => Map.of({
-        "model": this.model.name,
-        "messages": this.messages,
-        "temperature": this.temperature,
-        "top_p": this.topP,
-        "n": this.n,
-        "stream": this.stream,
-        "stop": this.stop,
-        "max_tokens": this.maxToken,
-        "presence_penalty": this.presencePenalty,
-        "frequency_penalty": this.frequencyPenalty,
-        // "logit_bias": this.logitBias,
-        "user": this.user
+        "model": model.name,
+        "messages": messages,
+        "temperature": temperature,
+        "top_p": topP,
+        "n": n,
+        "stream": stream,
+        "stop": stop,
+        "max_tokens": maxToken,
+        "presence_penalty": presencePenalty,
+        "frequency_penalty": frequencyPenalty,
+         //"logit_bias": this.logitBias,
+        "user": user
       });
 }

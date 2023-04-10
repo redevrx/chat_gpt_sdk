@@ -1,13 +1,13 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
-enum EditModel { TextEditModel, CodeEditModel }
+enum EditModel { textEditModel, codeEditModel }
 
-extension editModel on EditModel {
+extension EditModelExtension on EditModel {
   String getName() {
     switch (this) {
-      case EditModel.CodeEditModel:
+      case EditModel.codeEditModel:
         return kEditsCoedModel;
-      case EditModel.TextEditModel:
+      case EditModel.textEditModel:
         return kEditsTextModel;
       default:
         return '';
