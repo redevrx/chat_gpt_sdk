@@ -1,16 +1,41 @@
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
-enum Model { kTextDavinci3, kTextDavinci2, kCodeDavinci2 }
+enum Model {
+  textDavinci3,
+  textDavinci2,
+  codeDavinci2,
+  textCurie001,
+  textBabbage001,
+  textAda001,
+  davinci,
+  curie,
+  babbage,
+  ada
+}
 
 extension ModelExtension on Model {
-  String get name {
+  String getName() {
     switch (this) {
-      case Model.kTextDavinci3:
+      case Model.textDavinci3:
         return kTextDavinci3;
-      case Model.kTextDavinci2:
+      case Model.textDavinci2:
         return kTextDavinci2;
-      case Model.kCodeDavinci2:
+      case Model.codeDavinci2:
         return kCodeDavinci2;
+      case Model.textCurie001:
+        return kCodeDavinci2;
+      case Model.textBabbage001:
+        return kTextBabbage001;
+      case Model.textAda001:
+        return kTextAda001;
+      case Model.davinci:
+        return kDavinciModel;
+      case Model.curie:
+        return kCurieModel;
+      case Model.babbage:
+        return kBabbageModel;
+      case Model.ada:
+        return kAdaModel;
       default:
         return "";
     }
@@ -19,7 +44,7 @@ extension ModelExtension on Model {
 
 Model _fromName(String name) {
   for (var value in Model.values) {
-    if (value.name == name) return value;
+    if (value.getName() == name) return value;
   }
   throw ArgumentError.value(name, "name", "No enum value with that name");
 }
@@ -64,7 +89,7 @@ class CompleteText {
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'prompt': prompt,
-        'model': model.name,
+        'model': model.getName(),
         'temperature': temperature,
         'max_tokens': maxTokens,
         'top_p': topP,

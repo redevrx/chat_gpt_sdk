@@ -19,7 +19,7 @@ void main() async {
 
   group('chatGPT-3 text completion test', () {
     test('text completion use success case', () async {
-      final request = CompleteText(prompt: 'snake', model: Model.kTextDavinci3);
+      final request = CompleteText(prompt: 'snake', model: Model.textDavinci3);
       final choice = [Choices('', 1, '', '')];
 
       when(openAI.onCompletion(request: request)).thenAnswer(
@@ -30,7 +30,7 @@ void main() async {
     });
 
     test('text completion success case with return result', () async {
-      final request = CompleteText(prompt: 'snake', model: Model.kTextDavinci3);
+      final request = CompleteText(prompt: 'snake', model: Model.textDavinci3);
       final choice = [Choices('', 1, '', '')];
 
       when(openAI.onCompletion(request: request)).thenAnswer(
@@ -45,7 +45,7 @@ void main() async {
     });
 
     test('text completion error case with prompt empty', () async {
-      final request = CompleteText(prompt: '', model: Model.kTextDavinci3);
+      final request = CompleteText(prompt: '', model: Model.textDavinci3);
       when(openAI.onCompletion(request: request))
           .thenAnswer((_) => throw RequestError(message: 'error', code: 404));
       verifyNever(openAI.onCompletion(request: request));
@@ -54,8 +54,7 @@ void main() async {
 
   group('chatGPT-3 text completion with stream SSE test', () {
     test('text completion stream case success', () async {
-      final request =
-          CompleteText(prompt: 'snake is ?', model: Model.kTextDavinci3);
+      final request = CompleteText(prompt: 'snake is ?', model: Model.ada);
       final choice = [Choices('', 1, '', '')];
 
       when(openAI.onCompletionSSE(request: request)).thenAnswer((_) =>
@@ -68,7 +67,7 @@ void main() async {
     });
 
     test('text completion stream case error', () async {
-      final request = CompleteText(prompt: '', model: Model.kTextDavinci3);
+      final request = CompleteText(prompt: '', model: Model.ada);
 
       when(openAI.onCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError(message: 'message', code: 404));
@@ -81,7 +80,7 @@ void main() async {
     test('chat completion success case test', () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.chatGptTurboModel);
+      ], maxToken: 200, model: ChatModel.gptTurbo);
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletion(request: request)).thenAnswer((_) async =>
@@ -102,7 +101,7 @@ void main() async {
         () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": ''})
-      ], maxToken: 200, model: ChatModel.chatGptTurboModel);
+      ], maxToken: 200, model: ChatModel.gptTurbo0301);
 
       when(openAI.onChatCompletion(request: request))
           .thenAnswer((_) => throw RequestError(message: '', code: 404));
@@ -115,7 +114,7 @@ void main() async {
     test('openAI chat completion stream success case test', () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.chatGptTurboModel);
+      ], maxToken: 200, model: ChatModel.gptTurbo);
       final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletionSSE(request: request)).thenAnswer(
@@ -136,7 +135,7 @@ void main() async {
     test('openAI chat completion stream error case test', () async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.chatGptTurbo0301Model);
+      ], maxToken: 200, model: ChatModel.gptTurbo0301);
 
       when(openAI.onChatCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError());

@@ -32,12 +32,31 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
-    final request = CompleteText(
-        prompt: translateEngToThai(word: _txtWord.text.toString()),
-        maxTokens: 200,
-        model: Model.kTextDavinci3);
+    setState(() {
+      final request = CompleteText(
+          prompt: translateEngToThai(word: _txtWord.text.toString()),
+          maxTokens: 200,
+          model: Model.textDavinci3);
+      _translateFuture = openAI.onCompletion(request: request);
+    });
+  }
 
-    _translateFuture = openAI.onCompletion(request: request);
+  void gpt4() async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: ChatModel.gpt_4_32k_0314);
+
+    await openAI.onChatCompletion(request: request);
+  }
+
+  void gpt4Stream() {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: ChatModel.gpt_4);
+
+    openAI.onChatCompletionSSE(request: request).listen((it) {
+      /// data
+    });
   }
 
   @override
@@ -111,57 +130,56 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Widget _resultCard(Size size) {
     return FutureBuilder<CTResponse?>(
-      future: _translateFuture,
-      builder: (context, snapshot) {
-        final text = snapshot.data?.choices.last.text ?? "Loading...";
-        return Container(
-          margin: const EdgeInsets.symmetric(vertical: 32.0),
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          alignment: Alignment.bottomCenter,
-          width: size.width * .86,
-          height: size.height * .3,
-          decoration: heroCard,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Text(
-                  text,
-                  style: const TextStyle(color: Colors.black, fontSize: 18.0),
-                ),
-                SizedBox(
-                  width: size.width,
-                  child: const Divider(
-                    color: Colors.grey,
-                    thickness: 1,
+        future: _translateFuture,
+        builder: (context, snapshot) {
+          final text = snapshot.data?.choices.last.text;
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 32.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            alignment: Alignment.bottomCenter,
+            width: size.width * .86,
+            height: size.height * .3,
+            decoration: heroCard,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    text ?? 'Loading...',
+                    style: const TextStyle(color: Colors.black, fontSize: 18.0),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Icon(
-                        Icons.copy_outlined,
-                        color: Colors.grey,
-                        size: 22.0,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Icon(
-                          Icons.delete_forever,
+                  SizedBox(
+                    width: size.width,
+                    child: const Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        Icon(
+                          Icons.copy_outlined,
                           color: Colors.grey,
                           size: 22.0,
                         ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Icon(
+                            Icons.delete_forever,
+                            color: Colors.grey,
+                            size: 22.0,
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 
   Padding _navigation(Size size) {

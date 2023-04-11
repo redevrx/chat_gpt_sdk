@@ -16,7 +16,7 @@ ChatGPT is a chat-bot launched by OpenAI in November 2022. It is built on top
 of OpenAI's GPT-3.5 family of large language models, and is fine-tuned with both
 supervised and reinforcement learning techniques.
 
-# OpenAI Powerful Library
+# OpenAI Powerful Library Support GPT-4
 
 <br>
 <p align="center">
@@ -35,7 +35,8 @@ supervised and reinforcement learning techniques.
 - [x] [Change Access Token](#change-access-token)
 - [x] [Complete Text](#complete-text)
   - Support Server Sent Event
-- [x] [Chat Complete (GPT-3.5 Turbo)](#chat-complete-gpt-35-turbo)
+- [x] [Chat Complete GPT-4](#chat-complete-gpt-35-turbo)
+  - Support GPT3.5 and GPT-4 
   - Support Server Sent Event
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
@@ -103,7 +104,7 @@ openAI.token;
   final request = CompleteText(
           prompt: translateEngToThai(word: _txtWord.text.toString()),
           max_tokens: 200,
-          model: Model.kTextDavinci3);
+          model: Model.textDavinci3);
 
   final response = await openAI.onCompletion(request: request);
   
@@ -134,14 +135,41 @@ FutureBuilder<CTResponse?>(
 ```dart
  void completeWithSSE() {
   final request = CompleteText(
-          prompt: "Hello world", maxTokens: 200, model: Model.kTextDavinci3);
+          prompt: "Hello world", maxTokens: 200, model: Model.textDavinci3);
   openAI.onCompletionSSE(request: request).listen((it) {
     debugPrint(it.choices.last.text);
   });
 }
 ```
 
-## Chat Complete (GPT-3.5 Turbo)
+## Chat Complete (GPT-4 and GPT-3.5)
+
+- GPT-4 
+```dart
+  void chatComplete() async {
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ], maxToken: 200, model: ChatModel.gpt_4);
+
+    final response = await openAI.onChatCompletion(request: request);
+    for (var element in response!.choices) {
+      print("data -> ${element.message?.content}");
+    }
+  }
+```
+
+- GPT-4 with SSE(Server Send Event)
+```dart
+ void chatCompleteWithSSE() {
+  final request = ChatCompleteText(messages: [
+    Map.of({"role": "user", "content": 'Hello!'})
+  ], maxToken: 200, model: ChatModel.gpt_4);
+
+  openAI.onChatCompletionSSE(request: request).listen((it) {
+    debugPrint(it.choices.last.message?.content);
+  });
+}
+```
 
 - Support SSE(Server Send Event)
   - GPT-3.5 Turbo
@@ -149,7 +177,7 @@ FutureBuilder<CTResponse?>(
  void chatCompleteWithSSE() {
   final request = ChatCompleteText(messages: [
     Map.of({"role": "user", "content": 'Hello!'})
-  ], maxToken: 200, model: ChatModel.chatGptTurboModel);
+  ], maxToken: 200, model: ChatModel.chatGptTurbo);
 
   openAI.onChatCompletionSSE(request: request).listen((it) {
     debugPrint(it.choices.last.message?.content);
@@ -162,7 +190,7 @@ FutureBuilder<CTResponse?>(
   void chatComplete() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.chatGptTurbo0301Model);
+    ], maxToken: 200, model: ChatModel.chatGptTurbo0301);
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -175,7 +203,7 @@ FutureBuilder<CTResponse?>(
   - Answer questions based on existing knowledge.
 ```dart
 final request = CompleteText(prompt:'What is human life expectancy in the United States?'),
-                model: Model.kTextDavinci3, maxTokens: 200);
+                model: Model.textDavinci3, maxTokens: 200);
 
  final response = await openAI.onCompletion(request:request);
 ```
@@ -460,19 +488,17 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   late OpenAI openAI;
 
-
   Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
-    final request = CompleteText(
-            prompt: translateEngToThai(word: _txtWord.text.toString()),
-            maxTokens: 200,
-            model: Model.kTextDavinci3);
-
-    _translateFuture = openAI.onCompletion(request: request);
-
+    setState(() {
+      final request = CompleteText(
+              prompt: translateEngToThai(word: _txtWord.text.toString()),
+              maxTokens: 200,
+              model: Model.textDavinci3);
+      _translateFuture = openAI.onCompletion(request: request);
+    });
   }
-
-
+  
   @override
   void initState() {
     openAI = OpenAI.instance.build(
@@ -483,7 +509,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
             isLog: true);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -545,57 +570,56 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Widget _resultCard(Size size) {
     return FutureBuilder<CTResponse?>(
-      future: _translateFuture,
-      builder: (context, snapshot) {
-        final text = snapshot.data?.choices.last.text ?? "Loading...";
-        return Container(
-          margin: const EdgeInsets.symmetric(vertical: 32.0),
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          alignment: Alignment.bottomCenter,
-          width: size.width * .86,
-          height: size.height * .3,
-          decoration: heroCard,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Text(
-                  text,
-                  style: const TextStyle(color: Colors.black, fontSize: 18.0),
-                ),
-                SizedBox(
-                  width: size.width,
-                  child: const Divider(
-                    color: Colors.grey,
-                    thickness: 1,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Icon(
-                        Icons.copy_outlined,
-                        color: Colors.grey,
-                        size: 22.0,
+            future: _translateFuture,
+            builder: (context, snapshot) {
+              final text = snapshot.data?.choices.last.text;
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 32.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                alignment: Alignment.bottomCenter,
+                width: size.width * .86,
+                height: size.height * .3,
+                decoration: heroCard,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Text(
+                        text ?? 'Loading...',
+                        style: const TextStyle(color: Colors.black, fontSize: 18.0),
+                      ),
+                      SizedBox(
+                        width: size.width,
+                        child: const Divider(
+                          color: Colors.grey,
+                          thickness: 1,
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Icon(
-                          Icons.delete_forever,
-                          color: Colors.grey,
-                          size: 22.0,
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            Icon(
+                              Icons.copy_outlined,
+                              color: Colors.grey,
+                              size: 22.0,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Icon(
+                                Icons.delete_forever,
+                                color: Colors.grey,
+                                size: 22.0,
+                              ),
+                            )
+                          ],
                         ),
                       )
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                ),
+              );
+            });
   }
 
   Padding _navigation(Size size) {
