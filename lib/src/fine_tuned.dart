@@ -38,7 +38,7 @@ class FineTune {
         onSuccess: (it) => FineTuneDelete.fromJson(it));
   }
 
-  Stream<List<FineTuneModel>> listStream(String fineTuneId)  {
+  Stream<List<FineTuneModel>> listStream(String fineTuneId) {
     return _client.getStream("$kURL$kFineTune/$fineTuneId/events", _cancel,
         onSuccess: (it) {
       final data = it['data'] as List;

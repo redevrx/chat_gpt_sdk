@@ -30,7 +30,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   late OpenAI openAI;
 
-
   Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
     final request = CompleteText(
@@ -39,9 +38,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
         model: Model.kTextDavinci3);
 
     _translateFuture = openAI.onCompletion(request: request);
-
   }
-
 
   @override
   void initState() {
@@ -53,7 +50,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
         isLog: true);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

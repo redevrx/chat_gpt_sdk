@@ -9,7 +9,7 @@ class Choices {
 
   factory Choices.fromJson(Map<String, dynamic> json) => Choices(
         json['text'],
-        json['index'] ,
+        json['index'],
         json['logprobs'],
         json['finish_reason'],
       );

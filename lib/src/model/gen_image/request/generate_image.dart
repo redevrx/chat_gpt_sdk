@@ -15,8 +15,8 @@ enum Format {
 }
 
 extension FormatExtension on Format {
-  String getName(){
-    switch(this){
+  String getName() {
+    switch (this) {
       case Format.url:
         return 'url';
       case Format.b64Json:
@@ -49,7 +49,7 @@ class GenerateImage {
     this.size = ImageSize.size1024,
     this.responseFormat = Format.url,
     this.user = "",
-  })  : assert(1 <= n && n <= 10, 'n must be between 1 and 10.');
+  }) : assert(1 <= n && n <= 10, 'n must be between 1 and 10.');
 
   Map<String, dynamic> toJson() => Map.of({
         "prompt": prompt,

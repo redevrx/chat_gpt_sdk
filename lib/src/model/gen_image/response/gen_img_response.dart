@@ -25,4 +25,3 @@ class GenImgResponse {
             : List<dynamic>.from(data!.map((x) => x!.toJson())),
       };
 }
-

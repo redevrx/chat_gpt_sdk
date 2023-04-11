@@ -15,4 +15,3 @@ class Message {
         "content": content,
       };
 }
-

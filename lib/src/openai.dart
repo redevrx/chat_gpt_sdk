@@ -122,7 +122,6 @@ class OpenAI implements IOpenAI {
     });
   }
 
-
   ///Given a chat conversation,
   /// the model will return a chat completion response.[onChatCompletion]
   @override
@@ -133,7 +132,6 @@ class OpenAI implements IOpenAI {
       return ChatCTResponse.fromJson(it);
     });
   }
-
 
   ///generate image with prompt
   @override

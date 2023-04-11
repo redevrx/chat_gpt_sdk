@@ -1,1 +1,1 @@
-abstract class OpenAIWrapper{}
+abstract class OpenAIWrapper {}

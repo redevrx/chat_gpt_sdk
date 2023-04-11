@@ -208,11 +208,10 @@ void main() async {
       when(openAI.listEngine()).thenAnswer((_) async =>
           EngineModel([EngineData('id', 'object', 'owner', false)], 'object'));
 
-      final response = await  openAI.listEngine();
+      final response = await openAI.listEngine();
 
       verify(openAI.listEngine());
       expect(response.object, 'object');
     });
   });
-
 }

@@ -16,7 +16,7 @@ class CategoryScores {
   late final double violence;
   late final double violenceGraphic;
 
-  CategoryScores.fromJson(Map<String, dynamic> json){
+  CategoryScores.fromJson(Map<String, dynamic> json) {
     hate = json['hate'];
     hateThreatening = json['hate/threatening'];
     selfHarm = json['self-harm'];

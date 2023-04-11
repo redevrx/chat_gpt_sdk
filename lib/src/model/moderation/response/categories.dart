@@ -16,7 +16,7 @@ class Categories {
   late final bool violence;
   late final bool violenceGraphic;
 
-  Categories.fromJson(Map<String, dynamic> json){
+  Categories.fromJson(Map<String, dynamic> json) {
     hate = json['hate'];
     hateThreatening = json['hate/threatening'];
     selfHarm = json['self-harm'];

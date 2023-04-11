@@ -10,7 +10,8 @@ class ChatChoice {
 
   factory ChatChoice.fromJson(Map<String, dynamic> json) => ChatChoice(
         index: json["index"],
-        message: json["message"] == null ? null : Message.fromJson(json["message"]),
+        message:
+            json["message"] == null ? null : Message.fromJson(json["message"]),
         finishReason: json["finish_reason"],
       );
 
@@ -20,4 +21,3 @@ class ChatChoice {
         "finish_reason": finishReason ?? "",
       };
 }
-

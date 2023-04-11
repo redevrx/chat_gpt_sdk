@@ -15,7 +15,6 @@ extension ChatModelExtension on ChatModel {
   }
 }
 
-
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
   /// gpt-3.5-turbo-0301 are supported. [model]
@@ -110,7 +109,7 @@ class ChatCompleteText {
         "max_tokens": maxToken,
         "presence_penalty": presencePenalty,
         "frequency_penalty": frequencyPenalty,
-         //"logit_bias": this.logitBias,
+        //"logit_bias": this.logitBias,
         "user": user
       });
 }

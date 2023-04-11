@@ -77,7 +77,7 @@ class OpenAIClient extends OpenAIWrapper {
           ..sink
           ..addError(err, t);
       });
-    },onError: (err,t){
+    }, onError: (err, t) {
       log.error(err, t);
       controller
         ..sink

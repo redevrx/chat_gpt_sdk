@@ -21,7 +21,7 @@ class Logger {
     if (isLogging) dev.log(message, name: kOpenAI);
   }
 
-  void error(Object? err,StackTrace? t){
-    if(isLogging) dev.log("error",error: err,stackTrace: t);
+  void error(Object? err, StackTrace? t) {
+    if (isLogging) dev.log("error", error: err, stackTrace: t);
   }
 }

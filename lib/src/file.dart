@@ -25,7 +25,7 @@ class OpenAIFile {
   /// by one organization can be up to 1 GB. Please
   /// contact us if you need to increase the storage limit.[uploadFile]
   Future<UploadResponse> uploadFile(UploadFile request) async {
-    final mRequest =  await request.getForm();
+    final mRequest = await request.getForm();
     return _client.postFormData(kURL + kFile, _cancel, mRequest,
         complete: (it) => UploadResponse.fromJson(it));
   }

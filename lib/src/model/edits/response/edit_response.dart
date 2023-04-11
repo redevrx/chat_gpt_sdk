@@ -1,4 +1,3 @@
-
 import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 
 class EditResponse {
@@ -16,18 +15,19 @@ class EditResponse {
   final String id = "${DateTime.now().millisecondsSinceEpoch}";
 
   factory EditResponse.fromJson(Map<String, dynamic> json) => EditResponse(
-    object: json["object"],
-    created: json["created"],
-    choices: List<Choice>.from(json["choices"].map((x) => Choice.fromJson(x))),
-    usage: Usage.fromJson(json["usage"]),
-  );
+        object: json["object"],
+        created: json["created"],
+        choices:
+            List<Choice>.from(json["choices"].map((x) => Choice.fromJson(x))),
+        usage: Usage.fromJson(json["usage"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "object": object,
-    "created": created,
-    "choices": List<dynamic>.from(choices.map((x) => x.toJson())),
-    "usage": usage.toJson(),
-  };
+        "object": object,
+        "created": created,
+        "choices": List<dynamic>.from(choices.map((x) => x.toJson())),
+        "usage": usage.toJson(),
+      };
 }
 
 class Choice {
@@ -41,13 +41,12 @@ class Choice {
   final String id = "${DateTime.now().millisecondsSinceEpoch}";
 
   factory Choice.fromJson(Map<String, dynamic> json) => Choice(
-    text: json["text"],
-    index: json["index"],
-  );
+        text: json["text"],
+        index: json["index"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "text": text,
-    "index": index,
-  };
+        "text": text,
+        "index": index,
+      };
 }
-

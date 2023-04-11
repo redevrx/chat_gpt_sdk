@@ -15,9 +15,7 @@ main() {
 
   test('set value with enum', () async {
     final target1 = GenerateImage('test', 1,
-        size: ImageSize.size256,
-        responseFormat: Format.b64Json,
-        user: 'user');
+        size: ImageSize.size256, responseFormat: Format.b64Json, user: 'user');
     expect(target1.prompt, 'test');
     expect(target1.n, 1);
 
@@ -38,12 +36,13 @@ main() {
   group('GeneratedImageSize', () {
     test('normal', () async {
       expect(GenerateImage('test', 2).size?.size, '1024x1024');
-      expect(GenerateImage('test', 2, size: ImageSize.size256).size?.size, '256x256');
-      expect(GenerateImage('test', 2, size: ImageSize.size512).size?.size, '512x512');
-      expect(
-          GenerateImage('test', 2, size: ImageSize.size1024).size?.size, '1024x1024');
+      expect(GenerateImage('test', 2, size: ImageSize.size256).size?.size,
+          '256x256');
+      expect(GenerateImage('test', 2, size: ImageSize.size512).size?.size,
+          '512x512');
+      expect(GenerateImage('test', 2, size: ImageSize.size1024).size?.size,
+          '1024x1024');
     });
-
   });
 
   test('n must be between 1 and 10', () {

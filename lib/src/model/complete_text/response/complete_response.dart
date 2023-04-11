@@ -23,7 +23,9 @@ class CTResponse {
         (json['choices'] as List<dynamic>)
             .map((e) => Choices.fromJson(e as Map<String, dynamic>))
             .toList(),
-      json['usage'] == null ? null :Usage.fromJson(json['usage'] as Map<String, dynamic>),
+        json['usage'] == null
+            ? null
+            : Usage.fromJson(json['usage'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => responseToJson(this);

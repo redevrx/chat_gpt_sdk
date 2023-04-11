@@ -17,7 +17,7 @@ class UploadFile {
 
   Future<FormData> getForm() async {
     return FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path,filename: file.name),
+      'file': await MultipartFile.fromFile(file.path, filename: file.name),
       'purpose': purpose
     });
   }
