@@ -1,6 +1,6 @@
 name: chat_gpt_sdk
-description: create chat bot and other bot with ChatGPT SDK Support GPT-3.5 Turbo and SSE Generate Prompt
-version: 2.1.1
+description: create chat bot and other bot with ChatGPT SDK Support GPT-4 , 3.5 and SSE Generate Prompt (Stream)
+version: 2.1.2
 homepage: https://www.facebook.com/REDEVRX
 repository: https://github.com/redevRx/Flutter-ChatGPT
 

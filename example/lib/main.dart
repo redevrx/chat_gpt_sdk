@@ -44,7 +44,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void gpt4() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.gpt_4_32k_0314);
+    ], maxToken: 200, model: ChatModel.gpt_4);
 
     await openAI.onChatCompletion(request: request);
   }

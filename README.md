@@ -35,7 +35,7 @@ supervised and reinforcement learning techniques.
 - [x] [Change Access Token](#change-access-token)
 - [x] [Complete Text](#complete-text)
   - Support Server Sent Event
-- [x] [Chat Complete GPT-4](#chat-complete-gpt-35-turbo)
+- [x] [Chat Complete GPT-4](#chat-complete-gpt-4-and-gpt-35)
   - Support GPT3.5 and GPT-4 
   - Support Server Sent Event
 - [x] [Example Q&A](#qa)
@@ -56,7 +56,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.1.1
+chat_gpt: 2.1.2
 ```
 
 ## Create OpenAI Instance
