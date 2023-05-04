@@ -13,7 +13,7 @@ import 'package:mockito/mockito.dart';
 
 import 'chat_gpt_test.mocks.dart';
 
-@GenerateMocks([OpenAI])
+@GenerateNiceMocks([MockSpec<OpenAI>()])
 void main() async {
   final openAI = MockOpenAI();
 
@@ -110,6 +110,40 @@ void main() async {
     });
   });
 
+  group('chatGPT-4 chat completion test', () {
+    test('chat completion success case test', () async {
+      final request = ChatCompleteText(messages: [
+        Map.of({"role": "user", "content": 'Hello!'})
+      ], maxToken: 200, model: ChatModel.gpt_4);
+      final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
+
+      when(openAI.onChatCompletion(request: request)).thenAnswer((_) async =>
+          ChatCTResponse(
+              id: 'id',
+              object: 'object',
+              created: 1,
+              choices: choice,
+              usage: null));
+
+      final response = await openAI.onChatCompletion(request: request);
+      verify(openAI.onChatCompletion(request: request));
+      expect(response?.object, 'object');
+      expect(response?.id, 'id');
+    });
+
+    test('chat completion error case with content null return error test',
+        () async {
+      final request = ChatCompleteText(messages: [
+        Map.of({"role": "user", "content": ''})
+      ], maxToken: 200, model: ChatModel.gpt_4);
+
+      when(openAI.onChatCompletion(request: request))
+          .thenAnswer((_) => throw RequestError(message: '', code: 404));
+
+      verifyNever(openAI.onChatCompletion(request: request));
+    });
+  });
+
   group('chatGPT-3.5 turbo chat completion with stream SSE test', () {
     test('openAI chat completion stream success case test', () async {
       final request = ChatCompleteText(messages: [
@@ -136,6 +170,39 @@ void main() async {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": 'Hello!'})
       ], maxToken: 200, model: ChatModel.gptTurbo0301);
+
+      when(openAI.onChatCompletionSSE(request: request))
+          .thenAnswer((_) => throw RequestError());
+      verifyNever(openAI.onChatCompletionSSE(request: request));
+    });
+  });
+
+  group('chatGPT-4 chat completion with stream SSE test', () {
+    test('openAI chat completion stream success case test', () async {
+      final request = ChatCompleteText(messages: [
+        Map.of({"role": "user", "content": 'Hello!'})
+      ], maxToken: 200, model: ChatModel.gpt_4);
+      final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
+
+      when(openAI.onChatCompletionSSE(request: request)).thenAnswer(
+          (realInvocation) => Stream.value(ChatCTResponseSSE(
+              id: 'id',
+              object: 'object',
+              created: 1,
+              choices: choice,
+              usage: null)));
+
+      final response = await openAI.onChatCompletionSSE(request: request).first;
+      verify(openAI.onChatCompletionSSE(request: request));
+      expect(response.id, 'id');
+      expect(response.object, 'object');
+      expect(response, const TypeMatcher<ChatCTResponseSSE>());
+    });
+
+    test('openAI chat completion stream error case test', () async {
+      final request = ChatCompleteText(messages: [
+        Map.of({"role": "user", "content": 'Hello!'})
+      ], maxToken: 200, model: ChatModel.gpt_4);
 
       when(openAI.onChatCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError());

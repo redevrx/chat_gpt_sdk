@@ -49,16 +49,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     await openAI.onChatCompletion(request: request);
   }
 
-  void gpt4Stream() {
-    final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.gpt_4);
-
-    openAI.onChatCompletionSSE(request: request).listen((it) {
-      /// data
-    });
-  }
-
   @override
   void initState() {
     openAI = OpenAI.instance.build(

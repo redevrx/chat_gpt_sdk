@@ -186,7 +186,8 @@ class OpenAIClient extends OpenAIWrapper {
           ..addError(err, t);
       });
     }, onError: (err, t) {
-      log.error(err, t);
+      log.error(err as DioError, t,
+          message: 'error :${err.message} data: ${err.response?.extra}');
       controller
         ..sink
         ..addError(err, t);

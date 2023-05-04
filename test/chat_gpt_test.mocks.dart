@@ -136,19 +136,20 @@ class _FakeEngineModel_8 extends _i1.SmartFake implements _i10.EngineModel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
-  MockOpenAI() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   String get token => (super.noSuchMethod(
         Invocation.getter(#token),
         returnValue: '',
+        returnValueForMissingStub: '',
       ) as String);
   @override
   _i2.Edit get editor => (super.noSuchMethod(
         Invocation.getter(#editor),
         returnValue: _FakeEdit_0(
+          this,
+          Invocation.getter(#editor),
+        ),
+        returnValueForMissingStub: _FakeEdit_0(
           this,
           Invocation.getter(#editor),
         ),
@@ -160,11 +161,19 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           this,
           Invocation.getter(#embed),
         ),
+        returnValueForMissingStub: _FakeEmbedding_1(
+          this,
+          Invocation.getter(#embed),
+        ),
       ) as _i3.Embedding);
   @override
   _i4.Audio get audio => (super.noSuchMethod(
         Invocation.getter(#audio),
         returnValue: _FakeAudio_2(
+          this,
+          Invocation.getter(#audio),
+        ),
+        returnValueForMissingStub: _FakeAudio_2(
           this,
           Invocation.getter(#audio),
         ),
@@ -176,6 +185,10 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           this,
           Invocation.getter(#file),
         ),
+        returnValueForMissingStub: _FakeOpenAIFile_3(
+          this,
+          Invocation.getter(#file),
+        ),
       ) as _i5.OpenAIFile);
   @override
   _i6.FineTune get fineTune => (super.noSuchMethod(
@@ -184,11 +197,19 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           this,
           Invocation.getter(#fineTune),
         ),
+        returnValueForMissingStub: _FakeFineTune_4(
+          this,
+          Invocation.getter(#fineTune),
+        ),
       ) as _i6.FineTune);
   @override
   _i7.Moderation get moderation => (super.noSuchMethod(
         Invocation.getter(#moderation),
         returnValue: _FakeModeration_5(
+          this,
+          Invocation.getter(#moderation),
+        ),
+        returnValueForMissingStub: _FakeModeration_5(
           this,
           Invocation.getter(#moderation),
         ),
@@ -229,6 +250,18 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             },
           ),
         ),
+        returnValueForMissingStub: _FakeOpenAI_6(
+          this,
+          Invocation.method(
+            #build,
+            [],
+            {
+              #token: token,
+              #baseOption: baseOption,
+              #isLog: isLog,
+            },
+          ),
+        ),
       ) as _i8.OpenAI);
   @override
   _i12.Future<_i9.AiModel> listModel() => (super.noSuchMethod(
@@ -237,6 +270,14 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           [],
         ),
         returnValue: _i12.Future<_i9.AiModel>.value(_FakeAiModel_7(
+          this,
+          Invocation.method(
+            #listModel,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i12.Future<_i9.AiModel>.value(_FakeAiModel_7(
           this,
           Invocation.method(
             #listModel,
@@ -257,6 +298,14 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             [],
           ),
         )),
+        returnValueForMissingStub:
+            _i12.Future<_i10.EngineModel>.value(_FakeEngineModel_8(
+          this,
+          Invocation.method(
+            #listEngine,
+            [],
+          ),
+        )),
       ) as _i12.Future<_i10.EngineModel>);
   @override
   _i12.Future<_i13.CTResponse?> onCompletion(
@@ -268,6 +317,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           {#request: request},
         ),
         returnValue: _i12.Future<_i13.CTResponse?>.value(),
+        returnValueForMissingStub: _i12.Future<_i13.CTResponse?>.value(),
       ) as _i12.Future<_i13.CTResponse?>);
   @override
   _i12.Future<_i15.ChatCTResponse?> onChatCompletion(
@@ -279,6 +329,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           {#request: request},
         ),
         returnValue: _i12.Future<_i15.ChatCTResponse?>.value(),
+        returnValueForMissingStub: _i12.Future<_i15.ChatCTResponse?>.value(),
       ) as _i12.Future<_i15.ChatCTResponse?>);
   @override
   _i12.Future<_i17.GenImgResponse?> generateImage(
@@ -289,6 +340,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           [request],
         ),
         returnValue: _i12.Future<_i17.GenImgResponse?>.value(),
+        returnValueForMissingStub: _i12.Future<_i17.GenImgResponse?>.value(),
       ) as _i12.Future<_i17.GenImgResponse?>);
   @override
   _i12.Stream<_i19.ChatCTResponseSSE> onChatCompletionSSE(
@@ -300,6 +352,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           {#request: request},
         ),
         returnValue: _i12.Stream<_i19.ChatCTResponseSSE>.empty(),
+        returnValueForMissingStub: _i12.Stream<_i19.ChatCTResponseSSE>.empty(),
       ) as _i12.Stream<_i19.ChatCTResponseSSE>);
   @override
   _i12.Stream<_i13.CTResponse> onCompletionSSE(
@@ -311,6 +364,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           {#request: request},
         ),
         returnValue: _i12.Stream<_i13.CTResponse>.empty(),
+        returnValueForMissingStub: _i12.Stream<_i13.CTResponse>.empty(),
       ) as _i12.Stream<_i13.CTResponse>);
   @override
   void cancelAIGenerate() => super.noSuchMethod(
