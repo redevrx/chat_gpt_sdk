@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_buttonx/materialButtonX.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TranslateScreen(),
+      home: ChatCompletionExample(),
     );
   }
 }
@@ -32,13 +33,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Future<CTResponse?>? _translateFuture;
   void _translateEngToThai() async {
-    setState(() {
-      final request = CompleteText(
-          prompt: translateEngToThai(word: _txtWord.text.toString()),
-          maxTokens: 200,
-          model: Model.textDavinci3);
-      _translateFuture = openAI.onCompletion(request: request);
-    });
+    editPrompt();
+    // setState(() {
+    //   final request = CompleteText(
+    //       prompt: translateEngToThai(word: _txtWord.text.toString()),
+    //       maxTokens: 200,
+    //       model: Model.textDavinci3);
+    //   _translateFuture = openAI.onCompletion(request: request);
+    // });
   }
 
   void gpt4() async {
@@ -47,6 +49,15 @@ class _TranslateScreenState extends State<TranslateScreen> {
     ], maxToken: 200, model: ChatModel.gpt_4);
 
     await openAI.onChatCompletion(request: request);
+  }
+
+  void editPrompt() async {
+    final response = await openAI.editor.prompt(EditRequest(
+        model: EditModel.textEditModel,
+        input: 'What day of the wek is it?',
+        instruction: 'Fix the spelling mistakes'));
+
+    print("response: ${response.choices.last.toJson()}");
   }
 
   @override
@@ -342,6 +353,53 @@ class _TranslateScreenState extends State<TranslateScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ChatCompletionExample extends StatefulWidget {
+  const ChatCompletionExample({Key? key}) : super(key: key);
+
+  @override
+  State<ChatCompletionExample> createState() => _ChatCompletionExampleState();
+}
+
+class _ChatCompletionExampleState extends State<ChatCompletionExample> {
+  ///[openAI]
+  late OpenAI openAI;
+
+  @override
+  void initState() {
+    ///new instance ให้กับ openAI
+    ///และทำกับใส่ Token ที่ไป copy มาก่อนหน้านี้
+    ///พร้อมกับหนด timeout
+    openAI = OpenAI.instance.build(
+        token: "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",
+        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 18)),
+        isLog: true);
+    super.initState();
+  }
+
+  ///[example]
+  ///send Hello to ChatCompletion
+  void example() async {
+    ///request ใส่ prompt ตามใจ ตัวอย่างใส่ Hello!
+    final request = ChatCompleteText(model: ChatModel.gptTurbo, messages: [
+      Map.of({"role": "user", "content": 'Hello!'})
+    ]);
+
+    ///call api ไปที่ onChatCompletion
+    final it = await openAI.onChatCompletion(request: request);
+    debugPrint('${it?.choices.last.message?.content}');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: CupertinoButton(
+            onPressed: () => example(), child: const Text("Click")),
       ),
     );
   }

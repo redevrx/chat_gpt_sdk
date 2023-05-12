@@ -60,7 +60,7 @@ class OpenAI implements IOpenAI {
 
   ///build environment for openai [build]
   ///setup http client
-  ///setup logger\
+  ///setup logger
   @override
   OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false}) {
     if ("$token".isEmpty) throw MissionTokenException();
