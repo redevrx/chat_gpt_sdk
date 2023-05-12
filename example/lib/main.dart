@@ -375,7 +375,7 @@ class _ChatCompletionExampleState extends State<ChatCompletionExample> {
     ///และทำกับใส่ Token ที่ไป copy มาก่อนหน้านี้
     ///พร้อมกับหนด timeout
     openAI = OpenAI.instance.build(
-        token: "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",
+        token: "token",
         baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 18)),
         isLog: true);
     super.initState();
