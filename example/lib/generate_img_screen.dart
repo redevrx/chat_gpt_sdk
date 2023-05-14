@@ -20,7 +20,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
     openAI = OpenAI.instance.build(
         token: token,
         baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 6)),
-        isLog: true);
+        enableLog: true);
     super.initState();
   }
 

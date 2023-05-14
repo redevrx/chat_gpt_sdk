@@ -71,7 +71,7 @@ chat_gpt: 2.1.2
      - https://beta.openai.com/account/org-settings
 
 ```dart
-final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),isLogger: true);
+final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),enableLog: true);
 ```
 ## Change Access Token
 

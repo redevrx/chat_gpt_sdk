@@ -56,7 +56,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
         baseOption: HttpSetup(
             receiveTimeout: const Duration(seconds: 20),
             connectTimeout: const Duration(seconds: 20)),
-        isLog: true);
+        enableLog: true);
     super.initState();
   }
 

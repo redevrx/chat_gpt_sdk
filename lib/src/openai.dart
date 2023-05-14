@@ -24,7 +24,7 @@ import 'client/interceptor/interceptor_wrapper.dart';
 import 'edit.dart';
 
 abstract class IOpenAI {
-  OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false});
+  OpenAI build({String? token, HttpSetup? baseOption, bool enableLog = false});
   listModel();
   listEngine();
   Future<CTResponse?> onCompletion({required CompleteText request});
@@ -62,7 +62,7 @@ class OpenAI implements IOpenAI {
   ///setup http client
   ///setup logger
   @override
-  OpenAI build({String? token, HttpSetup? baseOption, bool isLog = false}) {
+  OpenAI build({String? token, HttpSetup? baseOption, bool enableLog = false}) {
     if ("$token".isEmpty) throw MissionTokenException();
     final setup = baseOption ?? HttpSetup();
     setToken(token!);
@@ -83,7 +83,7 @@ class OpenAI implements IOpenAI {
     }
     dio.interceptors.add(InterceptorWrapper());
 
-    _client = OpenAIClient(dio: dio, isLogging: isLog);
+    _client = OpenAIClient(dio: dio, isLogging: enableLog);
     return instance;
   }
 

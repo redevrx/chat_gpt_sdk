@@ -226,7 +226,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
   _i8.OpenAI build({
     String? token,
     _i11.HttpSetup? baseOption,
-    bool? isLog = false,
+    bool? enableLog = false,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -235,7 +235,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           {
             #token: token,
             #baseOption: baseOption,
-            #isLog: isLog,
+            #enableLog: enableLog,
           },
         ),
         returnValue: _FakeOpenAI_6(
@@ -246,7 +246,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             {
               #token: token,
               #baseOption: baseOption,
-              #isLog: isLog,
+              #enableLog: enableLog,
             },
           ),
         ),
@@ -258,7 +258,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             {
               #token: token,
               #baseOption: baseOption,
-              #isLog: isLog,
+              #enableLog: enableLog,
             },
           ),
         ),

@@ -27,6 +27,9 @@ jobs:
         with:
           flutter-version: '3.10.0'
 
+      - name: Format Code
+        run: dart format .
+
       - name: Get all Flutter Packages
         run: flutter pub get
 
