@@ -104,3 +104,7 @@ Fix bug  Http status error [429] error
  - Fix Bug
  - Chat Complete SSE change json name
  - update docs
+
+## 2.1.3
+ - Add New Error Handle
+ - change isLog to enableLog

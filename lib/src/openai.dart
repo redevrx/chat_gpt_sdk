@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
+import 'package:chat_gpt_sdk/src/client/exception/missing_token.dart';
 import 'package:chat_gpt_sdk/src/embedding.dart';
 import 'package:chat_gpt_sdk/src/file.dart';
 import 'package:chat_gpt_sdk/src/fine_tuned.dart';
@@ -19,7 +20,6 @@ import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:chat_gpt_sdk/src/utils/keep_token.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'client/exception/openai_exception.dart';
 import 'client/interceptor/interceptor_wrapper.dart';
 import 'edit.dart';
 
@@ -115,12 +115,11 @@ class OpenAI implements IOpenAI {
   /// - look more
   /// https://beta.openai.com/examples
   @override
-  Future<CTResponse?> onCompletion({required CompleteText request}) async {
-    return _client.post("$kURL$kCompletion", _cancel, request.toJson(),
-        onSuccess: (it) {
-      return CTResponse.fromJson(it);
-    });
-  }
+  Future<CTResponse?> onCompletion({required CompleteText request}) =>
+      _client.post("$kURL$kCompletion", _cancel, request.toJson(),
+          onSuccess: (it) {
+        return CTResponse.fromJson(it);
+      });
 
   ///Given a chat conversation,
   /// the model will return a chat completion response.[onChatCompletion]

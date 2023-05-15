@@ -38,6 +38,7 @@ supervised and reinforcement learning techniques.
 - [x] [Chat Complete GPT-4](#chat-complete-gpt-4-and-gpt-35)
   - Support GPT3.5 and GPT-4 
   - Support Server Sent Event
+- [x] [Error Handle](#error-handle)
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
 - [x] [Editing](#edit)
@@ -51,12 +52,13 @@ supervised and reinforcement learning techniques.
 - [x] [Model And Engine](#modelengine)
 - [x] [Flutter Code Example](#flutter-example)
 - [x] [Video Tutorial](#video-tutorials)
+- [x] [Docs](#docs-support-thai)
 
 
 
 ## Install Package
 ```dart
-chat_gpt: 2.1.2
+chat_gpt: 2.1.3
 ```
 
 ## Create OpenAI Instance
@@ -198,6 +200,18 @@ FutureBuilder<CTResponse?>(
     }
   }
 ```
+
+## Error Handle
+
+```dart
+ openAI.onCompletion(request: request)
+    .catchError((err){
+        if(err is OpenAIAuthError); /// do something
+        if(err is OpenAIRateLimitError); ///do something
+        if(err is OpenAIServerError); ///do something
+      });
+```
+
 ## Q&A
 - Example Q&A 
   - Answer questions based on existing knowledge.
