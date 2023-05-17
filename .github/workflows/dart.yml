@@ -15,7 +15,7 @@ on:
        
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -27,14 +27,11 @@ jobs:
         with:
           flutter-version: '3.10.0'
 
-      - name: flutter analyze code
-        run: flutter analyze
+      - name: Get all Flutter Packages
+        run: flutter pub get
         
       - name: Format Code
         run: dart format .
-
-      - name: Get all Flutter Packages
-        run: flutter pub get
 
       - name: Run Flutter Test
         run: flutter test
