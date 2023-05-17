@@ -36,9 +36,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-#  chat_gpt_sdk:
-#    path: ..\..\
-  chat_gpt_sdk: ^2.1.4
+  chat_gpt_sdk:
+    path: ..\
   material_buttonx: ^2.0.3
   image_picker: ^0.8.7+1
 
