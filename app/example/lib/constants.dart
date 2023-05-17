@@ -22,4 +22,4 @@ final heroNav = BoxDecoration(
           spreadRadius: .5)
     ]);
 
-const token = "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";
+const token = "";
