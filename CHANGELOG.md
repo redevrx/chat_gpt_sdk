@@ -108,3 +108,6 @@ Fix bug  Http status error [429] error
 ## 2.1.3
  - Add New Error Handle
  - change isLog to enableLog
+
+## 2.1.4
+- Add New Error Handle
