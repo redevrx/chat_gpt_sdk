@@ -46,7 +46,7 @@ void main() async {
     test('text completion error case with prompt empty', () async {
       final request = CompleteText(prompt: '', model: Model.textDavinci3);
       when(openAI.onCompletion(request: request))
-          .thenAnswer((_) => throw RequestError(message: 'error', code: 404));
+          .thenAnswer((_) => throw RequestError(data: null, code: 404));
       verifyNever(openAI.onCompletion(request: request));
     });
   });
@@ -69,7 +69,7 @@ void main() async {
       final request = CompleteText(prompt: '', model: Model.ada);
 
       when(openAI.onCompletionSSE(request: request))
-          .thenAnswer((_) => throw RequestError(message: 'message', code: 404));
+          .thenAnswer((_) => throw RequestError(data: null, code: 404));
 
       verifyNever(openAI.onCompletionSSE(request: request));
     });
@@ -103,7 +103,7 @@ void main() async {
       ], maxToken: 200, model: ChatModel.gptTurbo0301);
 
       when(openAI.onChatCompletion(request: request))
-          .thenAnswer((_) => throw RequestError(message: '', code: 404));
+          .thenAnswer((_) => throw RequestError(data: null, code: 404));
 
       verifyNever(openAI.onChatCompletion(request: request));
     });
@@ -137,7 +137,7 @@ void main() async {
       ], maxToken: 200, model: ChatModel.gpt_4);
 
       when(openAI.onChatCompletion(request: request))
-          .thenAnswer((_) => throw RequestError(message: '', code: 404));
+          .thenAnswer((_) => throw RequestError(data: null, code: 404));
 
       verifyNever(openAI.onChatCompletion(request: request));
     });

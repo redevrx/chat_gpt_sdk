@@ -16,9 +16,9 @@ class InterceptorWrapper extends Interceptor {
     super.onResponse(response, handler);
   }
 
-  // @override
-  // void onError(DioError err, ErrorInterceptorHandler handler) {
-  //   //debugPrint('have Error [${err.response?.statusCode}] => Data: ${err.response?.data}');
-  //   super.onError(err, handler);
-  // }
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    //debugPrint('have Error [${err.response?.statusCode}] => Data: ${err.response?.data}');
+    super.onError(err, handler);
+  }
 }

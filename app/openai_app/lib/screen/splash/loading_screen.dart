@@ -11,11 +11,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
-  void countDownTime({required BuildContext context}){
-    Future.delayed(const Duration(seconds: 2),(){
+  void countDownTime({required BuildContext context}) {
+    Future.delayed(const Duration(seconds: 2), () {
       ///navigate to preview screen
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const PreviewScreen()));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const PreviewScreen()),
+          (route) => false);
     });
   }
 
@@ -30,24 +32,21 @@ class _SplashScreenState extends State<SplashScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        child: Center(
-          child: buildPreviewAnimation(size),
-        )
-      ),
+          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+          child: Center(
+            child: buildPreviewAnimation(size),
+          )),
     );
   }
 
   Widget buildPreviewAnimation(Size size) {
     return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Lottie.asset('assets/animation/robot_loading_screen.json',
-                width: 200,
-                height: 200,
-                fit: BoxFit.fill),
-            SizedBox(height: size.height * .3)
-          ],
-        );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset('assets/animation/robot_loading_screen.json',
+            width: 200, height: 200, fit: BoxFit.fill),
+        SizedBox(height: size.height * .3)
+      ],
+    );
   }
 }

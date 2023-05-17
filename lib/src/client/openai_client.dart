@@ -5,6 +5,7 @@ import 'package:chat_gpt_sdk/src/client/base_client.dart';
 import 'package:chat_gpt_sdk/src/client/exception/base_error.dart';
 import 'package:chat_gpt_sdk/src/client/exception/request_error.dart';
 import 'package:chat_gpt_sdk/src/logger/logger.dart';
+import 'package:chat_gpt_sdk/src/model/error/error_model.dart';
 import 'package:dio/dio.dart';
 
 class OpenAIClient extends OpenAIWrapper {
@@ -32,15 +33,16 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("code: ${rawData.statusCode}, message :${rawData.data}");
         throw handleError(
             code: rawData.statusCode ?? HttpStatus.internalServerError,
-            message: "code: ${rawData.statusCode} message ${rawData.data}");
+            message: "",
+            data: rawData.data);
       }
     } on DioError catch (err) {
       log.log(
           "code: ${err.response?.statusCode}, message :${err.message} + ${err.response?.data}");
       throw handleError(
           code: err.response?.statusCode ?? HttpStatus.internalServerError,
-          message:
-              "code: ${err.response?.statusCode} message :${err.message} \ndata:${err.response?.data}");
+          message: '${err.message}',
+          data: err.response?.data);
     }
   }
 
@@ -104,15 +106,16 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("error code: ${rawData.statusCode}, message :${rawData.data}");
         throw handleError(
             code: rawData.statusCode ?? HttpStatus.internalServerError,
-            message: "code: ${rawData.statusCode} message ${rawData.data}");
+            message: "${rawData.statusCode}",
+            data: rawData.data);
       }
     } on DioError catch (err) {
       log.log(
-          "code: ${err.response?.statusCode}, message :${err.message}\ndata: ${err.response?.data}");
+          "code: ${err.response?.statusCode}, message :${err.message} data: ${err.response?.data}");
       throw handleError(
           code: err.response?.statusCode ?? HttpStatus.internalServerError,
-          message:
-              "code: ${err.response?.statusCode} message :${err.message} \ndata:${err.response?.data}");
+          message: "${err.message}",
+          data: err.response?.data);
     }
   }
 
@@ -133,15 +136,16 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("code: ${response.statusCode}, message :${response.data}");
         throw handleError(
             code: response.statusCode ?? HttpStatus.internalServerError,
-            message: "code: ${response.statusCode} message ${response.data}");
+            message: "${response.statusCode}",
+            data: response.data);
       }
     } on DioError catch (err) {
       log.log(
-          "error code: ${err.response?.statusCode}, message :${err.message}\ndata:${err.response?.data}");
+          "error code: ${err.response?.statusCode}, message :${err.message} data:${err.response?.data}");
       throw handleError(
           code: err.response?.statusCode ?? HttpStatus.internalServerError,
-          message:
-              "code: ${err.response?.statusCode} message :${err.message} \ndata:${err.response?.data}");
+          message: "${err.response?.statusCode}",
+          data: err.response?.data);
     }
   }
 
@@ -191,16 +195,31 @@ class OpenAIClient extends OpenAIWrapper {
         controller.close();
       }, onError: (err, t) {
         log.error(err, t);
+        final error = (err as DioError);
         controller
           ..sink
-          ..addError(err, t);
+          ..addError(
+              handleError(
+                  code: error.response?.statusCode ??
+                      HttpStatus.internalServerError,
+                  message: '${error.message}',
+                  data: error.response?.extra),
+              t);
       });
     }, onError: (err, t) {
-      log.error(err as DioError, t,
-          message: 'error :${err.message} data: ${err.response?.extra}');
+      log.error(err, t,
+          message:
+              'error :${err.message} data: ${(err as DioError).response?.extra}');
+      final error = err;
       controller
         ..sink
-        ..addError(err, t);
+        ..addError(
+            handleError(
+                code: error.response?.statusCode ??
+                    HttpStatus.internalServerError,
+                message: '${error.message}',
+                data: error.response?.extra),
+            t);
     });
     return controller.stream;
   }
@@ -218,25 +237,32 @@ class OpenAIClient extends OpenAIWrapper {
         return complete(response.data);
       } else {
         log.log("code: ${response.statusCode}, error: ${response.data}");
-        throw RequestError(
-            message: "${response.data}", code: response.statusCode);
+        throw handleError(
+            code: response.statusCode ?? HttpStatus.internalServerError,
+            message: "${response.statusCode}",
+            data: response.data);
       }
     } on DioError catch (err) {
       log.log(
           "code: ${err.response?.statusCode}, error: ${err.message} ${err.response?.data}");
-      throw RequestError(
-          message: "${err.message} \ndata:${err.response?.data}",
-          code: err.response?.statusCode);
+      throw handleError(
+          code: err.response?.statusCode ?? HttpStatus.internalServerError,
+          message: "${err.response?.statusCode}",
+          data: err.response?.data);
     }
   }
 
-  BaseErrorWrapper handleError({required int code, required String message}) {
+  BaseErrorWrapper handleError(
+      {required int code, required String message, required dynamic data}) {
     if (code == HttpStatus.unauthorized) {
-      return OpenAIAuthError(code: code, message: message);
+      return OpenAIAuthError(
+          code: code, data: OpenAIError.fromJson(data, message));
     } else if (code == HttpStatus.tooManyRequests) {
-      return OpenAIRateLimitError(code: code, message: message);
+      return OpenAIRateLimitError(
+          code: code, data: OpenAIError.fromJson(data, message));
     } else {
-      return OpenAIServerError(code: code, message: message);
+      return OpenAIServerError(
+          code: code, data: OpenAIError.fromJson(data, message));
     }
   }
 }

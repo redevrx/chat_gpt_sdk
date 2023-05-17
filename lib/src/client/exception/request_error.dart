@@ -1,20 +1,20 @@
 import 'package:chat_gpt_sdk/src/client/exception/base_error.dart';
 
 class RequestError extends BaseErrorWrapper {
-  RequestError({super.message, super.code});
+  RequestError({super.data, super.code});
 }
 
 ///Cause: Invalid Authentication
 /// Solution: Ensure the correct API
 /// key and requesting organization are being used.
 class OpenAIAuthError extends BaseErrorWrapper {
-  OpenAIAuthError({super.message, super.code});
+  OpenAIAuthError({super.data, super.code});
 }
 
 ///Cause: You are sending requests too quickly.
 /// Solution: Pace your requests. Read the Rate limit guide.
 class OpenAIRateLimitError extends BaseErrorWrapper {
-  OpenAIRateLimitError({super.message, super.code});
+  OpenAIRateLimitError({super.data, super.code});
 }
 
 ///Cause: Issue on our servers.
@@ -22,5 +22,5 @@ class OpenAIRateLimitError extends BaseErrorWrapper {
 /// after a brief wait and
 /// contact us if the issue persists. Check the status page.
 class OpenAIServerError extends BaseErrorWrapper {
-  OpenAIServerError({super.message, super.code});
+  OpenAIServerError({super.data, super.code});
 }

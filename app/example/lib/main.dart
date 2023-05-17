@@ -37,6 +37,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
           prompt: translateEngToThai(word: _txtWord.text.toString()),
           maxTokens: 200,
           model: Model.textDavinci3);
+
       _translateFuture = openAI.onCompletion(request: request);
     });
   }

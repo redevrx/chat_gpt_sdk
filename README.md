@@ -58,7 +58,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.1.3
+chat_gpt: 2.1.4
 ```
 
 ## Create OpenAI Instance
@@ -204,12 +204,38 @@ FutureBuilder<CTResponse?>(
 ## Error Handle
 
 ```dart
+///using catchError
  openAI.onCompletion(request: request)
     .catchError((err){
-        if(err is OpenAIAuthError); /// do something
-        if(err is OpenAIRateLimitError); ///do something
-        if(err is OpenAIServerError); ///do something
+      if(err is OpenAIAuthError){
+        print('OpenAIAuthError error ${err.data?.error?.toMap()}');
+      }
+      if(err is OpenAIRateLimitError){
+        print('OpenAIRateLimitError error ${err.data?.error?.toMap()}');
+      }
+      if(err is OpenAIServerError){
+        print('OpenAIServerError error ${err.data?.error?.toMap()}');
+      }
       });
+
+///using try catch
+ try {
+   await openAI.onCompletion(request: request);
+ } on OpenAIRateLimitError catch (err) {
+   print('catch error ->${err.data?.error?.toMap()}');
+ }
+
+///with stream
+ openAI
+        .onCompletionSSE(request: request)
+        .transform(StreamTransformer.fromHandlers(
+          handleError: (error, stackTrace, sink) {
+              if (error is OpenAIRateLimitError) {
+              print('OpenAIRateLimitError error ->${error.data?.message}');
+              }}))
+        .listen((event) {
+          print("success");
+        });
 ```
 
 ## Q&A
