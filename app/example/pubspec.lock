@@ -28,9 +28,10 @@ packages:
   chat_gpt_sdk:
     dependency: "direct main"
     description:
-      path: "../.."
-      relative: true
-    source: path
+      name: chat_gpt_sdk
+      sha256: e77e2e1a67e18af59a57bfb2321538d54ff188d8f7e43f53def05f26fd911059
+      url: "https://pub.dev"
+    source: hosted
     version: "2.1.4"
   clock:
     dependency: transitive
