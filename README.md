@@ -823,5 +823,5 @@ class _TranslateScreenState extends State<TranslateScreen> {
 ## Docs (Support Thai.)
  <p align="center">
  <a target="_blank" href="https://medium.com/@relalso/flutter-chatgpt-part-1-สอน-2268197247f8"><img src="https://github-readme-medium-recent-article.vercel.app/medium/@relalso/1" alt="ChatGPT Part 1">
-<a target="_blank" href="https://medium.com/@relalso/flutter-chatgpt-part-2-สอน-e2935ad4f963"><img src="https://github-readme-medium-recent-article.vercel.app/medium/@relalso/0" alt="ChatGPT Part 2">
+ <a target="_blank" href="https://medium.com/@relalso/flutter-chatgpt-part-2-สอน-e2935ad4f963"><img src="https://github-readme-medium-recent-article.vercel.app/medium/@relalso/0" alt="ChatGPT Part 2">
 </p>
