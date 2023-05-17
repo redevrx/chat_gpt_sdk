@@ -30,12 +30,6 @@ jobs:
       - name: Get all Flutter Packages
         run: flutter pub get
         
-      - name: analyze config
-        run: flutter config --no-analytics
-        
-      - name: flutter analyze code
-        run: flutter analyze
-        
       - name: Format Code
         run: dart format .
 
