@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(kDefaultPadding / 2),
             border: Border.all(color: Colors.white10)),
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             final bloc = BlocProvider.of<OpenAIBloc>(context, listen: false);
             bloc.isHasToken(
                 success: () => toChatBotScreen(context, openAIFeatures[index]),
@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppBar(
       backgroundColor: kDarkBgColor,
       title: Text(
-        "OpenAI Features",
+        "OpenAI Demo App",
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.displaySmall,
       ),

@@ -43,7 +43,7 @@ class SetupScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AspectRatio(
-            aspectRatio: 1 / 1,
+            aspectRatio: 4 / 3,
             child: Image.asset(
               'assets/images/robot_hello.png',
             )),

@@ -36,36 +36,41 @@ class PreviewScreen extends StatelessWidget {
           horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
       child: Material(
           color: Colors.transparent,
-          child: Column(
-            children: [
-              kDefaultPadding.toHeight(),
-              buildSkipButton(context),
-              const Spacer(),
-              AspectRatio(
-                  aspectRatio: 1 / 1,
-                  child: Image.asset(
-                    'assets/images/robot_hello.png',
-                  )),
-              kDefaultPadding.toHeight(height: 2),
-              Text(
-                "Chat with OpenAI",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displayMedium,
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: size.height * .9,
+              child: Column(
+                children: [
+                  kDefaultPadding.toHeight(),
+                  buildSkipButton(context),
+                  const Spacer(),
+                  AspectRatio(
+                      aspectRatio: 4 / 3,
+                      child: Image.asset(
+                        'assets/images/robot_hello.png',
+                      )),
+                  const Spacer(),
+                  Text(
+                    "Chat with OpenAI",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  kDefaultPadding.toHeight(height: 2),
+                  Text(
+                    "Chat with the OpenAI  Experience \nthe power of ChatGPT with us",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  kDefaultPadding.toHeight(height: 2),
+                  OpenAIButton(
+                      height: size.height * .05,
+                      width: double.infinity,
+                      title: "Get Started",
+                      tab: () => toSetupScreen(context: context)),
+                  const Spacer()
+                ],
               ),
-              kDefaultPadding.toHeight(height: 2),
-              Text(
-                "Chat with the OpenAI  Experience \nthe power of ChatGPT with us",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              kDefaultPadding.toHeight(height: 2),
-              OpenAIButton(
-                  height: size.height * .05,
-                  width: double.infinity,
-                  title: "Get Started",
-                  tab: () => toSetupScreen(context: context)),
-              const Spacer()
-            ],
+            ),
           )),
     ));
   }

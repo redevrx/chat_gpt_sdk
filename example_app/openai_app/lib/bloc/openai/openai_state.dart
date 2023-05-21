@@ -11,12 +11,6 @@ class OpenAITokenState extends OpenAIState {
   OpenAITokenState({this.token, required this.isSuccess});
 }
 
-class OpenAIGptVersionState extends OpenAIState {
-  final bool isGPT4;
-
-  OpenAIGptVersionState({required this.isGPT4});
-}
-
 class OpenSettingState extends OpenAIState {
   final bool isOpen;
 
@@ -39,3 +33,9 @@ class OpenAIServerErrorState extends OpenAIState {}
 class CloseOpenAIErrorUI extends OpenAIState {}
 
 class ClearTextInput extends OpenAIState {}
+
+class DownloadImageState extends OpenAIState {
+  final bool isSuccess;
+
+  DownloadImageState({required this.isSuccess});
+}

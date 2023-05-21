@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:openai_app/bloc/openai/openai_state.dart';
+import 'package:openai_app/constants/constants.dart';
 import 'package:openai_app/models/message/message.dart';
 import 'package:openai_app/service/shred_preference/shared_preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,9 +34,12 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     if (getToken() == "") {
       error();
     } else {
-      saveToken(success: () => null, error: () => null);
-      _openAI.setToken(getToken());
-      success();
+      saveToken(
+          success: () {
+            _openAI.setToken(getToken());
+            success();
+          },
+          error: error);
     }
   }
 
@@ -58,24 +64,6 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     }
   }
 
-  ///select gpt4
-  void onSetGpt4() async {
-    ///keep chat gpt version
-    await _shared.setBool(SharedRefKey.kGPTVersion, true);
-    emit(OpenAIGptVersionState(isGPT4: true));
-  }
-
-  ///select gpt3.5
-  void onSetGpt3() async {
-    ///keep chat gpt version
-    await _shared.setBool(SharedRefKey.kGPTVersion, false);
-    emit(OpenAIGptVersionState(isGPT4: false));
-  }
-
-  ///gpt version
-  ///[getVersion]
-  void getVersion() => emit(OpenAIGptVersionState(isGPT4: _getVersion()));
-
   String getToken() {
     _txtToken.text = _shared.getString(SharedRefKey.kAccessToken) ?? "";
     return _txtToken.value.text;
@@ -94,9 +82,30 @@ class OpenAIBloc extends Cubit<OpenAIState> {
             sendTimeout: const Duration(seconds: 30)));
   }
 
+  void openAIEvent(String event, {required Function() error}) {
+    if (_txtInput.value.text == "") {
+      error();
+    } else {
+      switch (event) {
+        case FeatureType.kCompletion:
+          sendWithPrompt();
+          break;
+        case FeatureType.kGenerateImage:
+          generateImage();
+          break;
+        case FeatureType.kGrammar:
+          textDavinci();
+          break;
+        case FeatureType.kQuestionInterview:
+          textDavinci();
+          break;
+      }
+    }
+  }
+
   ///messages of chat
   List<Message> list = [];
-  void sendWithPrompt(bool isBot) async {
+  void sendWithPrompt() async {
     ///update user chat message
     list.add(Message(isBot: false, message: getTextInput().value.text));
     emit(ChatCompletionState(isBot: false, messages: list));
@@ -143,6 +152,67 @@ class OpenAIBloc extends Cubit<OpenAIState> {
       message?.message =
           '${message.message ?? ""}${it.choices.last.message?.content ?? ""}';
       list.add(Message(isBot: true, id: '${it.id}', message: message?.message));
+      emit(ChatCompletionState(isBot: true, messages: list));
+    });
+  }
+
+  ///generate image with prompt
+  ///[generateImage]
+  void generateImage() async {
+    final request = GenerateImage(_txtInput.value.text, 1,
+        size: ImageSize.size1024, responseFormat: Format.url);
+
+    ///update user chat message
+    list.add(Message(isBot: false, message: getTextInput().value.text));
+    emit(ChatCompletionState(isBot: false, messages: list));
+
+    ///clear text
+    _txtInput.text = "";
+
+    ///start request
+    final response = await _openAI.generateImage(request);
+
+    ///add new message
+    list.add(Message(
+        isBot: true,
+        message: response?.data != [] ? response?.data?.last?.url : ""));
+    emit(ChatCompletionState(isBot: true, messages: list));
+  }
+
+  void textDavinci() async {
+    ///update user chat message
+    list.add(Message(isBot: false, message: getTextInput().value.text));
+    emit(ChatCompletionState(isBot: false, messages: list));
+
+    ///setup request body
+    final request = CompleteText(
+        prompt: _txtInput.value.text,
+        maxTokens: 400,
+        model: Model.textDavinci3);
+
+    ///clear text
+    _txtInput.text = "";
+
+    ///send request
+    _openAI
+        .onCompletionSSE(request: request)
+        .transform(StreamTransformer.fromHandlers(handleError: handleError))
+        .listen((it) {
+      ///new message object
+      Message? message;
+      for (final m in list) {
+        if (m.id == it.id) {
+          message = m;
+          list.remove(m);
+          break;
+        }
+      }
+
+      ///+= message
+      message?.message = '${message.message ?? ""}${it.choices.last.text}';
+
+      ///add new message
+      list.add(Message(isBot: true, message: message?.message, id: it.id));
       emit(ChatCompletionState(isBot: true, messages: list));
     });
   }
@@ -197,9 +267,39 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     }
   }
 
+  ///download image from bot chat
+  void downloadImage(String url,
+      {required Function() success,
+      required Function(String message) error}) async {
+    try {
+      final response = await get(Uri.parse(url));
+
+      /// Get temporary directory
+      const path = "/storage/emulated/0/Download";
+      final createDirect = Directory("$path/openai");
+      if (await createDirect.exists()) {
+      } else {
+        await createDirect.create(recursive: true);
+      }
+
+      /// Create an image name
+      var filename = '$path/${DateTime.now().microsecondsSinceEpoch}.png';
+
+      /// Save to filesystem
+      final file = File(filename);
+      await file.writeAsBytes(response.bodyBytes);
+      if (await file.exists()) {
+        success();
+      }
+    } catch (err) {
+      error('path have problem.');
+    }
+  }
+
   @override
   Future<void> close() {
-    getTextInput().clear();
+    _txtInput.dispose();
+    _txtInput.dispose();
     return super.close();
   }
 }

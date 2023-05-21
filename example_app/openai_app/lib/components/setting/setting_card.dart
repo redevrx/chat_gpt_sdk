@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openai_app/bloc/openai/openai_bloc.dart';
-import 'package:openai_app/bloc/openai/openai_state.dart';
+import 'package:openai_app/bloc/select_version/select_version_bloc.dart';
+import 'package:openai_app/bloc/select_version/select_version_state.dart';
 import 'package:openai_app/components/button/openai_button.dart';
 import 'package:openai_app/constants/extension/size_box_extension.dart';
 import 'package:openai_app/constants/theme/colors.dart';
@@ -21,6 +22,7 @@ class SettingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<OpenAIBloc>(context, listen: false).getTxtToken();
+    context.read<SelectVersionBloc>().getVersion();
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         height: height,
@@ -81,7 +83,7 @@ class SettingCard extends StatelessWidget {
                 ),
 
                 ///checkbox gpt version
-                BlocBuilder<OpenAIBloc, OpenAIState>(
+                BlocBuilder<SelectVersionBloc, SelectVersionState>(
                   builder: (context, state) {
                     if (state is OpenAIGptVersionState) {
                       return buildCheckBox(state.isGPT4, context);
@@ -111,11 +113,11 @@ class SettingCard extends StatelessWidget {
       children: [
         CupertinoCheckbox(
             value: isGPT4 ? false : true,
-            onChanged: (_) => context.read<OpenAIBloc>().onSetGpt3()),
+            onChanged: (_) => context.read<SelectVersionBloc>().onSetGpt3()),
         Text("ChatGPT 3.5", style: Theme.of(context).textTheme.titleSmall),
         CupertinoCheckbox(
             value: isGPT4,
-            onChanged: (_) => context.read<OpenAIBloc>().onSetGpt4()),
+            onChanged: (_) => context.read<SelectVersionBloc>().onSetGpt4()),
         Text("ChatGPT 4", style: Theme.of(context).textTheme.titleSmall),
       ],
     );

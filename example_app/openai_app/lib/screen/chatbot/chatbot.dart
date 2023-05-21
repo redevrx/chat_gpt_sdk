@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,12 +8,15 @@ import 'package:lottie/lottie.dart';
 import 'package:openai_app/bloc/openai/openai_bloc.dart';
 import 'package:openai_app/bloc/openai/openai_state.dart';
 import 'package:openai_app/components/button/openai_button.dart';
+import 'package:openai_app/components/dialog/loading_dialog.dart';
 import 'package:openai_app/components/setting/setting_card.dart';
+import 'package:openai_app/constants/constants.dart';
 import 'package:openai_app/constants/extension/size_box_extension.dart';
 import 'package:openai_app/constants/theme/colors.dart';
 import 'package:openai_app/constants/theme/dimen.dart';
 import 'package:openai_app/constants/theme/theme.dart';
 import 'package:openai_app/models/feature/feature_data.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../components/error/notfound_token.dart';
 
@@ -49,7 +53,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     return WillPopScope(
         onWillPop: clearMessages,
         child: Scaffold(
-          appBar: buildAppBar(size, context),
           body: Material(
             color: Colors.transparent,
             child: CustomScrollView(
@@ -57,10 +60,11 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               slivers: [
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: size.height * .9,
+                    height: size.height,
                     child: Stack(
                       children: [
-                        buildMsgList(context, size),
+                        ///messages card
+                        buildMsgCard(size, context),
 
                         ///input
                         buildTextInput(),
@@ -80,28 +84,44 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         ));
   }
 
-  BlocBuilder<OpenAIBloc, OpenAIState> buildMsgList(
-      BuildContext context, Size size) {
-    return BlocBuilder<OpenAIBloc, OpenAIState>(
-      bloc: BlocProvider.of<OpenAIBloc>(context, listen: false),
-      builder: (context, state) {
-        if (state is ChatCompletionState) {
-          return SizedBox(
-            height: size.height * .8,
-            child: ListView.builder(
-              itemCount: BlocProvider.of<OpenAIBloc>(context, listen: false)
-                  .list
-                  .length,
-              itemBuilder: (context, index) {
-                return state.messages?[index].isBot == true
-                    ? buildBotCard(context, state.messages?[index].message)
-                    : buildUserCard(context, state.messages?[index].message);
-              },
-            ),
-          );
-        }
-        return buildBotCard(context, null);
-      },
+  Column buildMsgCard(Size size, BuildContext context) {
+    return Column(
+      children: [
+        buildAppBar(size, context),
+        BlocBuilder<OpenAIBloc, OpenAIState>(
+          bloc: BlocProvider.of<OpenAIBloc>(context, listen: false),
+          builder: (context, state) {
+            if (state is ChatCompletionState) {
+              return Expanded(
+                  flex: 12,
+                  child: ListView.builder(
+                    itemCount:
+                        BlocProvider.of<OpenAIBloc>(context, listen: false)
+                            .list
+                            .length,
+                    itemBuilder: (context, index) {
+                      if (widget.data.type == FeatureType.kGenerateImage) {
+                        return state.messages?[index].isBot == true
+                            ? buildBotCardImage(
+                                context, state.messages?[index].message)
+                            : buildUserCard(
+                                context, state.messages?[index].message);
+                      }
+                      return state.messages?[index].isBot == true
+                          ? buildBotCard(
+                              context, state.messages?[index].message)
+                          : buildUserCard(
+                              context, state.messages?[index].message);
+                    },
+                  ));
+            }
+            return buildBotCard(context, null);
+          },
+        ),
+        const Spacer(
+          flex: 1,
+        )
+      ],
     );
   }
 
@@ -119,9 +139,10 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                       tab: () {
                         final bloc =
                             BlocProvider.of<OpenAIBloc>(context, listen: false);
-                        bloc.onSetToken(
+                        bloc.saveToken(
                             success: () {
                               bloc.openSettingSheet(!state.isOpen);
+                              bloc.initOpenAISdk();
                             },
                             error: () => errorNotFoundToken(context));
                       }),
@@ -161,9 +182,8 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
             ),
           );
         }
-
         if (state is OpenAIServerErrorState) {
-          Align(
+          return Align(
             alignment: Alignment.bottomCenter,
             child: ErrorCard(
               height: size.height * .5,
@@ -180,13 +200,14 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
 
   Padding buildUserCard(BuildContext context, String? message) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+      padding: const EdgeInsets.all(kDefaultPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           ///content card
           Flexible(
               child: Container(
+                  margin: const EdgeInsets.only(right: kDefaultPadding / 2),
                   padding: const EdgeInsets.symmetric(
                       horizontal: kDefaultPadding / 1.5,
                       vertical: kDefaultPadding / 1.2),
@@ -203,8 +224,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
 
           ///user icon
           Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
               padding: const EdgeInsets.all(kDefaultPadding / 1.5),
               decoration: BoxDecoration(
                   color: kButtonColor.withOpacity(.32),
@@ -297,6 +316,100 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     );
   }
 
+  Padding buildBotCardImage(BuildContext context, String? message) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ///bot icon
+          Container(
+              margin: const EdgeInsets.only(right: kDefaultPadding / 2),
+              padding: const EdgeInsets.all(kDefaultPadding / 1.5),
+              decoration: BoxDecoration(
+                  color: kButtonColor.withOpacity(.32),
+                  borderRadius: BorderRadius.circular(kDefaultPadding / 3),
+                  boxShadow: [
+                    BoxShadow(
+                        color: kButtonColor.withOpacity(.1),
+                        offset: const Offset(0, 3),
+                        blurRadius: 6.0)
+                  ]),
+              child: Image.asset(
+                'assets/icons/openai_icon.png',
+                color: Colors.blueAccent,
+                cacheWidth: 32,
+                cacheHeight: 32,
+                width: kDefaultPadding,
+                height: kDefaultPadding,
+              )),
+
+          ///content card
+          Flexible(
+              child: ClipRRect(
+            borderRadius: BorderRadius.circular(kDefaultPadding),
+            child: Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.network(
+                    message ?? kExampleImageNetwork,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  bottom: kDefaultPadding / 2,
+                  right: kDefaultPadding,
+                  child: InkWell(
+                    onTap: () async {
+                      if (message != "" && message != null) {
+                        final bloc =
+                            BlocProvider.of<OpenAIBloc>(context, listen: false);
+                        await Permission.storage.request();
+                        await Permission.photos.request();
+
+                        ///show loading dialog
+                        if (context.mounted) {
+                          loadingDialog(context);
+                        }
+
+                        ///start download
+                        bloc.downloadImage(message, success: () {
+                          toast(context, message: "save image success");
+                          Navigator.pop(context);
+                        }, error: (err) {
+                          toast(context, message: 'save image error :$err');
+                          Navigator.pop(context);
+                        });
+                      }
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaY: 10.0, sigmaX: 10.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(kDefaultPadding / 6),
+                          color: Colors.transparent,
+                          child: const Icon(
+                            Icons.downloading,
+                            color: kButtonColor,
+                            size: kDefaultPadding,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ))
+        ],
+      ),
+    );
+  }
+
   Align buildTextInput() {
     return Align(
         alignment: Alignment.bottomCenter,
@@ -315,7 +428,8 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                     .getTextInput(),
                 onSubmitted: (it) {
                   BlocProvider.of<OpenAIBloc>(context, listen: false)
-                      .sendWithPrompt(false);
+                      .openAIEvent(widget.data.type,
+                          error: () => errorNotFoundPrompt(context));
                 },
                 style: Theme.of(context)
                     .textTheme
@@ -338,7 +452,8 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                         child: IconButton(
                           onPressed: () {
                             BlocProvider.of<OpenAIBloc>(context, listen: false)
-                                .sendWithPrompt(false);
+                                .openAIEvent(widget.data.type,
+                                    error: () => errorNotFoundPrompt(context));
                           },
                           color: kButtonColor,
                           icon: Transform.rotate(
