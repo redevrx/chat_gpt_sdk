@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension SizeBoxExtension on double {
-  SizedBox toHeight({double height = 0.0}) {
+  SizedBox toHeight({double height = 1.0}) {
     return SizedBox(height: this * height);
   }
 

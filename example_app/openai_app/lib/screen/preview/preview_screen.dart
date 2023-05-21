@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:openai_app/components/background/background_gradient.dart';
+import 'package:openai_app/components/button/openai_button.dart';
+import 'package:openai_app/constants/extension/size_box_extension.dart';
 import 'package:openai_app/constants/theme/colors.dart';
 import 'package:openai_app/constants/theme/dimen.dart';
 import 'package:openai_app/screen/home/home_screen.dart';
+import 'package:openai_app/screen/setup/setup_token.dart';
 
 class PreviewScreen extends StatelessWidget {
   const PreviewScreen({Key? key}) : super(key: key);
@@ -11,60 +14,79 @@ class PreviewScreen extends StatelessWidget {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => const SetupScreen(),
         ),
         (route) => false);
+  }
+
+  void toHomeScreen({required BuildContext context}) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+            (route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: [
-          buildImageBackground(),
-          const BackgroundGradient(),
-          buildNextButton(context, size)
-        ],
-      ),
-    );
+        body: Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
+      child: Material(
+          color: Colors.transparent,
+          child: Column(
+            children: [
+              kDefaultPadding.toHeight(),
+              buildSkipButton(context),
+              const Spacer(),
+              AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Image.asset(
+                    'assets/images/robot_hello.png',
+                  )),
+              kDefaultPadding.toHeight(height: 2),
+              Text(
+                "Chat with OpenAI",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              kDefaultPadding.toHeight(height: 2),
+              Text(
+                "Chat with the OpenAI  Experience \nthe power of ChatGPT with us",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              kDefaultPadding.toHeight(height: 2),
+              OpenAIButton(
+                  height: size.height * .05,
+                  width: double.infinity,
+                  title: "Get Started",
+                  tab: () => toSetupScreen(context: context)),
+            const Spacer()
+            ],
+          )),
+    ));
   }
 
-  Widget buildNextButton(BuildContext context, Size size) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              "Anything you want, just right here at all.",
-              textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            const SizedBox(
-              height: kDefaultPadding * 2,
-            ),
-            SizedBox(
-              height: size.height * .05,
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: kButtonColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(kDefaultPadding / 2))),
-                onPressed: () => toSetupScreen(context: context),
-                child: Text("Get Started",
-                    style: Theme.of(context).textTheme.titleMedium),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+  Row buildSkipButton(BuildContext context) {
+    return Row(
+              children: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: kDarkOffBgColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(kDefaultPadding))),
+                    onPressed: () => toHomeScreen(context: context),
+                    child: Text(
+                      "Skip",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ))
+              ],
+            );
   }
 
   Widget buildImageBackground() {

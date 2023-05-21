@@ -7,7 +7,7 @@ class ChatCTResponseSSE {
   final int created;
   final List<ChatChoiceSSE> choices;
   final Usage? usage;
-  final String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
+  String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
 
   ChatCTResponseSSE(
       {required this.id,

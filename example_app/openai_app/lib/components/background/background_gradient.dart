@@ -13,7 +13,7 @@ class BackgroundGradient extends StatelessWidget {
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Colors.transparent, kShadowBgColor])),
+              colors: [Colors.transparent, kDarkBgColor])),
     );
   }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:openai_app/constants/theme/colors.dart';
 
 final theme = ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+  useMaterial3: true,
+    scaffoldBackgroundColor: kDarkBgColor,
+    primaryColor: kDarkItemColor,
     textTheme: TextTheme(
         titleSmall: GoogleFonts.openSans(
             fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500),

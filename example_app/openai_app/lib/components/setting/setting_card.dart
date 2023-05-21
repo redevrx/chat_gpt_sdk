@@ -1,6 +1,12 @@
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
+import 'package:openai_app/bloc/openai/openai_bloc.dart';
+import 'package:openai_app/bloc/openai/openai_state.dart';
+import 'package:openai_app/components/button/openai_button.dart';
 import 'package:openai_app/constants/extension/size_box_extension.dart';
 import 'package:openai_app/constants/theme/colors.dart';
 import 'package:openai_app/constants/theme/dimen.dart';
@@ -8,96 +14,113 @@ import 'package:openai_app/constants/theme/dimen.dart';
 class SettingCard extends StatelessWidget {
   const SettingCard({
     super.key,
+    required this.height, required this.tab,
   });
+
+  final double height;
+  final GestureTapCallback tab;
+
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<OpenAIBloc>(context,listen: false).getTxtToken();
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        height: MediaQuery.of(context).size.height * .8,
+        height: height,
         width: double.maxFinite,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: kDarkOffBgColor,
             borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(kDefaultPadding * 1.3),
-                topLeft: Radius.circular(kDefaultPadding * 1.3)),
+                topRight: Radius.circular(kDefaultPadding * 2),
+                topLeft: Radius.circular(kDefaultPadding * 2)),
             boxShadow: [
               BoxShadow(
-                  color: Colors.black12.withOpacity(.1),
-                  offset: const Offset(0, 5),
-                  blurRadius: 30.0)
+                  color: kDarkOffBgColor.withOpacity(.4),
+                  offset: const Offset(8, 0),
+                  blurRadius: 27.0)
             ]),
-        child: Column(
-          children: [
-            Lottie.asset('assets/animation/robot_setting_animation.json',
-                width: 200, height: 200, fit: BoxFit.fill),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              child: Text(
-                "Setting OpenAI",
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall
-                    ?.copyWith(color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Container(
-              margin:
-                  const EdgeInsets.symmetric(vertical: kDefaultPadding * 1.5),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kDefaultPadding, vertical: kDefaultPadding / 8),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(kDefaultPadding),
+        child: Material(
+            color: Colors.transparent,
+            child: Column(
+              children: [
+                MediaQuery.of(context).size.height.toHeight(height: .06),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  child: Text(
+                    "Setting OpenAI",
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: kDefaultPadding * 1.5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  decoration: BoxDecoration(
+                      color: kDarkBgColor,
+                      borderRadius: BorderRadius.circular(kDefaultPadding),
+                      boxShadow: [
+                        BoxShadow(
+                            color: kDarkOffBgColor.withOpacity(.23),
+                            offset: const Offset(0, 5),
+                            blurRadius: 6)
+                      ]),
+                  child: TextFormField(
+                    controller: BlocProvider.of<OpenAIBloc>(context,listen: false).getTxtToken(),
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      hintText: "Access Token",
+                      hintStyle: TextStyle(color: Colors.white),
+                      focusColor: Colors.white,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                    ),
+                  ),
+                ),
+
+                ///checkbox gpt version
+                BlocBuilder<OpenAIBloc, OpenAIState>(
+                  builder: (context, state) {
+                    if (state is OpenAIGptVersionState) {
+                      return buildCheckBox(state.isGPT4, context);
+                    }
+                    return buildCheckBox(false, context);
+                  },
+                ),
+                MediaQuery.of(context).size.height.toHeight(height: .1),
+                OpenAIButton(
+                  width: MediaQuery.of(context).size.width * .56,
+                  height: kDefaultPadding * 2.8,
+                  title: 'Save',
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black12.withOpacity(.12),
-                        offset: const Offset(0, 3),
-                        blurRadius: 27.0)
-                  ]),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: "Access Token",
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
+                        color: kButtonColor.withOpacity(.23),
+                        offset: const Offset(0.0, 6),
+                        blurRadius: 5.0)
+                  ],
+                  tab: tab,
                 ),
-              ),
-            ),
-            Row(
-              children: [
-                CupertinoCheckbox(value: true, onChanged: (it) {}),
-                Text("ChatGPT 3.5",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(color: Colors.black)),
-                CupertinoCheckbox(value: false, onChanged: (it) {}),
-                Text("ChatGPT 4",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(color: Colors.black)),
               ],
-            ),
-            MediaQuery.of(context).size.height.toHeight(height: .1),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .5,
-              height: kDefaultPadding * 3,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    elevation: kDefaultPadding / 1.6,
-                    shadowColor: Colors.indigoAccent.withOpacity(.3),
-                    backgroundColor: kButtonColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(kDefaultPadding))),
-                onPressed: () {},
-                child: Text("Save",
-                    style: Theme.of(context).textTheme.titleMedium),
-              ),
-            ),
-          ],
-        ));
+            )));
+  }
+
+  Row buildCheckBox(bool isGPT4, BuildContext context) {
+    return Row(
+      children: [
+        CupertinoCheckbox(
+            value: isGPT4 ? false : true,
+            onChanged: (_) => context.read<OpenAIBloc>().onSetGpt3()
+        ),
+        Text("ChatGPT 3.5", style: Theme.of(context).textTheme.titleSmall),
+        CupertinoCheckbox(
+            value: isGPT4,
+            onChanged: (_) =>
+                context.read<OpenAIBloc>().onSetGpt4()),
+        Text("ChatGPT 4", style: Theme.of(context).textTheme.titleSmall),
+      ],
+    );
   }
 }

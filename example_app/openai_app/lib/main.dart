@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:openai_app/bloc/openai/openai_bloc.dart';
 import 'package:openai_app/bloc/theme/theme_bloc.dart';
 import 'package:openai_app/constants/theme/theme.dart';
+import 'package:openai_app/di/di.dart';
 import 'package:openai_app/screen/splash/loading_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -13,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
       BlocProvider(create: (context) => ThemeBloc()),
+      BlocProvider(create: (context) => OpenAIBloc())
     ], child: const App());
   }
 }
