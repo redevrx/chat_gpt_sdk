@@ -18,23 +18,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-    initOpenAISDK();
-  }
-
   void toChatBotScreen(BuildContext context, FeatureData data) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ChatBotScreen(data: data)));
-  }
-
-  ///setup openai sdk
-  void initOpenAISDK() {
-    Future.delayed(const Duration(milliseconds: 200), () {
-      BlocProvider.of<OpenAIBloc>(context, listen: false).initOpenAISdk();
-    });
   }
 
   @override
@@ -84,10 +70,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: SettingCard(
                                               height: size.height * .5,
                                               tab: () {
-                                                final bloc = BlocProvider.of<OpenAIBloc>(context, listen: false);
-                                                bloc.saveToken(success: (){
-                                                  bloc.openSettingSheet(!state.isOpen);
-                                                }, error: ()=> errorNotFoundToken(context));
+                                                final bloc =
+                                                    BlocProvider.of<OpenAIBloc>(
+                                                        context,
+                                                        listen: false);
+                                                bloc.saveToken(
+                                                    success: () {
+                                                      bloc.openSettingSheet(
+                                                          !state.isOpen);
+                                                    },
+                                                    error: () =>
+                                                        errorNotFoundToken(
+                                                            context));
                                               }),
                                         )
                                       : const SizedBox();
@@ -114,9 +108,17 @@ class _HomeScreenState extends State<HomeScreen> {
             border: Border.all(color: Colors.white10)),
         child: InkWell(
           onTap: () {
-            BlocProvider.of<OpenAIBloc>(context, listen: false).isHasToken(
+            final bloc = BlocProvider.of<OpenAIBloc>(context, listen: false);
+            bloc.isHasToken(
                 success: () => toChatBotScreen(context, openAIFeatures[index]),
-                error: () => errorNotFoundToken(context));
+                error: () {
+                  errorNotFoundToken(context);
+                  bool openSheet = false;
+                  if (bloc.state is OpenSettingState) {
+                    openSheet = (bloc.state as OpenSettingState).isOpen;
+                  }
+                  bloc.openSettingSheet(!openSheet);
+                });
           },
           child: Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 4),

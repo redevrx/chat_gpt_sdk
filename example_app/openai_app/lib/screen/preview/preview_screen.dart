@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:openai_app/components/background/background_gradient.dart';
 import 'package:openai_app/components/button/openai_button.dart';
 import 'package:openai_app/constants/extension/size_box_extension.dart';
 import 'package:openai_app/constants/theme/colors.dart';
@@ -25,7 +24,7 @@ class PreviewScreen extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ),
-            (route) => false);
+        (route) => false);
   }
 
   @override
@@ -65,7 +64,7 @@ class PreviewScreen extends StatelessWidget {
                   width: double.infinity,
                   title: "Get Started",
                   tab: () => toSetupScreen(context: context)),
-            const Spacer()
+              const Spacer()
             ],
           )),
     ));
@@ -73,20 +72,19 @@ class PreviewScreen extends StatelessWidget {
 
   Row buildSkipButton(BuildContext context) {
     return Row(
-              children: [
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: kDarkOffBgColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(kDefaultPadding))),
-                    onPressed: () => toHomeScreen(context: context),
-                    child: Text(
-                      "Skip",
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ))
-              ],
-            );
+      children: [
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: kDarkOffBgColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(kDefaultPadding))),
+            onPressed: () => toHomeScreen(context: context),
+            child: Text(
+              "Skip",
+              style: Theme.of(context).textTheme.titleSmall,
+            ))
+      ],
+    );
   }
 
   Widget buildImageBackground() {

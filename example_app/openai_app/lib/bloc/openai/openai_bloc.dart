@@ -22,13 +22,16 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
   ///[_txtInput]
   final _txtToken = TextEditingController();
+
   ///[getTxtToken]
   TextEditingController getTxtToken() => _txtToken;
 
-  void onSetToken({required Function() success, required Function() error}) async {
+  void onSetToken(
+      {required Function() success, required Function() error}) async {
     if (getToken() == "") {
       error();
     } else {
+      saveToken(success: () => null, error: () => null);
       _openAI.setToken(getToken());
       success();
     }
@@ -44,7 +47,8 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
   ///save token
   ///[saveToken]
-  void saveToken({required Function() success, required Function() error}) async {
+  void saveToken(
+      {required Function() success, required Function() error}) async {
     if (_txtToken.value.text == "") {
       error();
       await _shared.setString(SharedRefKey.kAccessToken, "");
@@ -64,7 +68,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   ///select gpt3.5
   void onSetGpt3() async {
     ///keep chat gpt version
-    final isSuccess = await _shared.setBool(SharedRefKey.kGPTVersion, false);
+    await _shared.setBool(SharedRefKey.kGPTVersion, false);
     emit(OpenAIGptVersionState(isGPT4: false));
   }
 
@@ -74,8 +78,9 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
   String getToken() {
     _txtToken.text = _shared.getString(SharedRefKey.kAccessToken) ?? "";
-    return  _txtToken.value.text;
+    return _txtToken.value.text;
   }
+
   bool _getVersion() => _shared.getBool(SharedRefKey.kGPTVersion) ?? false;
 
   ///[initOpenAISdk]
@@ -93,13 +98,16 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   List<Message> list = [];
   void sendWithPrompt(bool isBot) async {
     ///update user chat message
-    list.add(Message(isBot: false,message: getTextInput().value.text));
-    emit(ChatCompletionState(isBot: false,messages: list));
+    list.add(Message(isBot: false, message: getTextInput().value.text));
+    emit(ChatCompletionState(isBot: false, messages: list));
 
     ///start send request
     final request = ChatCompleteText(
         model: _getVersion() ? ChatModel.gpt_4 : ChatModel.gptTurbo,
-        messages: [Map.of({"role": "user", "content": getTextInput().value.text})], maxToken: 400);
+        messages: [
+          Map.of({"role": "user", "content": getTextInput().value.text})
+        ],
+        maxToken: 400);
 
     // try {
     //   final response = await _openAI.onChatCompletion(request: request);
@@ -118,36 +126,39 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     // }
     getTextInput().text = "";
 
-    _openAI.onChatCompletionSSE(request: request)
-    .transform(StreamTransformer.fromHandlers(handleError: handleError))
-    .listen((it) {
+    _openAI
+        .onChatCompletionSSE(request: request)
+        .transform(StreamTransformer.fromHandlers(handleError: handleError))
+        .listen((it) {
       Message? message;
-      for(final m in list){
-        if(m.id == '${it.id}'){
+      for (final m in list) {
+        if (m.id == '${it.id}') {
           message = m;
           list.remove(m);
           break;
         }
       }
-    //  list.removeWhere((element) => element.id == '${it.id}');
+      //  list.removeWhere((element) => element.id == '${it.id}');
       ///+= message
-       message?.message = '${message.message ?? ""}${it.choices.last.message?.content ?? ""}';
-      list.add(Message(isBot: true,id: '${it.id}',message: message?.message));
+      message?.message =
+          '${message.message ?? ""}${it.choices.last.message?.content ?? ""}';
+      list.add(Message(isBot: true, id: '${it.id}', message: message?.message));
       emit(ChatCompletionState(isBot: true, messages: list));
     });
   }
 
-  void clearMessage(){
+  void clearMessage() {
     list = [];
   }
+
   void handleError(Object error, StackTrace t, EventSink<dynamic> eventSink) {
-    if(error is OpenAIAuthError){
-     emit(AuthErrorState());
+    if (error is OpenAIAuthError) {
+      emit(AuthErrorState());
     }
-    if(error is OpenAIRateLimitError){
+    if (error is OpenAIRateLimitError) {
       emit(RateLimitErrorState());
     }
-    if(error is OpenAIServerError){
+    if (error is OpenAIServerError) {
       emit(OpenAIServerErrorState());
     }
   }
@@ -170,23 +181,25 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   /// text controller
   final _txtInput = TextEditingController();
   TextEditingController getTextInput() => _txtInput;
-  void closeTextInput(){
+  void closeTextInput() {
     getTextInput().clear();
   }
 
-  void closeOpenAIError()=> emit(CloseOpenAIErrorUI());
+  void closeOpenAIError() => emit(CloseOpenAIErrorUI());
 
-  void isFirstSetting({required Function() success, required Function() error}){
-    if(_shared.getBool(SharedRefKey.kIsFistSetting) == true){
+  void isFirstSetting(
+      {required Function() success, required Function() error}) {
+    if (_shared.getBool(SharedRefKey.kIsFistSetting) == true) {
       success();
-    }else {
-      _shared.setBool(SharedRefKey.kIsFistSetting,true);
+    } else {
+      _shared.setBool(SharedRefKey.kIsFistSetting, true);
       error();
     }
   }
+
   @override
   Future<void> close() {
-  getTextInput().clear();
+    getTextInput().clear();
     return super.close();
   }
 }

@@ -44,6 +44,7 @@ dependencies:
   lottie: ^2.3.2
   injectable: ^2.1.1
   get_it: ^7.6.0
+  flutter_markdown: ^0.6.14
 
 dev_dependencies:
   flutter_test:

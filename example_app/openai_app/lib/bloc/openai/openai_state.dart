@@ -2,7 +2,7 @@ import 'package:openai_app/models/message/message.dart';
 
 abstract class OpenAIState {}
 
-class OpenAIInitialState extends OpenAIState{}
+class OpenAIInitialState extends OpenAIState {}
 
 class OpenAITokenState extends OpenAIState {
   final bool isSuccess;
@@ -27,12 +27,15 @@ class ChatCompletionState extends OpenAIState {
   final List<Message>? messages;
   final bool isBot;
 
-  ChatCompletionState({this.messages,required this.isBot});
+  ChatCompletionState({this.messages, required this.isBot});
 }
 
 class AuthErrorState extends OpenAIState {}
+
 class RateLimitErrorState extends OpenAIState {}
+
 class OpenAIServerErrorState extends OpenAIState {}
+
 class CloseOpenAIErrorUI extends OpenAIState {}
 
 class ClearTextInput extends OpenAIState {}

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -18,20 +16,20 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void countDownTime({required BuildContext context}) {
     Future.delayed(const Duration(seconds: 3), () {
-      BlocProvider.of<OpenAIBloc>(context,listen: false).isFirstSetting(success: (){
+      BlocProvider.of<OpenAIBloc>(context, listen: false).isFirstSetting(
+          success: () {
         ///navigate to preview screen
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const HomeScreen()),
-                (route) => false);
-      }, error: (){
+            (route) => false);
+      }, error: () {
         ///navigate to preview screen
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const PreviewScreen()),
-                (route) => false);
+            (route) => false);
       });
-
     });
   }
 
@@ -45,12 +43,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body:  Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-          child: Center(
-            child: buildPreviewAnimation(size),
-          ))
-    );
+        body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+            child: Center(
+              child: buildPreviewAnimation(size),
+            )));
   }
 
   Widget buildPreviewAnimation(Size size) {

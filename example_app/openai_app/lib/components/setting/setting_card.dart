@@ -1,9 +1,6 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:lottie/lottie.dart';
 import 'package:openai_app/bloc/openai/openai_bloc.dart';
 import 'package:openai_app/bloc/openai/openai_state.dart';
 import 'package:openai_app/components/button/openai_button.dart';
@@ -14,16 +11,16 @@ import 'package:openai_app/constants/theme/dimen.dart';
 class SettingCard extends StatelessWidget {
   const SettingCard({
     super.key,
-    required this.height, required this.tab,
+    required this.height,
+    required this.tab,
   });
 
   final double height;
   final GestureTapCallback tab;
 
-
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<OpenAIBloc>(context,listen: false).getTxtToken();
+    BlocProvider.of<OpenAIBloc>(context, listen: false).getTxtToken();
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         height: height,
@@ -68,7 +65,9 @@ class SettingCard extends StatelessWidget {
                             blurRadius: 6)
                       ]),
                   child: TextFormField(
-                    controller: BlocProvider.of<OpenAIBloc>(context,listen: false).getTxtToken(),
+                    controller:
+                        BlocProvider.of<OpenAIBloc>(context, listen: false)
+                            .getTxtToken(),
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                       hintText: "Access Token",
@@ -112,13 +111,11 @@ class SettingCard extends StatelessWidget {
       children: [
         CupertinoCheckbox(
             value: isGPT4 ? false : true,
-            onChanged: (_) => context.read<OpenAIBloc>().onSetGpt3()
-        ),
+            onChanged: (_) => context.read<OpenAIBloc>().onSetGpt3()),
         Text("ChatGPT 3.5", style: Theme.of(context).textTheme.titleSmall),
         CupertinoCheckbox(
             value: isGPT4,
-            onChanged: (_) =>
-                context.read<OpenAIBloc>().onSetGpt4()),
+            onChanged: (_) => context.read<OpenAIBloc>().onSetGpt4()),
         Text("ChatGPT 4", style: Theme.of(context).textTheme.titleSmall),
       ],
     );

@@ -3,5 +3,5 @@ class Message {
   final bool isBot;
   String? message;
 
-  Message({this.id,this.isBot = true, this.message});
+  Message({this.id, this.isBot = true, this.message});
 }

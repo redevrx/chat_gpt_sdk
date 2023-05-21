@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:openai_app/bloc/openai/openai_bloc.dart';
 import 'package:openai_app/bloc/theme/theme_bloc.dart';
 import 'package:openai_app/constants/theme/theme.dart';
 import 'package:openai_app/di/di.dart';
 import 'package:openai_app/screen/splash/loading_screen.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
   runApp(const MyApp());

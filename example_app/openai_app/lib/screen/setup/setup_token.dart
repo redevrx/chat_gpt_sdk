@@ -16,7 +16,7 @@ class SetupScreen extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
           ),
-              (route) => false);
+          (route) => false);
     }, error: () {
       errorNotFoundToken(context);
     });

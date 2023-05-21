@@ -4,7 +4,12 @@ import 'package:openai_app/constants/theme/dimen.dart';
 
 class OpenAIButton extends StatelessWidget {
   const OpenAIButton({
-    super.key, required this.height, required this.width, required this.tab, required this.title, this.boxShadow,
+    super.key,
+    required this.height,
+    required this.width,
+    required this.tab,
+    required this.title,
+    this.boxShadow,
   });
 
   final double height;
@@ -21,13 +26,13 @@ class OpenAIButton extends StatelessWidget {
       decoration: BoxDecoration(
           color: kButtonColor,
           borderRadius: BorderRadius.circular(kDefaultPadding * 1.22),
-          boxShadow: boxShadow
-      ),
+          boxShadow: boxShadow),
       child: InkWell(
         splashColor: kDarkOffBgColor.withOpacity(.23),
         onTap: tab,
-        child: Center(child: Text(title,
-            style: Theme.of(context).textTheme.titleMedium),),
+        child: Center(
+          child: Text(title, style: Theme.of(context).textTheme.titleMedium),
+        ),
       ),
     );
   }

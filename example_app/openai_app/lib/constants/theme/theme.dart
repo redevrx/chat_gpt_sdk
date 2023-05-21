@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:openai_app/constants/theme/colors.dart';
 
 final theme = ThemeData(
-  useMaterial3: true,
+    useMaterial3: true,
     scaffoldBackgroundColor: kDarkBgColor,
     primaryColor: kDarkItemColor,
     textTheme: TextTheme(

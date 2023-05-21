@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:lottie/lottie.dart';
 import 'package:openai_app/bloc/openai/openai_bloc.dart';
 import 'package:openai_app/bloc/openai/openai_state.dart';
@@ -10,6 +11,7 @@ import 'package:openai_app/components/setting/setting_card.dart';
 import 'package:openai_app/constants/extension/size_box_extension.dart';
 import 'package:openai_app/constants/theme/colors.dart';
 import 'package:openai_app/constants/theme/dimen.dart';
+import 'package:openai_app/constants/theme/theme.dart';
 import 'package:openai_app/models/feature/feature_data.dart';
 
 import '../../components/error/notfound_token.dart';
@@ -23,10 +25,22 @@ class ChatBotScreen extends StatefulWidget {
 }
 
 class _ChatBotScreenState extends State<ChatBotScreen> {
-
   Future<bool> clearMessages() {
     BlocProvider.of<OpenAIBloc>(context, listen: false).clearMessage();
     return Future.value(true);
+  }
+
+  ///setup openai sdk
+  void initOpenAISDK() {
+    Future.delayed(const Duration(milliseconds: 200), () {
+      BlocProvider.of<OpenAIBloc>(context, listen: false).initOpenAISdk();
+    });
+  }
+
+  @override
+  void initState() {
+    initOpenAISDK();
+    super.initState();
   }
 
   @override
@@ -247,19 +261,37 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           ///content card
           Flexible(
               child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding / 1.5,
-                      vertical: kDefaultPadding / 1.2),
-                  decoration: BoxDecoration(
-                      color: kDarkOffBgColor,
-                      borderRadius: BorderRadius.circular(kDefaultPadding / 2),
-                      border: Border.all(color: Colors.white10)),
-                  child: Text(
-                    message ?? 'OpenAI Answer',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: Colors.white,
-                        ),
-                  )))
+            padding: const EdgeInsets.symmetric(
+                horizontal: kDefaultPadding / 1.5,
+                vertical: kDefaultPadding / 1.2),
+            decoration: BoxDecoration(
+                color: kDarkOffBgColor,
+                borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+                border: Border.all(color: Colors.white10)),
+            child: MarkdownBody(
+              data: message ?? "What Help ?",
+              selectable: true,
+              onTapText: () {},
+              styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
+              styleSheet: MarkdownStyleSheet(
+                  codeblockDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: kDarkBgColor,
+                  ),
+                  code: theme.textTheme.titleSmall?.copyWith(
+                      color: Colors.blue, backgroundColor: Colors.transparent),
+                  p: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(color: Colors.white)),
+            ),
+            // Text(
+            //   message ?? 'OpenAI Answer',
+            //   style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            //         color: Colors.white,
+            //       ),
+            // )
+          ))
         ],
       ),
     );
@@ -343,7 +375,8 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               ]),
           child: InkWell(
             onTap: () {
-              BlocProvider.of<OpenAIBloc>(context, listen: false).clearMessage();
+              BlocProvider.of<OpenAIBloc>(context, listen: false)
+                  .clearMessage();
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios_new,

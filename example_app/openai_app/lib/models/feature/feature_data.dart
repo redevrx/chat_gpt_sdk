@@ -9,9 +9,9 @@ class FeatureData {
 
   FeatureData(
       {required this.image,
-        required this.title,
-        required this.imageColor,
-        required this.bgColor});
+      required this.title,
+      required this.imageColor,
+      required this.bgColor});
 }
 
 final openAIFeatures = [
