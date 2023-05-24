@@ -10,21 +10,22 @@ import 'package:chat_gpt_sdk/src/edit.dart' as _i2;
 import 'package:chat_gpt_sdk/src/embedding.dart' as _i3;
 import 'package:chat_gpt_sdk/src/file.dart' as _i5;
 import 'package:chat_gpt_sdk/src/fine_tuned.dart' as _i6;
+import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart' as _i13;
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_complete_text.dart'
-    as _i16;
+    as _i17;
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_ct_response.dart'
-    as _i15;
+    as _i16;
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart'
-    as _i19;
+    as _i20;
 import 'package:chat_gpt_sdk/src/model/client/http_setup.dart' as _i11;
 import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart'
-    as _i14;
+    as _i15;
 import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart'
-    as _i13;
+    as _i14;
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart'
-    as _i18;
+    as _i19;
 import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart'
-    as _i17;
+    as _i18;
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart' as _i10;
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_models.dart' as _i9;
 import 'package:chat_gpt_sdk/src/moderations.dart' as _i7;
@@ -264,16 +265,20 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
         ),
       ) as _i8.OpenAI);
   @override
-  _i12.Future<_i9.AiModel> listModel() => (super.noSuchMethod(
+  _i12.Future<_i9.AiModel> listModel(
+          {void Function(_i13.CancelData)? onCancel}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #listModel,
           [],
+          {#onCancel: onCancel},
         ),
         returnValue: _i12.Future<_i9.AiModel>.value(_FakeAiModel_7(
           this,
           Invocation.method(
             #listModel,
             [],
+            {#onCancel: onCancel},
           ),
         )),
         returnValueForMissingStub:
@@ -282,20 +287,25 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           Invocation.method(
             #listModel,
             [],
+            {#onCancel: onCancel},
           ),
         )),
       ) as _i12.Future<_i9.AiModel>);
   @override
-  _i12.Future<_i10.EngineModel> listEngine() => (super.noSuchMethod(
+  _i12.Future<_i10.EngineModel> listEngine(
+          {void Function(_i13.CancelData)? onCancel}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #listEngine,
           [],
+          {#onCancel: onCancel},
         ),
         returnValue: _i12.Future<_i10.EngineModel>.value(_FakeEngineModel_8(
           this,
           Invocation.method(
             #listEngine,
             [],
+            {#onCancel: onCancel},
           ),
         )),
         returnValueForMissingStub:
@@ -304,74 +314,90 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           Invocation.method(
             #listEngine,
             [],
+            {#onCancel: onCancel},
           ),
         )),
       ) as _i12.Future<_i10.EngineModel>);
   @override
-  _i12.Future<_i13.CTResponse?> onCompletion(
-          {required _i14.CompleteText? request}) =>
+  _i12.Future<_i14.CTResponse?> onCompletion({
+    required _i15.CompleteText? request,
+    void Function(_i13.CancelData)? onCancel,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #onCompletion,
           [],
-          {#request: request},
+          {
+            #request: request,
+            #onCancel: onCancel,
+          },
         ),
-        returnValue: _i12.Future<_i13.CTResponse?>.value(),
-        returnValueForMissingStub: _i12.Future<_i13.CTResponse?>.value(),
-      ) as _i12.Future<_i13.CTResponse?>);
+        returnValue: _i12.Future<_i14.CTResponse?>.value(),
+        returnValueForMissingStub: _i12.Future<_i14.CTResponse?>.value(),
+      ) as _i12.Future<_i14.CTResponse?>);
   @override
-  _i12.Future<_i15.ChatCTResponse?> onChatCompletion(
-          {required _i16.ChatCompleteText? request}) =>
+  _i12.Future<_i16.ChatCTResponse?> onChatCompletion({
+    required _i17.ChatCompleteText? request,
+    void Function(_i13.CancelData)? onCancel,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #onChatCompletion,
           [],
-          {#request: request},
+          {
+            #request: request,
+            #onCancel: onCancel,
+          },
         ),
-        returnValue: _i12.Future<_i15.ChatCTResponse?>.value(),
-        returnValueForMissingStub: _i12.Future<_i15.ChatCTResponse?>.value(),
-      ) as _i12.Future<_i15.ChatCTResponse?>);
+        returnValue: _i12.Future<_i16.ChatCTResponse?>.value(),
+        returnValueForMissingStub: _i12.Future<_i16.ChatCTResponse?>.value(),
+      ) as _i12.Future<_i16.ChatCTResponse?>);
   @override
-  _i12.Future<_i17.GenImgResponse?> generateImage(
-          _i18.GenerateImage? request) =>
+  _i12.Future<_i18.GenImgResponse?> generateImage(
+    _i19.GenerateImage? request, {
+    void Function(_i13.CancelData)? onCancel,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #generateImage,
           [request],
+          {#onCancel: onCancel},
         ),
-        returnValue: _i12.Future<_i17.GenImgResponse?>.value(),
-        returnValueForMissingStub: _i12.Future<_i17.GenImgResponse?>.value(),
-      ) as _i12.Future<_i17.GenImgResponse?>);
+        returnValue: _i12.Future<_i18.GenImgResponse?>.value(),
+        returnValueForMissingStub: _i12.Future<_i18.GenImgResponse?>.value(),
+      ) as _i12.Future<_i18.GenImgResponse?>);
   @override
-  _i12.Stream<_i19.ChatCTResponseSSE> onChatCompletionSSE(
-          {required _i16.ChatCompleteText? request}) =>
+  _i12.Stream<_i20.ChatCTResponseSSE> onChatCompletionSSE({
+    required _i17.ChatCompleteText? request,
+    void Function(_i13.CancelData)? onCancel,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #onChatCompletionSSE,
           [],
-          {#request: request},
+          {
+            #request: request,
+            #onCancel: onCancel,
+          },
         ),
-        returnValue: _i12.Stream<_i19.ChatCTResponseSSE>.empty(),
-        returnValueForMissingStub: _i12.Stream<_i19.ChatCTResponseSSE>.empty(),
-      ) as _i12.Stream<_i19.ChatCTResponseSSE>);
+        returnValue: _i12.Stream<_i20.ChatCTResponseSSE>.empty(),
+        returnValueForMissingStub: _i12.Stream<_i20.ChatCTResponseSSE>.empty(),
+      ) as _i12.Stream<_i20.ChatCTResponseSSE>);
   @override
-  _i12.Stream<_i13.CTResponse> onCompletionSSE(
-          {required _i14.CompleteText? request}) =>
+  _i12.Stream<_i14.CTResponse> onCompletionSSE({
+    required _i15.CompleteText? request,
+    void Function(_i13.CancelData)? onCancel,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #onCompletionSSE,
           [],
-          {#request: request},
+          {
+            #request: request,
+            #onCancel: onCancel,
+          },
         ),
-        returnValue: _i12.Stream<_i13.CTResponse>.empty(),
-        returnValueForMissingStub: _i12.Stream<_i13.CTResponse>.empty(),
-      ) as _i12.Stream<_i13.CTResponse>);
-  @override
-  void cancelAIGenerate() => super.noSuchMethod(
-        Invocation.method(
-          #cancelAIGenerate,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i12.Stream<_i14.CTResponse>.empty(),
+        returnValueForMissingStub: _i12.Stream<_i14.CTResponse>.empty(),
+      ) as _i12.Stream<_i14.CTResponse>);
 }

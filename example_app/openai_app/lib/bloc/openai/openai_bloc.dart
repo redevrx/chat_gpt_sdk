@@ -108,7 +108,8 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   void sendWithPrompt() async {
     ///update user chat message
     list.add(Message(isBot: false, message: getTextInput().value.text));
-    emit(ChatCompletionState(isBot: false, messages: list));
+    emit(ChatCompletionState(
+        isBot: false, messages: list, showStopButton: true));
 
     ///start send request
     final request = ChatCompleteText(
@@ -118,25 +119,11 @@ class OpenAIBloc extends Cubit<OpenAIState> {
         ],
         maxToken: 400);
 
-    // try {
-    //   final response = await _openAI.onChatCompletion(request: request);
-    //   list.add(Message(
-    //       isBot: true, message: '${response?.choices.last.message?.content}'));
-    //   emit(ChatCompletionState(isBot: true, messages: list));
-    // }on OpenAIAuthError catch(_) {
-    //   ///return state auth error
-    //   emit(AuthErrorState());
-    // } on OpenAIRateLimitError catch(_) {
-    //   ///return state rate limit error
-    //   emit(RateLimitErrorState());
-    // } on OpenAIServerError catch(_){
-    //   ///return state server error
-    //   emit(OpenAIServerErrorState());
-    // }
+    ///clear text
     getTextInput().text = "";
 
     _openAI
-        .onChatCompletionSSE(request: request)
+        .onChatCompletionSSE(request: request, onCancel: onCancel)
         .transform(StreamTransformer.fromHandlers(handleError: handleError))
         .listen((it) {
       Message? message;
@@ -147,12 +134,16 @@ class OpenAIBloc extends Cubit<OpenAIState> {
           break;
         }
       }
-      //  list.removeWhere((element) => element.id == '${it.id}');
+
       ///+= message
       message?.message =
           '${message.message ?? ""}${it.choices.last.message?.content ?? ""}';
       list.add(Message(isBot: true, id: '${it.id}', message: message?.message));
-      emit(ChatCompletionState(isBot: true, messages: list));
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: true));
+    }, onDone: () {
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: false));
     });
   }
 
@@ -164,25 +155,45 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
     ///update user chat message
     list.add(Message(isBot: false, message: getTextInput().value.text));
-    emit(ChatCompletionState(isBot: false, messages: list));
+    emit(ChatCompletionState(
+        isBot: false, messages: list, showStopButton: true));
 
     ///clear text
     _txtInput.text = "";
 
-    ///start request
-    final response = await _openAI.generateImage(request);
+    try {
+      ///start request
+      final response = await _openAI.generateImage(request, onCancel: onCancel);
 
-    ///add new message
-    list.add(Message(
-        isBot: true,
-        message: response?.data != [] ? response?.data?.last?.url : ""));
-    emit(ChatCompletionState(isBot: true, messages: list));
+      ///add new message
+      list.add(Message(
+          isBot: true,
+          message: response?.data != [] ? response?.data?.last?.url : ""));
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: false));
+    } on OpenAIAuthError catch (_) {
+      ///return state auth error
+      emit(AuthErrorState());
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: false));
+    } on OpenAIRateLimitError catch (_) {
+      ///return state rate limit error
+      emit(RateLimitErrorState());
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: false));
+    } on OpenAIServerError catch (_) {
+      ///return state server error
+      emit(OpenAIServerErrorState());
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: false));
+    }
   }
 
   void textDavinci() async {
     ///update user chat message
     list.add(Message(isBot: false, message: getTextInput().value.text));
-    emit(ChatCompletionState(isBot: false, messages: list));
+    emit(ChatCompletionState(
+        isBot: false, messages: list, showStopButton: true));
 
     ///setup request body
     final request = CompleteText(
@@ -195,7 +206,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
     ///send request
     _openAI
-        .onCompletionSSE(request: request)
+        .onCompletionSSE(request: request, onCancel: onCancel)
         .transform(StreamTransformer.fromHandlers(handleError: handleError))
         .listen((it) {
       ///new message object
@@ -213,7 +224,11 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
       ///add new message
       list.add(Message(isBot: true, message: message?.message, id: it.id));
-      emit(ChatCompletionState(isBot: true, messages: list));
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: true));
+    }, onDone: () {
+      emit(ChatCompletionState(
+          isBot: true, messages: list, showStopButton: false));
     });
   }
 
@@ -221,7 +236,14 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     list = [];
   }
 
+  CancelData? mCancel;
+  void onCancel(CancelData cancelData) {
+    mCancel = cancelData;
+  }
+
   void handleError(Object error, StackTrace t, EventSink<dynamic> eventSink) {
+    emit(ChatCompletionState(
+        isBot: true, messages: list, showStopButton: false));
     if (error is OpenAIAuthError) {
       emit(AuthErrorState());
     }
@@ -231,6 +253,12 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     if (error is OpenAIServerError) {
       emit(OpenAIServerErrorState());
     }
+  }
+
+  void onStopGenerate() {
+    emit(ChatCompletionState(
+        isBot: true, messages: list, showStopButton: false));
+    mCancel?.cancelToken.cancel("canceled ");
   }
 
   void openSettingSheet(bool isOpen) {

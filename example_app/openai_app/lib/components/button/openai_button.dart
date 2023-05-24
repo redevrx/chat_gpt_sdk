@@ -10,6 +10,7 @@ class OpenAIButton extends StatelessWidget {
     required this.tab,
     required this.title,
     this.boxShadow,
+    this.color = kButtonColor,
   });
 
   final double height;
@@ -17,6 +18,7 @@ class OpenAIButton extends StatelessWidget {
   final GestureTapCallback tab;
   final String title;
   final List<BoxShadow>? boxShadow;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class OpenAIButton extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-          color: kButtonColor,
+          color: color,
           borderRadius: BorderRadius.circular(kDefaultPadding * 1.22),
           boxShadow: boxShadow),
       child: InkWell(

@@ -4,14 +4,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:lottie/lottie.dart';
 import 'package:openai_app/bloc/openai/openai_bloc.dart';
 import 'package:openai_app/bloc/openai/openai_state.dart';
 import 'package:openai_app/components/button/openai_button.dart';
 import 'package:openai_app/components/dialog/loading_dialog.dart';
+import 'package:openai_app/components/error/error_card.dart';
 import 'package:openai_app/components/setting/setting_card.dart';
 import 'package:openai_app/constants/constants.dart';
-import 'package:openai_app/constants/extension/size_box_extension.dart';
 import 'package:openai_app/constants/theme/colors.dart';
 import 'package:openai_app/constants/theme/dimen.dart';
 import 'package:openai_app/constants/theme/theme.dart';
@@ -66,14 +65,14 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                         ///messages card
                         buildMsgCard(size, context),
 
-                        ///input
-                        buildTextInput(),
-
                         ///setting bottom sheet
                         buildSettingSheet(context, size),
 
                         ///open sheet errors
                         buildErrorSheet(context, size),
+
+                        ///input
+                        buildTextInput(),
                       ],
                     ),
                   ),
@@ -413,62 +412,93 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   Align buildTextInput() {
     return Align(
         alignment: Alignment.bottomCenter,
-        child: Container(
-            margin: const EdgeInsets.symmetric(
-                horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
-            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-            width: double.infinity,
-            height: kDefaultPadding * 2.5,
-            decoration: BoxDecoration(
-                color: kDarkOffBgColor,
-                borderRadius: BorderRadius.circular(kDefaultPadding / 2),
-                border: Border.all(color: Colors.white10)),
-            child: TextField(
-                controller: BlocProvider.of<OpenAIBloc>(context, listen: false)
-                    .getTextInput(),
-                onSubmitted: (it) {
-                  BlocProvider.of<OpenAIBloc>(context, listen: false)
-                      .openAIEvent(widget.data.type,
-                          error: () => errorNotFoundPrompt(context));
-                },
-                style: Theme.of(context)
+        child: BlocBuilder<OpenAIBloc, OpenAIState>(
+          builder: (context, state) {
+            if (state is ChatCompletionState) {
+              return state.showStopButton
+                  ? Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kDefaultPadding),
+                      child: OpenAIButton(
+                        width: MediaQuery.of(context).size.width * .25,
+                        height: kDefaultPadding * 2.8,
+                        title: 'Stop',
+                        boxShadow: [
+                          BoxShadow(
+                              color: kButtonColor.withOpacity(.23),
+                              offset: const Offset(0.0, 6),
+                              blurRadius: 5.0)
+                        ],
+                        tab: () {
+                          BlocProvider.of<OpenAIBloc>(context, listen: false)
+                              .onStopGenerate();
+                        },
+                      ),
+                    )
+                  : buildTextField(context);
+            }
+            return buildTextField(context);
+          },
+        ));
+  }
+
+  Container buildTextField(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.symmetric(
+            horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
+        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+        width: double.infinity,
+        height: kDefaultPadding * 2.5,
+        decoration: BoxDecoration(
+            color: kDarkOffBgColor,
+            borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+            border: Border.all(color: Colors.white10)),
+        child: TextField(
+            controller: BlocProvider.of<OpenAIBloc>(context, listen: false)
+                .getTextInput(),
+            onSubmitted: (it) {
+              BlocProvider.of<OpenAIBloc>(context, listen: false).openAIEvent(
+                  widget.data.type,
+                  error: () => errorNotFoundPrompt(context));
+            },
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(color: Colors.white),
+            decoration: InputDecoration(
+                suffixIcon: Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: kDefaultPadding / 4),
+                    decoration: BoxDecoration(
+                        color: kButtonColor.withOpacity(.32),
+                        borderRadius:
+                            BorderRadius.circular(kDefaultPadding / 2),
+                        boxShadow: [
+                          BoxShadow(
+                              color: kButtonColor.withOpacity(.1),
+                              offset: const Offset(0, 3),
+                              blurRadius: 6.0)
+                        ]),
+                    child: IconButton(
+                      onPressed: () {
+                        BlocProvider.of<OpenAIBloc>(context, listen: false)
+                            .openAIEvent(widget.data.type,
+                                error: () => errorNotFoundPrompt(context));
+                      },
+                      color: kButtonColor,
+                      icon: Transform.rotate(
+                          angle: -pi / 4,
+                          child: const Icon(Icons.send_outlined,
+                              color: kButtonColor, size: kDefaultPadding)),
+                    )),
+                hintText: '.... ?',
+                hintStyle: Theme.of(context)
                     .textTheme
                     .titleSmall
                     ?.copyWith(color: Colors.white),
-                decoration: InputDecoration(
-                    suffixIcon: Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: kDefaultPadding / 4),
-                        decoration: BoxDecoration(
-                            color: kButtonColor.withOpacity(.32),
-                            borderRadius:
-                                BorderRadius.circular(kDefaultPadding / 2),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: kButtonColor.withOpacity(.1),
-                                  offset: const Offset(0, 3),
-                                  blurRadius: 6.0)
-                            ]),
-                        child: IconButton(
-                          onPressed: () {
-                            BlocProvider.of<OpenAIBloc>(context, listen: false)
-                                .openAIEvent(widget.data.type,
-                                    error: () => errorNotFoundPrompt(context));
-                          },
-                          color: kButtonColor,
-                          icon: Transform.rotate(
-                              angle: -pi / 4,
-                              child: const Icon(Icons.send_outlined,
-                                  color: kButtonColor, size: kDefaultPadding)),
-                        )),
-                    hintText: '.... ?',
-                    hintStyle: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(color: Colors.white),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none))));
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none)));
   }
 
   AppBar buildAppBar(Size size, BuildContext context) {
@@ -534,85 +564,5 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         ),
       ],
     );
-  }
-}
-
-class ErrorCard extends StatelessWidget {
-  const ErrorCard(
-      {Key? key,
-      required this.height,
-      required this.animation,
-      required this.title,
-      required this.error})
-      : super(key: key);
-
-  final double height;
-  final String animation;
-  final String title;
-  final String error;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        height: height,
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-            color: kDarkOffBgColor,
-            borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(kDefaultPadding * 2),
-                topLeft: Radius.circular(kDefaultPadding * 2)),
-            boxShadow: [
-              BoxShadow(
-                  color: kDarkOffBgColor.withOpacity(.4),
-                  offset: const Offset(8, 0),
-                  blurRadius: 27.0)
-            ]),
-        child: Material(
-            color: Colors.transparent,
-            child: Column(
-              children: [
-                MediaQuery.of(context).size.height.toHeight(height: .06),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                  child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.displaySmall,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                kDefaultPadding.toHeight(height: .1),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                  child: Text(
-                    error,
-                    style: Theme.of(context).textTheme.titleSmall,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                kDefaultPadding.toHeight(),
-                Lottie.asset(
-                  animation,
-                  width: 150,
-                  height: 150,
-                ),
-                kDefaultPadding.toHeight(height: 2),
-                OpenAIButton(
-                  width: MediaQuery.of(context).size.width * .56,
-                  height: kDefaultPadding * 2.8,
-                  title: 'Close',
-                  boxShadow: [
-                    BoxShadow(
-                        color: kButtonColor.withOpacity(.23),
-                        offset: const Offset(0.0, 6),
-                        blurRadius: 5.0)
-                  ],
-                  tab: () => BlocProvider.of<OpenAIBloc>(context, listen: false)
-                      .closeOpenAIError(),
-                ),
-              ],
-            )));
   }
 }

@@ -58,7 +58,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.1.5
+chat_gpt: 2.1.6
 ```
 
 ## Create OpenAI Instance
@@ -325,26 +325,59 @@ void editPrompt() async {
 
 - Stop Generate Prompt
 ```dart
-openAI.cancelAIGenerate();
+ _openAI
+        .onChatCompletionSSE(request: request, onCancel: onCancel);
+
+///CancelData
+CancelData? mCancel;
+void onCancel(CancelData cancelData) {
+  mCancel = cancelData;
+}
+
+mCancel?.cancelToken.cancel("canceled ");
 ```
 
 - Stop Edit
   - image
   - prompt
 ```dart
-openAI.edit.cancelEdit();
+openAI.edit.editImage(request,onCancel: onCancel);
+
+///CancelData
+CancelData? mCancel;
+void onCancel(CancelData cancelData) {
+  mCancel = cancelData;
+}
+
+mCancel?.cancelToken.cancel("canceled edit image");
 ```
 
 - Stop Embedding
 ```dart
-openAI.embed.cancelEmbedding();
+openAI.embed.embedding(request,onCancel: onCancel);
+
+///CancelData
+CancelData? mCancel;
+void onCancel(CancelData cancelData) {
+  mCancel = cancelData;
+}
+
+mCancel?.cancelToken.cancel("canceled embedding");
 ```
 
 - Stop Audio
   - translate
   - transcript
 ```dart
-openAI.audio.cancelAudio();
+openAI.audio.transcribes(request,onCancel: onCancel);
+
+///CancelData
+CancelData? mCancel;
+void onCancel(CancelData cancelData) {
+  mCancel = cancelData;
+}
+
+mCancel?.cancelToken.cancel("canceled audio transcribes");
 ```
 
 - Stop File
@@ -352,7 +385,15 @@ openAI.audio.cancelAudio();
   - get file
   - delete file
 ```dart
-openAI.file.cancelFile();
+openAI.file.uploadFile(request,onCancel: onCancel);
+
+///CancelData
+CancelData? mCancel;
+void onCancel(CancelData cancelData) {
+  mCancel = cancelData;
+}
+
+mCancel?.cancelToken.cancel("canceled uploadFile");
 ```
 
 ## File
@@ -841,6 +882,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
 <img src="https://github.com/redevrx/chat_gpt_sdk/blob/main/assets/example/translate_ui.jpg?raw=true" width="350" height="760">
 
 ## ChatGPT Demo App
+[![Google Play](https://img.shields.io/badge/Google%20Play-Download-blue?logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.redevrx.openai.app.openai_app)
+
 <img src="https://github.com/redevrx/chat_gpt_sdk/blob/main/assets/example/Screenshot_1684672351.png?raw=true" width="350" height="760">
 <img src="https://github.com/redevrx/chat_gpt_sdk/blob/main/assets/example/Screenshot_1684672512.png?raw=true" width="350" height="760">
 <img src="https://github.com/redevrx/chat_gpt_sdk/blob/main/assets/example/Screenshot_1684672715.png?raw=true" width="350" height="760">

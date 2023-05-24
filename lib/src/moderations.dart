@@ -1,13 +1,11 @@
+import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
-import 'package:dio/dio.dart';
 import 'client/client.dart';
 import 'model/moderation/response/moderation_data.dart';
 
 class Moderation {
   final OpenAIClient _client;
   Moderation(this._client);
-
-  final _cancel = CancelToken();
 
   ///[input]
   ///The input text to classify
@@ -23,15 +21,11 @@ class Moderation {
   /// lower than for text-moderation-latest.
   Future<ModerationData> create(
       {required String input,
-      ModerationModel model = ModerationModel.textLast}) async {
+      ModerationModel model = ModerationModel.textLast,
+      void Function(CancelData cancelData)? onCancel}) async {
     return _client.post(
-        kURL + kModeration, _cancel, {"input": input, "model": model.getName()},
+        kURL + kModeration, {"input": input, "model": model.getName()},
+        onCancel: (it) => onCancel != null ? onCancel(it) : null,
         onSuccess: (it) => ModerationData.fromJson(it));
-  }
-
-  ///cancel file
-  void cancelModeration() {
-    _client.log.log("stop openAI Moderation");
-    _cancel.cancel();
   }
 }

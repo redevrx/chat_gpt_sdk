@@ -5,6 +5,7 @@ import 'package:chat_gpt_sdk/src/client/base_client.dart';
 import 'package:chat_gpt_sdk/src/client/exception/base_error.dart';
 import 'package:chat_gpt_sdk/src/client/exception/request_error.dart';
 import 'package:chat_gpt_sdk/src/logger/logger.dart';
+import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/model/error/error_model.dart';
 import 'package:dio/dio.dart';
 
@@ -20,11 +21,15 @@ class OpenAIClient extends OpenAIWrapper {
   ///[log]
   late Logger log;
 
-  Future<T> get<T>(String url, CancelToken cancelToken,
-      {required T Function(Map<String, dynamic>) onSuccess}) async {
+  Future<T> get<T>(String url,
+      {required T Function(Map<String, dynamic>) onSuccess,
+      required void Function(CancelData cancelData) onCancel}) async {
     try {
+      final cancelData = CancelData(cancelToken: CancelToken());
+      onCancel(cancelData);
+
       log.log("starting request");
-      final rawData = await _dio.get(url, cancelToken: cancelToken);
+      final rawData = await _dio.get(url, cancelToken: cancelData.cancelToken);
 
       if (rawData.statusCode == HttpStatus.ok) {
         log.log("============= success ==================");
@@ -46,14 +51,18 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
-  Stream<T> getStream<T>(String url, CancelToken cancelToken,
-      {required T Function(Map<String, dynamic>) onSuccess}) {
+  Stream<T> getStream<T>(String url,
+      {required T Function(Map<String, dynamic>) onSuccess,
+      required void Function(CancelData cancelData) onCancel}) {
     final controller = StreamController<T>.broadcast();
+    final cancelData = CancelData(cancelToken: CancelToken());
+
+    onCancel(cancelData);
 
     log.log("starting request");
     _dio
         .get(url,
-            cancelToken: cancelToken,
+            cancelToken: cancelData.cancelToken,
             options: Options(responseType: ResponseType.stream))
         .then((it) {
       (it.data.stream as Stream).listen((it) {
@@ -93,11 +102,16 @@ class OpenAIClient extends OpenAIWrapper {
     return controller.stream;
   }
 
-  Future<T> delete<T>(String url, CancelToken cancelToken,
-      {required T Function(Map<String, dynamic>) onSuccess}) async {
+  Future<T> delete<T>(String url,
+      {required T Function(Map<String, dynamic>) onSuccess,
+      required void Function(CancelData cancelData) onCancel}) async {
     try {
+      final cancelData = CancelData(cancelToken: CancelToken());
+      onCancel(cancelData);
+
       log.log("starting request");
-      final rawData = await _dio.delete(url, cancelToken: cancelToken);
+      final rawData =
+          await _dio.delete(url, cancelToken: cancelData.cancelToken);
 
       if (rawData.statusCode == HttpStatus.ok) {
         log.log("============= success ==================");
@@ -119,15 +133,18 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
-  Future<T> post<T>(
-      String url, CancelToken cancelToken, Map<String, dynamic> request,
-      {required T Function(Map<String, dynamic>) onSuccess}) async {
+  Future<T> post<T>(String url, Map<String, dynamic> request,
+      {required T Function(Map<String, dynamic>) onSuccess,
+      required void Function(CancelData cancelData) onCancel}) async {
     try {
+      final cancelData = CancelData(cancelToken: CancelToken());
+      onCancel(cancelData);
+
       log.log("starting request");
       log.log("request body :$request");
 
       final response = await _dio.post(url,
-          data: json.encode(request), cancelToken: cancelToken);
+          data: json.encode(request), cancelToken: cancelData.cancelToken);
 
       if (response.statusCode == HttpStatus.ok) {
         log.log("============= success ==================");
@@ -149,88 +166,104 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
-  Stream<Response> postStream(
-      String url, CancelToken cancelToken, Map<String, dynamic> request) {
+  Stream<Response> postStream(String url, Map<String, dynamic> request,
+      {required void Function(CancelData cancelData) onCancel}) {
+    final cancelData = CancelData(cancelToken: CancelToken());
+    onCancel(cancelData);
+
     log.log("starting request");
     log.log("request body :$request");
     return _dio
-        .post(url, data: json.encode(request), cancelToken: cancelToken)
+        .post(url,
+            data: json.encode(request), cancelToken: cancelData.cancelToken)
         .asStream();
   }
 
-  Stream<T> sse<T>(
-      String url, CancelToken cancelToken, Map<String, dynamic> request,
-      {required T Function(Map<String, dynamic> value) complete}) {
+  Stream<T> sse<T>(String url, Map<String, dynamic> request,
+      {required T Function(Map<String, dynamic> value) complete,
+      required void Function(CancelData cancelData) onCancel}) {
     log.log("starting request");
     log.log("request body :$request");
     final controller = StreamController<T>.broadcast();
+    final cancelData = CancelData(cancelToken: CancelToken());
+    try {
+      onCancel(cancelData);
+      _dio
+          .post(url,
+              cancelToken: cancelData.cancelToken,
+              data: json.encode(request),
+              options: Options(responseType: ResponseType.stream))
+          .then((it) {
+        it.data.stream.listen((it) {
+          final raw = utf8.decode(it);
+          final dataList =
+              raw.split("\n").where((element) => element.isNotEmpty).toList();
 
-    _dio
-        .post(url,
-            cancelToken: cancelToken,
-            data: json.encode(request),
-            options: Options(responseType: ResponseType.stream))
-        .then((it) {
-      it.data.stream.listen((it) {
-        final raw = utf8.decode(it);
-        final dataList =
-            raw.split("\n").where((element) => element.isNotEmpty).toList();
+          for (final data in dataList) {
+            if (data.startsWith("data: ")) {
+              ///remove data:
+              final mData = data.substring(6);
+              if (mData.startsWith("[DONE]")) {
+                log.log("stream response is done");
+                return;
+              }
 
-        for (final data in dataList) {
-          if (data.startsWith("data: ")) {
-            ///remove data:
-            final mData = data.substring(6);
-            if (mData.startsWith("[DONE]")) {
-              log.log("stream response is done");
-              return;
+              ///decode data
+              controller
+                ..sink
+                ..add(complete(jsonDecode(mData)));
             }
-
-            ///decode data
+          }
+        }, onDone: () {
+          controller.close();
+        }, onError: (err, t) {
+          log.error(err, t);
+          if (err is DioError) {
             controller
               ..sink
-              ..add(complete(jsonDecode(mData)));
+              ..addError(
+                  handleError(
+                      code: err.response?.statusCode ??
+                          HttpStatus.internalServerError,
+                      message: '${err.message}',
+                      data: err.response?.extra),
+                  t);
           }
-        }
-      }, onDone: () {
-        controller.close();
+        });
       }, onError: (err, t) {
         log.error(err, t);
-        final error = (err as DioError);
-        controller
-          ..sink
-          ..addError(
-              handleError(
-                  code: error.response?.statusCode ??
-                      HttpStatus.internalServerError,
-                  message: '${error.message}',
-                  data: error.response?.extra),
-              t);
+        if (err is DioError) {
+          final error = err;
+          controller
+            ..sink
+            ..addError(
+                handleError(
+                    code: error.response?.statusCode ??
+                        HttpStatus.internalServerError,
+                    message: '${error.message}',
+                    data: error.response?.extra),
+                t);
+        }
       });
-    }, onError: (err, t) {
-      log.error(err, t,
-          message:
-              'error :${err.message} data: ${(err as DioError).response?.extra}');
-      final error = err;
-      controller
-        ..sink
-        ..addError(
-            handleError(
-                code: error.response?.statusCode ??
-                    HttpStatus.internalServerError,
-                message: '${error.message}',
-                data: error.response?.extra),
-            t);
-    });
+    } on DioError catch (e) {
+      if (CancelToken.isCancel(e)) {
+        log.log("cancel request");
+      }
+    }
     return controller.stream;
   }
 
-  Future<T> postFormData<T>(
-      String url, CancelToken cancelToken, FormData request,
-      {required T Function(Map<String, dynamic> value) complete}) async {
+  Future<T> postFormData<T>(String url, FormData request,
+      {required T Function(Map<String, dynamic> value) complete,
+      required void Function(CancelData cancelData) onCancel}) async {
     try {
+      final cancelData = CancelData(cancelToken: CancelToken());
+      onCancel(cancelData);
+
       log.log("starting request");
       log.log("request body :$request");
-      final response = await _dio.post(url, data: request);
+      final response = await _dio.post(url,
+          data: request, cancelToken: cancelData.cancelToken);
 
       if (response.statusCode == HttpStatus.ok) {
         log.log("============= success ==================\n");

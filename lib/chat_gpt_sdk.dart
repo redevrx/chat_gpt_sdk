@@ -34,3 +34,4 @@ export 'src/model/fine_tune/response/training_file.dart';
 export 'src/model/moderation/response/categories.dart';
 export 'src/model/moderation/response/category_scores.dart';
 export 'src/client/exception/openai_exception.dart';
+export 'src/model/cancel/cancel_data.dart';

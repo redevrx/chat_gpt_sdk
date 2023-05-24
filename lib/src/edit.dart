@@ -1,9 +1,9 @@
+import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/model/edits/request/edit_request.dart';
 import 'package:chat_gpt_sdk/src/model/edits/response/edit_response.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_image.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
-import 'package:dio/dio.dart';
 
 import 'client/client.dart';
 import 'model/gen_image/request/variation.dart';
@@ -12,40 +12,38 @@ class Edit {
   final OpenAIClient _client;
   Edit(this._client);
 
-  final _cancel = CancelToken();
-
   ///Given a prompt and an instruction,
   /// the model will return an edited
   /// version of the prompt.[prompt]
-  Future<EditResponse> prompt(EditRequest request) {
-    return _client.post(kURL + kEditPrompt, _cancel, request.toJson(),
+  Future<EditResponse> prompt(EditRequest request,
+      {void Function(CancelData cancelData)? onCancel}) {
+    return _client.post(kURL + kEditPrompt, request.toJson(),
+        onCancel: (it) => onCancel != null ? onCancel(it) : null,
         onSuccess: (it) {
-      return EditResponse.fromJson(it);
-    });
+          return EditResponse.fromJson(it);
+        });
   }
 
   ///Creates an edited or extended image
   /// given an original image and a prompt.[editImage]
-  Future<GenImgResponse> editImage(EditImageRequest request) async {
+  Future<GenImgResponse> editImage(EditImageRequest request,
+      {void Function(CancelData cancelData)? onCancel}) async {
     final mRequest = await request.convert();
-    return _client.postFormData(kURL + kImageEdit, _cancel, mRequest,
+    return _client.postFormData(kURL + kImageEdit, mRequest,
+        onCancel: (it) => onCancel != null ? onCancel(it) : null,
         complete: (it) {
-      return GenImgResponse.fromJson(it);
-    });
+          return GenImgResponse.fromJson(it);
+        });
   }
 
   ///Creates a variation of a given image.[variation]
-  Future<GenImgResponse> variation(Variation request) async {
+  Future<GenImgResponse> variation(Variation request,
+      {void Function(CancelData cancelData)? onCancel}) async {
     final mRequest = await request.convert();
-    return _client.postFormData(kURL + kVariation, _cancel, mRequest,
+    return _client.postFormData(kURL + kVariation, mRequest,
+        onCancel: (it) => onCancel != null ? onCancel(it) : null,
         complete: (it) {
-      return GenImgResponse.fromJson(it);
-    });
-  }
-
-  ///cancel edit
-  void cancelEdit() {
-    _client.log.log("stop openAI edit");
-    _cancel.cancel();
+          return GenImgResponse.fromJson(it);
+        });
   }
 }
