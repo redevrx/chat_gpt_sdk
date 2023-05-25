@@ -17,7 +17,6 @@ of OpenAI's GPT-3.5 family of large language models, and is fine-tuned with both
 supervised and reinforcement learning techniques.
 
 # OpenAI Powerful Library Support GPT-4
-### “unofficial" or "community-maintained” library.
 
 <br>
 <p align="center">
@@ -28,6 +27,9 @@ supervised and reinforcement learning techniques.
 <img alt="GitHub" src="https://img.shields.io/github/license/redevRx/Flutter-ChatGPT">
 </p>
 </br>
+
+## Unofficial
+"community-maintained” library.
 
 ## Features
 
