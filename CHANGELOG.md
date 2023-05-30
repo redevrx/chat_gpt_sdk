@@ -118,3 +118,6 @@ Fix bug  Http status error [429] error
 ## 2.1.6
 -  New Handle Cancel Request
 -  Add New Example Cancel Request
+
+## 2.1.7
+-  Change Response name
