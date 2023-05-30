@@ -81,8 +81,7 @@ final openAI = OpenAI.instance.build(token: token,baseOption: HttpSetup(receiveT
 ## Change Access Token
 
 ```dart
-openAI.setToken('new-token');
-
+openAI.setToken('new-access-token');
 ///get toekn
 openAI.token;
 ```
