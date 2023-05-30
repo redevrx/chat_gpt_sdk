@@ -65,14 +65,14 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                         ///messages card
                         buildMsgCard(size, context),
 
+                        ///input
+                        buildTextInput(),
+
                         ///setting bottom sheet
                         buildSettingSheet(context, size),
 
                         ///open sheet errors
                         buildErrorSheet(context, size),
-
-                        ///input
-                        buildTextInput(),
                       ],
                     ),
                   ),

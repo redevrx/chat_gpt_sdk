@@ -25,7 +25,7 @@ class EditResponse {
   Map<String, dynamic> toJson() => {
         "object": object,
         "created": created,
-        "choices": List<dynamic>.from(choices.map((x) => x.toJson())),
+        "choices": List<Map>.from(choices.map((x) => x.toJson())),
         "usage": usage.toJson(),
       };
 }

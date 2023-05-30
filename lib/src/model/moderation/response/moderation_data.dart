@@ -1,21 +1,5 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-
 import 'moderation_result.dart';
 
-enum ModerationModel { textStable, textLast }
-
-extension ModerationModelES on ModerationModel {
-  String getName() {
-    switch (this) {
-      case ModerationModel.textLast:
-        return kTextMLast;
-      case ModerationModel.textStable:
-        return kTextMStable;
-      default:
-        return '';
-    }
-  }
-}
 
 class ModerationData {
   ModerationData({
@@ -40,6 +24,7 @@ class ModerationData {
     data['id'] = id;
     data['model'] = model;
     data['results'] = results.map((e) => e.toJson()).toList();
+
     return data;
   }
 }

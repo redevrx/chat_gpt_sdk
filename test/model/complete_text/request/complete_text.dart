@@ -12,7 +12,7 @@ void main() {
         'top_p': 0.9,
         'frequency_penalty': 0.5,
         'presence_penalty': 0.5,
-        'stop': [' Human:', ' AI:']
+        'stop': [' Human:', ' AI:'],
       };
 
       final completeText = CompleteText.fromJson(json);

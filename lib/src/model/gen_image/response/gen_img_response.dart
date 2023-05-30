@@ -15,13 +15,13 @@ class GenImgResponse {
         data: json["data"] == null
             ? []
             : List<ImageData?>.from(
-                json["data"]!.map((x) => ImageData.fromJson(x))),
+                json["data"]!.map((x) => ImageData.fromJson(x)),),
       );
 
   Map<String, dynamic> toJson() => {
         "created": created,
         "data": data == null
             ? []
-            : List<dynamic>.from(data!.map((x) => x!.toJson())),
+            : List<Map>.from(data!.map((x) => x!.toJson())),
       };
 }

@@ -1,5 +1,6 @@
-import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_image.dart';
-import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/enum/format.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/enum/image_size.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -29,16 +30,16 @@ class Variation {
       this.n = 2,
       this.size = ImageSize.size1024,
       this.responseFormat = Format.url,
-      this.user});
+      this.user,});
 
   Future<FormData> convert() async {
     return FormData.fromMap({
       'image': await MultipartFile.fromFile(image.path,
-          filename: image.name, contentType: MediaType('image', 'png')),
+          filename: image.name, contentType: MediaType('image', 'png'),),
       'n': n,
       'size': size.size,
       'response_format': responseFormat.name,
-      "user": user
+      "user": user,
     });
   }
 
@@ -47,6 +48,6 @@ class Variation {
         'n': n,
         'size': size.size,
         'response_format': responseFormat.name,
-        "user": user
+        "user": user,
       });
 }

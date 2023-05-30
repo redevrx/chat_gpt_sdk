@@ -1,31 +1,5 @@
-///The size of the generated images.
-enum ImageSize {
-  size1024("1024x1024"),
-  size512("512x512"),
-  size256("256x256");
-
-  const ImageSize(this.size);
-  final String size;
-}
-
-///The format in which the generated images are returned. Must be one of url or b64_json.
-enum Format {
-  url,
-  b64Json;
-}
-
-extension FormatExtension on Format {
-  String getName() {
-    switch (this) {
-      case Format.url:
-        return 'url';
-      case Format.b64Json:
-        return 'b64_json';
-      default:
-        return '';
-    }
-  }
-}
+import 'package:chat_gpt_sdk/src/model/gen_image/enum/format.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/enum/image_size.dart';
 
 class GenerateImage {
   /// prompt string Required A text description of the desired image(s). The maximum length is 1000 characters.
@@ -56,6 +30,6 @@ class GenerateImage {
         "n": n,
         "size": size?.size,
         "response_format": responseFormat?.getName(),
-        "user": user
+        "user": user,
       });
 }

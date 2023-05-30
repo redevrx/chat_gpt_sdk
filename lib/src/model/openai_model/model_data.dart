@@ -13,7 +13,7 @@ class ModelData {
         json['owned_by'] as String,
         json['permission'] == null
             ? null
-            : (json['permission'] as List<dynamic>)
+            : (json['permission'] as List<Map>)
                 .map((e) => Permission.fromJson(e as Map<String, dynamic>))
                 .toList(),
       );

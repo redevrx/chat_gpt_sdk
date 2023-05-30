@@ -22,6 +22,7 @@ class ModerationResult {
     data['categories'] = categories.toJson();
     data['category_scores'] = categoryScores.toJson();
     data['flagged'] = flagged;
+
     return data;
   }
 }

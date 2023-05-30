@@ -77,7 +77,7 @@ const kDavinciModel = 'davinci';
 const kTextMStable = 'text-moderation-stable';
 const kTextMLast = 'text-moderation-latest';
 
-Map<String, String> kHeader(String token, {String orgId = ""}) =>
+Map<String, String> kHeader(String token,) =>
     {"Content-Type": 'application/json', "Authorization": "Bearer $token"};
 
 Map<String, String> kHeaderOrg(String orgId) =>

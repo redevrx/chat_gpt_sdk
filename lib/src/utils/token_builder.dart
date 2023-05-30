@@ -6,13 +6,13 @@ class TokenBuilder {
   static TokenBuilder get build => _instance;
 
   ///token
-  String? _token;
+  String _token = '';
 
   ///org
   String? _orgId;
 
   ///set token
-  void setToken(String? token) => _token = token;
+  void setToken(String token) => _token = token;
 
   ///set orgId
   void setOrgId(String? orgId) => _orgId = orgId;

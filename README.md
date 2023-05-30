@@ -58,7 +58,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt: 2.1.6
+chat_gpt: 2.1.7
 ```
 
 ## Create OpenAI Instance

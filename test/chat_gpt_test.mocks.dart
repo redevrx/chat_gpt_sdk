@@ -8,7 +8,6 @@ import 'dart:async' as _i12;
 import 'package:chat_gpt_sdk/src/audio.dart' as _i4;
 import 'package:chat_gpt_sdk/src/edit.dart' as _i2;
 import 'package:chat_gpt_sdk/src/embedding.dart' as _i3;
-import 'package:chat_gpt_sdk/src/file.dart' as _i5;
 import 'package:chat_gpt_sdk/src/fine_tuned.dart' as _i6;
 import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart' as _i13;
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_complete_text.dart'
@@ -27,9 +26,10 @@ import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart'
 import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart'
     as _i18;
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart' as _i10;
-import 'package:chat_gpt_sdk/src/model/openai_model/openai_models.dart' as _i9;
-import 'package:chat_gpt_sdk/src/moderations.dart' as _i7;
+import 'package:chat_gpt_sdk/src/model/openai_model/ai_model.dart' as _i9;
+import 'package:chat_gpt_sdk/src/moderation.dart' as _i7;
 import 'package:chat_gpt_sdk/src/openai.dart' as _i8;
+import 'package:chat_gpt_sdk/src/openai_file.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -83,8 +83,8 @@ class _FakeOpenAIFile_3 extends _i1.SmartFake implements _i5.OpenAIFile {
         );
 }
 
-class _FakeFineTune_4 extends _i1.SmartFake implements _i6.FineTune {
-  _FakeFineTune_4(
+class _FakeFineTuned_4 extends _i1.SmartFake implements _i6.FineTuned {
+  _FakeFineTuned_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -192,17 +192,17 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
         ),
       ) as _i5.OpenAIFile);
   @override
-  _i6.FineTune get fineTune => (super.noSuchMethod(
+  _i6.FineTuned get fineTune => (super.noSuchMethod(
         Invocation.getter(#fineTune),
-        returnValue: _FakeFineTune_4(
+        returnValue: _FakeFineTuned_4(
           this,
           Invocation.getter(#fineTune),
         ),
-        returnValueForMissingStub: _FakeFineTune_4(
+        returnValueForMissingStub: _FakeFineTuned_4(
           this,
           Invocation.getter(#fineTune),
         ),
-      ) as _i6.FineTune);
+      ) as _i6.FineTuned);
   @override
   _i7.Moderation get moderation => (super.noSuchMethod(
         Invocation.getter(#moderation),
@@ -319,7 +319,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
         )),
       ) as _i12.Future<_i10.EngineModel>);
   @override
-  _i12.Future<_i14.CTResponse?> onCompletion({
+  _i12.Future<_i14.CompleteResponse?> onCompletion({
     required _i15.CompleteText? request,
     void Function(_i13.CancelData)? onCancel,
   }) =>
@@ -332,9 +332,9 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i12.Future<_i14.CTResponse?>.value(),
-        returnValueForMissingStub: _i12.Future<_i14.CTResponse?>.value(),
-      ) as _i12.Future<_i14.CTResponse?>);
+        returnValue: _i12.Future<_i14.CompleteResponse?>.value(),
+        returnValueForMissingStub: _i12.Future<_i14.CompleteResponse?>.value(),
+      ) as _i12.Future<_i14.CompleteResponse?>);
   @override
   _i12.Future<_i16.ChatCTResponse?> onChatCompletion({
     required _i17.ChatCompleteText? request,
@@ -367,7 +367,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
         returnValueForMissingStub: _i12.Future<_i18.GenImgResponse?>.value(),
       ) as _i12.Future<_i18.GenImgResponse?>);
   @override
-  _i12.Stream<_i20.ChatCTResponseSSE> onChatCompletionSSE({
+  _i12.Stream<_i20.ChatResponseSSE> onChatCompletionSSE({
     required _i17.ChatCompleteText? request,
     void Function(_i13.CancelData)? onCancel,
   }) =>
@@ -380,11 +380,11 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i12.Stream<_i20.ChatCTResponseSSE>.empty(),
-        returnValueForMissingStub: _i12.Stream<_i20.ChatCTResponseSSE>.empty(),
-      ) as _i12.Stream<_i20.ChatCTResponseSSE>);
+        returnValue: _i12.Stream<_i20.ChatResponseSSE>.empty(),
+        returnValueForMissingStub: _i12.Stream<_i20.ChatResponseSSE>.empty(),
+      ) as _i12.Stream<_i20.ChatResponseSSE>);
   @override
-  _i12.Stream<_i14.CTResponse> onCompletionSSE({
+  _i12.Stream<_i14.CompleteResponse> onCompletionSSE({
     required _i15.CompleteText? request,
     void Function(_i13.CancelData)? onCancel,
   }) =>
@@ -397,7 +397,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i12.Stream<_i14.CTResponse>.empty(),
-        returnValueForMissingStub: _i12.Stream<_i14.CTResponse>.empty(),
-      ) as _i12.Stream<_i14.CTResponse>);
+        returnValue: _i12.Stream<_i14.CompleteResponse>.empty(),
+        returnValueForMissingStub: _i12.Stream<_i14.CompleteResponse>.empty(),
+      ) as _i12.Stream<_i14.CompleteResponse>);
 }

@@ -1,53 +1,4 @@
-import 'package:chat_gpt_sdk/src/utils/constants.dart';
-
-enum Model {
-  textDavinci3,
-  textDavinci2,
-  codeDavinci2,
-  textCurie001,
-  textBabbage001,
-  textAda001,
-  davinci,
-  curie,
-  babbage,
-  ada
-}
-
-extension ModelExtension on Model {
-  String getName() {
-    switch (this) {
-      case Model.textDavinci3:
-        return kTextDavinci3;
-      case Model.textDavinci2:
-        return kTextDavinci2;
-      case Model.codeDavinci2:
-        return kCodeDavinci2;
-      case Model.textCurie001:
-        return kCodeDavinci2;
-      case Model.textBabbage001:
-        return kTextBabbage001;
-      case Model.textAda001:
-        return kTextAda001;
-      case Model.davinci:
-        return kDavinciModel;
-      case Model.curie:
-        return kCurieModel;
-      case Model.babbage:
-        return kBabbageModel;
-      case Model.ada:
-        return kAdaModel;
-      default:
-        return "";
-    }
-  }
-}
-
-Model _fromName(String name) {
-  for (var value in Model.values) {
-    if (value.getName() == name) return value;
-  }
-  throw ArgumentError.value(name, "name", "No enum value with that name");
-}
+import 'package:chat_gpt_sdk/src/model/complete_text/enum/model.dart';
 
 class CompleteText {
   final String prompt;
@@ -74,11 +25,11 @@ class CompleteText {
       this.topP = 1.0,
       this.frequencyPenalty = .0,
       this.presencePenalty = .0,
-      this.stop});
+      this.stop,});
 
   factory CompleteText.fromJson(Map<String, dynamic> json) => CompleteText(
         prompt: json['prompt'] as String,
-        model: _fromName(json['model'].toString()), //json['model'] as String,
+        model: fromName(json['model'].toString()), //json['model'] as String,
         temperature: (json['temperature'] as num?)?.toDouble() ?? .3,
         maxTokens: json['max_tokens'] as int? ?? 100,
         topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
@@ -95,6 +46,6 @@ class CompleteText {
         'top_p': topP,
         'frequency_penalty': frequencyPenalty,
         'presence_penalty': presencePenalty,
-        "stop": stop
+        "stop": stop,
       };
 }

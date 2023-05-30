@@ -13,9 +13,10 @@ class Embedding {
   /// models and algorithms.[embedding]
   ///
   Future<EmbedResponse> embedding(EmbedRequest request,
-      {void Function(CancelData cancelData)? onCancel}) async {
+      {void Function(CancelData cancelData)? onCancel,})  {
+
     return _client.post(kURL + kEmbedding, request.toJson(),
         onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => EmbedResponse.fromJson(it));
+        onSuccess: (it) => EmbedResponse.fromJson(it),);
   }
 }

@@ -14,6 +14,7 @@ class Logger {
 
   Logger builder({required bool isLogging}) {
     this.isLogging = isLogging;
+
     return instance;
   }
 

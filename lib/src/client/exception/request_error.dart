@@ -1,4 +1,4 @@
-import 'package:chat_gpt_sdk/src/client/exception/base_error.dart';
+import 'package:chat_gpt_sdk/src/client/exception/base_error_wrapper.dart';
 
 class RequestError extends BaseErrorWrapper {
   RequestError({super.data, super.code});

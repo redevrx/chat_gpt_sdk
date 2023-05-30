@@ -1,19 +1,4 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-
-enum EditModel { textEditModel, codeEditModel }
-
-extension EditModelExtension on EditModel {
-  String getName() {
-    switch (this) {
-      case EditModel.codeEditModel:
-        return kEditsCoedModel;
-      case EditModel.textEditModel:
-        return kEditsTextModel;
-      default:
-        return '';
-    }
-  }
-}
+import 'package:chat_gpt_sdk/src/model/edits/enum/edit_model.dart';
 
 class EditRequest {
   ///ID of the model to use. You can use the or model with this endpoint.[model]
@@ -47,7 +32,7 @@ class EditRequest {
       required this.instruction,
       this.n = 1,
       this.temperature = 1,
-      this.topP = 1});
+      this.topP = 1,});
 
   Map<String, dynamic> toJson() => Map.of({
         "model": model.getName(),
@@ -55,6 +40,6 @@ class EditRequest {
         "instruction": instruction,
         "n": n,
         "temperature": temperature,
-        "top_p": topP
+        "top_p": topP,
       });
 }

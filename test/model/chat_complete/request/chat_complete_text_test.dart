@@ -6,7 +6,7 @@ void main() {
     test('toJson returns the correct map', () {
       final messages = [
         {"speaker": "User", "text": "Hello!"},
-        {"speaker": "Bot", "text": "Hi there! How can I help you?"}
+        {"speaker": "Bot", "text": "Hi there! How can I help you?"},
       ];
       final chatCompleteText = ChatCompleteText(
           model: ChatModel.gptTurbo,
@@ -19,7 +19,7 @@ void main() {
           maxToken: 50,
           presencePenalty: -0.5,
           frequencyPenalty: 0.5,
-          user: "user123");
+          user: "user123",);
 
       final expectedMap = {
         "model": kChatGptTurboModel,
@@ -32,7 +32,7 @@ void main() {
         "max_tokens": 50,
         "presence_penalty": -0.5,
         "frequency_penalty": 0.5,
-        "user": "user123"
+        "user": "user123",
       };
       expect(chatCompleteText.toJson(), expectedMap);
     });

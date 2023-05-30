@@ -4,7 +4,7 @@ import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice_sse.da
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/choices.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_data.dart';
-import 'package:chat_gpt_sdk/src/model/openai_model/openai_model_data.dart';
+import 'package:chat_gpt_sdk/src/model/openai_model/model_data.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/permission.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -17,12 +17,12 @@ void main() async {
   final openAI = MockOpenAI();
 
   group('chatGPT-3 text completion test', () {
-    test('text completion use success case', () async {
+    test('text completion use success case', () {
       final request = CompleteText(prompt: 'snake', model: Model.textDavinci3);
-      final choice = [Choices('', 1, '', '')];
+      final choice = [Choices('', 1, '',)];
 
       when(openAI.onCompletion(request: request)).thenAnswer(
-          (inv) async => CTResponse('id', 'object', 1, 'model', choice, null));
+          (inv) async => CompleteResponse('id', 'object', 1, 'model', choice, null),);
       openAI.onCompletion(request: request);
 
       verify(openAI.onCompletion(request: request));
@@ -30,17 +30,17 @@ void main() async {
 
     test('text completion success case with return result', () async {
       final request = CompleteText(prompt: 'snake', model: Model.textDavinci3);
-      final choice = [Choices('', 1, '', '')];
+      final choice = [Choices('', 1, '',)];
 
       when(openAI.onCompletion(request: request)).thenAnswer(
-          (inv) async => CTResponse('id', 'object', 1, 'model', choice, null));
+          (inv) async => CompleteResponse('id', 'object', 1, 'model', choice, null),);
 
       final response = await openAI.onCompletion(request: request);
 
       expect(response?.object, 'object');
       expect(response?.id, 'id');
       expect(response?.model, 'model');
-      expect(response!, const TypeMatcher<CTResponse>());
+      expect(response!, const TypeMatcher<CompleteResponse>());
     });
 
     test('text completion error case with prompt empty', () async {
@@ -52,17 +52,17 @@ void main() async {
   });
 
   group('chatGPT-3 text completion with stream SSE test', () {
-    test('text completion stream case success', () async {
+    test('text completion stream case success', ()  {
       final request = CompleteText(prompt: 'snake is ?', model: Model.ada);
-      final choice = [Choices('', 1, '', '')];
+      final choice = [Choices('', 1, '',)];
 
       when(openAI.onCompletionSSE(request: request)).thenAnswer((_) =>
-          Stream.value(CTResponse('id', 'object', 1, 'model', choice, null)));
+          Stream.value(CompleteResponse('id', 'object', 1, 'model', choice, null)));
 
       final response = openAI.onCompletionSSE(request: request);
 
       verify(openAI.onCompletionSSE(request: request));
-      expect(response, const TypeMatcher<Stream<CTResponse>>());
+      expect(response, const TypeMatcher<Stream<CompleteResponse>>());
     });
 
     test('text completion stream case error', () async {
@@ -78,8 +78,8 @@ void main() async {
   group('chatGPT-3.5 turbo chat completion test', () {
     test('chat completion success case test', () async {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.gptTurbo);
+        Map.of({"role": "user", "content": 'Hello!'}),
+      ], maxToken: 200, model: ChatModel.gptTurbo,);
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletion(request: request)).thenAnswer((_) async =>
@@ -88,7 +88,7 @@ void main() async {
               object: 'object',
               created: 1,
               choices: choice,
-              usage: null));
+              usage: null,));
 
       final response = await openAI.onChatCompletion(request: request);
       verify(openAI.onChatCompletion(request: request));
@@ -97,23 +97,23 @@ void main() async {
     });
 
     test('chat completion error case with content null return error test',
-        () async {
+        ()  {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": ''})
-      ], maxToken: 200, model: ChatModel.gptTurbo0301);
+        Map.of({"role": "user", "content": ''}),
+      ], maxToken: 200, model: ChatModel.gptTurbo0301,);
 
       when(openAI.onChatCompletion(request: request))
           .thenAnswer((_) => throw RequestError(data: null, code: 404));
 
       verifyNever(openAI.onChatCompletion(request: request));
-    });
+    },);
   });
 
   group('chatGPT-4 chat completion test', () {
     test('chat completion success case test', () async {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.gpt_4);
+        Map.of({"role": "user", "content": 'Hello!'}),
+      ], maxToken: 200, model: ChatModel.gpt_4,);
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletion(request: request)).thenAnswer((_) async =>
@@ -122,7 +122,7 @@ void main() async {
               object: 'object',
               created: 1,
               choices: choice,
-              usage: null));
+              usage: null,));
 
       final response = await openAI.onChatCompletion(request: request);
       verify(openAI.onChatCompletion(request: request));
@@ -131,44 +131,44 @@ void main() async {
     });
 
     test('chat completion error case with content null return error test',
-        () async {
+        ()  {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": ''})
-      ], maxToken: 200, model: ChatModel.gpt_4);
+        Map.of({"role": "user", "content": ''}),
+      ], maxToken: 200, model: ChatModel.gpt_4,);
 
       when(openAI.onChatCompletion(request: request))
           .thenAnswer((_) => throw RequestError(data: null, code: 404));
 
       verifyNever(openAI.onChatCompletion(request: request));
-    });
+    },);
   });
 
   group('chatGPT-3.5 turbo chat completion with stream SSE test', () {
     test('openAI chat completion stream success case test', () async {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.gptTurbo);
+        Map.of({"role": "user", "content": 'Hello!'}),
+      ], maxToken: 200, model: ChatModel.gptTurbo,);
       final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletionSSE(request: request)).thenAnswer(
-          (realInvocation) => Stream.value(ChatCTResponseSSE(
+          (realInvocation) => Stream.value(ChatResponseSSE(
               id: 'id',
               object: 'object',
               created: 1,
               choices: choice,
-              usage: null)));
+              usage: null,)),);
 
       final response = await openAI.onChatCompletionSSE(request: request).first;
       verify(openAI.onChatCompletionSSE(request: request));
       expect(response.id, 'id');
       expect(response.object, 'object');
-      expect(response, const TypeMatcher<ChatCTResponseSSE>());
+      expect(response, const TypeMatcher<ChatResponseSSE>());
     });
 
     test('openAI chat completion stream error case test', () async {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.gptTurbo0301);
+        Map.of({"role": "user", "content": 'Hello!'}),
+      ], maxToken: 200, model: ChatModel.gptTurbo0301,);
 
       when(openAI.onChatCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError());
@@ -179,29 +179,29 @@ void main() async {
   group('chatGPT-4 chat completion with stream SSE test', () {
     test('openAI chat completion stream success case test', () async {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.gpt_4);
+        Map.of({"role": "user", "content": 'Hello!'}),
+      ], maxToken: 200, model: ChatModel.gpt_4,);
       final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
       when(openAI.onChatCompletionSSE(request: request)).thenAnswer(
-          (realInvocation) => Stream.value(ChatCTResponseSSE(
+          (realInvocation) => Stream.value(ChatResponseSSE(
               id: 'id',
               object: 'object',
               created: 1,
               choices: choice,
-              usage: null)));
+              usage: null,)),);
 
       final response = await openAI.onChatCompletionSSE(request: request).first;
       verify(openAI.onChatCompletionSSE(request: request));
       expect(response.id, 'id');
       expect(response.object, 'object');
-      expect(response, const TypeMatcher<ChatCTResponseSSE>());
+      expect(response, const TypeMatcher<ChatResponseSSE>());
     });
 
     test('openAI chat completion stream error case test', () async {
       final request = ChatCompleteText(messages: [
-        Map.of({"role": "user", "content": 'Hello!'})
-      ], maxToken: 200, model: ChatModel.gpt_4);
+        Map.of({"role": "user", "content": 'Hello!'}),
+      ], maxToken: 200, model: ChatModel.gpt_4,);
 
       when(openAI.onChatCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError());
@@ -234,7 +234,7 @@ void main() async {
       verify(await openAI.generateImage(request));
       expect(response, const TypeMatcher<GenImgResponse>());
       expect(response?.created, 1221120);
-    });
+    },);
 
     test('chatGPT Image Generate With Prompt error case with n is 0 test',
         () async {
@@ -250,8 +250,8 @@ void main() async {
       expect(response?.created, 1221120);
       expect(response?.data, null);
       expect(() => GenerateImage('snake red eating cat.', 0),
-          throwsAssertionError);
-    });
+          throwsAssertionError,);
+    },);
   });
 
   group('chatGPT Models & Engine test', () {
@@ -259,9 +259,9 @@ void main() async {
       when(openAI.listModel()).thenAnswer((_) async => AiModel([
             ModelData('id', '', 'ownerBy', [
               Permission('id', 'object', 12, false, false, false, false, false,
-                  false, 'organization', 'group', false)
-            ])
-          ], '12'));
+                  false, 'organization', false,),
+            ]),
+          ], '12',));
 
       final response = await openAI.listModel();
       expect(response, const TypeMatcher<AiModel>());

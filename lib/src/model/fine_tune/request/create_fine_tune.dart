@@ -1,23 +1,6 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
-enum FineModel { ada, babbage, curie, davinci }
 
-extension FineModelExtension on FineModel {
-  String getName() {
-    switch (this) {
-      case FineModel.ada:
-        return kAdaModel;
-      case FineModel.babbage:
-        return kBabbageModel;
-      case FineModel.curie:
-        return kCurieModel;
-      case FineModel.davinci:
-        return kDavinciModel;
-      default:
-        return '';
-    }
-  }
-}
+import 'package:chat_gpt_sdk/src/model/fine_tune/enum/fine_model.dart';
 
 class CreateFineTune {
   ///The ID of an uploaded file that contains training data.
@@ -116,7 +99,7 @@ class CreateFineTune {
   /// A larger beta score puts more weight on recall
   /// and less on precision. A smaller beta score
   /// puts more weight on precision and less on recall.[classificationBetas]
-  final List<dynamic>? classificationBetas;
+  final List? classificationBetas;
 
   ///A string of up to 40 characters that will be added to your fine-tuned
   ///model name.
@@ -136,7 +119,7 @@ class CreateFineTune {
       this.classificationNClasses,
       this.classificationPositiveClass,
       this.classificationBetas,
-      this.suffix});
+      this.suffix,});
 
   Map<String, dynamic> toJson() => Map.of({
         'training_file': trainingFile,
@@ -150,6 +133,6 @@ class CreateFineTune {
         'classification_n_classes': classificationNClasses,
         'classification_positive_class': classificationPositiveClass,
         'classification_betas': classificationBetas,
-        'suffix': suffix
+        'suffix': suffix,
       });
 }

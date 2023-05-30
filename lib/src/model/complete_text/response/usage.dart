@@ -1,6 +1,6 @@
 class Usage {
   final int promptTokens;
-  final int? completionTokens;
+  final int completionTokens;
   final int totalTokens;
   final String id = "${DateTime.now().millisecondsSinceEpoch}";
 

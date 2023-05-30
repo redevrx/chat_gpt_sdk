@@ -2,7 +2,7 @@ import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
-  test('default value', () async {
+  test('default value', ()  {
     final target = GenerateImage('test', 2,
         size: ImageSize.size1024, responseFormat: Format.url);
     expect(target.prompt, 'test');
@@ -13,9 +13,9 @@ main() {
     expect(target.user, '');
   });
 
-  test('set value with enum', () async {
+  test('set value with enum', ()  {
     final target1 = GenerateImage('test', 1,
-        size: ImageSize.size256, responseFormat: Format.b64Json, user: 'user');
+        size: ImageSize.size256, responseFormat: Format.b64Json, user: 'user',);
     expect(target1.prompt, 'test');
     expect(target1.n, 1);
 
@@ -24,7 +24,7 @@ main() {
     expect(target1.user, 'user');
 
     final target2 = GenerateImage('test', 2,
-        size: ImageSize.size512, responseFormat: Format.url, user: 'user');
+        size: ImageSize.size512, responseFormat: Format.url, user: 'user',);
     expect(target2.size?.size, '512x512');
     expect(target2.responseFormat?.name, 'url');
 
@@ -34,14 +34,14 @@ main() {
   });
 
   group('GeneratedImageSize', () {
-    test('normal', () async {
+    test('normal', ()  {
       expect(GenerateImage('test', 2).size?.size, '1024x1024');
       expect(GenerateImage('test', 2, size: ImageSize.size256).size?.size,
-          '256x256');
+          '256x256',);
       expect(GenerateImage('test', 2, size: ImageSize.size512).size?.size,
-          '512x512');
+          '512x512',);
       expect(GenerateImage('test', 2, size: ImageSize.size1024).size?.size,
-          '1024x1024');
+          '1024x1024',);
     });
   });
 
@@ -58,7 +58,7 @@ main() {
       final json = GenerateImage('test', 1,
               size: ImageSize.size256,
               responseFormat: Format.b64Json,
-              user: 'user')
+              user: 'user',)
           .toJson();
 
       expect(json['prompt'], 'test');

@@ -1,43 +1,5 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/enum/chat_model.dart';
 
-enum ChatModel {
-  gptTurbo,
-
-  ///DEPRECATION DATE
-  ///June 1st, 2023
-  gptTurbo0301,
-  gpt_4,
-
-  ///DEPRECATION DATE
-  ///June 1st, 2023
-  gpt_4_0314,
-  gpt_4_32k,
-
-  ///DEPRECATION DATE
-  ///June 1st, 2023
-  gpt_4_32k_0314
-}
-
-extension ChatModelExtension on ChatModel {
-  String get name {
-    switch (this) {
-      case ChatModel.gptTurbo0301:
-        return kChatGptTurbo0301Model;
-      case ChatModel.gptTurbo:
-        return kChatGptTurboModel;
-      case ChatModel.gpt_4:
-        return kChatGpt4;
-      case ChatModel.gpt_4_0314:
-        return kChatGpt40314;
-      case ChatModel.gpt_4_32k:
-        return kChatGpt432k;
-      case ChatModel.gpt_4_32k_0314:
-        return kChatGpt432k0314;
-      default:
-        return "";
-    }
-  }
-}
 
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
@@ -120,7 +82,7 @@ class ChatCompleteText {
       this.maxToken = 100,
       this.presencePenalty = .0,
       this.frequencyPenalty = .0,
-      this.user = ""});
+      this.user = "",});
 
   Map<String, dynamic> toJson() => Map.of({
         "model": model.name,
@@ -134,6 +96,6 @@ class ChatCompleteText {
         "presence_penalty": presencePenalty,
         "frequency_penalty": frequencyPenalty,
         //"logit_bias": this.logitBias,
-        "user": user
+        "user": user,
       });
 }

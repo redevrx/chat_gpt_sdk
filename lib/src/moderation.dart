@@ -1,6 +1,7 @@
 import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'client/client.dart';
+import 'model/moderation/enum/moderation_model.dart';
 import 'model/moderation/response/moderation_data.dart';
 
 class Moderation {
@@ -22,10 +23,11 @@ class Moderation {
   Future<ModerationData> create(
       {required String input,
       ModerationModel model = ModerationModel.textLast,
-      void Function(CancelData cancelData)? onCancel}) async {
+      void Function(CancelData cancelData)? onCancel,}) {
+
     return _client.post(
         kURL + kModeration, {"input": input, "model": model.getName()},
         onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => ModerationData.fromJson(it));
+        onSuccess: (it) => ModerationData.fromJson(it),);
   }
 }

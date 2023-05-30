@@ -1,15 +1,15 @@
-import 'openai_model_data.dart';
+import 'model_data.dart';
 
 class AiModel {
   final List<ModelData> data;
-  final dynamic object;
+  final String object;
 
   AiModel(this.data, this.object);
   factory AiModel.fromJson(Map<String, dynamic> json) => AiModel(
-        (json['data'] as List<dynamic>)
+        (json['data'] as List<Map>)
             .map((e) => ModelData.fromJson(e as Map<String, dynamic>))
             .toList(),
-        json['object'] as String,
+        json['object'],
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{

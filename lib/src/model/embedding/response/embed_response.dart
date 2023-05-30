@@ -17,14 +17,14 @@ class EmbedResponse {
   factory EmbedResponse.fromJson(Map<String, dynamic> json) => EmbedResponse(
         object: json["object"],
         data: List<EmbedData>.from(
-            json["data"].map((x) => EmbedData.fromJson(x))),
+            json["data"].map((x) => EmbedData.fromJson(x)),),
         model: json["model"],
         usage: Usage.fromJson(json["usage"]),
       );
 
   Map<String, dynamic> toJson() => {
         "object": object,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<Map>.from(data.map((x) => x.toJson())),
         "model": model,
         "usage": usage.toJson(),
       };

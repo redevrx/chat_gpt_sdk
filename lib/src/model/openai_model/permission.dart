@@ -9,7 +9,7 @@ class Permission {
   final bool allowView;
   final bool allowFineTuning;
   final String organization;
-  final dynamic group;
+  // final dynamic group;
   final bool? isBlocking;
 
   Permission(
@@ -23,8 +23,8 @@ class Permission {
       this.allowView,
       this.allowFineTuning,
       this.organization,
-      this.group,
-      this.isBlocking);
+      // this.group,
+      this.isBlocking,);
 
   factory Permission.fromJson(Map<String, dynamic> json) => Permission(
         json['id'] as String,
@@ -37,7 +37,7 @@ class Permission {
         json['allow_view'] as bool,
         json['allow_fine_tuning'] as bool,
         json['organization'] as String,
-        json['group'],
+        // json['group'],
         json['is_blocking'] as bool?,
       );
 
@@ -52,7 +52,7 @@ class Permission {
         'allow_view': allowView,
         'allow_fine_tuning': allowFineTuning,
         'organization': organization,
-        'group': group,
+        // 'group': group,
         'is_blocking': isBlocking,
       };
 }

@@ -35,6 +35,7 @@ class CategoryScores {
     data['sexual/minors'] = sexualMinors;
     data['violence'] = violence;
     data['violence/graphic'] = violenceGraphic;
+
     return data;
   }
 }

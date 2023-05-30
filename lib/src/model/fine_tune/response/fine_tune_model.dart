@@ -1,6 +1,6 @@
-import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_event.dart';
-import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_tune_hyper.dart';
-import 'package:chat_gpt_sdk/src/model/fine_tune/response/training_file.dart';
+import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_tune_event.dart';
+import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_tune_hyper_params.dart';
+import 'package:chat_gpt_sdk/src/model/fine_tune/response/training_files.dart';
 
 class FineTuneModel {
   /// The ID of the fine-tuning job.

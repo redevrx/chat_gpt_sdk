@@ -18,7 +18,7 @@ class EmbedData {
 
   Map<String, dynamic> toJson() => {
         "object": object,
-        "embedding": List<dynamic>.from(embedding.map((x) => x)),
+        "embedding": List<Map>.from(embedding.map((x) => x)),
         "index": index,
       };
 }

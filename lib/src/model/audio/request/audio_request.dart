@@ -1,27 +1,6 @@
-import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_image.dart';
+import 'package:chat_gpt_sdk/src/model/audio/enum/audio_format.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
 import 'package:dio/dio.dart';
-
-///audio response format.[AudioFormat]
-enum AudioFormat { json, text, srt, verboseJson, vtt }
-
-extension AudioFormatExtension on AudioFormat {
-  String getName() {
-    switch (this) {
-      case AudioFormat.json:
-        return 'json';
-      case AudioFormat.text:
-        return 'text';
-      case AudioFormat.srt:
-        return 'srt';
-      case AudioFormat.verboseJson:
-        return 'verbose_json';
-      case AudioFormat.vtt:
-        return 'vtt';
-      default:
-        return '';
-    }
-  }
-}
 
 class AudioRequest {
   ///The audio file to transcribe, in one of
@@ -59,7 +38,7 @@ class AudioRequest {
       this.prompt,
       this.responseFormat,
       this.temperature = 0,
-      this.language});
+      this.language,});
 
   Future<FormData> toJson() async {
     return FormData.fromMap({
@@ -70,7 +49,7 @@ class AudioRequest {
           ? AudioFormat.json.getName()
           : responseFormat?.getName(),
       'temperature': temperature,
-      'language': language
+      'language': language,
     });
   }
 }

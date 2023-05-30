@@ -2,8 +2,8 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 
 import 'choices.dart';
 
-///CT is Complete text [CTResponse]
-class CTResponse {
+///CT is Complete text [CompleteResponse]
+class CompleteResponse {
   final String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
   final String id;
   final String object;
@@ -12,15 +12,15 @@ class CTResponse {
   final List<Choices> choices;
   final Usage? usage;
 
-  CTResponse(
-      this.id, this.object, this.created, this.model, this.choices, this.usage);
+  CompleteResponse(
+      this.id, this.object, this.created, this.model, this.choices, this.usage,);
 
-  factory CTResponse.fromJson(Map<String, dynamic> json) => CTResponse(
+  factory CompleteResponse.fromJson(Map<String, dynamic> json) => CompleteResponse(
         json['id'] as String,
         json['object'] as String,
         json['created'] as int,
         json['model'] as String,
-        (json['choices'] as List<dynamic>)
+        (json['choices'] as List<Map>)
             .map((e) => Choices.fromJson(e as Map<String, dynamic>))
             .toList(),
         json['usage'] == null
@@ -30,7 +30,7 @@ class CTResponse {
 
   Map<String, dynamic> toJson() => responseToJson(this);
 
-  Map<String, dynamic> responseToJson(CTResponse instance) => <String, dynamic>{
+  Map<String, dynamic> responseToJson(CompleteResponse instance) => <String, dynamic>{
         'id': instance.id,
         'object': instance.object,
         'created': instance.created,

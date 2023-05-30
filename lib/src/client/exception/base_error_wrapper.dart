@@ -1,4 +1,4 @@
-import 'package:chat_gpt_sdk/src/model/error/error_model.dart';
+import 'package:chat_gpt_sdk/src/model/error/openai_error.dart';
 
 abstract class BaseErrorWrapper implements Exception {
   final OpenAIError? data;
@@ -7,5 +7,5 @@ abstract class BaseErrorWrapper implements Exception {
   BaseErrorWrapper({this.data, this.code});
 
   @override
-  String toString() => "status code :$code  message :${data?.error?.toMap()}\n";
+  String toString() => "status code :$code  message :${data?.error.toMap()}\n";
 }

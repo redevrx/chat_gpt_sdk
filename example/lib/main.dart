@@ -30,11 +30,11 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   late OpenAI openAI;
 
-  Future<CTResponse?>? _translateFuture;
+  Future<CompleteResponse?>? _translateFuture;
   void _translateEngToThai() async {
     setState(() {
       final request = CompleteText(
-          prompt: translateEngToThai(word: _txtWord.text.toString()),
+          prompt:  _txtWord.text.toString(),
           maxTokens: 200,
           model: Model.textDavinci3);
 
@@ -120,7 +120,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   }
 
   Widget _resultCard(Size size) {
-    return FutureBuilder<CTResponse?>(
+    return FutureBuilder<CompleteResponse?>(
         future: _translateFuture,
         builder: (context, snapshot) {
           final text = snapshot.data?.choices.last.text;
