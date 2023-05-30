@@ -28,6 +28,11 @@ supervised and reinforcement learning techniques.
 </p>
 </br>
 
+## Unofficial
+"community-maintained” library.
+<br></br>
+
+
 ## Features
 
 - [x] [Install Package](#install-package)
