@@ -38,4 +38,4 @@ export 'src/model/cancel/cancel_data.dart';
 export 'src/model/gen_image/enum/image_size.dart';
 export 'src/model/gen_image/enum/format.dart';
 export 'src/model/complete_text/enum/model.dart';
-export 'src/model/chat_complete/enum/chat_model.dart';
+// export 'src/model/chat_complete/enum/chat_model.dart';
