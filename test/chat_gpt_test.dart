@@ -53,7 +53,7 @@ void main() async {
 
       final response = await openAI.onCompletion(request: request);
 
-      expect(response?.object, 'object');
+      expect(response?.object, 1);
       expect(response?.id, 'id');
       expect(response?.model, 'model');
       expect(response!, const TypeMatcher<CompleteResponse>());
