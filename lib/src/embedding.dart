@@ -16,8 +16,11 @@ class Embedding {
     EmbedRequest request, {
     void Function(CancelData cancelData)? onCancel,
   }) {
-    return _client.post(kURL + kEmbedding, request.toJson(),
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => EmbedResponse.fromJson(it),);
+    return _client.post(
+      kURL + kEmbedding,
+      request.toJson(),
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => EmbedResponse.fromJson(it),
+    );
   }
 }
