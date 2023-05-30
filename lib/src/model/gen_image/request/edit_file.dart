@@ -45,23 +45,30 @@ class EditImageRequest {
   /// which can help OpenAI to monitor and detect abuse.[user]
   final String? user;
 
-  EditImageRequest(
-      {required this.image,
-      this.mask,
-      required this.prompt,
-      this.n = 2,
-      this.size = ImageSize.size1024,
-      this.responseFormat = Format.url,
-      this.user,});
+  EditImageRequest({
+    required this.image,
+    this.mask,
+    required this.prompt,
+    this.n = 2,
+    this.size = ImageSize.size1024,
+    this.responseFormat = Format.url,
+    this.user,
+  });
 
   Future<FormData> convert() async {
     return FormData.fromMap({
-      'image': await MultipartFile.fromFile(image.path,
-          filename: image.name, contentType: MediaType('image', 'png'),),
+      'image': await MultipartFile.fromFile(
+        image.path,
+        filename: image.name,
+        contentType: MediaType('image', 'png'),
+      ),
       'mask': mask == null
           ? null
-          : await MultipartFile.fromFile(image.path,
-              filename: image.name, contentType: MediaType('image', 'png'),),
+          : await MultipartFile.fromFile(
+              image.path,
+              filename: image.name,
+              contentType: MediaType('image', 'png'),
+            ),
       'prompt': prompt,
       'n': n,
       'size': size.size,

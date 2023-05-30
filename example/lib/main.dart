@@ -34,7 +34,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void _translateEngToThai() async {
     setState(() {
       final request = CompleteText(
-          prompt:  _txtWord.text.toString(),
+          prompt: _txtWord.text.toString(),
           maxTokens: 200,
           model: Model.textDavinci3);
 

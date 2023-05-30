@@ -6,8 +6,11 @@ class ChatChoiceSSE {
   final Message? message;
   final String? finishReason;
 
-  ChatChoiceSSE(
-      {required this.index, required this.message, this.finishReason,});
+  ChatChoiceSSE({
+    required this.index,
+    required this.message,
+    this.finishReason,
+  });
 
   factory ChatChoiceSSE.fromJson(Map<String, dynamic> json) => ChatChoiceSSE(
         index: json["index"],

@@ -9,17 +9,18 @@ void main() {
         {"speaker": "Bot", "text": "Hi there! How can I help you?"},
       ];
       final chatCompleteText = ChatCompleteText(
-          model: ChatModel.gptTurbo,
-          messages: messages,
-          temperature: 0.5,
-          topP: 0.9,
-          n: 2,
-          stream: true,
-          stop: ["User:"],
-          maxToken: 50,
-          presencePenalty: -0.5,
-          frequencyPenalty: 0.5,
-          user: "user123",);
+        model: ChatModel.gptTurbo,
+        messages: messages,
+        temperature: 0.5,
+        topP: 0.9,
+        n: 2,
+        stream: true,
+        stop: ["User:"],
+        maxToken: 50,
+        presencePenalty: -0.5,
+        frequencyPenalty: 0.5,
+        user: "user123",
+      );
 
       final expectedMap = {
         "model": kChatGptTurboModel,

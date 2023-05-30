@@ -26,13 +26,14 @@ class EditRequest {
   /// both.temperature.[topP]
   final int topP;
 
-  EditRequest(
-      {required this.model,
-      required this.input,
-      required this.instruction,
-      this.n = 1,
-      this.temperature = 1,
-      this.topP = 1,});
+  EditRequest({
+    required this.model,
+    required this.input,
+    required this.instruction,
+    this.n = 1,
+    this.temperature = 1,
+    this.topP = 1,
+  });
 
   Map<String, dynamic> toJson() => Map.of({
         "model": model.getName(),

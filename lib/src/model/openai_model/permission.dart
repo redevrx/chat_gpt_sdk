@@ -13,18 +13,19 @@ class Permission {
   final bool? isBlocking;
 
   Permission(
-      this.id,
-      this.object,
-      this.created,
-      this.allowCreateEngine,
-      this.allowSampling,
-      this.allowLogprobs,
-      this.allowSearchIndices,
-      this.allowView,
-      this.allowFineTuning,
-      this.organization,
-      // this.group,
-      this.isBlocking,);
+    this.id,
+    this.object,
+    this.created,
+    this.allowCreateEngine,
+    this.allowSampling,
+    this.allowLogprobs,
+    this.allowSearchIndices,
+    this.allowView,
+    this.allowFineTuning,
+    this.organization,
+    // this.group,
+    this.isBlocking,
+  );
 
   factory Permission.fromJson(Map<String, dynamic> json) => Permission(
         json['id'] as String,

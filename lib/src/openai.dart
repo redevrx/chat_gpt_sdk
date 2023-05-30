@@ -25,7 +25,6 @@ import 'edit.dart';
 import 'i_openai.dart';
 import 'model/cancel/cancel_data.dart';
 
-
 //const msgDeprecate = "not support in version 2.0.6";
 
 class OpenAI implements IOpenAI {
@@ -53,9 +52,10 @@ class OpenAI implements IOpenAI {
     setToken(token!);
 
     final dio = Dio(BaseOptions(
-        sendTimeout: setup.sendTimeout,
-        connectTimeout: setup.connectTimeout,
-        receiveTimeout: setup.receiveTimeout,));
+      sendTimeout: setup.sendTimeout,
+      connectTimeout: setup.connectTimeout,
+      receiveTimeout: setup.receiveTimeout,
+    ));
     if (setup.proxy.isNotEmpty) {
       dio.httpClientAdapter = IOHttpClientAdapter()
         ..onHttpClientCreate = (client) {
@@ -76,8 +76,9 @@ class OpenAI implements IOpenAI {
 
   ///find all list model ai [listModel]
   @override
-  Future<AiModel> listModel(
-      {void Function(CancelData cancelData)? onCancel,}) async {
+  Future<AiModel> listModel({
+    void Function(CancelData cancelData)? onCancel,
+  }) async {
     return _client.get<AiModel>(
       "$kURL$kModelList",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
@@ -89,15 +90,16 @@ class OpenAI implements IOpenAI {
 
   /// find all list engine ai [listEngine]
   @override
-  Future<EngineModel> listEngine(
-      {void Function(CancelData cancelData)? onCancel,}) async {
-
-    return _client.get<EngineModel>("$kURL$kEngineList",
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) {
-
-          return EngineModel.fromJson(it);
-        },);
+  Future<EngineModel> listEngine({
+    void Function(CancelData cancelData)? onCancel,
+  }) async {
+    return _client.get<EngineModel>(
+      "$kURL$kEngineList",
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) {
+        return EngineModel.fromJson(it);
+      },
+    );
   }
 
   ///### About Method [onCompleteText]
@@ -107,60 +109,68 @@ class OpenAI implements IOpenAI {
   /// - look more
   /// https://beta.openai.com/examples
   @override
-  Future<CompleteResponse?> onCompletion(
-          {required CompleteText request,
-          void Function(CancelData cancelData)? onCancel,}) =>
-
-      _client.post("$kURL$kCompletion", request.toJson(),
-          onCancel: (it) => onCancel != null ? onCancel(it) : null,
-          onSuccess: (it) {
-
-            return CompleteResponse.fromJson(it);
-          },);
+  Future<CompleteResponse?> onCompletion({
+    required CompleteText request,
+    void Function(CancelData cancelData)? onCancel,
+  }) =>
+      _client.post(
+        "$kURL$kCompletion",
+        request.toJson(),
+        onCancel: (it) => onCancel != null ? onCancel(it) : null,
+        onSuccess: (it) {
+          return CompleteResponse.fromJson(it);
+        },
+      );
 
   ///Given a chat conversation,
   /// the model will return a chat completion response.[onChatCompletion]
   @override
-  Future<ChatCTResponse?> onChatCompletion(
-      {required ChatCompleteText request,
-      void Function(CancelData cancelData)? onCancel,}) {
-
-    return _client.post("$kURL$kChatGptTurbo", request.toJson(),
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) {
-
-          return ChatCTResponse.fromJson(it);
-        },);
+  Future<ChatCTResponse?> onChatCompletion({
+    required ChatCompleteText request,
+    void Function(CancelData cancelData)? onCancel,
+  }) {
+    return _client.post(
+      "$kURL$kChatGptTurbo",
+      request.toJson(),
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) {
+        return ChatCTResponse.fromJson(it);
+      },
+    );
   }
 
   ///generate image with prompt
   @override
-  Future<GenImgResponse?> generateImage(GenerateImage request,
-      {void Function(CancelData cancelData)? onCancel,}) async {
-
-    return _client.post("$kURL$kGenerateImage", request.toJson(),
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) {
-
-          return GenImgResponse.fromJson(it);
-        },);
+  Future<GenImgResponse?> generateImage(
+    GenerateImage request, {
+    void Function(CancelData cancelData)? onCancel,
+  }) async {
+    return _client.post(
+      "$kURL$kGenerateImage",
+      request.toJson(),
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) {
+        return GenImgResponse.fromJson(it);
+      },
+    );
   }
 
   ///## Support Server Sent Event
   ///Given a chat conversation,
   /// the model will return a chat completion response. [onChatCompletionSSE]
   @override
-  Stream<ChatResponseSSE> onChatCompletionSSE(
-      {required ChatCompleteText request,
-      void Function(CancelData cancelData)? onCancel,}) {
-
+  Stream<ChatResponseSSE> onChatCompletionSSE({
+    required ChatCompleteText request,
+    void Function(CancelData cancelData)? onCancel,
+  }) {
     return _client.sse(
-        "$kURL$kChatGptTurbo", request.toJson()..addAll({"stream": true}),
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        complete: (it) {
-
-          return ChatResponseSSE.fromJson(it);
-        },);
+      "$kURL$kChatGptTurbo",
+      request.toJson()..addAll({"stream": true}),
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      complete: (it) {
+        return ChatResponseSSE.fromJson(it);
+      },
+    );
   }
 
   ///## Support Server Sent Event
@@ -170,17 +180,18 @@ class OpenAI implements IOpenAI {
   /// - look more
   /// https://beta.openai.com/examples .[onChatCompletion]
   @override
-  Stream<CompleteResponse> onCompletionSSE(
-      {required CompleteText request,
-      void Function(CancelData cancelData)? onCancel,}) {
-
+  Stream<CompleteResponse> onCompletionSSE({
+    required CompleteText request,
+    void Function(CancelData cancelData)? onCancel,
+  }) {
     return _client.sse(
-        '$kURL$kCompletion', request.toJson()..addAll({"stream": true}),
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        complete: (it) {
-
-          return CompleteResponse.fromJson(it);
-        },);
+      '$kURL$kCompletion',
+      request.toJson()..addAll({"stream": true}),
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      complete: (it) {
+        return CompleteResponse.fromJson(it);
+      },
+    );
   }
 
   ///edit prompt

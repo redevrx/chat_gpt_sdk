@@ -13,10 +13,11 @@ class OpenAIFile {
 
   ///Returns a list of files that belong to the user's organization.
   Future<FileResponse> get({void Function(CancelData cancelData)? onCancel}) {
-
-    return _client.get(kURL + kFile,
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => FileResponse.fromJson(it),);
+    return _client.get(
+      kURL + kFile,
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => FileResponse.fromJson(it),
+    );
   }
 
   ///Upload a file that contains document(s)
@@ -24,40 +25,54 @@ class OpenAIFile {
   /// Currently, the size of all the files uploaded
   /// by one organization can be up to 1 GB. Please
   /// contact us if you need to increase the storage limit.[uploadFile]
-  Future<UploadResponse> uploadFile(UploadFile request,
-      {void Function(CancelData cancelData)? onCancel,}) async {
+  Future<UploadResponse> uploadFile(
+    UploadFile request, {
+    void Function(CancelData cancelData)? onCancel,
+  }) async {
     final mRequest = await request.getForm();
 
-    return _client.postFormData(kURL + kFile, mRequest,
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        complete: (it) => UploadResponse.fromJson(it),);
+    return _client.postFormData(
+      kURL + kFile,
+      mRequest,
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      complete: (it) => UploadResponse.fromJson(it),
+    );
   }
 
   ///Delete a file.
-  Future<DeleteFile> delete(String fileId,
-      {void Function(CancelData cancelData)? onCancel,})  {
-
-    return _client.delete("$kURL$kFile/{$fileId}",
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => DeleteFile.fromJson(it),);
+  Future<DeleteFile> delete(
+    String fileId, {
+    void Function(CancelData cancelData)? onCancel,
+  }) {
+    return _client.delete(
+      "$kURL$kFile/{$fileId}",
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => DeleteFile.fromJson(it),
+    );
   }
 
   ///Returns information about a specific file.
-  Future<UploadResponse> retrieve(String fileId,
-      {void Function(CancelData cancelData)? onCancel,})  {
-
-    return _client.get("$kURL$kFile/$fileId",
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => UploadResponse.fromJson(it),);
+  Future<UploadResponse> retrieve(
+    String fileId, {
+    void Function(CancelData cancelData)? onCancel,
+  }) {
+    return _client.get(
+      "$kURL$kFile/$fileId",
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => UploadResponse.fromJson(it),
+    );
   }
 
   ///Returns the contents of the specified file
-  Future retrieveContent(String fileId,
-      {void Function(CancelData cancelData)? onCancel,})  {
-
-    return _client.get('$kURL$kFile/$fileId/content',
-        returnRawData: true,
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => it,);
+  Future retrieveContent(
+    String fileId, {
+    void Function(CancelData cancelData)? onCancel,
+  }) {
+    return _client.get(
+      '$kURL$kFile/$fileId/content',
+      returnRawData: true,
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => it,
+    );
   }
 }

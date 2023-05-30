@@ -6,8 +6,9 @@ class OpenAIError {
 
   factory OpenAIError.fromJson(Map<String, dynamic>? json, String message) =>
       OpenAIError(
-          message: message,
-          error: ErrorData.fromJson(json?['error']),);
+        message: message,
+        error: ErrorData.fromJson(json?['error']),
+      );
 }
 
 class ErrorData {
@@ -18,14 +19,15 @@ class ErrorData {
   ErrorData({this.message, this.type, this.code});
 
   factory ErrorData.fromJson(Map<String, dynamic>? json) {
-    if(json == null){
+    if (json == null) {
       return ErrorData();
     }
 
     return ErrorData(
       message: json['message'],
       code: json['code'],
-      type: json['type'],);
+      type: json['type'],
+    );
   }
 
   Map<String, dynamic> toMap() =>

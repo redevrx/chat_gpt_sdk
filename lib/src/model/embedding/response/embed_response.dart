@@ -17,7 +17,8 @@ class EmbedResponse {
   factory EmbedResponse.fromJson(Map<String, dynamic> json) => EmbedResponse(
         object: json["object"],
         data: List<EmbedData>.from(
-            json["data"].map((x) => EmbedData.fromJson(x)),),
+          json["data"].map((x) => EmbedData.fromJson(x)),
+        ),
         model: json["model"],
         usage: Usage.fromJson(json["usage"]),
       );

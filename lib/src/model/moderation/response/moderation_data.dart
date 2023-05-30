@@ -1,6 +1,5 @@
 import 'moderation_result.dart';
 
-
 class ModerationData {
   ModerationData({
     required this.id,

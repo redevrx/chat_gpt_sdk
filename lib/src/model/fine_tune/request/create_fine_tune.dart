@@ -1,5 +1,3 @@
-
-
 import 'package:chat_gpt_sdk/src/model/fine_tune/enum/fine_model.dart';
 
 class CreateFineTune {
@@ -107,19 +105,20 @@ class CreateFineTune {
   /// a model name like ada:ft-your-org:custom-model-name-2022-02-15-04-21-04.
   final String? suffix;
 
-  CreateFineTune(
-      {required this.trainingFile,
-      this.validationFile,
-      this.model = FineModel.curie,
-      this.nEpochs = 4,
-      this.batchSize,
-      this.learningRateMultiplier,
-      this.promptLossWeight = .01,
-      this.computeClassificationMetrics = false,
-      this.classificationNClasses,
-      this.classificationPositiveClass,
-      this.classificationBetas,
-      this.suffix,});
+  CreateFineTune({
+    required this.trainingFile,
+    this.validationFile,
+    this.model = FineModel.curie,
+    this.nEpochs = 4,
+    this.batchSize,
+    this.learningRateMultiplier,
+    this.promptLossWeight = .01,
+    this.computeClassificationMetrics = false,
+    this.classificationNClasses,
+    this.classificationPositiveClass,
+    this.classificationBetas,
+    this.suffix,
+  });
 
   Map<String, dynamic> toJson() => Map.of({
         'training_file': trainingFile,

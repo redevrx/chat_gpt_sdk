@@ -25,17 +25,21 @@ class Variation {
   /// which can help OpenAI to monitor and detect abuse.[user]
   final String? user;
 
-  Variation(
-      {required this.image,
-      this.n = 2,
-      this.size = ImageSize.size1024,
-      this.responseFormat = Format.url,
-      this.user,});
+  Variation({
+    required this.image,
+    this.n = 2,
+    this.size = ImageSize.size1024,
+    this.responseFormat = Format.url,
+    this.user,
+  });
 
   Future<FormData> convert() async {
     return FormData.fromMap({
-      'image': await MultipartFile.fromFile(image.path,
-          filename: image.name, contentType: MediaType('image', 'png'),),
+      'image': await MultipartFile.fromFile(
+        image.path,
+        filename: image.name,
+        contentType: MediaType('image', 'png'),
+      ),
       'n': n,
       'size': size.size,
       'response_format': responseFormat.name,

@@ -13,18 +13,24 @@ mixin IOpenAI {
   OpenAI build({String? token, HttpSetup? baseOption, bool enableLog = false});
   listModel({void Function(CancelData cancelData)? onCancel});
   listEngine({void Function(CancelData cancelData)? onCancel});
-  Future<CompleteResponse?> onCompletion(
-      {required CompleteText request,
-        void Function(CancelData cancelData)? onCancel,});
-  Stream<CompleteResponse> onCompletionSSE(
-      {required CompleteText request,
-        void Function(CancelData cancelData)? onCancel,});
-  Future<ChatCTResponse?> onChatCompletion(
-      {required ChatCompleteText request,
-        void Function(CancelData cancelData)? onCancel,});
-  Stream<ChatResponseSSE> onChatCompletionSSE(
-      {required ChatCompleteText request,
-        void Function(CancelData cancelData) onCancel,});
-  Future<GenImgResponse?> generateImage(GenerateImage request,
-      {void Function(CancelData cancelData)? onCancel,});
+  Future<CompleteResponse?> onCompletion({
+    required CompleteText request,
+    void Function(CancelData cancelData)? onCancel,
+  });
+  Stream<CompleteResponse> onCompletionSSE({
+    required CompleteText request,
+    void Function(CancelData cancelData)? onCancel,
+  });
+  Future<ChatCTResponse?> onChatCompletion({
+    required ChatCompleteText request,
+    void Function(CancelData cancelData)? onCancel,
+  });
+  Stream<ChatResponseSSE> onChatCompletionSSE({
+    required ChatCompleteText request,
+    void Function(CancelData cancelData) onCancel,
+  });
+  Future<GenImgResponse?> generateImage(
+    GenerateImage request, {
+    void Function(CancelData cancelData)? onCancel,
+  });
 }

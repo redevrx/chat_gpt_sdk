@@ -12,9 +12,10 @@ class Embedding {
   /// that can be easily consumed by machine learning
   /// models and algorithms.[embedding]
   ///
-  Future<EmbedResponse> embedding(EmbedRequest request,
-      {void Function(CancelData cancelData)? onCancel,})  {
-
+  Future<EmbedResponse> embedding(
+    EmbedRequest request, {
+    void Function(CancelData cancelData)? onCancel,
+  }) {
     return _client.post(kURL + kEmbedding, request.toJson(),
         onCancel: (it) => onCancel != null ? onCancel(it) : null,
         onSuccess: (it) => EmbedResponse.fromJson(it));

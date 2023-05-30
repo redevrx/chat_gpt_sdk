@@ -17,15 +17,16 @@ class CompleteText {
   /// [" Human:", " AI:"]
   final List<String>? stop;
 
-  CompleteText(
-      {required this.prompt,
-      required this.model,
-      this.temperature = .3,
-      this.maxTokens = 100,
-      this.topP = 1.0,
-      this.frequencyPenalty = .0,
-      this.presencePenalty = .0,
-      this.stop,});
+  CompleteText({
+    required this.prompt,
+    required this.model,
+    this.temperature = .3,
+    this.maxTokens = 100,
+    this.topP = 1.0,
+    this.frequencyPenalty = .0,
+    this.presencePenalty = .0,
+    this.stop,
+  });
 
   factory CompleteText.fromJson(Map<String, dynamic> json) => CompleteText(
         prompt: json['prompt'] as String,

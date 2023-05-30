@@ -48,4 +48,3 @@ Model fromName(String name) {
   }
   throw ArgumentError.value(name, "name", "No enum value with that name");
 }
-

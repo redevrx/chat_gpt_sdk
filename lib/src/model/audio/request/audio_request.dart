@@ -33,12 +33,13 @@ class AudioRequest {
   /// accuracy and latency. [language]
   final String? language;
 
-  AudioRequest(
-      {required this.file,
-      this.prompt,
-      this.responseFormat,
-      this.temperature = 0,
-      this.language,});
+  AudioRequest({
+    required this.file,
+    this.prompt,
+    this.responseFormat,
+    this.temperature = 0,
+    this.language,
+  });
 
   Future<FormData> toJson() async {
     return FormData.fromMap({

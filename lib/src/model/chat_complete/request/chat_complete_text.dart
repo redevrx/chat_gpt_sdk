@@ -1,6 +1,5 @@
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/chat_model.dart';
 
-
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
   /// gpt-3.5-turbo-0301 are supported. [model]
@@ -71,18 +70,19 @@ class ChatCompleteText {
   ///to monitor and detect abuse.[user]
   final String? user;
 
-  ChatCompleteText(
-      {required this.model,
-      required this.messages,
-      this.temperature = .3,
-      this.topP = 1.0,
-      this.n = 1,
-      this.stream = false,
-      this.stop,
-      this.maxToken = 100,
-      this.presencePenalty = .0,
-      this.frequencyPenalty = .0,
-      this.user = "",});
+  ChatCompleteText({
+    required this.model,
+    required this.messages,
+    this.temperature = .3,
+    this.topP = 1.0,
+    this.n = 1,
+    this.stream = false,
+    this.stop,
+    this.maxToken = 100,
+    this.presencePenalty = .0,
+    this.frequencyPenalty = .0,
+    this.user = "",
+  });
 
   Map<String, dynamic> toJson() => Map.of({
         "model": model.name,

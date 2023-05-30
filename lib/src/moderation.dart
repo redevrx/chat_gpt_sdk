@@ -20,14 +20,16 @@ class Moderation {
   /// provide advanced notice before updating the model.
   /// Accuracy of text-moderation-stable may be slightly
   /// lower than for text-moderation-latest.
-  Future<ModerationData> create(
-      {required String input,
-      ModerationModel model = ModerationModel.textLast,
-      void Function(CancelData cancelData)? onCancel,}) {
-
+  Future<ModerationData> create({
+    required String input,
+    ModerationModel model = ModerationModel.textLast,
+    void Function(CancelData cancelData)? onCancel,
+  }) {
     return _client.post(
-        kURL + kModeration, {"input": input, "model": model.getName()},
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => ModerationData.fromJson(it),);
+      kURL + kModeration,
+      {"input": input, "model": model.getName()},
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => ModerationData.fromJson(it),
+    );
   }
 }

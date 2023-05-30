@@ -15,32 +15,46 @@ class Edit {
   ///Given a prompt and an instruction,
   /// the model will return an edited
   /// version of the prompt.[prompt]
-  Future<EditResponse> prompt(EditRequest request,
-      {void Function(CancelData cancelData)? onCancel,}) {
-
-    return _client.post(kURL + kEditPrompt, request.toJson(),
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) => EditResponse.fromJson(it),);
+  Future<EditResponse> prompt(
+    EditRequest request, {
+    void Function(CancelData cancelData)? onCancel,
+  }) {
+    return _client.post(
+      kURL + kEditPrompt,
+      request.toJson(),
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => EditResponse.fromJson(it),
+    );
   }
 
   ///Creates an edited or extended image
   /// given an original image and a prompt.[editImage]
-  Future<GenImgResponse> editImage(EditImageRequest request,
-      {void Function(CancelData cancelData)? onCancel,}) async {
+  Future<GenImgResponse> editImage(
+    EditImageRequest request, {
+    void Function(CancelData cancelData)? onCancel,
+  }) async {
     final mRequest = await request.convert();
 
-    return _client.postFormData(kURL + kImageEdit, mRequest,
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        complete: (it) => GenImgResponse.fromJson(it),);
+    return _client.postFormData(
+      kURL + kImageEdit,
+      mRequest,
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      complete: (it) => GenImgResponse.fromJson(it),
+    );
   }
 
   ///Creates a variation of a given image.[variation]
-  Future<GenImgResponse> variation(Variation request,
-      {void Function(CancelData cancelData)? onCancel,}) async {
+  Future<GenImgResponse> variation(
+    Variation request, {
+    void Function(CancelData cancelData)? onCancel,
+  }) async {
     final mRequest = await request.convert();
 
-    return _client.postFormData(kURL + kVariation, mRequest,
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        complete: (it) => GenImgResponse.fromJson(it),);
+    return _client.postFormData(
+      kURL + kVariation,
+      mRequest,
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      complete: (it) => GenImgResponse.fromJson(it),
+    );
   }
 }
