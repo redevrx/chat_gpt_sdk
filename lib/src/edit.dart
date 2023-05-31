@@ -35,6 +35,7 @@ class Edit {
     void Function(CancelData cancelData)? onCancel,
   }) async {
     final mRequest = await request.convert();
+
     return _client.postFormData(
       kURL + kImageEdit,
       mRequest,
