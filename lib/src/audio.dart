@@ -14,6 +14,7 @@ class Audio {
     void Function(CancelData cancelData)? onCancel,
   }) async {
     final mRequest = await request.toJson();
+
     return _client.postFormData(
       kURL + kTranscription,
       mRequest,
