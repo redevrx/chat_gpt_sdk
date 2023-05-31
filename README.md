@@ -27,6 +27,10 @@ supervised and reinforcement learning techniques.
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/redevRx/Flutter-ChatGPT?style=social">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/redevRx/Flutter-ChatGPT/dart.yml?label=tests">
 <img alt="GitHub" src="https://img.shields.io/github/license/redevRx/Flutter-ChatGPT">
+<img alt="Pub Points" src="https://img.shields.io/pub/points/chat_gpt_sdk">
+<img alt="Pub Popularity" src="https://img.shields.io/pub/popularity/chat_gpt_sdk">
+<img alt="Pub Likes" src="https://img.shields.io/pub/likes/chat_gpt_sdk">
+<img alt="Pub Version" src="https://img.shields.io/pub/v/chat_gpt_sdk">
 </p>
 </br>
 

@@ -1,7 +1,6 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice_sse.dart';
-import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/choices.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_data.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/model_data.dart';
