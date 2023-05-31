@@ -70,7 +70,6 @@ class OpenAI implements IOpenAI {
     dio.interceptors.add(InterceptorWrapper());
 
     _client = OpenAIClient(dio: dio, isLogging: enableLog);
-
     return instance;
   }
 
