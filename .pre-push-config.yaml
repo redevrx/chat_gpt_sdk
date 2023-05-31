@@ -1,0 +1,13 @@
+repos:
+  -   repo: https://github.com/Cretezy/flutter-format-pre-push
+      rev: "master"
+      hooks:
+        -   id: flutter-format
+  -   repo: https://github.com/dluksza/flutter-analyze-pre-push
+      rev: "master"
+      hooks:
+        -   id: flutter-analyze
+  -   repo: https://github.com/Virtomize/flutter-test-pre-push
+      rev: "main"
+      hooks:
+        -   id: flutter-test
