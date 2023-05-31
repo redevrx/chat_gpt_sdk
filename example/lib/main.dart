@@ -348,7 +348,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
   }
 }
 
-
 class ExampleSSE extends StatefulWidget {
   const ExampleSSE({Key? key}) : super(key: key);
 
@@ -357,7 +356,6 @@ class ExampleSSE extends StatefulWidget {
 }
 
 class _ExampleSSEState extends State<ExampleSSE> {
-
   ///ประกาศตัวแปร [openAI]
   late OpenAI openAI;
 
@@ -377,8 +375,7 @@ class _ExampleSSEState extends State<ExampleSSE> {
     super.initState();
   }
 
-
-  void chatCompleteSSE(){
+  void chatCompleteSSE() {
     ///setup request
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
@@ -390,13 +387,13 @@ class _ExampleSSEState extends State<ExampleSSE> {
 
       setState(() {
         ///add new value to [chatResponseList]
-        if(chatResponseList == null){
+        if (chatResponseList == null) {
           final mMessage = Message(message: it.choices.last.message?.content);
           chatResponseList?.add(mMessage);
         }
 
         ///update message value in list
-        if(chatResponseList != null){
+        if (chatResponseList != null) {
           ///get last message in list
           final mChat = chatResponseList!.last;
 
@@ -423,10 +420,10 @@ class _ExampleSSEState extends State<ExampleSSE> {
             height: 300.0,
             width: double.infinity,
             child: ListView.builder(
-              itemCount: chatResponseList?.length ?? 0,
+                itemCount: chatResponseList?.length ?? 0,
                 itemBuilder: (context, index) {
                   return Text('${chatResponseList?[index].message}');
-            }),
+                }),
           )
         ],
       ),
@@ -441,5 +438,3 @@ class Message {
 
   Message({this.id, this.isBot = true, this.message});
 }
-
-
