@@ -207,6 +207,6 @@ class OpenAI implements IOpenAI {
   ///fine-tune
   FineTuned get fineTune => FineTuned(_client);
 
-  ///moderations
+  ///moderation's
   Moderation get moderation => Moderation(_client);
 }

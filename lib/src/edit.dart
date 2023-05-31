@@ -19,6 +19,7 @@ class Edit {
     EditRequest request, {
     void Function(CancelData cancelData)? onCancel,
   }) {
+
     return _client.post(
       kURL + kEditPrompt,
       request.toJson(),
@@ -34,7 +35,6 @@ class Edit {
     void Function(CancelData cancelData)? onCancel,
   }) async {
     final mRequest = await request.convert();
-
     return _client.postFormData(
       kURL + kImageEdit,
       mRequest,
