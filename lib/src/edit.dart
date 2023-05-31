@@ -19,7 +19,6 @@ class Edit {
     EditRequest request, {
     void Function(CancelData cancelData)? onCancel,
   }) {
-
     return _client.post(
       kURL + kEditPrompt,
       request.toJson(),
