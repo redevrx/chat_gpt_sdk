@@ -70,6 +70,7 @@ class OpenAI implements IOpenAI {
     dio.interceptors.add(InterceptorWrapper());
 
     _client = OpenAIClient(dio: dio, isLogging: enableLog);
+
     return instance;
   }
 
@@ -81,9 +82,7 @@ class OpenAI implements IOpenAI {
     return _client.get<AiModel>(
       "$kURL$kModelList",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
-      onSuccess: (it) {
-        return AiModel.fromJson(it);
-      },
+      onSuccess: (it) => AiModel.fromJson(it),
     );
   }
 
@@ -91,7 +90,7 @@ class OpenAI implements IOpenAI {
   @override
   Future<EngineModel> listEngine({
     void Function(CancelData cancelData)? onCancel,
-  }) async {
+  }) {
     return _client.get<EngineModel>(
       "$kURL$kEngineList",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
