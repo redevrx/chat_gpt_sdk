@@ -7,20 +7,21 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 void main() {
   test('ChatCTResponse can be instantiated', () {
     final ChatCTResponse chatCTResponse = ChatCTResponse(
-        id: "id_test",
-        object: "object_test",
-        created: 1,
-        choices: [
-          ChatChoice(
-            index: 0,
-            message: Message(
-              role: "role_test",
-              content: "content_test",
-            ),
-            finishReason: "finish_reason_test",
+      id: "id_test",
+      object: "object_test",
+      created: 1,
+      choices: [
+        ChatChoice(
+          index: 0,
+          message: Message(
+            role: "role_test",
+            content: "content_test",
           ),
-        ],
-        usage: Usage(10, 20, 30));
+          finishReason: "finish_reason_test",
+        ),
+      ],
+      usage: Usage(10, 20, 30),
+    );
 
     expect(chatCTResponse.id, "id_test");
     expect(chatCTResponse.object, "object_test");
@@ -40,14 +41,14 @@ void main() {
         {
           "index": 0,
           "message": {"role": "role_test", "content": "content_test"},
-          "finish_reason": "finish_reason_test"
-        }
+          "finish_reason": "finish_reason_test",
+        },
       ],
       "usage": {
         "prompt_tokens": 10,
         "completion_tokens": 20,
-        "total_tokens": 30
-      }
+        "total_tokens": 30,
+      },
     };
 
     final ChatCTResponse chatCTResponse = ChatCTResponse.fromJson(json);

@@ -3,8 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 main() {
   test('default value', () {
-    final target = GenerateImage('test', 2,
-        size: ImageSize.size1024, responseFormat: Format.url);
+    final target = GenerateImage(
+      'test',
+      2,
+      size: ImageSize.size1024,
+      responseFormat: Format.url,
+    );
     expect(target.prompt, 'test');
     expect(target.n, 2);
 

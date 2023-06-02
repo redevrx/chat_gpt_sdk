@@ -18,19 +18,20 @@ void main() {
     });
 
     test(
-        'should create a Usage object from a valid json without completion tokens',
-        () {
-      final json = {
-        "prompt_tokens": 50,
-        "total_tokens": 50,
-      };
+      'should create a Usage object from a valid json without completion tokens',
+      () {
+        final json = {
+          "prompt_tokens": 50,
+          "total_tokens": 50,
+        };
 
-      final usage = Usage.fromJson(json);
+        final usage = Usage.fromJson(json);
 
-      expect(usage.promptTokens, 50);
-      expect(usage.completionTokens, 0);
-      expect(usage.totalTokens, 50);
-    });
+        expect(usage.promptTokens, 50);
+        expect(usage.completionTokens, 0);
+        expect(usage.totalTokens, 50);
+      },
+    );
   });
 
   group('toJson', () {

@@ -6,9 +6,10 @@ void main() {
   group('toJson', () {
     test('toJson should return a valid JSON map', () {
       final chatChoice = ChatChoice(
-          index: 0,
-          message: Message(role: 'user', content: 'Hello'),
-          finishReason: null);
+        index: 0,
+        message: Message(role: 'user', content: 'Hello'),
+        finishReason: null,
+      );
 
       final jsonMap = chatChoice.toJson();
 
