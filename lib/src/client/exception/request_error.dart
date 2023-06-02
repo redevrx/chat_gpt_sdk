@@ -1,5 +1,7 @@
 import 'package:chat_gpt_sdk/src/client/exception/base_error_wrapper.dart';
 
+///[RequestError]
+///narmal error
 class RequestError extends BaseErrorWrapper {
   RequestError({super.data, super.code});
 }

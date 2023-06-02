@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_gpt_sdk/src/model/audio/enum/audio_format.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
 import 'package:dio/dio.dart';
@@ -43,7 +45,9 @@ class AudioRequest {
 
   Future<FormData> toJson() async {
     return FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path, filename: file.path),
+      'file': File(file.name).existsSync()
+          ? await MultipartFile.fromFile(file.path, filename: file.path)
+          : null,
       'prompt': prompt,
       "model": "whisper-1",
       'response_format': responseFormat == null

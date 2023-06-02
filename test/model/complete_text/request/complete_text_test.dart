@@ -25,6 +25,7 @@ void main() {
       expect(completeText.frequencyPenalty, 0.5);
       expect(completeText.presencePenalty, 0.5);
       expect(completeText.stop, [' Human:', ' AI:']);
+      expect(completeText.toJson()['prompt'],  'Hello world!');
     });
 
     test('toJson returns a valid Map', () {
@@ -42,13 +43,14 @@ void main() {
       final json = completeText.toJson();
 
       expect(json['prompt'], 'Hello world!');
-      expect(json['model'], Model.textDavinci3.name);
+      expect(json['model'], Model.textDavinci3.getName());
       expect(json['temperature'], 0.8);
       expect(json['max_tokens'], 150);
       expect(json['top_p'], 0.9);
       expect(json['frequency_penalty'], 0.5);
       expect(json['presence_penalty'], 0.5);
       expect(json['stop'], [' Human:', ' AI:']);
+      expect(completeText.toJson()['prompt'],  'Hello world!');
     });
 
     test('constructor creates a valid instance with default values', () {

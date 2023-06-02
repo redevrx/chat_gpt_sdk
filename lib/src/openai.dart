@@ -47,9 +47,9 @@ class OpenAI implements IOpenAI {
   ///setup logger
   @override
   OpenAI build({String? token, HttpSetup? baseOption, bool enableLog = false}) {
-    if ("$token".isEmpty) throw MissingTokenException();
+    if ("$token".isEmpty || token == null) throw MissingTokenException();
     final setup = baseOption ?? HttpSetup();
-    setToken(token!);
+    setToken(token);
 
     final dio = Dio(BaseOptions(
       sendTimeout: setup.sendTimeout,

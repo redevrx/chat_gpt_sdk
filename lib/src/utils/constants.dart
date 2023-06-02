@@ -40,7 +40,7 @@ const kFineTune = 'fine-tunes';
 /// fine tune model
 const kFineTuneModel = 'models';
 
-///moderations
+///moderation's
 const kModeration = 'moderations';
 
 ///model name
@@ -77,13 +77,13 @@ const kDavinciModel = 'davinci';
 const kTextMStable = 'text-moderation-stable';
 const kTextMLast = 'text-moderation-latest';
 
+///default header
 Map<String, String> kHeader(
   String token,
 ) =>
-    {"Content-Type": 'application/json', "Authorization": "Bearer $token"};
-
-Map<String, String> kHeaderOrg(String orgId) =>
-    {"Content-Type": 'application/json', "Authorization": "Bearer $orgId"};
+    Map.of(
+      {"Content-Type": 'application/json', "Authorization": "Bearer $token"},
+    );
 
 ///key data
 const kTokenKey = 'token';
