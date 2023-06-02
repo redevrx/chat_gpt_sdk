@@ -25,7 +25,7 @@ void main() {
       expect(completeText.frequencyPenalty, 0.5);
       expect(completeText.presencePenalty, 0.5);
       expect(completeText.stop, [' Human:', ' AI:']);
-      expect(completeText.toJson()['prompt'],  'Hello world!');
+      expect(completeText.toJson()['prompt'], 'Hello world!');
     });
 
     test('toJson returns a valid Map', () {
@@ -50,7 +50,7 @@ void main() {
       expect(json['frequency_penalty'], 0.5);
       expect(json['presence_penalty'], 0.5);
       expect(json['stop'], [' Human:', ' AI:']);
-      expect(completeText.toJson()['prompt'],  'Hello world!');
+      expect(completeText.toJson()['prompt'], 'Hello world!');
     });
 
     test('constructor creates a valid instance with default values', () {

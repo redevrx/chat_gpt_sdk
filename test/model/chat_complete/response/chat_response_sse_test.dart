@@ -1,4 +1,3 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice_sse.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/message.dart';

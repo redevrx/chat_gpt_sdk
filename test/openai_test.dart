@@ -72,11 +72,12 @@ void main() async {
       );
 
       openAI.onCompletion(
-          request: request,
-          onCancel: (c) {
-            c.cancelToken.cancel();
-            expect(c.cancelToken.isCancelled, true);
-          },);
+        request: request,
+        onCancel: (c) {
+          c.cancelToken.cancel();
+          expect(c.cancelToken.isCancelled, true);
+        },
+      );
     });
 
     test('text completion success case with return result', () async {
@@ -210,11 +211,12 @@ void main() async {
               ));
 
       openAI.onChatCompletion(
-          request: request,
-          onCancel: (c) {
-            c.cancelToken.cancel();
-            expect(c.cancelToken.isCancelled, true);
-          },);
+        request: request,
+        onCancel: (c) {
+          c.cancelToken.cancel();
+          expect(c.cancelToken.isCancelled, true);
+        },
+      );
     });
 
     test(
@@ -281,11 +283,12 @@ void main() async {
               ));
 
       openAI.onChatCompletion(
-          request: request,
-          onCancel: (c) {
-            c.cancelToken.cancel();
-            expect(c.cancelToken.isCancelled, true);
-          },);
+        request: request,
+        onCancel: (c) {
+          c.cancelToken.cancel();
+          expect(c.cancelToken.isCancelled, true);
+        },
+      );
     });
 
     test(
@@ -355,11 +358,12 @@ void main() async {
       );
 
       openAI.onChatCompletionSSE(
-          request: request,
-          onCancel: (c) {
-            c.cancelToken.cancel();
-            expect(c.cancelToken.isCancelled, true);
-          },);
+        request: request,
+        onCancel: (c) {
+          c.cancelToken.cancel();
+          expect(c.cancelToken.isCancelled, true);
+        },
+      );
     });
 
     test('openAI chat completion stream error case test', () async {
@@ -425,11 +429,12 @@ void main() async {
       );
 
       openAI.onChatCompletionSSE(
-          request: request,
-          onCancel: (c) {
-            c.cancelToken.cancel();
-            expect(c.cancelToken.isCancelled, true);
-          },);
+        request: request,
+        onCancel: (c) {
+          c.cancelToken.cancel();
+          expect(c.cancelToken.isCancelled, true);
+        },
+      );
     });
 
     test('openAI chat completion stream error case test', () async {
@@ -580,9 +585,11 @@ void main() async {
       () async {
         final request = GenerateImage('cat eating snake', 1);
 
-        when(openAI.generateImage(request)).thenAnswer((realInvocation) async =>
-            GenImgResponse(
-                created: 912312, data: [ImageData(url: "image_url")],));
+        when(openAI.generateImage(request))
+            .thenAnswer((realInvocation) async => GenImgResponse(
+                  created: 912312,
+                  data: [ImageData(url: "image_url")],
+                ));
 
         final mResponse = await openAI.generateImage(request);
 
@@ -597,9 +604,11 @@ void main() async {
       () {
         final request = GenerateImage('cat eating snake', 1);
 
-        when(openAI.generateImage(request)).thenAnswer((realInvocation) async =>
-            GenImgResponse(
-                created: 912312, data: [ImageData(url: "image_url")],));
+        when(openAI.generateImage(request))
+            .thenAnswer((realInvocation) async => GenImgResponse(
+                  created: 912312,
+                  data: [ImageData(url: "image_url")],
+                ));
 
         openAI.generateImage(request, onCancel: (c) {
           c.cancelToken.cancel();
@@ -612,11 +621,11 @@ void main() async {
       () async {
         final request = GenerateImage('cat eating snake', 2);
 
-        when(openAI.generateImage(request)).thenAnswer((realInvocation) async =>
-            GenImgResponse(created: 912312, data: [
-              ImageData(url: "image_url1"),
-              ImageData(url: "image_url2"),
-            ]));
+        when(openAI.generateImage(request)).thenAnswer(
+            (realInvocation) async => GenImgResponse(created: 912312, data: [
+                  ImageData(url: "image_url1"),
+                  ImageData(url: "image_url2"),
+                ]));
 
         final mResponse = await openAI.generateImage(request);
 
@@ -652,12 +661,16 @@ void main() async {
             .thenThrow(OpenAIAuthError(code: 404));
 
         verifyNever(await openAI.generateImage(request));
-        expect(() => openAI.generateImage(request),
-            throwsA(isA<OpenAIAuthError>()),);
         expect(
-            () => openAI.generateImage(request),
-            throwsA(
-                predicate((err) => err is OpenAIAuthError && err.code == 404),),);
+          () => openAI.generateImage(request),
+          throwsA(isA<OpenAIAuthError>()),
+        );
+        expect(
+          () => openAI.generateImage(request),
+          throwsA(
+            predicate((err) => err is OpenAIAuthError && err.code == 404),
+          ),
+        );
       },
     );
   });
@@ -683,21 +696,26 @@ void main() async {
         expect(c.cancelToken.isCancelled, true);
       });
     });
-    test('ChatGPT audio transcribes test with unauthenticated error case',
-        () async {
-      final request = AudioRequest(file: EditFile("path", "name"));
-      when(audio.transcribes(request)).thenThrow(OpenAIAuthError());
+    test(
+      'ChatGPT audio transcribes test with unauthenticated error case',
+      () async {
+        final request = AudioRequest(file: EditFile("path", "name"));
+        when(audio.transcribes(request)).thenThrow(OpenAIAuthError());
 
-      verifyNever(await audio.transcribes(request));
-      expect(() => audio.transcribes(request), throwsA(isA<OpenAIAuthError>()));
-    },);
+        verifyNever(await audio.transcribes(request));
+        expect(
+            () => audio.transcribes(request), throwsA(isA<OpenAIAuthError>()));
+      },
+    );
     test('ChatGPT audio transcribes test with rate limit error case', () async {
       final request = AudioRequest(file: EditFile("path", "name"));
       when(audio.transcribes(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(await audio.transcribes(request));
-      expect(() => audio.transcribes(request),
-          throwsA(isA<OpenAIRateLimitError>()),);
+      expect(
+        () => audio.transcribes(request),
+        throwsA(isA<OpenAIRateLimitError>()),
+      );
     });
     test('ChatGPT audio transcribes test with rate limit error case', () async {
       final request = AudioRequest(file: EditFile("path", "name"));
@@ -705,7 +723,9 @@ void main() async {
 
       verifyNever(await audio.transcribes(request));
       expect(
-          () => audio.transcribes(request), throwsA(isA<OpenAIServerError>()),);
+        () => audio.transcribes(request),
+        throwsA(isA<OpenAIServerError>()),
+      );
     });
 
     test('ChatGPT audio translate test cancel with success case', () {
@@ -728,21 +748,25 @@ void main() async {
         expect(it.text, "text");
       });
     });
-    test('ChatGPT audio translate test with unauthenticated error case',
-        () async {
-      final request = AudioRequest(file: EditFile("path", "name"));
-      when(audio.translate(request)).thenThrow(OpenAIAuthError());
+    test(
+      'ChatGPT audio translate test with unauthenticated error case',
+      () async {
+        final request = AudioRequest(file: EditFile("path", "name"));
+        when(audio.translate(request)).thenThrow(OpenAIAuthError());
 
-      verifyNever(await audio.translate(request));
-      expect(() => audio.translate(request), throwsA(isA<OpenAIAuthError>()));
-    },);
+        verifyNever(await audio.translate(request));
+        expect(() => audio.translate(request), throwsA(isA<OpenAIAuthError>()));
+      },
+    );
     test('ChatGPT audio translate test with rate limit error case', () async {
       final request = AudioRequest(file: EditFile("path", "name"));
       when(audio.translate(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(await audio.translate(request));
       expect(
-          () => audio.translate(request), throwsA(isA<OpenAIRateLimitError>()),);
+        () => audio.translate(request),
+        throwsA(isA<OpenAIRateLimitError>()),
+      );
     });
     test('ChatGPT audio translate test with rate limit error case', () async {
       final request = AudioRequest(file: EditFile("path", "name"));
@@ -756,7 +780,9 @@ void main() async {
   group('chatGPT edit test', () {
     test('chatGPT Edit image test with success case', () {
       final request = EditImageRequest(
-          image: EditFile("path", "name"), prompt: "fix color",);
+        image: EditFile("path", "name"),
+        prompt: "fix color",
+      );
       when(edit.editImage(request)).thenAnswer((realInvocation) async =>
           GenImgResponse(created: 123, data: [ImageData(url: "url")]));
 
@@ -767,7 +793,9 @@ void main() async {
     });
     test('chatGPT Edit image test cancel with success case', () {
       final request = EditImageRequest(
-          image: EditFile("path", "name"), prompt: "fix color",);
+        image: EditFile("path", "name"),
+        prompt: "fix color",
+      );
       when(edit.editImage(request)).thenAnswer((realInvocation) async =>
           GenImgResponse(created: 123, data: [ImageData(url: "url")]));
 
@@ -786,12 +814,16 @@ void main() async {
     });
     test('ChatGPT Edit image test with rate limit error case', () async {
       final request = EditImageRequest(
-          image: EditFile("path", "name"), prompt: "fix color body",);
+        image: EditFile("path", "name"),
+        prompt: "fix color body",
+      );
       when(edit.editImage(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(await edit.editImage(request));
       expect(
-          () => edit.editImage(request), throwsA(isA<OpenAIRateLimitError>()),);
+        () => edit.editImage(request),
+        throwsA(isA<OpenAIRateLimitError>()),
+      );
     });
     test('ChatGPT Edit image test with rate limit error case', () async {
       final request =
@@ -804,15 +836,22 @@ void main() async {
 
     test('chatGPT Edit prompt test with success case', () {
       final request = EditRequest(
-          input: "snake", instruction: "", model: EditModel.textEditModel,);
+        input: "snake",
+        instruction: "",
+        model: EditModel.textEditModel,
+      );
       final choice = [
         Choice(index: 1, text: "text"),
       ];
       final usage = Usage(1, 2, 3);
 
-      when(edit.prompt(request)).thenAnswer((realInvocation) async =>
-          EditResponse(
-              object: 'object', created: 1, choices: choice, usage: usage,));
+      when(edit.prompt(request))
+          .thenAnswer((realInvocation) async => EditResponse(
+                object: 'object',
+                created: 1,
+                choices: choice,
+                usage: usage,
+              ));
 
       edit.prompt(request).then((it) {
         expect(it.choices.length, 1);
@@ -821,15 +860,22 @@ void main() async {
     });
     test('chatGPT Edit prompt test cancel with success case', () {
       final request = EditRequest(
-          input: "snake", instruction: "", model: EditModel.textEditModel,);
+        input: "snake",
+        instruction: "",
+        model: EditModel.textEditModel,
+      );
       final choice = [
         Choice(index: 1, text: "text"),
       ];
       final usage = Usage(1, 2, 3);
 
-      when(edit.prompt(request)).thenAnswer((realInvocation) async =>
-          EditResponse(
-              object: 'object', created: 1, choices: choice, usage: usage,));
+      when(edit.prompt(request))
+          .thenAnswer((realInvocation) async => EditResponse(
+                object: 'object',
+                created: 1,
+                choices: choice,
+                usage: usage,
+              ));
 
       edit.prompt(
         request,
@@ -841,7 +887,10 @@ void main() async {
     });
     test('ChatGPT Edit prompt test with unauthenticated error case', () async {
       final request = EditRequest(
-          input: "snake", instruction: "", model: EditModel.textEditModel,);
+        input: "snake",
+        instruction: "",
+        model: EditModel.textEditModel,
+      );
       when(edit.prompt(request)).thenThrow(OpenAIAuthError());
 
       verifyNever(await edit.prompt(request));
@@ -849,7 +898,10 @@ void main() async {
     });
     test('ChatGPT Edit prompt test with rate limit error case', () async {
       final request = EditRequest(
-          input: "snake", instruction: "", model: EditModel.textEditModel,);
+        input: "snake",
+        instruction: "",
+        model: EditModel.textEditModel,
+      );
       when(edit.prompt(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(await edit.prompt(request));
@@ -857,7 +909,10 @@ void main() async {
     });
     test('ChatGPT Edit prompt test with rate limit error case', () async {
       final request = EditRequest(
-          input: "snake", instruction: "", model: EditModel.textEditModel,);
+        input: "snake",
+        instruction: "",
+        model: EditModel.textEditModel,
+      );
       when(edit.prompt(request)).thenThrow(OpenAIServerError());
 
       verifyNever(await edit.prompt(request));
@@ -901,7 +956,9 @@ void main() async {
 
       verifyNever(await edit.variation(request));
       expect(
-          () => edit.variation(request), throwsA(isA<OpenAIRateLimitError>()),);
+        () => edit.variation(request),
+        throwsA(isA<OpenAIRateLimitError>()),
+      );
     });
     test('ChatGPT Edit prompt test with rate limit error case', () async {
       final request = Variation(image: EditFile("path file", 'file name'));
@@ -918,9 +975,13 @@ void main() async {
           EmbedRequest(model: EmbedModel.textEmbeddingAda002, input: 'input');
       final usage = Usage(1, 2, 3);
 
-      when(embedding.embedding(request)).thenAnswer((realInvocation) async =>
-          EmbedResponse(
-              object: 'object', data: [], model: 'model', usage: usage,));
+      when(embedding.embedding(request))
+          .thenAnswer((realInvocation) async => EmbedResponse(
+                object: 'object',
+                data: [],
+                model: 'model',
+                usage: usage,
+              ));
 
       final response = await embedding.embedding(request);
       verify(embedding.embedding(request));
@@ -935,9 +996,13 @@ void main() async {
           EmbedRequest(model: EmbedModel.textEmbeddingAda002, input: 'input');
       final usage = Usage(1, 2, 3);
 
-      when(embedding.embedding(request)).thenAnswer((realInvocation) async =>
-          EmbedResponse(
-              object: 'object', data: [], model: 'model', usage: usage,));
+      when(embedding.embedding(request))
+          .thenAnswer((realInvocation) async => EmbedResponse(
+                object: 'object',
+                data: [],
+                model: 'model',
+                usage: usage,
+              ));
 
       embedding.embedding(request, onCancel: (c) {
         c.cancelToken.cancel();
@@ -952,7 +1017,9 @@ void main() async {
 
       verifyNever(embedding.embedding(request));
       expect(
-          () => embedding.embedding(request), throwsA(isA<OpenAIAuthError>()),);
+        () => embedding.embedding(request),
+        throwsA(isA<OpenAIAuthError>()),
+      );
     });
     test('ChatGPT Edit prompt test with rate limit error case', () {
       final request =
@@ -960,8 +1027,10 @@ void main() async {
       when(embedding.embedding(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(embedding.embedding(request));
-      expect(() => embedding.embedding(request),
-          throwsA(isA<OpenAIRateLimitError>()),);
+      expect(
+        () => embedding.embedding(request),
+        throwsA(isA<OpenAIRateLimitError>()),
+      );
     });
     test('ChatGPT Edit prompt test with rate limit error case', () {
       final request =
@@ -969,8 +1038,10 @@ void main() async {
       when(embedding.embedding(request)).thenThrow(OpenAIServerError());
 
       verifyNever(embedding.embedding(request));
-      expect(() => embedding.embedding(request),
-          throwsA(isA<OpenAIServerError>()),);
+      expect(
+        () => embedding.embedding(request),
+        throwsA(isA<OpenAIServerError>()),
+      );
     });
   });
 }

@@ -1,8 +1,7 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void main(){
+void main() {
   group('chat openai model test', () {
     test('chat openai model test get gpt_4', () {
       const gpt_4 = ChatModel.gpt_4;

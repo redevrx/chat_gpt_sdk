@@ -1,8 +1,7 @@
-
 import 'package:chat_gpt_sdk/src/model/audio/enum/audio_format.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void main(){
+void main() {
   group('audio format test', () {
     test('audio format test with text format', () {
       const text = AudioFormat.text;
@@ -29,6 +28,5 @@ void main(){
       expect(vtt.getName(), 'vtt');
       expect(vtt, isA<AudioFormat>());
     });
-
   });
 }

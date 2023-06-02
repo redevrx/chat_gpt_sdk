@@ -1,12 +1,11 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/audio/enum/audio_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void main(){
+void main() {
   group('audio request test', () {
-    test('audio request test set edit file', ()  {
+    test('audio request test set edit file', () {
       final request = AudioRequest(file: EditFile("path", "name"));
 
       expect(request.file.name, 'name');
@@ -14,7 +13,8 @@ void main(){
       expect(request.toJson(), isA<Future<FormData>>());
     });
     test('audio request test set language', () {
-      final request = AudioRequest(file: EditFile("path", "name"),language: "en");
+      final request =
+          AudioRequest(file: EditFile("path", "name"), language: "en");
 
       expect(request.file.name, 'name');
       expect(request.file.path, 'path');
@@ -23,8 +23,10 @@ void main(){
     });
     test('audio request test set format', () {
       final request = AudioRequest(
-          file: EditFile("path", "name"),language: "en",
-        responseFormat: AudioFormat.verboseJson,);
+        file: EditFile("path", "name"),
+        language: "en",
+        responseFormat: AudioFormat.verboseJson,
+      );
 
       expect(request.file.name, 'name');
       expect(request.file.path, 'path');
@@ -34,9 +36,11 @@ void main(){
     });
     test('audio request test set temperature', () {
       final request = AudioRequest(
-        file: EditFile("path", "name"),language: "en",
+        file: EditFile("path", "name"),
+        language: "en",
         responseFormat: AudioFormat.verboseJson,
-          temperature: 1,);
+        temperature: 1,
+      );
 
       expect(request.file.name, 'name');
       expect(request.file.path, 'path');

@@ -1,8 +1,7 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void main(){
+void main() {
   group('http setup test', () {
     test('http setup test valid instance', () {
       final httpSetup = HttpSetup();

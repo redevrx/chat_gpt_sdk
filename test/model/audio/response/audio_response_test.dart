@@ -1,8 +1,7 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void main(){
+void main() {
   group('audio response test', () {
     test('audio response test instance is AudioResponse', () {
       final response = AudioResponse('text');
@@ -13,7 +12,7 @@ void main(){
       expect(response.text, 'text');
     });
     test('audio response test value from json', () {
-      final response = AudioResponse.fromJson({"text":"text"});
+      final response = AudioResponse.fromJson({"text": "text"});
       expect(response.text, 'text');
     });
   });
