@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/format.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/image_size.dart';
 import 'package:dio/dio.dart';
@@ -57,15 +59,15 @@ class EditImageRequest {
 
   Future<FormData> convert() async {
     return FormData.fromMap({
-      'image': await MultipartFile.fromFile(
+      'image': File(image.path).existsSync() ? await MultipartFile.fromFile(
         image.path,
         filename: image.name,
         contentType: MediaType('image', 'png'),
-      ),
-      'mask': mask == null
+      ) : null,
+      'mask': !File('${mask?.path}').existsSync()
           ? null
           : await MultipartFile.fromFile(
-              image.path,
+              '${mask?.path}',
               filename: image.name,
               contentType: MediaType('image', 'png'),
             ),

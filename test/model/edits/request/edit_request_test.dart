@@ -8,7 +8,7 @@ void main() {
       final request = EditRequest(
           model: EditModel.codeEditModel,
           input: "input",
-          instruction: "instruction");
+          instruction: "instruction",);
 
       expect(request.model.getName(), EditModel.codeEditModel.getName());
       expect(request.input, 'input');
@@ -27,7 +27,7 @@ void main() {
       final json = EditRequest(
               model: EditModel.codeEditModel,
               input: "input",
-              instruction: "instruction")
+              instruction: "instruction",)
           .toJson();
 
       expect(json, mJson);

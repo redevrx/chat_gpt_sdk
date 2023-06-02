@@ -26,7 +26,7 @@ class TrainingFiles {
     return TrainingFiles(
       id: json['id'],
       bytes: json['bytes'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(json['created_at'] * 1000),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(json['created_at'] == null ? 0 : json['created_at'] * 1000),
       filename: json['filename'],
       purpose: json['purpose'],
     );

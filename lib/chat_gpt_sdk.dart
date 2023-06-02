@@ -7,7 +7,7 @@ export 'src/model/complete_text/request/complete_text.dart';
 export 'src/model/complete_text/response/complete_response.dart';
 export 'src/model/gen_image/request/generate_image.dart';
 export 'src/model/gen_image/response/gen_img_response.dart';
-export 'src/model/openai_model/ai_model.dart';
+export 'src/model/openai_model/openai_model.dart';
 export 'src/model/openai_engine/engine_model.dart';
 export 'src/model/chat_complete/request/chat_complete_text.dart';
 export 'src/model/chat_complete/response/chat_ct_response.dart';

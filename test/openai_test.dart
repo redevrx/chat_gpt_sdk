@@ -505,7 +505,7 @@ void main() async {
 
   group('chatGPT Models & Engine test', () {
     test('chatGPT Models success case test', () async {
-      when(openAI.listModel()).thenAnswer((_) async => AiModel(
+      when(openAI.listModel()).thenAnswer((_) async => OpenAiModel(
             [
               ModelData('id', '', 'ownerBy', [
                 Permission(
@@ -527,12 +527,12 @@ void main() async {
           ));
 
       final response = await openAI.listModel();
-      expect(response, const TypeMatcher<AiModel>());
+      expect(response, const TypeMatcher<OpenAiModel>());
       verify(await openAI.listModel());
       expect(response.object, '12');
     });
     test('chatGPT Models cancel success case test', () {
-      when(openAI.listModel()).thenAnswer((_) async => AiModel(
+      when(openAI.listModel()).thenAnswer((_) async => OpenAiModel(
             [
               ModelData('id', '', 'ownerBy', [
                 Permission(
@@ -625,7 +625,7 @@ void main() async {
             (realInvocation) async => GenImgResponse(created: 912312, data: [
                   ImageData(url: "image_url1"),
                   ImageData(url: "image_url2"),
-                ]));
+                ]),);
 
         final mResponse = await openAI.generateImage(request);
 
@@ -704,7 +704,7 @@ void main() async {
 
         verifyNever(await audio.transcribes(request));
         expect(
-            () => audio.transcribes(request), throwsA(isA<OpenAIAuthError>()));
+            () => audio.transcribes(request), throwsA(isA<OpenAIAuthError>()),);
       },
     );
     test('ChatGPT audio transcribes test with rate limit error case', () async {

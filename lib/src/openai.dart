@@ -14,7 +14,7 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart';
-import 'package:chat_gpt_sdk/src/model/openai_model/ai_model.dart';
+import 'package:chat_gpt_sdk/src/model/openai_model/openai_model.dart';
 import 'package:chat_gpt_sdk/src/moderation.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:chat_gpt_sdk/src/utils/token_builder.dart';
@@ -76,13 +76,13 @@ class OpenAI implements IOpenAI {
 
   ///find all list model ai [listModel]
   @override
-  Future<AiModel> listModel({
+  Future<OpenAiModel> listModel({
     void Function(CancelData cancelData)? onCancel,
   }) async {
-    return _client.get<AiModel>(
+    return _client.get<OpenAiModel>(
       "$kURL$kModelList",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
-      onSuccess: (it) => AiModel.fromJson(it),
+      onSuccess: (it) => OpenAiModel.fromJson(it),
     );
   }
 

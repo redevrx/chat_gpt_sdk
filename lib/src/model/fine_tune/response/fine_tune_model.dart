@@ -59,7 +59,7 @@ class FineTuneModel {
     return FineTuneModel(
       id: json['id'],
       model: json['model'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(json['created_at'] * 1000),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(json['created_at'] == null ? 0 : json['created_at'] * 1000),
       events: (json['events'] as List?)
           ?.map((e) => FineTuneEvent.fromJson(e))
           .toList(),
@@ -74,7 +74,7 @@ class FineTuneModel {
       trainingFiles: (json['training_files'] as List)
           .map((e) => TrainingFiles.fromJson(e))
           .toList(),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(json['updated_at'] * 1000),
+      updatedAt: DateTime.fromMillisecondsSinceEpoch(json['updated_at'] == null ? 0 : json['updated_at'] * 1000),
     );
   }
 }

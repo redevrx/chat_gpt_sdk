@@ -38,7 +38,8 @@ void main() {
           }),
         ],
         usage: Usage.fromJson(
-            {"prompt_tokens": 1, "completion_tokens": 0, "total_tokens": 1},),
+          {"prompt_tokens": 1, "completion_tokens": 0, "total_tokens": 1},
+        ),
       ).toJson();
 
       expect(json['choices'].length, 1);

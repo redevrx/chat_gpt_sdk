@@ -197,7 +197,7 @@ void main() {
       final h = kHeader('token');
       expect(h, {
         "Content-Type": 'application/json',
-        "Authorization": "Bearer token"
+        "Authorization": "Bearer token",
       });
       expect(h, isA<Map<String, String>>());
     });

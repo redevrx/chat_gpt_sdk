@@ -17,7 +17,7 @@ class FileResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<Map>.from(data.map((x) => x.toJson())),
+        "data": data,
         "object": object,
       };
 }

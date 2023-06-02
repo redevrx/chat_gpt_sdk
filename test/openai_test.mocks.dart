@@ -59,7 +59,7 @@ import 'package:chat_gpt_sdk/src/model/moderation/enum/moderation_model.dart'
 import 'package:chat_gpt_sdk/src/model/moderation/response/moderation_data.dart'
     as _i17;
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart' as _i10;
-import 'package:chat_gpt_sdk/src/model/openai_model/ai_model.dart' as _i9;
+import 'package:chat_gpt_sdk/src/model/openai_model/openai_model.dart' as _i9;
 import 'package:chat_gpt_sdk/src/moderation.dart' as _i7;
 import 'package:chat_gpt_sdk/src/openai.dart' as _i8;
 import 'package:chat_gpt_sdk/src/openai_file.dart' as _i5;
@@ -146,7 +146,7 @@ class _FakeOpenAI_6 extends _i1.SmartFake implements _i8.OpenAI {
         );
 }
 
-class _FakeAiModel_7 extends _i1.SmartFake implements _i9.AiModel {
+class _FakeAiModel_7 extends _i1.SmartFake implements _i9.OpenAiModel {
   _FakeAiModel_7(
     Object parent,
     Invocation parentInvocation,
@@ -404,7 +404,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
         ),
       ) as _i8.OpenAI);
   @override
-  _i22.Future<_i9.AiModel> listModel(
+  _i22.Future<_i9.OpenAiModel> listModel(
           {void Function(_i23.CancelData)? onCancel}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -412,7 +412,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           [],
           {#onCancel: onCancel},
         ),
-        returnValue: _i22.Future<_i9.AiModel>.value(_FakeAiModel_7(
+        returnValue: _i22.Future<_i9.OpenAiModel>.value(_FakeAiModel_7(
           this,
           Invocation.method(
             #listModel,
@@ -421,7 +421,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           ),
         )),
         returnValueForMissingStub:
-            _i22.Future<_i9.AiModel>.value(_FakeAiModel_7(
+            _i22.Future<_i9.OpenAiModel>.value(_FakeAiModel_7(
           this,
           Invocation.method(
             #listModel,
@@ -429,7 +429,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i22.Future<_i9.AiModel>);
+      ) as _i22.Future<_i9.OpenAiModel>);
   @override
   _i22.Future<_i10.EngineModel> listEngine(
           {void Function(_i23.CancelData)? onCancel}) =>

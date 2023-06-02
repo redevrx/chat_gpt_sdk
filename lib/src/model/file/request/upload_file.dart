@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
 import 'package:dio/dio.dart';
 
@@ -17,7 +19,7 @@ class UploadFile {
 
   Future<FormData> getForm() async {
     return FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      'file': File(file.path).existsSync() ? await MultipartFile.fromFile(file.path, filename: file.name) : null,
       'purpose': purpose,
     });
   }

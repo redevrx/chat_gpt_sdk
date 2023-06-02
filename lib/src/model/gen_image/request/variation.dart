@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/format.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/image_size.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
@@ -35,11 +37,11 @@ class Variation {
 
   Future<FormData> convert() async {
     return FormData.fromMap({
-      'image': await MultipartFile.fromFile(
+      'image': File(image.path).existsSync() ? await MultipartFile.fromFile(
         image.path,
         filename: image.name,
         contentType: MediaType('image', 'png'),
-      ),
+      ) : null,
       'n': n,
       'size': size.size,
       'response_format': responseFormat.name,
