@@ -32,19 +32,21 @@ void main() {
       expect(model.id, 'id');
     });
     test('model data test to json', () {
-      final json = ModelData("id", 'object', 'ownerBy', [Permission.fromJson({
-        'id': 'id',
-        'object': 'object',
-        'created': 1,
-        'allow_create_engine': true,
-        'allow_sampling': true,
-        'allow_logprobs': true,
-        'allow_search_indices': true,
-        'allow_view': true,
-        'allow_fine_tuning': true,
-        'organization': 'organization',
-        'is_blocking': true,
-      })]).toJson();
+      final json = ModelData("id", 'object', 'ownerBy', [
+        Permission.fromJson({
+          'id': 'id',
+          'object': 'object',
+          'created': 1,
+          'allow_create_engine': true,
+          'allow_sampling': true,
+          'allow_logprobs': true,
+          'allow_search_indices': true,
+          'allow_view': true,
+          'allow_fine_tuning': true,
+          'organization': 'organization',
+          'is_blocking': true,
+        })
+      ]).toJson();
 
       expect(json['object'], 'object');
       expect(json['id'], 'id');
