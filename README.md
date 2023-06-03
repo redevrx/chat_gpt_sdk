@@ -31,8 +31,10 @@ supervised and reinforcement learning techniques.
 <img alt="Pub Popularity" src="https://img.shields.io/pub/popularity/chat_gpt_sdk">
 <img alt="Pub Likes" src="https://img.shields.io/pub/likes/chat_gpt_sdk">
 <img alt="Pub Version" src="https://img.shields.io/pub/v/chat_gpt_sdk">
+<img alt="Pub Version" src="https://img.shields.io/badge/coverage-84%25-brightgreen">
 </p>
 </br>
+
 
 
 ## Features
@@ -286,7 +288,7 @@ A: Human life expectancy in the United States is 78 years.
   const prompt = "cat eating snake blue red.";
 
   final request = GenerateImage(prompt, 1,size: ImageSize.size256,
-          response_format: Format.url);;
+          responseFormat: Format.url);
   final response = openAI.generateImage(request);
   print("img url :${response.data?.last?.url}");
 }

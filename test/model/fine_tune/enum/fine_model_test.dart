@@ -1,4 +1,3 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/fine_tune/enum/fine_model.dart';
 import 'package:flutter_test/flutter_test.dart';

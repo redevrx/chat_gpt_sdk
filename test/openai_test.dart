@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/edit.dart';
@@ -36,6 +38,56 @@ void main() async {
   final edit = MockEdit();
   final embedding = MockEmbedding();
   // final fineTurned = MockFineTuned();
+
+  test('description', () {
+    final ai = OpenAI.instance.build(token: 'token');
+
+    final request = ChatCompleteText(messages: [
+      Map.of({"role": "user", "content": 'Hello!'}),
+    ], maxToken: 200, model: ChatModel.gpt_4,);
+
+    ai.setToken('token');
+
+    expect(ai.token, isA<String>());
+    expect(()=> ai.onChatCompletion(request: request), throwsException);
+    expect(()=> ai.onCompletion(request: CompleteText(
+        prompt: "",
+        maxTokens: 200,
+        model: Model.textDavinci3,)), throwsException,);
+    expect(()=> ai.generateImage(GenerateImage('prompt', 1,size: ImageSize.size256,
+        responseFormat: Format.url,)), throwsException,);
+    expect(()=> ai.editor.prompt(EditRequest(model: EditModel.textEditModel, input: 'input', instruction: 'instruction')), throwsException);
+    expect(()=> ai.editor.editImage(EditImageRequest(image: EditFile('path', 'name'), prompt: 'prompt')), throwsException);
+    expect(()=> ai.editor.variation(Variation(image: EditFile('path', 'name'), user: 'prompt')), throwsException);
+    expect(()=> ai.moderation.create(input: 'input'), throwsException);
+    expect(()=> ai.fineTune.create(CreateFineTune(trainingFile: 'trainingFile')), throwsException);
+    expect(()=> ai.fineTune.cancel('id'), throwsException);
+    expect(()=> ai.fineTune.delete('id'), throwsException);
+    expect(()=> ai.fineTune.retrieve('id'), throwsException);
+    expect(()=> ai.fineTune.list(), throwsException);
+    ai.fineTune.listStream('fineTuneId').transform(StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
+      expect(error, throwsException);
+    }));
+    expect(()=> ai.file.get(), throwsException);
+    expect(()=> ai.file.retrieve('fileId'), throwsException);
+    expect(()=> ai.file.delete('fileId'), throwsException);
+    expect(()=> ai.file.retrieveContent('fileId'), throwsException);
+    expect(()=> ai.file.uploadFile(UploadFile(file: EditFile('path', 'name'))), throwsException);
+    expect(()=> ai.audio.translate(AudioRequest(file: EditFile('path', 'name'))), throwsException);
+    expect(()=> ai.audio.transcribes(AudioRequest(file: EditFile('path', 'name'))), throwsException);
+    expect(()=> ai.embed.embedding(EmbedRequest(model: EmbedModel.textSearchAdaDoc001, input: 'input')), throwsException);
+    expect(()=> ai.listEngine(), throwsException);
+    expect(()=> ai.listModel(), throwsException);
+    ai.onChatCompletionSSE(request: request).transform(StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
+      expect(error, throwsException);
+    }));
+    ai.onCompletionSSE(request: CompleteText(
+      prompt: "",
+      maxTokens: 200,
+      model: Model.textDavinci3,)).transform(StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
+      expect(error, throwsException);
+    }));
+  });
 
   group('chatGPT-3 text completion test', () {
     test('text completion use success case', () {
@@ -622,10 +674,11 @@ void main() async {
         final request = GenerateImage('cat eating snake', 2);
 
         when(openAI.generateImage(request)).thenAnswer(
-            (realInvocation) async => GenImgResponse(created: 912312, data: [
-                  ImageData(url: "image_url1"),
-                  ImageData(url: "image_url2"),
-                ]),);
+          (realInvocation) async => GenImgResponse(created: 912312, data: [
+            ImageData(url: "image_url1"),
+            ImageData(url: "image_url2"),
+          ]),
+        );
 
         final mResponse = await openAI.generateImage(request);
 
@@ -704,7 +757,9 @@ void main() async {
 
         verifyNever(await audio.transcribes(request));
         expect(
-            () => audio.transcribes(request), throwsA(isA<OpenAIAuthError>()),);
+          () => audio.transcribes(request),
+          throwsA(isA<OpenAIAuthError>()),
+        );
       },
     );
     test('ChatGPT audio transcribes test with rate limit error case', () async {

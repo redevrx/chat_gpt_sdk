@@ -1,4 +1,3 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/moderation/enum/moderation_model.dart';
 import 'package:flutter_test/flutter_test.dart';

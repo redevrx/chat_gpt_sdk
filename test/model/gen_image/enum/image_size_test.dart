@@ -1,9 +1,8 @@
-
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('openai image size', () { 
+  group('openai image size', () {
     test('openai image size get value size256', () {
       const size256 = ImageSize.size256;
 

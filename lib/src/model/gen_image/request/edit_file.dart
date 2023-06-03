@@ -59,11 +59,13 @@ class EditImageRequest {
 
   Future<FormData> convert() async {
     return FormData.fromMap({
-      'image': File(image.path).existsSync() ? await MultipartFile.fromFile(
-        image.path,
-        filename: image.name,
-        contentType: MediaType('image', 'png'),
-      ) : null,
+      'image': File(image.path).existsSync()
+          ? await MultipartFile.fromFile(
+              image.path,
+              filename: image.name,
+              contentType: MediaType('image', 'png'),
+            )
+          : null,
       'mask': !File('${mask?.path}').existsSync()
           ? null
           : await MultipartFile.fromFile(

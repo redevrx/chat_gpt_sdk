@@ -13,9 +13,11 @@ class ModerationData {
   ModerationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     model = json['model'];
-    results = json['results'] == null ? List.empty() : List.from(json['results'])
-        .map((e) => ModerationResult.fromJson(e))
-        .toList();
+    results = json['results'] == null
+        ? List.empty()
+        : List.from(json['results'])
+            .map((e) => ModerationResult.fromJson(e))
+            .toList();
   }
 
   Map<String, dynamic> toJson() {

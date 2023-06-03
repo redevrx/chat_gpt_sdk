@@ -35,8 +35,13 @@ void main() {
       };
 
       final json = CompleteResponse(
-              "id", "object", 1, "model", [Choices.fromJson(choiceJson)], null,)
-          .toJson();
+        "id",
+        "object",
+        1,
+        "model",
+        [Choices.fromJson(choiceJson)],
+        null,
+      ).toJson();
 
       expect(json['model'], 'model');
       expect(json['id'], 'id');
