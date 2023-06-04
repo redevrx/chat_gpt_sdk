@@ -38,4 +38,9 @@ jobs:
 
       - name: Run Flutter Test
         run: flutter test
+        
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
