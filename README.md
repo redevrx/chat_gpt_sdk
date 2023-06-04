@@ -31,7 +31,7 @@ supervised and reinforcement learning techniques.
 <img alt="Pub Popularity" src="https://img.shields.io/pub/popularity/chat_gpt_sdk">
 <img alt="Pub Likes" src="https://img.shields.io/pub/likes/chat_gpt_sdk">
 <img alt="Pub Version" src="https://img.shields.io/pub/v/chat_gpt_sdk">
-<img alt="Pub Version" src="https://img.shields.io/badge/coverage-84%25-brightgreen">
+<img alt="Code Coverage" src="https://img.shields.io/codecov/c/github/redevrx/chat_gpt_sdk?logo=codecov&color">
 </p>
 </br>
 
