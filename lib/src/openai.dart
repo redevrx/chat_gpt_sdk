@@ -116,6 +116,7 @@ class OpenAI implements IOpenAI {
         request.toJson(),
         onCancel: (it) => onCancel != null ? onCancel(it) : null,
         onSuccess: (it) {
+
           return CompleteResponse.fromJson(it);
         },
       );

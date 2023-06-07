@@ -27,9 +27,8 @@ class CompleteResponse {
         json['object'] as String,
         json['created'] as int,
         json['model'] as String,
-        (json['choices'] as List<Map>)
-            .map((e) => Choices.fromJson(e as Map<String, dynamic>))
-            .toList(),
+        (json['choices'] as List)
+            .map((e) => Choices.fromJson(e as Map<String,dynamic>)).toList(),
         json['usage'] == null
             ? null
             : Usage.fromJson(json['usage'] as Map<String, dynamic>),

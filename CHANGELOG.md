@@ -121,3 +121,6 @@ Fix bug  Http status error [429] error
 
 ## 2.1.7
 -  Change Response name
+
+## 2.1.8
+-  Fig but convert type error

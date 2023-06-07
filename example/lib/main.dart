@@ -32,12 +32,12 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Future<CompleteResponse?>? _translateFuture;
   void _translateEngToThai() async {
-    setState(() {
-      final request = CompleteText(
-          prompt: _txtWord.text.toString(),
-          maxTokens: 200,
-          model: Model.textDavinci3);
+    final request = CompleteText(
+        prompt: translateEngToThai(word: _txtWord.text.toString()),
+        maxTokens: 200,
+        model: Model.textDavinci3);
 
+    setState(() {
       _translateFuture = openAI.onCompletion(request: request);
     });
   }
