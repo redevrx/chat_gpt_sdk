@@ -60,7 +60,7 @@ void main() async {
         prompt: "",
         maxTokens: 200,
         model: Model.textDavinci3,
-      )),
+      ),),
       throwsException,
     );
     expect(
@@ -76,20 +76,20 @@ void main() async {
         () => ai.editor.prompt(EditRequest(
             model: EditModel.textEditModel,
             input: 'input',
-            instruction: 'instruction')),
-        throwsException);
+            instruction: 'instruction',)),
+        throwsException,);
     expect(
         () => ai.editor.editImage(EditImageRequest(
-            image: EditFile('path', 'name'), prompt: 'prompt')),
-        throwsException);
+            image: EditFile('path', 'name'), prompt: 'prompt',)),
+        throwsException,);
     expect(
         () => ai.editor.variation(
-            Variation(image: EditFile('path', 'name'), user: 'prompt')),
-        throwsException);
+            Variation(image: EditFile('path', 'name'), user: 'prompt'),),
+        throwsException,);
     expect(() => ai.moderation.create(input: 'input'), throwsException);
     expect(
         () => ai.fineTune.create(CreateFineTune(trainingFile: 'trainingFile')),
-        throwsException);
+        throwsException,);
     expect(() => ai.fineTune.cancel('id'), throwsException);
     expect(() => ai.fineTune.delete('id'), throwsException);
     expect(() => ai.fineTune.retrieve('id'), throwsException);
@@ -97,41 +97,41 @@ void main() async {
     ai.fineTune.listStream('fineTuneId').transform(
         StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
       expect(error, throwsException);
-    }));
+    }),);
     expect(() => ai.file.get(), throwsException);
     expect(() => ai.file.retrieve('fileId'), throwsException);
     expect(() => ai.file.delete('fileId'), throwsException);
     expect(() => ai.file.retrieveContent('fileId'), throwsException);
     expect(() => ai.file.uploadFile(UploadFile(file: EditFile('path', 'name'))),
-        throwsException);
+        throwsException,);
     expect(
         () => ai.audio.translate(AudioRequest(file: EditFile('path', 'name'))),
-        throwsException);
+        throwsException,);
     expect(
         () =>
             ai.audio.transcribes(AudioRequest(file: EditFile('path', 'name'))),
-        throwsException);
+        throwsException,);
     expect(
         () => ai.embed.embedding(EmbedRequest(
-            model: EmbedModel.textSearchAdaDoc001, input: 'input')),
-        throwsException);
+            model: EmbedModel.textSearchAdaDoc001, input: 'input',)),
+        throwsException,);
     expect(() => ai.listEngine(), throwsException);
     expect(() => ai.listModel(), throwsException);
     ai.onChatCompletionSSE(request: request).transform(
         StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
       expect(error, throwsException);
-    }));
+    }),);
     ai
         .onCompletionSSE(
             request: CompleteText(
       prompt: "",
       maxTokens: 200,
       model: Model.textDavinci3,
-    ))
+    ),)
         .transform(StreamTransformer.fromHandlers(
             handleError: (error, stackTrace, sink) {
       expect(error, throwsException);
-    }));
+    },));
   });
 
   group('chatGPT-3 text completion test', () {

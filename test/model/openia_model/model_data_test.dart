@@ -45,7 +45,7 @@ void main() {
           'allow_fine_tuning': true,
           'organization': 'organization',
           'is_blocking': true,
-        })
+        }),
       ]).toJson();
 
       expect(json['object'], 'object');
