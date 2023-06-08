@@ -97,7 +97,7 @@ Fix bug  Http status error [429] error
     - Retrieve
     - Cancel
     - Delete
-  - Moderations
+  - Moderation's
 - Remove Method Deprecate
 
 ## 2.1.0

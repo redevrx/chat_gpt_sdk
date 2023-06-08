@@ -23,10 +23,10 @@ class CompleteResponse {
 
   factory CompleteResponse.fromJson(Map<String, dynamic> json) =>
       CompleteResponse(
-        json['id'] as String,
-        json['object'] as String,
-        json['created'] as int,
-        json['model'] as String,
+        json['id'],
+        json['object'],
+        json['created'],
+        json['model'],
         (json['choices'] as List)
             .map((e) => Choices.fromJson(e as Map<String, dynamic>))
             .toList(),
