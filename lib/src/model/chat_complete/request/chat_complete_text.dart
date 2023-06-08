@@ -5,6 +5,16 @@ class ChatCompleteText {
   /// gpt-3.5-turbo-0301 are supported. [model]
   ///[kChatGptTurboModel]
   ///[kChatGptTurbo0301Model]
+  ///
+  /// ## models list
+  /// - GptTurboChatModel();
+  /// - GptTurbo0301ChatModel();
+  /// - Gpt4ChatModel();
+  /// - Gpt40314ChatModel();
+  /// - Gpt432kChatModel();
+  /// - Gpt432k0314ChatModel();
+  /// - ChatModelFromValue(model: 'your-model-name')
+  ///
   final ChatModel model;
 
   ///The messages to generate chat completions for,
@@ -85,7 +95,7 @@ class ChatCompleteText {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        "model": model.name,
+        "model": model.model,
         "messages": messages,
         "temperature": temperature,
         "top_p": topP,

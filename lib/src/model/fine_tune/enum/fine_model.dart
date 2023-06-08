@@ -1,20 +1,26 @@
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
-enum FineModel { ada, babbage, curie, davinci }
+sealed class FineModel {
+  String model;
+  FineModel({required this.model});
+}
 
-extension FineModelExtension on FineModel {
-  String getName() {
-    switch (this) {
-      case FineModel.ada:
-        return kAdaModel;
-      case FineModel.babbage:
-        return kBabbageModel;
-      case FineModel.curie:
-        return kCurieModel;
-      case FineModel.davinci:
-        return kDavinciModel;
-      default:
-        return '';
-    }
-  }
+class AdaFineModel extends FineModel {
+  AdaFineModel() : super(model: kAdaModel);
+}
+
+class BabbageFineModel extends FineModel {
+  BabbageFineModel() : super(model: kBabbageModel);
+}
+
+class CurieFineModel extends FineModel {
+  CurieFineModel() : super(model: kCurieModel);
+}
+
+class DavinciFineModel extends FineModel {
+  DavinciFineModel() : super(model: kDavinciModel);
+}
+
+class FineModelFromValue extends FineModel {
+  FineModelFromValue({required super.model});
 }

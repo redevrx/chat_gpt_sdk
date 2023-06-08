@@ -35,7 +35,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final request = CompleteText(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
         maxTokens: 200,
-        model: Model.textDavinci3);
+        model: TextDavinci3Model());
 
     setState(() {
       _translateFuture = openAI.onCompletion(request: request);
@@ -45,7 +45,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void gpt4() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.gpt_4);
+    ], maxToken: 200, model: Gpt4ChatModel());
 
     await openAI.onChatCompletion(request: request);
   }

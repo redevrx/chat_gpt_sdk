@@ -6,18 +6,18 @@ void main() {
   group('openai test edit request', () {
     test('openai test edit request from json', () {
       final request = EditRequest(
-        model: EditModel.codeEditModel,
+        model: CodeEditModel(),
         input: "input",
         instruction: "instruction",
       );
 
-      expect(request.model.getName(), EditModel.codeEditModel.getName());
+      expect(request.model.model, CodeEditModel().model);
       expect(request.input, 'input');
     });
 
     test('openai test edit request from json', () {
       final mJson = {
-        "model": EditModel.codeEditModel.getName(),
+        "model": CodeEditModel().model,
         "input": "input",
         "instruction": "instruction",
         "n": 1,
@@ -26,7 +26,7 @@ void main() {
       };
 
       final json = EditRequest(
-        model: EditModel.codeEditModel,
+        model: CodeEditModel(),
         input: "input",
         instruction: "instruction",
       ).toJson();

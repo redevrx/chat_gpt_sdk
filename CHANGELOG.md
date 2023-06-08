@@ -124,3 +124,11 @@ Fix bug  Http status error [429] error
 
 ## 2.1.8
 -  Fig but convert type error
+
+## 2.1.9
+-  new models data
+- completion custom model
+- chat complete custom model
+- fineTune custom model
+- embedded custom model
+- edit custom model

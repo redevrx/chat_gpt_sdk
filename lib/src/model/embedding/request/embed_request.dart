@@ -4,6 +4,10 @@ class EmbedRequest {
   ///ID of the model to use. You can use the List models
   /// API to see all of your available models, or see our
   /// Model overview for descriptions of them.[model]
+  /// ## Embed models
+  /// - TextEmbeddingAda002EmbedModel();
+  /// - TextSearchAdaDoc001EmbedModel();
+  /// - EmbedModelFromValue(model: 'your-model-name');
   final EmbedModel model;
 
   ///Input text to get embeddings for, encoded
@@ -21,5 +25,5 @@ class EmbedRequest {
   EmbedRequest({required this.model, required this.input, this.user = ""});
 
   Map<String, dynamic> toJson() =>
-      Map.of({'model': model.getName(), 'input': input, 'user': user});
+      Map.of({'model': model.model, 'input': input, 'user': user});
 }

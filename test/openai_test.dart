@@ -11,7 +11,9 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/choices.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 import 'package:chat_gpt_sdk/src/model/edits/enum/edit_model.dart';
 import 'package:chat_gpt_sdk/src/model/embedding/enum/embed_model.dart';
+import 'package:chat_gpt_sdk/src/model/fine_tune/enum/fine_model.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/response/image_data.dart';
+import 'package:chat_gpt_sdk/src/model/moderation/enum/moderation_model.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_data.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/model_data.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/permission.dart';
@@ -47,7 +49,7 @@ void main() async {
         Map.of({"role": "user", "content": 'Hello!'}),
       ],
       maxToken: 200,
-      model: ChatModel.gpt_4,
+      model: Gpt4ChatModel(),
     );
 
     ai.setToken('token');
@@ -56,11 +58,12 @@ void main() async {
     expect(() => ai.onChatCompletion(request: request), throwsException);
     expect(
       () => ai.onCompletion(
-          request: CompleteText(
-        prompt: "",
-        maxTokens: 200,
-        model: Model.textDavinci3,
-      ),),
+        request: CompleteText(
+          prompt: "",
+          maxTokens: 200,
+          model: TextDavinci3Model(),
+        ),
+      ),
       throwsException,
     );
     expect(
@@ -73,70 +76,92 @@ void main() async {
       throwsException,
     );
     expect(
-        () => ai.editor.prompt(EditRequest(
-            model: EditModel.textEditModel,
-            input: 'input',
-            instruction: 'instruction',)),
-        throwsException,);
+      () => ai.editor.prompt(EditRequest(
+        model: TextEditModel(),
+        input: 'input',
+        instruction: 'instruction',
+      )),
+      throwsException,
+    );
     expect(
-        () => ai.editor.editImage(EditImageRequest(
-            image: EditFile('path', 'name'), prompt: 'prompt',)),
-        throwsException,);
+      () => ai.editor.editImage(EditImageRequest(
+        image: EditFile('path', 'name'),
+        prompt: 'prompt',
+      )),
+      throwsException,
+    );
     expect(
-        () => ai.editor.variation(
-            Variation(image: EditFile('path', 'name'), user: 'prompt'),),
-        throwsException,);
-    expect(() => ai.moderation.create(input: 'input'), throwsException);
+      () => ai.editor.variation(
+        Variation(image: EditFile('path', 'name'), user: 'prompt'),
+      ),
+      throwsException,
+    );
     expect(
-        () => ai.fineTune.create(CreateFineTune(trainingFile: 'trainingFile')),
-        throwsException,);
+        () => ai.moderation
+            .create(input: 'input', model: TextLastModerationModel()),
+        throwsException);
+    expect(
+      () => ai.fineTune.create(CreateFineTune(
+          trainingFile: 'trainingFile', model: CurieFineModel())),
+      throwsException,
+    );
     expect(() => ai.fineTune.cancel('id'), throwsException);
     expect(() => ai.fineTune.delete('id'), throwsException);
     expect(() => ai.fineTune.retrieve('id'), throwsException);
     expect(() => ai.fineTune.list(), throwsException);
     ai.fineTune.listStream('fineTuneId').transform(
-        StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
-      expect(error, throwsException);
-    }),);
+      StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
+        expect(error, throwsException);
+      }),
+    );
     expect(() => ai.file.get(), throwsException);
     expect(() => ai.file.retrieve('fileId'), throwsException);
     expect(() => ai.file.delete('fileId'), throwsException);
     expect(() => ai.file.retrieveContent('fileId'), throwsException);
-    expect(() => ai.file.uploadFile(UploadFile(file: EditFile('path', 'name'))),
-        throwsException,);
     expect(
-        () => ai.audio.translate(AudioRequest(file: EditFile('path', 'name'))),
-        throwsException,);
+      () => ai.file.uploadFile(UploadFile(file: EditFile('path', 'name'))),
+      throwsException,
+    );
     expect(
-        () =>
-            ai.audio.transcribes(AudioRequest(file: EditFile('path', 'name'))),
-        throwsException,);
+      () => ai.audio.translate(AudioRequest(file: EditFile('path', 'name'))),
+      throwsException,
+    );
     expect(
-        () => ai.embed.embedding(EmbedRequest(
-            model: EmbedModel.textSearchAdaDoc001, input: 'input',)),
-        throwsException,);
+      () => ai.audio.transcribes(AudioRequest(file: EditFile('path', 'name'))),
+      throwsException,
+    );
+    expect(
+      () => ai.embed.embedding(EmbedRequest(
+        model: TextSearchAdaDoc001EmbedModel(),
+        input: 'input',
+      )),
+      throwsException,
+    );
     expect(() => ai.listEngine(), throwsException);
     expect(() => ai.listModel(), throwsException);
     ai.onChatCompletionSSE(request: request).transform(
-        StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
-      expect(error, throwsException);
-    }),);
+      StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
+        expect(error, throwsException);
+      }),
+    );
     ai
         .onCompletionSSE(
-            request: CompleteText(
-      prompt: "",
-      maxTokens: 200,
-      model: Model.textDavinci3,
-    ),)
+      request: CompleteText(
+        prompt: "",
+        maxTokens: 200,
+        model: TextDavinci3Model(),
+      ),
+    )
         .transform(StreamTransformer.fromHandlers(
-            handleError: (error, stackTrace, sink) {
-      expect(error, throwsException);
-    },));
+      handleError: (error, stackTrace, sink) {
+        expect(error, throwsException);
+      },
+    ));
   });
 
   group('chatGPT-3 text completion test', () {
     test('text completion use success case', () {
-      final request = CompleteText(prompt: 'snake', model: Model.textDavinci3);
+      final request = CompleteText(prompt: 'snake', model: TextDavinci3Model());
       final choice = [
         Choices(
           '',
@@ -154,7 +179,7 @@ void main() async {
       verify(openAI.onCompletion(request: request));
     });
     test('text completion use cancel success case', () {
-      final request = CompleteText(prompt: 'snake', model: Model.textDavinci3);
+      final request = CompleteText(prompt: 'snake', model: TextDavinci3Model());
       final choice = [
         Choices(
           '',
@@ -178,7 +203,7 @@ void main() async {
     });
 
     test('text completion success case with return result', () async {
-      final request = CompleteText(prompt: 'snake', model: Model.textDavinci3);
+      final request = CompleteText(prompt: 'snake', model: TextDavinci3Model());
       final choice = [
         Choices(
           '',
@@ -201,7 +226,7 @@ void main() async {
     });
 
     test('text completion error case with prompt empty', () async {
-      final request = CompleteText(prompt: '', model: Model.textDavinci3);
+      final request = CompleteText(prompt: '', model: TextDavinci3Model());
       when(openAI.onCompletion(request: request))
           .thenAnswer((_) => throw RequestError(data: null, code: 404));
       verifyNever(openAI.onCompletion(request: request));
@@ -210,7 +235,7 @@ void main() async {
 
   group('chatGPT-3 text completion with stream SSE test', () {
     test('text completion stream case success', () {
-      final request = CompleteText(prompt: 'snake is ?', model: Model.ada);
+      final request = CompleteText(prompt: 'snake is ?', model: AdaModel());
       final choice = [
         Choices(
           '',
@@ -230,7 +255,7 @@ void main() async {
       expect(response, const TypeMatcher<Stream<CompleteResponse>>());
     });
     test('text completion stream case cancel success', () {
-      final request = CompleteText(prompt: 'snake is ?', model: Model.ada);
+      final request = CompleteText(prompt: 'snake is ?', model: AdaModel());
       final choice = [
         Choices(
           '',
@@ -254,7 +279,7 @@ void main() async {
     });
 
     test('text completion stream case error', () async {
-      final request = CompleteText(prompt: '', model: Model.ada);
+      final request = CompleteText(prompt: '', model: AdaModel());
 
       when(openAI.onCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError(data: null, code: 404));
@@ -270,7 +295,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gptTurbo,
+        model: GptTurboChatModel(),
       );
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
@@ -294,7 +319,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gptTurbo,
+        model: GptTurboChatModel(),
       );
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
@@ -324,7 +349,7 @@ void main() async {
             Map.of({"role": "user", "content": ''}),
           ],
           maxToken: 200,
-          model: ChatModel.gptTurbo0301,
+          model: GptTurbo0301ChatModel(),
         );
 
         when(openAI.onChatCompletion(request: request))
@@ -342,7 +367,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gpt_4,
+        model: Gpt4ChatModel(),
       );
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
@@ -366,7 +391,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gpt_4,
+        model: Gpt4ChatModel(),
       );
       final choice = [ChatChoice(message: null, index: 1, finishReason: '')];
 
@@ -396,7 +421,7 @@ void main() async {
             Map.of({"role": "user", "content": ''}),
           ],
           maxToken: 200,
-          model: ChatModel.gpt_4,
+          model: Gpt4ChatModel(),
         );
 
         when(openAI.onChatCompletion(request: request))
@@ -414,7 +439,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gptTurbo,
+        model: GptTurboChatModel(),
       );
       final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
@@ -440,7 +465,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gptTurbo,
+        model: GptTurboChatModel(),
       );
       final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
@@ -469,7 +494,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gptTurbo0301,
+        model: GptTurbo0301ChatModel(),
       );
 
       when(openAI.onChatCompletionSSE(request: request))
@@ -485,7 +510,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gpt_4,
+        model: Gpt4ChatModel(),
       );
       final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
@@ -511,7 +536,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gpt_4,
+        model: Gpt4ChatModel(),
       );
       final choice = [ChatChoiceSSE(message: null, index: 1, finishReason: '')];
 
@@ -540,7 +565,7 @@ void main() async {
           Map.of({"role": "user", "content": 'Hello!'}),
         ],
         maxToken: 200,
-        model: ChatModel.gpt_4,
+        model: Gpt4ChatModel(),
       );
 
       when(openAI.onChatCompletionSSE(request: request))
@@ -938,7 +963,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: EditModel.textEditModel,
+        model: TextEditModel(),
       );
       final choice = [
         Choice(index: 1, text: "text"),
@@ -962,7 +987,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: EditModel.textEditModel,
+        model: TextEditModel(),
       );
       final choice = [
         Choice(index: 1, text: "text"),
@@ -989,7 +1014,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: EditModel.textEditModel,
+        model: TextEditModel(),
       );
       when(edit.prompt(request)).thenThrow(OpenAIAuthError());
 
@@ -1000,7 +1025,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: EditModel.textEditModel,
+        model: TextEditModel(),
       );
       when(edit.prompt(request)).thenThrow(OpenAIRateLimitError());
 
@@ -1011,7 +1036,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: EditModel.textEditModel,
+        model: TextEditModel(),
       );
       when(edit.prompt(request)).thenThrow(OpenAIServerError());
 
@@ -1072,7 +1097,7 @@ void main() async {
   group('chatGPT embedding test', () {
     test('chatGPT embedding test with success case', () async {
       final request =
-          EmbedRequest(model: EmbedModel.textEmbeddingAda002, input: 'input');
+          EmbedRequest(model: TextEmbeddingAda002EmbedModel(), input: 'input');
       final usage = Usage(1, 2, 3);
 
       when(embedding.embedding(request))
@@ -1093,7 +1118,7 @@ void main() async {
     });
     test('chatGPT embedding test with cancel success case', () {
       final request =
-          EmbedRequest(model: EmbedModel.textEmbeddingAda002, input: 'input');
+          EmbedRequest(model: TextEmbeddingAda002EmbedModel(), input: 'input');
       final usage = Usage(1, 2, 3);
 
       when(embedding.embedding(request))
@@ -1112,7 +1137,7 @@ void main() async {
 
     test('ChatGPT Edit prompt test with unauthenticated error case', () {
       final request =
-          EmbedRequest(model: EmbedModel.textEmbeddingAda002, input: 'input');
+          EmbedRequest(model: TextEmbeddingAda002EmbedModel(), input: 'input');
       when(embedding.embedding(request)).thenThrow(OpenAIAuthError());
 
       verifyNever(embedding.embedding(request));
@@ -1123,7 +1148,7 @@ void main() async {
     });
     test('ChatGPT Edit prompt test with rate limit error case', () {
       final request =
-          EmbedRequest(model: EmbedModel.textEmbeddingAda002, input: 'input');
+          EmbedRequest(model: TextEmbeddingAda002EmbedModel(), input: 'input');
       when(embedding.embedding(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(embedding.embedding(request));
@@ -1134,7 +1159,7 @@ void main() async {
     });
     test('ChatGPT Edit prompt test with rate limit error case', () {
       final request =
-          EmbedRequest(model: EmbedModel.textEmbeddingAda002, input: 'input');
+          EmbedRequest(model: TextEmbeddingAda002EmbedModel(), input: 'input');
       when(embedding.embedding(request)).thenThrow(OpenAIServerError());
 
       verifyNever(embedding.embedding(request));

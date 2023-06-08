@@ -2,6 +2,10 @@ import 'package:chat_gpt_sdk/src/model/edits/enum/edit_model.dart';
 
 class EditRequest {
   ///ID of the model to use. You can use the or model with this endpoint.[model]
+  /// ## Edit models
+  /// - TextEditModel();
+  /// - CodeEditModel();
+  /// - EditModelFromValue(model:'your-model-name');
   final EditModel model;
 
   ///The input text to use as a starting point for the edit.[input]
@@ -36,7 +40,7 @@ class EditRequest {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        "model": model.getName(),
+        "model": model.model,
         "input": input,
         "instruction": instruction,
         "n": n,

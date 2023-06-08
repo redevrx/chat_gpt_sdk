@@ -1,16 +1,18 @@
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
-enum EmbedModel { textEmbeddingAda002, textSearchAdaDoc001 }
+sealed class EmbedModel {
+  String model;
+  EmbedModel({required this.model});
+}
 
-extension EmbedExtension on EmbedModel {
-  String getName() {
-    switch (this) {
-      case EmbedModel.textEmbeddingAda002:
-        return kEmbeddingAda002;
-      case EmbedModel.textSearchAdaDoc001:
-        return kTextSearchAdaDoc001;
-      default:
-        return '';
-    }
-  }
+class TextEmbeddingAda002EmbedModel extends EmbedModel {
+  TextEmbeddingAda002EmbedModel() : super(model: kEmbeddingAda002);
+}
+
+class TextSearchAdaDoc001EmbedModel extends EmbedModel {
+  TextSearchAdaDoc001EmbedModel() : super(model: kTextSearchAdaDoc001);
+}
+
+class EmbedModelFromValue extends EmbedModel {
+  EmbedModelFromValue({required super.model});
 }

@@ -6,10 +6,10 @@ void main() {
   group('embed request test', () {
     test('embed request test to json', () {
       final json =
-          EmbedRequest(model: EmbedModel.textSearchAdaDoc001, input: "input")
+          EmbedRequest(model: TextSearchAdaDoc001EmbedModel(), input: "input")
               .toJson();
 
-      expect(json["model"], EmbedModel.textSearchAdaDoc001.getName());
+      expect(json["model"], TextSearchAdaDoc001EmbedModel().model);
       expect(json['input'], 'input');
     });
   });

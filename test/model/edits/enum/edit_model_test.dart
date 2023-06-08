@@ -5,16 +5,22 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('chat openai model test', () {
     test('chat openai model test get codeEditModel', () {
-      const codeEditModel = EditModel.codeEditModel;
+      final codeEditModel = CodeEditModel();
 
-      expect(codeEditModel.getName(), kEditsCoedModel);
-      expect(codeEditModel.getName(), isA<String>());
+      expect(codeEditModel.model, kEditsCoedModel);
+      expect(codeEditModel.model, isA<String>());
     });
     test('chat openai model test get textEditModel', () {
-      const textEditModel = EditModel.textEditModel;
+      final textEditModel = TextEditModel();
 
-      expect(textEditModel.getName(), kEditsTextModel);
-      expect(textEditModel.getName(), isA<String>());
+      expect(textEditModel.model, kEditsTextModel);
+      expect(textEditModel.model, isA<String>());
+    });
+    test('chat openai model test get from value', () {
+      final custom = EditModelFromValue(model: 'custom-model');
+
+      expect(custom.model, 'custom-model');
+      expect(custom.model, isA<String>());
     });
   });
 }

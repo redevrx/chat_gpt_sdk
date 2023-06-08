@@ -113,7 +113,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
     ///start send request
     final request = ChatCompleteText(
-        model: _getVersion() ? ChatModel.gpt_4 : ChatModel.gptTurbo,
+        model: _getVersion() ? Gpt4ChatModel() : GptTurboChatModel(),
         messages: [
           Map.of({"role": "user", "content": getTextInput().value.text})
         ],
@@ -199,7 +199,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     final request = CompleteText(
         prompt: _txtInput.value.text,
         maxTokens: 400,
-        model: Model.textDavinci3);
+        model: TextDavinci3Model());
 
     ///clear text
     _txtInput.text = "";

@@ -146,8 +146,8 @@ class _FakeOpenAI_6 extends _i1.SmartFake implements _i8.OpenAI {
         );
 }
 
-class _FakeAiModel_7 extends _i1.SmartFake implements _i9.OpenAiModel {
-  _FakeAiModel_7(
+class _FakeOpenAiModel_7 extends _i1.SmartFake implements _i9.OpenAiModel {
+  _FakeOpenAiModel_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -412,7 +412,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           [],
           {#onCancel: onCancel},
         ),
-        returnValue: _i22.Future<_i9.OpenAiModel>.value(_FakeAiModel_7(
+        returnValue: _i22.Future<_i9.OpenAiModel>.value(_FakeOpenAiModel_7(
           this,
           Invocation.method(
             #listModel,
@@ -421,7 +421,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           ),
         )),
         returnValueForMissingStub:
-            _i22.Future<_i9.OpenAiModel>.value(_FakeAiModel_7(
+            _i22.Future<_i9.OpenAiModel>.value(_FakeOpenAiModel_7(
           this,
           Invocation.method(
             #listModel,
@@ -898,7 +898,7 @@ class MockModeration extends _i1.Mock implements _i7.Moderation {
   @override
   _i22.Future<_i17.ModerationData> create({
     required String? input,
-    _i36.ModerationModel? model = _i36.ModerationModel.textLast,
+    required _i36.ModerationModel? model,
     void Function(_i23.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(

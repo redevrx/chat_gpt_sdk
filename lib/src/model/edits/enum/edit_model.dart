@@ -1,16 +1,18 @@
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
-enum EditModel { textEditModel, codeEditModel }
+sealed class EditModel {
+  String model;
+  EditModel({required this.model});
+}
 
-extension EditModelExtension on EditModel {
-  String getName() {
-    switch (this) {
-      case EditModel.codeEditModel:
-        return kEditsCoedModel;
-      case EditModel.textEditModel:
-        return kEditsTextModel;
-      default:
-        return '';
-    }
-  }
+class TextEditModel extends EditModel {
+  TextEditModel() : super(model: kEditsTextModel);
+}
+
+class CodeEditModel extends EditModel {
+  CodeEditModel() : super(model: kEditsCoedModel);
+}
+
+class EditModelFromValue extends EditModel {
+  EditModelFromValue({required super.model});
 }

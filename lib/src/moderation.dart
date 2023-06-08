@@ -11,7 +11,7 @@ class Moderation {
   ///[input]
   ///The input text to classify
   ///[model]
-  ///Two content moderations models are available:
+  ///Two content moderation's models are available:
   /// text-moderation-stable and text-moderation-latest.
   /// The default is text-moderation-latest which will
   /// be automatically upgraded over time. This ensures
@@ -20,14 +20,18 @@ class Moderation {
   /// provide advanced notice before updating the model.
   /// Accuracy of text-moderation-stable may be slightly
   /// lower than for text-moderation-latest.
+  /// ## Moderation Models [model]
+  /// - TextLastModerationModel();
+  /// - TextStableModerationModel();
+  /// - ModerationModelFromValue(model: 'your-model-name');
   Future<ModerationData> create({
     required String input,
-    ModerationModel model = ModerationModel.textLast,
+    required ModerationModel model,
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
       kURL + kModeration,
-      {"input": input, "model": model.getName()},
+      {"input": input, "model": model.model},
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => ModerationData.fromJson(it),
     );

@@ -67,7 +67,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt_sdk: 2.1.8
+chat_gpt_sdk: 2.1.9
 ```
 
 ## Create OpenAI Instance
@@ -114,7 +114,7 @@ openAI.token;
   final request = CompleteText(
           prompt: translateEngToThai(word: _txtWord.text.toString()),
           maxToken: 200,
-          model: Model.textDavinci3);
+          model: TextDavinci3Model());
 
   final response = await openAI.onCompletion(request: request);
   
@@ -145,7 +145,7 @@ FutureBuilder<CTResponse?>(
 ```dart
  void completeWithSSE() {
   final request = CompleteText(
-          prompt: "Hello world", maxTokens: 200, model: Model.textDavinci3);
+          prompt: "Hello world", maxTokens: 200, model: TextDavinci3Model());
   openAI.onCompletionSSE(request: request).listen((it) {
     debugPrint(it.choices.last.text);
   });
@@ -159,7 +159,7 @@ FutureBuilder<CTResponse?>(
   void chatComplete() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.gpt_4);
+    ], maxToken: 200, model: Gpt4ChatModel());
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -173,7 +173,7 @@ FutureBuilder<CTResponse?>(
  void chatCompleteWithSSE() {
   final request = ChatCompleteText(messages: [
     Map.of({"role": "user", "content": 'Hello!'})
-  ], maxToken: 200, model: ChatModel.gpt_4);
+  ], maxToken: 200, model: Gpt4ChatModel());
 
   openAI.onChatCompletionSSE(request: request).listen((it) {
     debugPrint(it.choices.last.message?.content);
@@ -187,7 +187,7 @@ FutureBuilder<CTResponse?>(
  void chatCompleteWithSSE() {
   final request = ChatCompleteText(messages: [
     Map.of({"role": "user", "content": 'Hello!'})
-  ], maxToken: 200, model: ChatModel.chatGptTurbo);
+  ], maxToken: 200, model: GptTurboChatModel());
 
   openAI.onChatCompletionSSE(request: request).listen((it) {
     debugPrint(it.choices.last.message?.content);
@@ -200,7 +200,7 @@ FutureBuilder<CTResponse?>(
   void chatComplete() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: ChatModel.chatGptTurbo0301);
+    ], maxToken: 200, model: GptTurbo0301ChatModel());
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -251,7 +251,7 @@ FutureBuilder<CTResponse?>(
   - Answer questions based on existing knowledge.
 ```dart
 final request = CompleteText(prompt:'What is human life expectancy in the United States?'),
-                model: Model.textDavinci3, maxTokens: 200);
+                model: TextDavinci3Model(), maxTokens: 200);
 
  final response = await openAI.onCompletion(request:request);
 ```
@@ -298,7 +298,7 @@ A: Human life expectancy in the United States is 78 years.
 ```dart
 void editPrompt() async {
     final response = await openAI.editor.prompt(EditRequest(
-        model: EditModel.textEditModel,
+        model: CodeEditModel(),
         input: 'What day of the wek is it?',
         instruction: 'Fix the spelling mistakes'));
 
@@ -476,7 +476,7 @@ void audioTranscribe() async {
 ```dart
 void embedding() async {
   final request = EmbedRequest(
-          model: EmbedModel.embedTextModel,
+          model: TextSearchAdaDoc001EmbedModel(),
           input: 'The food was delicious and the waiter');
 
   final response = await openAI.embed.embedding(request);
@@ -538,7 +538,7 @@ void tineTuneById() async {
 ```dart
   void createModeration() async {
   final response = await openAI.moderation
-          .create(input: 'input', model: ModerationModel.textLast);
+          .create(input: 'input', model: TextLastModerationModel());
 }
 ```
 

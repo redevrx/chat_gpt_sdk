@@ -5,24 +5,29 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('openai fine tune model test', () {
     test('openai fine tune model test get value ada', () {
-      const ada = FineModel.ada;
+      final ada = AdaFineModel();
 
-      expect(ada.getName(), kAdaModel);
+      expect(ada.model, kAdaModel);
     });
     test('openai fine tune model test get value babbage', () {
-      const babbage = FineModel.babbage;
+      final babbage = BabbageFineModel();
 
-      expect(babbage.getName(), kBabbageModel);
+      expect(babbage.model, kBabbageModel);
     });
     test('openai fine tune model test get value curie', () {
-      const curie = FineModel.curie;
+      final curie = CurieFineModel();
 
-      expect(curie.getName(), kCurieModel);
+      expect(curie.model, kCurieModel);
     });
     test('openai fine tune model test get value davinci', () {
-      const davinci = FineModel.davinci;
+      final davinci = DavinciFineModel();
 
-      expect(davinci.getName(), kDavinciModel);
+      expect(davinci.model, kDavinciModel);
+    });
+    test('openai fine tune model test get from value', () {
+      final davinci = FineModelFromValue(model: 'model');
+
+      expect(davinci.model, 'model');
     });
   });
 }

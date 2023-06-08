@@ -28,6 +28,13 @@ class CreateFineTune {
   /// created after 2022-04-21.
   /// To learn more about these models,
   /// see the Models documentation. [model]
+  /// ## Fine models
+  /// - AdaFineModel();
+  /// - BabbageFineModel();
+  /// - CurieFineModel();
+  /// - DavinciFineModel();
+  /// - FineModelFromValue(model:'your-model-name');
+  ///
   final FineModel model;
 
   ///The number of epochs to train the model for.
@@ -108,7 +115,7 @@ class CreateFineTune {
   CreateFineTune({
     required this.trainingFile,
     this.validationFile,
-    this.model = FineModel.curie,
+    required this.model,
     this.nEpochs = 4,
     this.batchSize,
     this.learningRateMultiplier,
@@ -123,7 +130,7 @@ class CreateFineTune {
   Map<String, dynamic> toJson() => Map.of({
         'training_file': trainingFile,
         'validation_file': validationFile,
-        'model': model.getName(),
+        'model': model.model,
         'n_epochs': nEpochs,
         'batch_size': batchSize,
         'learning_rate_multiplier': learningRateMultiplier,

@@ -1,50 +1,50 @@
 import '../../../utils/constants.dart';
 
-enum Model {
-  textDavinci3,
-  textDavinci2,
-  codeDavinci2,
-  textCurie001,
-  textBabbage001,
-  textAda001,
-  davinci,
-  curie,
-  babbage,
-  ada
+sealed class Model {
+  String model;
+  Model({required this.model});
 }
 
-extension ModelExtension on Model {
-  String getName() {
-    switch (this) {
-      case Model.textDavinci3:
-        return kTextDavinci3;
-      case Model.textDavinci2:
-        return kTextDavinci2;
-      case Model.codeDavinci2:
-        return kCodeDavinci2;
-      case Model.textCurie001:
-        return kCodeDavinci2;
-      case Model.textBabbage001:
-        return kTextBabbage001;
-      case Model.textAda001:
-        return kTextAda001;
-      case Model.davinci:
-        return kDavinciModel;
-      case Model.curie:
-        return kCurieModel;
-      case Model.babbage:
-        return kBabbageModel;
-      case Model.ada:
-        return kAdaModel;
-      default:
-        return "";
-    }
-  }
+class TextDavinci3Model extends Model {
+  TextDavinci3Model() : super(model: kTextDavinci3);
 }
 
-Model fromName(String name) {
-  for (var value in Model.values) {
-    if (value.name == name) return value;
-  }
-  throw ArgumentError.value(name, "name", "No enum value with that name");
+class TextDavinci2Model extends Model {
+  TextDavinci2Model() : super(model: kTextDavinci2);
+}
+
+class CodeDavinci2Model extends Model {
+  CodeDavinci2Model() : super(model: kCodeDavinci2);
+}
+
+class ModelFromValue extends Model {
+  ModelFromValue({required super.model});
+}
+
+class TextCurie001Model extends Model {
+  TextCurie001Model() : super(model: kTextCurie001);
+}
+
+class TextBabbage001Model extends Model {
+  TextBabbage001Model() : super(model: kTextBabbage001);
+}
+
+class TextAda001Model extends Model {
+  TextAda001Model() : super(model: kTextAda001);
+}
+
+class DavinciModel extends Model {
+  DavinciModel() : super(model: kDavinciModel);
+}
+
+class CurieModel extends Model {
+  CurieModel() : super(model: kCurieModel);
+}
+
+class BabbageModel extends Model {
+  BabbageModel() : super(model: kBabbageModel);
+}
+
+class AdaModel extends Model {
+  AdaModel() : super(model: kAdaModel);
 }

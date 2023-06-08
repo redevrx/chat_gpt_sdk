@@ -4,40 +4,40 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('chat openai model test', () {
     test('chat openai model test get gpt_4', () {
-      const gpt_4 = ChatModel.gpt_4;
+      final gpt_4 = Gpt4ChatModel();
 
-      expect(gpt_4.name, 'gpt-4');
-      expect(gpt_4.name, isA<String>());
+      expect(gpt_4.model, 'gpt-4');
+      expect(gpt_4.model, isA<String>());
     });
     test('chat openai model test get gptTurbo0301', () {
-      const gptTurbo0301 = ChatModel.gptTurbo0301;
+      final gptTurbo0301 = GptTurbo0301ChatModel();
 
-      expect(gptTurbo0301.name, 'gpt-3.5-turbo-0301');
-      expect(gptTurbo0301.name, isA<String>());
+      expect(gptTurbo0301.model, 'gpt-3.5-turbo-0301');
+      expect(gptTurbo0301.model, isA<String>());
     });
     test('chat openai model test get gptTurbo', () {
-      const gptTurbo = ChatModel.gptTurbo;
+      final gptTurbo = GptTurboChatModel();
 
-      expect(gptTurbo.name, 'gpt-3.5-turbo');
-      expect(gptTurbo.name, isA<String>());
+      expect(gptTurbo.model, 'gpt-3.5-turbo');
+      expect(gptTurbo.model, isA<String>());
     });
     test('chat openai model test get gpt_4_0314', () {
-      const gpt_4_0314 = ChatModel.gpt_4_0314;
+      final gpt_4_0314 = Gpt40314ChatModel();
 
-      expect(gpt_4_0314.name, 'gpt-4-0314');
-      expect(gpt_4_0314.name, isA<String>());
+      expect(gpt_4_0314.model, 'gpt-4-0314');
+      expect(gpt_4_0314.model, isA<String>());
     });
     test('chat openai model test get gpt_4_32k', () {
-      const gpt_4_32k = ChatModel.gpt_4_32k;
+      final gpt_4_32k = Gpt432kChatModel();
 
-      expect(gpt_4_32k.name, 'gpt-4-32k');
-      expect(gpt_4_32k.name, isA<String>());
+      expect(gpt_4_32k.model, 'gpt-4-32k');
+      expect(gpt_4_32k.model, isA<String>());
     });
     test('chat openai model test get gpt_4_32k_0314', () {
-      const gpt_4_32k_0314 = ChatModel.gpt_4_32k_0314;
+      final gpt_4_32k_0314 = Gpt432k0314ChatModel();
 
-      expect(gpt_4_32k_0314.name, 'gpt-4-32k-0314');
-      expect(gpt_4_32k_0314.name, isA<String>());
+      expect(gpt_4_32k_0314.model, 'gpt-4-32k-0314');
+      expect(gpt_4_32k_0314.model, isA<String>());
     });
     test('chat openai model test get gpt_4_32k_0314', () {
       ChatModel? gpt_4_32k_0314;

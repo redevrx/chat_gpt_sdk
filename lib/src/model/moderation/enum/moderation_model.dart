@@ -1,16 +1,18 @@
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
-enum ModerationModel { textStable, textLast }
+sealed class ModerationModel {
+  String model;
+  ModerationModel({required this.model});
+}
 
-extension ModerationModelES on ModerationModel {
-  String getName() {
-    switch (this) {
-      case ModerationModel.textLast:
-        return kTextMLast;
-      case ModerationModel.textStable:
-        return kTextMStable;
-      default:
-        return '';
-    }
-  }
+class TextLastModerationModel extends ModerationModel {
+  TextLastModerationModel() : super(model: kTextMLast);
+}
+
+class TextStableModerationModel extends ModerationModel {
+  TextStableModerationModel() : super(model: kTextMStable);
+}
+
+class ModerationModelFromValue extends ModerationModel {
+  ModerationModelFromValue({required super.model});
 }

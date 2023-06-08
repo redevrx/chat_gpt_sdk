@@ -5,14 +5,19 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('moderation test', () {
     test('moderation test get value textLast', () {
-      const textLast = ModerationModel.textLast;
+      final textLast = TextLastModerationModel();
 
-      expect(textLast.getName(), kTextMLast);
+      expect(textLast.model, kTextMLast);
     });
     test('moderation test get value textStable', () {
-      const textStable = ModerationModel.textStable;
+      final textStable = TextStableModerationModel();
 
-      expect(textStable.getName(), kTextMStable);
+      expect(textStable.model, kTextMStable);
+    });
+    test('moderation test get from value', () {
+      final textStable = ModerationModelFromValue(model: 'model');
+
+      expect(textStable.model, 'model');
     });
   });
 }

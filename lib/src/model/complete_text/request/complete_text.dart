@@ -2,6 +2,19 @@ import 'package:chat_gpt_sdk/src/model/complete_text/enum/model.dart';
 
 class CompleteText {
   final String prompt;
+
+  /// ## completion models
+  /// - TextDavinci3Model();
+  /// - TextDavinci2Model();
+  /// - CodeDavinci2Model();
+  /// - TextCurie001Model();
+  /// - TextBabbage001Model();
+  /// - TextAda001Model();
+  /// - DavinciModel();
+  /// - CurieModel();
+  /// - BabbageModel();
+  /// - AdaModel();
+  /// - ModelFromValue(model: 'your-model-name');
   final Model model;
   final double temperature;
   final int maxTokens;
@@ -30,7 +43,9 @@ class CompleteText {
 
   factory CompleteText.fromJson(Map<String, dynamic> json) => CompleteText(
         prompt: json['prompt'] as String,
-        model: fromName(json['model'].toString()), //json['model'] as String,
+        model: ModelFromValue(
+          model: json['model'].toString(),
+        ), //json['model'] as String,
         temperature: (json['temperature'] as num?)?.toDouble() ?? .3,
         maxTokens: json['max_tokens'] as int? ?? 100,
         topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
@@ -41,7 +56,7 @@ class CompleteText {
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'prompt': prompt,
-        'model': model.getName(),
+        'model': model.model,
         'temperature': temperature,
         'max_tokens': maxTokens,
         'top_p': topP,
