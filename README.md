@@ -47,6 +47,7 @@ supervised and reinforcement learning techniques.
 - [x] [Chat Complete GPT-4](#chat-complete-gpt-4-and-gpt-35)
   - Support GPT3.5 and GPT-4 
   - Support Server Sent Event
+  - Support Function Calling
 - [x] [Error Handle](#error-handle)
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
@@ -67,7 +68,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt_sdk: 2.1.9
+chat_gpt_sdk: 2.2.0
 ```
 
 ## Create OpenAI Instance
@@ -207,6 +208,43 @@ FutureBuilder<CTResponse?>(
       print("data -> ${element.message?.content}");
     }
   }
+```
+
+- Chat Complete Function Calling
+
+```dart
+///work only with gpt-turbo-0613,gpt-4-0613
+  void gptFunctionCalling() async {
+  final request = ChatCompleteText(
+          messages: [
+            Messages(
+                    role: Role.user, content: "What is the weather like in Boston?"),
+          ],
+          maxToken: 200,
+          model: GptTurbo0631Model(),
+          functions: [
+            FunctionData(
+                    name: "get_current_weather",
+                    description: "Get the current weather in a given location",
+                    parameters: {
+                      "type": "object",
+                      "properties": {
+                        "location": {
+                          "type": "string",
+                          "description": "The city and state, e.g. San Francisco, CA"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "enum": ["celsius", "fahrenheit"]
+                        }
+                      },
+                      "required": ["location"]
+                    })
+          ],
+          functionCall: FunctionCall.auto);
+
+  ChatCTResponse? response = await openAI.onChatCompletion(request: request);
+}
 ```
 
 ## Error Handle

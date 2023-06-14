@@ -1,4 +1,7 @@
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/chat_model.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/enum/function_call.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/function_data.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/messages.dart';
 
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
@@ -19,7 +22,21 @@ class ChatCompleteText {
 
   ///The messages to generate chat completions for,
   /// in the chat format. [messages]
-  final List<Map<String, String>> messages;
+  final List<Messages> messages;
+
+  ///A list of functions the model may generate JSON inputs for.
+  ///[functions]
+  final List<FunctionData>? functions;
+
+  ///Controls how the model responds to function calls.
+  /// "none" means the model does not call a function,
+  /// and responds to the end-user. "auto" means the model
+  /// can pick between an end-user or calling a function.
+  /// Specifying a particular function via forces the model to
+  /// call that function. "none" is the default when no functions
+  /// are present. "auto" is the default if functions are present.{"name":\ "my_function"}
+  /// [functionCall]
+  final FunctionCall? functionCall;
 
   ///What sampling temperature to use, between 0 and
   ///2. Higher values like 0.8 will make the output more random,
@@ -92,20 +109,42 @@ class ChatCompleteText {
     this.presencePenalty = .0,
     this.frequencyPenalty = .0,
     this.user = "",
+    this.functions,
+    this.functionCall,
   });
 
-  Map<String, dynamic> toJson() => Map.of({
-        "model": model.model,
-        "messages": messages,
-        "temperature": temperature,
-        "top_p": topP,
-        "n": n,
-        "stream": stream,
-        "stop": stop,
-        "max_tokens": maxToken,
-        "presence_penalty": presencePenalty,
-        "frequency_penalty": frequencyPenalty,
-        //"logit_bias": this.logitBias,
-        "user": user,
-      });
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json;
+    json = model is Gpt40631ChatModel || model is GptTurbo0631Model
+        ? Map.of({
+            "model": model.model,
+            "messages": messages.map((e) => e.toJsonFunctionStruct()).toList(),
+            "functions": functions?.map((e) => e.toJson()).toList(),
+            "function_call": functionCall?.name,
+            "temperature": temperature,
+            "top_p": topP,
+            "n": n,
+            "stream": stream,
+            "stop": stop,
+            "max_tokens": maxToken,
+            "presence_penalty": presencePenalty,
+            "frequency_penalty": frequencyPenalty,
+            "user": user,
+          })
+        : Map.of({
+            "model": model.model,
+            "messages": messages.map((e) => e.toJson()).toList(),
+            "temperature": temperature,
+            "top_p": topP,
+            "n": n,
+            "stream": stream,
+            "stop": stop,
+            "max_tokens": maxToken,
+            "presence_penalty": presencePenalty,
+            "frequency_penalty": frequencyPenalty,
+            "user": user,
+          });
+
+    return json;
+  }
 }

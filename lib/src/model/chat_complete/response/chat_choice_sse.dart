@@ -15,7 +15,8 @@ class ChatChoiceSSE {
   factory ChatChoiceSSE.fromJson(Map<String, dynamic> json) => ChatChoiceSSE(
         index: json["index"],
         message: json["delta"] == null ? null : Message.fromJson(json["delta"]),
-        finishReason: json["finish_reason"],
+        finishReason:
+            json["finish_reason"] == null ? "" : json["finish_reason"],
       );
 
   Map<String, dynamic> toJson() => {

@@ -5,7 +5,11 @@ void main() {
   group('Message', () {
     test('toJson() returns expected Map', () {
       final message = Message(role: 'sender', content: 'Hello, world!');
-      expect(message.toJson(), {'role': 'sender', 'content': 'Hello, world!'});
+      expect(message.toJson(), {
+        'role': 'sender',
+        'content': 'Hello, world!',
+        'function_call': null,
+      });
     });
 
     test('fromJson() returns expected Message object', () {

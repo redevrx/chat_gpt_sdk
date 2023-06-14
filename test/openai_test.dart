@@ -46,7 +46,10 @@ void main() async {
 
     final request = ChatCompleteText(
       messages: [
-        Map.of({"role": "user", "content": 'Hello!'}),
+        Messages(
+          role: Role.user,
+          content: "Hello",
+        ),
       ],
       maxToken: 200,
       model: Gpt4ChatModel(),
@@ -97,12 +100,15 @@ void main() async {
       throwsException,
     );
     expect(
-        () => ai.moderation
-            .create(input: 'input', model: TextLastModerationModel()),
-        throwsException);
+      () => ai.moderation
+          .create(input: 'input', model: TextLastModerationModel()),
+      throwsException,
+    );
     expect(
       () => ai.fineTune.create(CreateFineTune(
-          trainingFile: 'trainingFile', model: CurieFineModel())),
+        trainingFile: 'trainingFile',
+        model: CurieFineModel(),
+      )),
       throwsException,
     );
     expect(() => ai.fineTune.cancel('id'), throwsException);
@@ -292,7 +298,10 @@ void main() async {
     test('chat completion success case test', () async {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -316,7 +325,10 @@ void main() async {
     test('chat completion cancel success case test', () {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -346,7 +358,10 @@ void main() async {
       () {
         final request = ChatCompleteText(
           messages: [
-            Map.of({"role": "user", "content": ''}),
+            Messages(
+              role: Role.user,
+              content: "Hello",
+            ),
           ],
           maxToken: 200,
           model: GptTurbo0301ChatModel(),
@@ -364,7 +379,10 @@ void main() async {
     test('chat completion success case test', () async {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -388,7 +406,10 @@ void main() async {
     test('chat completion cancel success case test', () {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -418,7 +439,10 @@ void main() async {
       () {
         final request = ChatCompleteText(
           messages: [
-            Map.of({"role": "user", "content": ''}),
+            Messages(
+              role: Role.user,
+              content: "Hello",
+            ),
           ],
           maxToken: 200,
           model: Gpt4ChatModel(),
@@ -436,7 +460,10 @@ void main() async {
     test('openAI chat completion stream success case test', () async {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -462,7 +489,10 @@ void main() async {
     test('openAI chat completion stream cancel success case test', () {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -491,7 +521,10 @@ void main() async {
     test('openAI chat completion stream error case test', () async {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: GptTurbo0301ChatModel(),
@@ -507,7 +540,10 @@ void main() async {
     test('openAI chat completion stream success case test', () async {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -533,7 +569,10 @@ void main() async {
     test('openAI chat completion stream cancel success case test', () {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -562,7 +601,10 @@ void main() async {
     test('openAI chat completion stream error case test', () async {
       final request = ChatCompleteText(
         messages: [
-          Map.of({"role": "user", "content": 'Hello!'}),
+          Messages(
+            role: Role.user,
+            content: "Hello",
+          ),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),

@@ -44,5 +44,19 @@ void main() {
 
       expect(gpt_4_32k_0314, null);
     });
+
+    test('chat openai model test get gpt40631', () {
+      final gpt40631 = Gpt40631ChatModel();
+
+      expect(gpt40631.model, kChatGpt40631);
+      expect(gpt40631.model, isA<String>());
+    });
+
+    test('chat openai model test get value', () {
+      final gpt40631 = ChatModelFromValue(model: "model");
+
+      expect(gpt40631.model, 'model');
+      expect(gpt40631.model, isA<String>());
+    });
   });
 }

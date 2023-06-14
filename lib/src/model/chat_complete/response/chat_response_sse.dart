@@ -4,9 +4,10 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 class ChatResponseSSE {
   final String id;
   final String object;
-  final int created;
-  final List<ChatChoiceSSE> choices;
+  final int? created;
+  final List<ChatChoiceSSE>? choices;
   final Usage? usage;
+  final String? model;
   String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
 
   ChatResponseSSE({
@@ -15,6 +16,7 @@ class ChatResponseSSE {
     required this.created,
     required this.choices,
     required this.usage,
+    this.model,
   });
 
   factory ChatResponseSSE.fromJson(Map<String, dynamic> json) =>
@@ -22,9 +24,12 @@ class ChatResponseSSE {
         id: json["id"],
         object: json["object"],
         created: json["created"],
-        choices: List<ChatChoiceSSE>.from(
-          json["choices"].map((x) => ChatChoiceSSE.fromJson(x)),
-        ),
+        model: json["model"],
+        choices: (json["choices"] == null)
+            ? null
+            : (json["choices"] as List)
+                .map((e) => ChatChoiceSSE.fromJson(e))
+                .toList(),
         usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
       );
 
@@ -32,7 +37,8 @@ class ChatResponseSSE {
         "id": id,
         "object": object,
         "created": created,
-        "choices": List<Map>.from(choices.map((x) => x.toJson())),
+        "choices": choices?.map((e) => e.toJson()).toList(),
         "usage": usage?.toJson(),
+        "model": model,
       };
 }

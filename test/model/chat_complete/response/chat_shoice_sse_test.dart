@@ -35,7 +35,7 @@ void main() {
       expect(chatChoice.index, 1);
       expect(chatChoice.message?.role, 'bot');
       expect(chatChoice.message?.content, 'Hello, world!');
-      expect(chatChoice.finishReason, null);
+      expect(chatChoice.finishReason, '');
     });
   });
 }

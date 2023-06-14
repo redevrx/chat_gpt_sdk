@@ -42,9 +42,42 @@ class _TranslateScreenState extends State<TranslateScreen> {
     });
   }
 
+  void gptFunctionCalling() async {
+    final request = ChatCompleteText(
+        messages: [
+          Messages(
+              role: Role.user, content: "What is the weather like in Boston?"),
+        ],
+        maxToken: 200,
+        model: GptTurbo0631Model(),
+        functions: [
+          FunctionData(
+              name: "get_current_weather",
+              description: "Get the current weather in a given location",
+              parameters: {
+                "type": "object",
+                "properties": {
+                  "location": {
+                    "type": "string",
+                    "description": "The city and state, e.g. San Francisco, CA"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "enum": ["celsius", "fahrenheit"]
+                  }
+                },
+                "required": ["location"]
+              })
+        ],
+        functionCall: FunctionCall.auto);
+
+    ChatCTResponse? response = await openAI.onChatCompletion(request: request);
+    debugPrint("$response");
+  }
+
   void gpt4() async {
     final request = ChatCompleteText(messages: [
-      Map.of({"role": "user", "content": 'Hello!'})
+      Messages(role: Role.assistant, content: 'Hello!'),
     ], maxToken: 200, model: Gpt4ChatModel());
 
     await openAI.onChatCompletion(request: request);

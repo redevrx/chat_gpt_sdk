@@ -7,6 +7,7 @@ import 'package:chat_gpt_sdk/src/client/exception/request_error.dart';
 import 'package:chat_gpt_sdk/src/logger/logger.dart';
 import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/model/error/openai_error.dart';
+import 'package:chat_gpt_sdk/src/utils/json_decode_string.dart';
 import 'package:dio/dio.dart';
 
 class OpenAIClient extends OpenAIWrapper {
@@ -267,10 +268,16 @@ class OpenAIClient extends OpenAIWrapper {
                     return;
                   }
 
-                  ///decode data
-                  controller
-                    ..sink
-                    ..add(complete(jsonDecode(mData)));
+                  final jsonMap = mData.decode();
+                  if (jsonMap.keys.last) {
+                    ///decode data
+                    controller
+                      ..sink
+                      ..add(complete(jsonMap[jsonMap.keys.last]));
+                  } else {
+                    log.log("stream response invalid try regenerate");
+                    log.log("last json error :$mData");
+                  }
                 }
               }
             },

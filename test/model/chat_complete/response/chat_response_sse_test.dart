@@ -26,7 +26,7 @@ void main() {
     expect(chatCTResponse.id, "id_test");
     expect(chatCTResponse.object, "object_test");
     expect(chatCTResponse.created, 1);
-    expect(chatCTResponse.choices.length, 1);
+    expect(chatCTResponse.choices?.length, 1);
     expect(chatCTResponse.usage?.promptTokens, 10);
     expect(chatCTResponse.usage?.completionTokens, 20);
     expect(chatCTResponse.usage?.totalTokens, 30);
@@ -56,7 +56,7 @@ void main() {
     expect(response.id, "id_test");
     expect(response.object, "object_test");
     expect(response.created, 1);
-    expect(response.choices.length, 1);
+    expect(response.choices?.length, 1);
     expect(response.usage?.promptTokens, 10);
     expect(response.usage?.completionTokens, 20);
     expect(response.usage?.totalTokens, 30);

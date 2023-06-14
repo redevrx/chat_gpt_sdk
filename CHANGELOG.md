@@ -132,3 +132,9 @@ Fix bug  Http status error [429] error
 - fineTune custom model
 - embedded custom model
 - edit custom model
+
+## 2.2.0
+- update new model
+  - gpt-4-0613
+  - gpt-3.5-turbo-0613
+- Support Function calling

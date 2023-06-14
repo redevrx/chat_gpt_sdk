@@ -1,0 +1,1 @@
+enum FunctionCall { auto, none }
