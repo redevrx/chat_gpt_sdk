@@ -19,9 +19,9 @@ import 'package:chat_gpt_sdk/src/model/openai_model/model_data.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/permission.dart';
 import 'package:chat_gpt_sdk/src/moderation.dart';
 import 'package:chat_gpt_sdk/src/openai_file.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:test/test.dart';
 
 import 'openai_test.mocks.dart';
 
@@ -661,7 +661,7 @@ void main() async {
         expect(response?.data, null);
         expect(
           () => GenerateImage('snake red eating cat.', 0),
-          throwsAssertionError,
+          throwsA(isA<AssertionError>()),
         );
       },
     );

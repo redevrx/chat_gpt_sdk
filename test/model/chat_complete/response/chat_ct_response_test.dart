@@ -1,6 +1,6 @@
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/message.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 

@@ -1,5 +1,5 @@
 import 'package:chat_gpt_sdk/src/model/gen_image/response/image_data.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('image data test', () {

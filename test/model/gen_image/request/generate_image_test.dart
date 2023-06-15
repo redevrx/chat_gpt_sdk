@@ -1,5 +1,5 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 main() {
   test('default value', () {
@@ -66,8 +66,8 @@ main() {
   });
 
   test('n must be between 1 and 10', () {
-    expect(() => GenerateImage('test', 0), throwsAssertionError);
-    expect(() => GenerateImage('test', 11), throwsAssertionError);
+    expect(() => GenerateImage('test', 0), throwsA(isA<AssertionError>()));
+    expect(() => GenerateImage('test', 11), throwsA(isA<AssertionError>()));
 
     expect(GenerateImage('test', 1).n, 1);
     expect(GenerateImage('test', 10).n, 10);

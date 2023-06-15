@@ -1,6 +1,6 @@
 import 'package:chat_gpt_sdk/src/model/moderation/response/moderation_data.dart';
 import 'package:chat_gpt_sdk/src/model/moderation/response/moderation_result.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('moderation data test', () {
