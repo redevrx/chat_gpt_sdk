@@ -1,6 +1,6 @@
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_choice_sse.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/message.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('toJson', () {

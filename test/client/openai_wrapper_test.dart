@@ -1,7 +1,7 @@
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
+import 'package:test/test.dart';
 
 import 'openai_wrapper_test.mocks.dart';
 

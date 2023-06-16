@@ -1,5 +1,5 @@
 import 'package:chat_gpt_sdk/src/logger/logger.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group("openai log test", () {

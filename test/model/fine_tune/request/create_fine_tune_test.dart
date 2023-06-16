@@ -1,6 +1,6 @@
 import 'package:chat_gpt_sdk/src/model/fine_tune/enum/fine_model.dart';
 import 'package:chat_gpt_sdk/src/model/fine_tune/request/create_fine_tune.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('openai create fine tune test', () {
