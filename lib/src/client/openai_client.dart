@@ -51,7 +51,7 @@ class OpenAIClient extends OpenAIWrapper {
           data: rawData.data,
         );
       }
-    } on DioError catch (err) {
+    } on DioException catch (err) {
       log.log(
         "code: ${err.response?.statusCode}, message :${err.message} + ${err.response?.data}",
       );
@@ -153,7 +153,7 @@ class OpenAIClient extends OpenAIWrapper {
           data: rawData.data,
         );
       }
-    } on DioError catch (err) {
+    } on DioException catch (err) {
       log.log(
         "code: ${err.response?.statusCode}, message :${err.message} data: ${err.response?.data}",
       );
@@ -196,7 +196,7 @@ class OpenAIClient extends OpenAIWrapper {
           data: response.data,
         );
       }
-    } on DioError catch (err) {
+    } on DioException catch (err) {
       log.log(
         "error code: ${err.response?.statusCode}, message :${err.message} data:${err.response?.data}",
       );
@@ -286,7 +286,7 @@ class OpenAIClient extends OpenAIWrapper {
             },
             onError: (err, t) {
               log.error(err, t);
-              if (err is DioError) {
+              if (err is DioException) {
                 controller
                   ..sink
                   ..addError(
@@ -304,7 +304,7 @@ class OpenAIClient extends OpenAIWrapper {
         },
         onError: (err, t) {
           log.error(err, t);
-          if (err is DioError) {
+          if (err is DioException) {
             final error = err;
             controller
               ..sink
@@ -320,7 +320,7 @@ class OpenAIClient extends OpenAIWrapper {
           }
         },
       );
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (CancelToken.isCancel(e)) {
         log.log("cancel request");
       }
@@ -359,7 +359,7 @@ class OpenAIClient extends OpenAIWrapper {
           data: response.data,
         );
       }
-    } on DioError catch (err) {
+    } on DioException catch (err) {
       log.log(
         "code: ${err.response?.statusCode}, error: ${err.message} ${err.response?.data}",
       );

@@ -138,3 +138,6 @@ Fix bug  Http status error [429] error
   - gpt-4-0613
   - gpt-3.5-turbo-0613
 - Support Function calling
+
+## 2.2.1
+- Fig dio deprecate method

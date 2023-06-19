@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/client/exception/missing_token_exception.dart';
@@ -57,15 +58,15 @@ class OpenAI implements IOpenAI {
       receiveTimeout: setup.receiveTimeout,
     ));
     if (setup.proxy.isNotEmpty) {
-      dio.httpClientAdapter = IOHttpClientAdapter()
-        ..onHttpClientCreate = (client) {
-          client.findProxy = (uri) {
-            /// "PROXY localhost:7890"
-            return setup.proxy;
-          };
-
-          return client;
+      dio.httpClientAdapter = IOHttpClientAdapter(createHttpClient: () {
+        final client = HttpClient();
+        client.findProxy = (uri) {
+          /// "PROXY localhost:7890"
+          return setup.proxy;
         };
+
+        return client;
+      });
     }
     dio.interceptors.add(InterceptorWrapper());
 
