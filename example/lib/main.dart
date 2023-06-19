@@ -86,7 +86,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   @override
   void initState() {
     openAI = OpenAI.instance.build(
-        token: token,
+        token: 'token',
         baseOption: HttpSetup(
             receiveTimeout: const Duration(seconds: 20),
             connectTimeout: const Duration(seconds: 20)),
