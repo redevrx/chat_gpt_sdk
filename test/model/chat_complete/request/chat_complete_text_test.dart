@@ -8,6 +8,7 @@ void main() {
         Messages(
           role: Role.user,
           content: "Hello",
+          name: "name function",
         ),
       ];
 
@@ -31,7 +32,7 @@ void main() {
           {
             'role': 'user',
             'content': 'Hello',
-            'name': null,
+            'name': "name function",
             'function_call': null,
           },
         ],
@@ -57,10 +58,12 @@ void main() {
           Messages(
             role: Role.user,
             content: "Hello",
+            name: "name function",
           ),
           Messages(
             role: Role.assistant,
             content: "Hi, how can I assist you today?",
+            name: "name function",
           ),
         ],
         functionCall: FunctionCall.auto,
@@ -75,13 +78,13 @@ void main() {
           {
             'role': 'user',
             'content': 'Hello',
-            'name': null,
+            'name': "name function",
             'function_call': null,
           },
           {
             'role': 'assistant',
             'content': 'Hi, how can I assist you today?',
-            'name': null,
+            'name': "name function",
             'function_call': null,
           },
         ],

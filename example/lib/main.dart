@@ -42,11 +42,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
     });
   }
 
+  ///parameter name is require
   void gptFunctionCalling() async {
     final request = ChatCompleteText(
         messages: [
           Messages(
-              role: Role.user, content: "What is the weather like in Boston?"),
+              role: Role.user,
+              content: "What is the weather like in Boston?",
+              name: "get_current_weather"),
         ],
         maxToken: 200,
         model: GptTurbo0631Model(),

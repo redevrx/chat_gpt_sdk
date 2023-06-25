@@ -1,8 +1,10 @@
+import 'package:chat_gpt_sdk/src/client/exception/mission_name_exception.dart';
+
 import '../enum/role.dart';
 
 class Messages {
   ///The role of the messages author. One of , , ,
-  ///or .systemuserassistantfunction
+  ///or .system user assistant function
   ///[role]
   final Role role;
 
@@ -36,12 +38,18 @@ class Messages {
       );
 
   ///function model
-  Map<String, dynamic> toJsonFunctionStruct() => Map.of(
-        {
-          "role": role.name,
-          "content": content,
-          "name": name,
-          "function_call": functionCall,
-        },
-      );
+  Map<String, dynamic> toJsonFunctionStruct() {
+    if (name == null || name == "") {
+      throw MissionNameException();
+    }
+
+    return Map.of(
+      {
+        "role": role.name,
+        "content": content,
+        "name": name,
+        "function_call": functionCall,
+      },
+    );
+  }
 }

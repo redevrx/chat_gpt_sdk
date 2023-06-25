@@ -68,7 +68,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt_sdk: 2.2.1
+chat_gpt_sdk: 2.2.2
 ```
 
 ## Create OpenAI Instance
@@ -213,12 +213,13 @@ FutureBuilder<CTResponse?>(
 - Chat Complete Function Calling
 
 ```dart
-///work only with gpt-turbo-0613,gpt-4-0613
+/// work only with gpt-turbo-0613,gpt-4-0613
+/// parameter name is require
   void gptFunctionCalling() async {
   final request = ChatCompleteText(
           messages: [
             Messages(
-                    role: Role.user, content: "What is the weather like in Boston?"),
+                    role: Role.user, content: "What is the weather like in Boston?",name: "get_current_weather"),
           ],
           maxToken: 200,
           model: GptTurbo0631Model(),

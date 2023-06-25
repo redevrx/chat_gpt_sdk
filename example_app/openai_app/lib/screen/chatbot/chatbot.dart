@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -16,7 +15,6 @@ import 'package:openai_app/constants/theme/dimen.dart';
 import 'package:openai_app/constants/theme/theme.dart';
 import 'package:openai_app/models/feature/feature_data.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import '../../components/error/notfound_token.dart';
 
 class ChatBotScreen extends StatefulWidget {
