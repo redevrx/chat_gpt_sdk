@@ -1,5 +1,3 @@
-import 'package:chat_gpt_sdk/src/client/exception/missing_name_exception.dart';
-
 import '../enum/role.dart';
 
 class Messages {
