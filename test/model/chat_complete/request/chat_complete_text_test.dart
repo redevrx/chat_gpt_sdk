@@ -99,6 +99,7 @@ void main() {
         'max_tokens': 100,
         'presence_penalty': 0.0,
         'frequency_penalty': 0.0,
+        'user': '',
       };
 
       expect(chatCompleteText.toJson(), expectedJson);

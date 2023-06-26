@@ -44,6 +44,6 @@ class Messages {
         "name": name,
         "function_call": functionCall,
       },
-    )..removeWhere((key, value) => (value == null || value == ""));
+    )..removeWhere((key, value) => value == null);
   }
 }
