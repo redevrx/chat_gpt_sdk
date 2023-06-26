@@ -7,8 +7,8 @@ void main() {
       final messages = [
         Messages(
           role: Role.user,
-          content: "Hello",
-          name: "name function",
+          content: 'Hello',
+          name: 'function_name',
         ),
       ];
 
@@ -19,25 +19,23 @@ void main() {
         topP: 0.9,
         n: 2,
         stream: true,
-        stop: ["User:"],
+        stop: ['User:'],
         maxToken: 50,
         presencePenalty: -0.5,
         frequencyPenalty: 0.5,
-        user: "user123",
+        user: 'user123',
       );
 
+      // The expected map should not have any `null` values.
       final expectedMap = {
         'model': 'gpt-3.5-turbo-0613',
         'messages': [
           {
             'role': 'user',
             'content': 'Hello',
-            'name': "name function",
-            'function_call': null,
+            'name': 'function_name',
           },
         ],
-        'functions': null,
-        'function_call': null,
         'temperature': 0.5,
         'top_p': 0.9,
         'n': 2,
@@ -57,18 +55,22 @@ void main() {
         messages: [
           Messages(
             role: Role.user,
-            content: "Hello",
-            name: "name function",
+            content: 'Hello',
+            name: 'function_name',
           ),
           Messages(
             role: Role.assistant,
-            content: "Hi, how can I assist you today?",
-            name: "name function",
+            content: 'Hi, how can I assist you today?',
+            name: 'function_name',
           ),
         ],
         functionCall: FunctionCall.auto,
         functions: [
-          FunctionData(name: "name", description: "", parameters: Map.of({})),
+          FunctionData(
+            name: 'function_name',
+            description: '',
+            parameters: Map.of({}),
+          ),
         ],
       );
 
@@ -78,29 +80,25 @@ void main() {
           {
             'role': 'user',
             'content': 'Hello',
-            'name': "name function",
-            'function_call': null,
+            'name': 'function_name',
           },
           {
             'role': 'assistant',
             'content': 'Hi, how can I assist you today?',
-            'name': "name function",
-            'function_call': null,
+            'name': 'function_name',
           },
         ],
         'functions': [
-          {'name': 'name', 'description': '', 'parameters': {}},
+          {'name': 'function_name', 'description': '', 'parameters': {}},
         ],
         'function_call': 'auto',
         'temperature': 0.3,
         'top_p': 1.0,
         'n': 1,
         'stream': false,
-        'stop': null,
         'max_tokens': 100,
         'presence_penalty': 0.0,
         'frequency_penalty': 0.0,
-        'user': '',
       };
 
       expect(chatCompleteText.toJson(), expectedJson);

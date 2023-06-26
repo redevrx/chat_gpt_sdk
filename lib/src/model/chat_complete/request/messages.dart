@@ -1,5 +1,3 @@
-import 'package:chat_gpt_sdk/src/client/exception/mission_name_exception.dart';
-
 import '../enum/role.dart';
 
 class Messages {
@@ -39,10 +37,6 @@ class Messages {
 
   ///function model
   Map<String, dynamic> toJsonFunctionStruct() {
-    if (name == null || name == "") {
-      throw MissionNameException();
-    }
-
     return Map.of(
       {
         "role": role.name,
@@ -50,6 +44,6 @@ class Messages {
         "name": name,
         "function_call": functionCall,
       },
-    );
+    )..removeWhere((key, value) => (value == null || value == ""));
   }
 }

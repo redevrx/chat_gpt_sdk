@@ -143,7 +143,8 @@ class ChatCompleteText {
             "presence_penalty": presencePenalty,
             "frequency_penalty": frequencyPenalty,
             "user": user,
-          });
+          })
+      ..removeWhere((key, value) => (value == null || value == ""));
 
     return json;
   }

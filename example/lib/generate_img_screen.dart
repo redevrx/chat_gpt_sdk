@@ -18,7 +18,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
   @override
   void initState() {
     openAI = OpenAI.instance.build(
-        token: token,
+        token: kToken,
         baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 6)),
         enableLog: true);
     super.initState();
