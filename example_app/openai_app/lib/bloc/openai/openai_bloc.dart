@@ -127,17 +127,17 @@ class OpenAIBloc extends Cubit<OpenAIState> {
         .transform(StreamTransformer.fromHandlers(handleError: handleError))
         .listen((it) {
       Message? message;
-      for (final m in list) {
-        if (m.id == '${it.id}') {
-          message = m;
-          list.remove(m);
-          break;
+      list.removeWhere((element){
+        if(element.id == '${it.id}'){
+          message = element;
+          return true;
         }
-      }
+        return false;
+      });
 
       ///+= message
       message?.message =
-          '${message.message ?? ""}${it.choices.last.message?.content ?? ""}';
+          '${message?.message ?? ""}${it.choices.last.message?.content ?? ""}';
       list.add(Message(isBot: true, id: '${it.id}', message: message?.message));
       emit(ChatCompletionState(
           isBot: true, messages: list, showStopButton: true));
