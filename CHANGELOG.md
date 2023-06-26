@@ -143,4 +143,7 @@ Fix bug  Http status error [429] error
 - Fig dio deprecate method
 
 ## 2.2.2
-- Fig openai function call require parameter nmae
+- Fig openai function call require parameter name
+
+## 2.2.3
+- Fig openai optional error with null value
