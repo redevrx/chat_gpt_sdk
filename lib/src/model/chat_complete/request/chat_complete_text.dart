@@ -144,7 +144,7 @@ class ChatCompleteText {
             "frequency_penalty": frequencyPenalty,
             "user": user,
           })
-      ..removeWhere((key, value) => (value == null || value == ""));
+      ..removeWhere((key, value) => value == null);
 
     return json;
   }
