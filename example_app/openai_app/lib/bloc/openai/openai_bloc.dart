@@ -127,8 +127,8 @@ class OpenAIBloc extends Cubit<OpenAIState> {
         .transform(StreamTransformer.fromHandlers(handleError: handleError))
         .listen((it) {
       Message? message;
-      list.removeWhere((element){
-        if(element.id == '${it.id}'){
+      list.removeWhere((element) {
+        if (element.id == '${it.id}') {
           message = element;
           return true;
         }

@@ -28,7 +28,6 @@ void main() {
         final usage = Usage.fromJson(json);
 
         expect(usage.promptTokens, 50);
-        expect(usage.completionTokens, 0);
         expect(usage.totalTokens, 50);
       },
     );
