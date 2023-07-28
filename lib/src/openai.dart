@@ -43,14 +43,30 @@ class OpenAI implements IOpenAI {
 
   String get token => "${TokenBuilder.build.token}";
 
+  /// set organization id
+  void setOrgId(String orgId) {
+    TokenBuilder.build.setOrgId(orgId);
+  }
+
+  String get orgId => "${TokenBuilder.build.orgId}";
+
   ///build environment for openai [build]
   ///setup http client
   ///setup logger
   @override
-  OpenAI build({String? token, HttpSetup? baseOption, bool enableLog = false}) {
+  OpenAI build({
+    String? token,
+    String? orgId,
+    HttpSetup? baseOption,
+    bool enableLog = false,
+  }) {
     if ("$token".isEmpty || token == null) throw MissingTokenException();
     final setup = baseOption ?? HttpSetup();
     setToken(token);
+
+    if (orgId != null) {
+      setOrgId(orgId);
+    }
 
     final dio = Dio(BaseOptions(
       sendTimeout: setup.sendTimeout,

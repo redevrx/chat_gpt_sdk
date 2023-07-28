@@ -82,10 +82,15 @@ const kTextMLast = 'text-moderation-latest';
 
 ///default header
 Map<String, String> kHeader(
-  String token,
+  String? token,
+  String? orgId,
 ) =>
     Map.of(
-      {"Content-Type": 'application/json', "Authorization": "Bearer $token"},
+      {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+        'OpenAI-Organization': '$orgId',
+      },
     );
 
 ///key data
