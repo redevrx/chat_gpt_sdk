@@ -1,6 +1,5 @@
 ## 1.0.1+4
-
-Fix bug  Http status error [429] error
+  - Fix bug  Http status error [429] error
 
 ## 1.0.1+5
  Add Parameter HttpSetup 
@@ -148,5 +147,5 @@ Fix bug  Http status error [429] error
 ## 2.2.3
 - Fig openai optional error with null value
 
-## 2.2.3
+## 2.2.4
 - add header orgId 
