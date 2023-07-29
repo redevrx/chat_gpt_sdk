@@ -37,6 +37,10 @@ class GptTurbo0631Model extends ChatModel {
   GptTurbo0631Model() : super(model: kChatGptTurbo0613);
 }
 
+class GptTurbo16k0631Model extends ChatModel {
+  GptTurbo16k0631Model() : super(model: kChatGptTurbo16k0613);
+}
+
 class Gpt40631ChatModel extends ChatModel {
   Gpt40631ChatModel() : super(model: kChatGpt40631);
 }

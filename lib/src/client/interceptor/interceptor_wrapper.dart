@@ -6,7 +6,12 @@ import '../../utils/constants.dart';
 class InterceptorWrapper extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers.addAll(kHeader("${TokenBuilder.build.token}"));
+    options.headers.addAll(
+      kHeader(
+        TokenBuilder.build.token,
+        TokenBuilder.build.orgId,
+      ),
+    );
 
     return handler.next(options); // super.onRequest(options, handler);
   }

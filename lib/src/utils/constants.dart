@@ -59,6 +59,7 @@ const kChatGpt40314 = 'gpt-4-0314';
 const kChatGpt432k = 'gpt-4-32k';
 const kChatGpt432k0314 = 'gpt-4-32k-0314';
 const kChatGptTurbo0613 = 'gpt-3.5-turbo-0613';
+const kChatGptTurbo16k0613 = 'gpt-3.5-turbo-16k-0613';
 const kChatGpt40631 = 'gpt-4-0613';
 
 ///edits
@@ -81,11 +82,21 @@ const kTextMLast = 'text-moderation-latest';
 
 ///default header
 Map<String, String> kHeader(
-  String token,
-) =>
-    Map.of(
-      {"Content-Type": 'application/json', "Authorization": "Bearer $token"},
-    );
+  String? token,
+  String? orgId,
+) {
+  final headers = {'Content-Type': 'application/json'};
+
+  if (token != null) {
+    headers['Authorization'] = 'Bearer $token';
+  }
+
+  if (orgId != null) {
+    headers['OpenAI-Organization'] = orgId;
+  }
+
+  return headers;
+}
 
 ///key data
 const kTokenKey = 'token';
