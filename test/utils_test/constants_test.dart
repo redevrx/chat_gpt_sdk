@@ -194,10 +194,11 @@ void main() {
       expect(url, isA<String>());
     });
     test('constants kURL value test found header request', () {
-      final h = kHeader('token');
+      final h = kHeader('token', 'orgId');
       expect(h, {
         "Content-Type": 'application/json',
         "Authorization": "Bearer token",
+        "OpenAI-Organization": "orgId",
       });
       expect(h, isA<Map<String, String>>());
     });

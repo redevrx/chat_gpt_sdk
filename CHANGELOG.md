@@ -147,3 +147,6 @@ Fix bug  Http status error [429] error
 
 ## 2.2.3
 - Fig openai optional error with null value
+
+## 2.2.3
+- add header orgId 
