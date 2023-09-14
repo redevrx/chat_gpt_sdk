@@ -619,7 +619,7 @@ final engines = await openAI.listEngine();
  - <a href='https://www.youtube.com/watch?v=z25HfnEi2zQ&t=1s&ab_channel=idealBy'>Flutter Generate Image</a>
  
 
-## Docs (Support Thai.)
+## Docs (Support Thai)
  <p align="center">
  <a target="_blank" href="https://medium.com/@relalso/flutter-chatgpt-part-1-สอน-2268197247f8"><img src="https://github-readme-medium-recent-article.vercel.app/medium/@relalso/2" alt="ChatGPT Part 1">
  <a target="_blank" href="https://medium.com/@relalso/flutter-chatgpt-part-2-สอน-e2935ad4f963"><img src="https://github-readme-medium-recent-article.vercel.app/medium/@relalso/1" alt="ChatGPT Part 2">
