@@ -105,7 +105,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding:  const EdgeInsets.symmetric(vertical: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

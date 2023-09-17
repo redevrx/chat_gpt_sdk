@@ -9,6 +9,10 @@ class FineTuned {
   final OpenAIClient _client;
   FineTuned(this._client);
 
+  @Deprecated('Creates a job that fine-tunes a specified model'
+      ' from a given dataset.Response includes details of the'
+      ' enqueued job including job status and the name of the'
+      ' fine-tuned models once complete.')
   Future<FineTuneModel> create(
     CreateFineTune request, {
     void Function(CancelData cancelData)? onCancel,
@@ -21,6 +25,7 @@ class FineTuned {
     );
   }
 
+  @Deprecated('API Deprecated')
   Future<List<FineTuneModel>> list({
     void Function(CancelData cancelData)? onCancel,
   }) async {
@@ -35,6 +40,7 @@ class FineTuned {
     );
   }
 
+  @Deprecated('API Deprecated')
   Future<FineTuneModel> retrieve(
     String fineTuneId, {
     void Function(CancelData cancelData)? onCancel,
@@ -46,6 +52,7 @@ class FineTuned {
     );
   }
 
+  @Deprecated('API Deprecated')
   Future<FineTuneModel> cancel(
     String fineTuneId, {
     void Function(CancelData cancelData)? onCancel,
@@ -58,6 +65,7 @@ class FineTuned {
     );
   }
 
+  @Deprecated('API Deprecated')
   Future<FineTuneDelete> delete(
     String model, {
     void Function(CancelData cancelData)? onCancel,
@@ -69,6 +77,7 @@ class FineTuned {
     );
   }
 
+  @Deprecated('API Deprecated')
   Stream<List<FineTuneModel>> listStream(
     String fineTuneId, {
     void Function(CancelData cancelData)? onCancel,

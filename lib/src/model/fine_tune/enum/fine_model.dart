@@ -5,6 +5,10 @@ sealed class FineModel {
   FineModel({required this.model});
 }
 
+class GptTurbo0631Model extends FineModel {
+  GptTurbo0631Model() : super(model: kChatGptTurbo0613);
+}
+
 class AdaFineModel extends FineModel {
   AdaFineModel() : super(model: kAdaModel);
 }

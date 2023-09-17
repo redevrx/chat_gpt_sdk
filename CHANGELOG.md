@@ -149,3 +149,15 @@
 
 ## 2.2.4
 - add header orgId 
+
+## 2.2.5
+- Update Fine-Tuning
+  - Add recommended model
+    - gpt-3.5-turbo-0613
+  - FineTuned Deprecate Method
+    - create
+    - list
+    - retrieve
+    - cancel
+    - delete
+    - listStream

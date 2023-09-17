@@ -29,6 +29,7 @@ class CreateFineTune {
   /// To learn more about these models,
   /// see the Models documentation. [model]
   /// ## Fine models
+  /// - GptTurbo0631Model();
   /// - AdaFineModel();
   /// - BabbageFineModel();
   /// - CurieFineModel();
