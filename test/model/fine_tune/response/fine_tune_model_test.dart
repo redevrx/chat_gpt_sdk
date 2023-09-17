@@ -36,7 +36,7 @@ void main() {
         ],
       };
 
-      final model = FineTuneModel.formJson(json);
+      final model = FineTuneModel.fromJson(json);
 
       expect(model.id, 'id');
       expect(model.trainingFiles.last?.bytes, 213);

@@ -36,6 +36,7 @@ const kFile = 'files';
 
 ///fine tune
 const kFineTune = 'fine-tunes';
+const kFineTuneJob = '$kFineTune/jobs';
 
 /// fine tune model
 const kFineTuneModel = 'models';

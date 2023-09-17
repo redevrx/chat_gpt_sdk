@@ -55,7 +55,7 @@ class FineTuneModel {
     required this.updatedAt,
   });
 
-  factory FineTuneModel.formJson(Map<String, dynamic> json) {
+  factory FineTuneModel.fromJson(Map<String, dynamic> json) {
     return FineTuneModel(
       id: json['id'],
       model: json['model'],

@@ -65,6 +65,7 @@ class OpenAIClient extends OpenAIWrapper {
 
   Stream<T> getStream<T>(
     String url, {
+    Map<String, dynamic>? queryParameters = null,
     required T Function(Map<String, dynamic>) onSuccess,
     required void Function(CancelData cancelData) onCancel,
   }) {
@@ -77,6 +78,7 @@ class OpenAIClient extends OpenAIWrapper {
     _dio
         .get(
       url,
+      queryParameters: queryParameters,
       cancelToken: cancelData.cancelToken,
       options: Options(responseType: ResponseType.stream),
     )

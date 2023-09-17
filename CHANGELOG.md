@@ -154,6 +154,9 @@
 - Update Fine-Tuning
   - Add recommended model
     - gpt-3.5-turbo-0613
+  - Deprecate Model
+    - CurieFineModel()
+    - AdaFineModel()
   - FineTuned Deprecate Method
     - create
     - list
@@ -161,3 +164,9 @@
     - cancel
     - delete
     - listStream
+  - New API
+    - createFineTuneJob
+    - listFineTuneJob
+    - retrieveFineTuneJob
+    - cancelFineTuneJob
+    - cancelFineTuneJobStream

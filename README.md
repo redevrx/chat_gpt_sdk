@@ -58,6 +58,8 @@ supervised and reinforcement learning techniques.
 - [x] [Embedding](#embedding)
 - [x] [Fine-Tune](#fine-tune)
   - Support Server Sent Event
+  - Fine-Tune Deprecate
+  - New Fine-Tune Job
 - [x] [Moderations](#modelengine)
 - [x] [Model And Engine](#modelengine)
 - [x] [Translate Example](#translate-app)

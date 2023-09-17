@@ -155,6 +155,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
   @override
   _i3.Stream<T> getStream<T>(
     String? url, {
+    Map<String, dynamic>? queryParameters = null,
     required T Function(Map<String, dynamic>)? onSuccess,
     required void Function(_i6.CancelData)? onCancel,
   }) =>
@@ -163,6 +164,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
           #getStream,
           [url],
           {
+            #queryParameters: queryParameters,
             #onSuccess: onSuccess,
             #onCancel: onCancel,
           },

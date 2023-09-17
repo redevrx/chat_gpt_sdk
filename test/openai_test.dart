@@ -12,6 +12,7 @@ import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 import 'package:chat_gpt_sdk/src/model/edits/enum/edit_model.dart';
 import 'package:chat_gpt_sdk/src/model/embedding/enum/embed_model.dart';
 import 'package:chat_gpt_sdk/src/model/fine_tune/enum/fine_model.dart';
+import 'package:chat_gpt_sdk/src/model/fine_tune/request/create_fine_tune_job.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/response/image_data.dart';
 import 'package:chat_gpt_sdk/src/model/moderation/enum/moderation_model.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_data.dart';
@@ -105,17 +106,27 @@ void main() async {
       throwsException,
     );
     expect(
-      () => ai.fineTune.create(CreateFineTune(
+      () => ai.fineTune.createFineTuneJob(CreateFineTuneJob(
         trainingFile: 'trainingFile',
         model: CurieFineModel(),
       )),
       throwsException,
     );
-    expect(() => ai.fineTune.cancel('id'), throwsException);
-    expect(() => ai.fineTune.delete('id'), throwsException);
-    expect(() => ai.fineTune.retrieve('id'), throwsException);
-    expect(() => ai.fineTune.list(), throwsException);
-    ai.fineTune.listStream('fineTuneId').transform(
+    expect(() => ai.fineTune.cancelFineTuneJob('id'), throwsException);
+    // expect(() => ai.fineTune.delete('id'), throwsException);
+    expect(() => ai.fineTune.retrieveFineTuneJob('id'), throwsException);
+    expect(() => ai.fineTune.listFineTuneJob(), throwsException);
+    ai.fineTune.listFineTuneJobStream('fineTuneId').transform(
+      StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
+        expect(error, throwsException);
+      }),
+    );
+    ai.fineTune
+        .listFineTuneJobStream(
+      'fineTuneId',
+      limit: 10,
+    )
+        .transform(
       StreamTransformer.fromHandlers(handleError: (error, stackTrace, sink) {
         expect(error, throwsException);
       }),
