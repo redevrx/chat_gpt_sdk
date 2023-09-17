@@ -70,7 +70,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt_sdk: 2.2.4
+chat_gpt_sdk: 2.2.5
 ```
 
 ## Create OpenAI Instance
@@ -530,22 +530,22 @@ void embedding() async {
 - Create Fine Tune
 ```dart
 void createTineTune() async {
-  final request = CreateFineTune(trainingFile: 'The ID of an uploaded file');
-  final response = await openAI.fineTune.create(request);
+  final request = CreateFineTuneJob(trainingFile: 'The ID of an uploaded file');
+  final response = await openAI.fineTune.createFineTuneJob(request);
 }
 ```
 
 - Fine Tune List
 ```dart
  void tineTuneList() async {
-    final response = await openAI.fineTune.list();
+    final response = await openAI.fineTune.listFineTuneJob();
   }
 ```
 
 - Fine Tune List Stream (SSE)
 ```dart
  void tineTuneListStream() {
-    openAI.fineTune.listStream('fineTuneId').listen((it) {
+    openAI.fineTune.listFineTuneJobStream('fineTuneId').listen((it) {
       ///handled data
     });
   }
@@ -554,7 +554,7 @@ void createTineTune() async {
 -  Fine Tune Get by Id
 ```dart
 void tineTuneById() async {
-    final response = await openAI.fineTune.retrieve('fineTuneId');
+    final response = await openAI.fineTune.retrieveFineTuneJob('fineTuneId');
   }
 ```
 
