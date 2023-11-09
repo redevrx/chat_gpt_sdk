@@ -170,3 +170,6 @@
     - retrieveFineTuneJob
     - cancelFineTuneJob
     - cancelFineTuneJobStream
+
+## 2.2.6
+ - Fix Bug Chunks error

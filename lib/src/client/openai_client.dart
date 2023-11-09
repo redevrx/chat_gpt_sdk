@@ -71,7 +71,7 @@ class OpenAIClient extends OpenAIWrapper {
   }) {
     final controller = StreamController<T>.broadcast();
     final cancelData = CancelData(cancelToken: CancelToken());
-
+    final List<int> chunks = [];
     onCancel(cancelData);
 
     log.log("starting request");
@@ -86,7 +86,10 @@ class OpenAIClient extends OpenAIWrapper {
       (it) {
         (it.data.stream as Stream).listen(
           (it) {
-            final rawData = utf8.decode(it);
+            chunks.addAll(it);
+          },
+          onDone: () {
+            final rawData = utf8.decode(chunks);
 
             final dataList = rawData
                 .split("\n")
@@ -105,11 +108,10 @@ class OpenAIClient extends OpenAIWrapper {
                 controller
                   ..sink
                   ..add(onSuccess(json.decode(data)));
+
+                controller.close();
               }
             }
-          },
-          onDone: () {
-            controller.close();
           },
           onError: (err, t) {
             log.error(err, t);
@@ -241,6 +243,8 @@ class OpenAIClient extends OpenAIWrapper {
     log.log("request body :$request");
     final controller = StreamController<T>.broadcast();
     final cancelData = CancelData(cancelToken: CancelToken());
+    final List<int> chunks = [];
+
     try {
       onCancel(cancelData);
       _dio
@@ -254,7 +258,10 @@ class OpenAIClient extends OpenAIWrapper {
         (it) {
           it.data.stream.listen(
             (it) {
-              final raw = utf8.decode(it);
+              chunks.addAll(it);
+            },
+            onDone: () {
+              final raw = utf8.decode(chunks);
               final dataList = raw
                   .split("\n")
                   .where((element) => element.isNotEmpty)
@@ -276,15 +283,16 @@ class OpenAIClient extends OpenAIWrapper {
                     controller
                       ..sink
                       ..add(complete(jsonMap[jsonMap.keys.last]));
+
+                    controller.close();
                   } else {
                     log.log("stream response invalid try regenerate");
                     log.log("last json error :$mData");
+
+                    controller.close();
                   }
                 }
               }
-            },
-            onDone: () {
-              controller.close();
             },
             onError: (err, t) {
               log.error(err, t);
