@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:chat_gpt_sdk/src/client/openai_wrapper.dart';
+
 import 'package:chat_gpt_sdk/src/client/exception/base_error_wrapper.dart';
 import 'package:chat_gpt_sdk/src/client/exception/request_error.dart';
+import 'package:chat_gpt_sdk/src/client/openai_wrapper.dart';
 import 'package:chat_gpt_sdk/src/logger/logger.dart';
 import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/model/error/openai_error.dart';
-import 'package:chat_gpt_sdk/src/utils/json_decode_string.dart';
 import 'package:dio/dio.dart';
 
 class OpenAIClient extends OpenAIWrapper {
@@ -243,7 +243,6 @@ class OpenAIClient extends OpenAIWrapper {
     log.log("request body :$request");
     final controller = StreamController<T>.broadcast();
     final cancelData = CancelData(cancelToken: CancelToken());
-    final List<int> chunks = [];
 
     try {
       onCancel(cancelData);
@@ -258,41 +257,28 @@ class OpenAIClient extends OpenAIWrapper {
         (it) {
           it.data.stream.listen(
             (it) {
-              chunks.addAll(it);
-            },
-            onDone: () {
-              final raw = utf8.decode(chunks);
-              final dataList = raw
+              final rawData = utf8.decode(it);
+              final dataList = rawData
                   .split("\n")
                   .where((element) => element.isNotEmpty)
                   .toList();
 
-              for (final data in dataList) {
-                if (data.startsWith("data: ")) {
-                  ///remove data:
-                  final mData = data.substring(6);
-                  if (mData.startsWith("[DONE]")) {
+              for (final line in dataList) {
+                if (line.startsWith("data: ")) {
+                  final data = line.substring(6);
+                  if (data.startsWith("[DONE]")) {
                     log.log("stream response is done");
-
                     return;
                   }
 
-                  final jsonMap = mData.decode();
-                  if (jsonMap.keys.last) {
-                    ///decode data
-                    controller
-                      ..sink
-                      ..add(complete(jsonMap[jsonMap.keys.last]));
-
-                    controller.close();
-                  } else {
-                    log.log("stream response invalid try regenerate");
-                    log.log("last json error :$mData");
-
-                    controller.close();
-                  }
+                  controller
+                    ..sink
+                    ..add(complete(json.decode(data)));
                 }
               }
+            },
+            onDone: () {
+              controller.close();
             },
             onError: (err, t) {
               log.error(err, t);
