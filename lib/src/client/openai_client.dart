@@ -273,6 +273,8 @@ class OpenAIClient extends OpenAIWrapper {
                   final mData = data.substring(6);
                   if (mData.startsWith("[DONE]")) {
                     log.log("stream response is done");
+                    controller.done;
+                    controller.close();
 
                     return;
                   }
@@ -283,8 +285,6 @@ class OpenAIClient extends OpenAIWrapper {
                     controller
                       ..sink
                       ..add(complete(jsonMap[jsonMap.keys.last]));
-
-                    controller.close();
                   } else {
                     log.log("stream response invalid try regenerate");
                     log.log("last json error :$mData");
