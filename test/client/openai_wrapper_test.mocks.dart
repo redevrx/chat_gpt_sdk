@@ -80,6 +80,14 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  String get apiUrl => (super.noSuchMethod(
+        Invocation.getter(#apiUrl),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+
   @override
   _i3.Future<T> get<T>(
     String? url, {

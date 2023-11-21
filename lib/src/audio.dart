@@ -16,7 +16,7 @@ class Audio {
     final mRequest = await request.toJson();
 
     return _client.postFormData(
-      kURL + kTranscription,
+      _client.apiUrl + kTranscription,
       mRequest,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       complete: (it) => AudioResponse.fromJson(it),
@@ -31,7 +31,7 @@ class Audio {
     final mRequest = await request.toJson();
 
     return _client.postFormData(
-      kURL + kTranslations,
+      _client.apiUrl + kTranslations,
       mRequest,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       complete: (it) => AudioResponse.fromJson(it),

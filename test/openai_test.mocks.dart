@@ -401,10 +401,12 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i8.OpenAI build({
     String? token,
     String? orgId,
+    String? apiUrl,
     _i23.HttpSetup? baseOption,
     bool? enableLog = false,
   }) =>
@@ -415,6 +417,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
           {
             #token: token,
             #orgId: orgId,
+            #apiUrl: apiUrl,
             #baseOption: baseOption,
             #enableLog: enableLog,
           },
@@ -427,6 +430,7 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             {
               #token: token,
               #orgId: orgId,
+              #apiUrl: apiUrl,
               #baseOption: baseOption,
               #enableLog: enableLog,
             },
@@ -440,12 +444,14 @@ class MockOpenAI extends _i1.Mock implements _i8.OpenAI {
             {
               #token: token,
               #orgId: orgId,
+              #apiUrl: apiUrl,
               #baseOption: baseOption,
               #enableLog: enableLog,
             },
           ),
         ),
       ) as _i8.OpenAI);
+
   @override
   _i24.Future<_i9.OpenAiModel> listModel(
           {void Function(_i25.CancelData)? onCancel}) =>

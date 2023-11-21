@@ -57,6 +57,7 @@ class OpenAI implements IOpenAI {
   OpenAI build({
     String? token,
     String? orgId,
+    String? apiUrl,
     HttpSetup? baseOption,
     bool enableLog = false,
   }) {
@@ -86,7 +87,8 @@ class OpenAI implements IOpenAI {
     }
     dio.interceptors.add(InterceptorWrapper());
 
-    _client = OpenAIClient(dio: dio, isLogging: enableLog);
+    final _apiUrl = (apiUrl?.isNotEmpty ?? false) ? apiUrl! : kURL;
+    _client = OpenAIClient(dio: dio, apiUrl: _apiUrl , isLogging: enableLog);
 
     return instance;
   }
@@ -97,7 +99,7 @@ class OpenAI implements IOpenAI {
     void Function(CancelData cancelData)? onCancel,
   }) async {
     return _client.get<OpenAiModel>(
-      "$kURL$kModelList",
+      "${_client.apiUrl}$kModelList",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => OpenAiModel.fromJson(it),
     );
@@ -109,7 +111,7 @@ class OpenAI implements IOpenAI {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.get<EngineModel>(
-      "$kURL$kEngineList",
+      "${_client.apiUrl}$kEngineList",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {
         return EngineModel.fromJson(it);
@@ -129,7 +131,7 @@ class OpenAI implements IOpenAI {
     void Function(CancelData cancelData)? onCancel,
   }) =>
       _client.post(
-        "$kURL$kCompletion",
+        "${_client.apiUrl}$kCompletion",
         request.toJson(),
         onCancel: (it) => onCancel != null ? onCancel(it) : null,
         onSuccess: (it) {
@@ -145,7 +147,7 @@ class OpenAI implements IOpenAI {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      "$kURL$kChatGptTurbo",
+      "${_client.apiUrl}$kChatGptTurbo",
       request.toJson(),
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {
@@ -161,7 +163,7 @@ class OpenAI implements IOpenAI {
     void Function(CancelData cancelData)? onCancel,
   }) async {
     return _client.post(
-      "$kURL$kGenerateImage",
+      "${_client.apiUrl}$kGenerateImage",
       request.toJson(),
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {
@@ -179,7 +181,7 @@ class OpenAI implements IOpenAI {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.sse(
-      "$kURL$kChatGptTurbo",
+      "${_client.apiUrl}$kChatGptTurbo",
       request.toJson()..addAll({"stream": true}),
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       complete: (it) {
@@ -200,7 +202,7 @@ class OpenAI implements IOpenAI {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.sse(
-      '$kURL$kCompletion',
+      '${_client.apiUrl}$kCompletion',
       request.toJson()..addAll({"stream": true}),
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       complete: (it) {
