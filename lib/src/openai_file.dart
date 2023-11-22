@@ -14,7 +14,7 @@ class OpenAIFile {
   ///Returns a list of files that belong to the user's organization.
   Future<FileResponse> get({void Function(CancelData cancelData)? onCancel}) {
     return _client.get(
-      kURL + kFile,
+      _client.apiUrl + kFile,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => FileResponse.fromJson(it),
     );
@@ -32,7 +32,7 @@ class OpenAIFile {
     final mRequest = await request.getForm();
 
     return _client.postFormData(
-      kURL + kFile,
+      _client.apiUrl + kFile,
       mRequest,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       complete: (it) => UploadResponse.fromJson(it),
@@ -45,7 +45,7 @@ class OpenAIFile {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.delete(
-      "$kURL$kFile/{$fileId}",
+      "${_client.apiUrl}$kFile/{$fileId}",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => DeleteFile.fromJson(it),
     );
@@ -57,7 +57,7 @@ class OpenAIFile {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.get(
-      "$kURL$kFile/$fileId",
+      "${_client.apiUrl}$kFile/$fileId",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => UploadResponse.fromJson(it),
     );
@@ -69,7 +69,7 @@ class OpenAIFile {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.get(
-      '$kURL$kFile/$fileId/content',
+      '${_client.apiUrl}$kFile/$fileId/content',
       returnRawData: true,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => it,

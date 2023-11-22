@@ -75,6 +75,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   void initOpenAISdk() async {
     _openAI = OpenAI.instance.build(
         token: getToken(),
+        apiUrl: 'https://api.openai.com/v1/', // you can replace with your api url
         enableLog: true,
         baseOption: HttpSetup(
             receiveTimeout: const Duration(seconds: 30),
