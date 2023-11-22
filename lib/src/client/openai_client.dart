@@ -260,6 +260,9 @@ class OpenAIClient extends OpenAIWrapper {
       )
           .then(
         (it) {
+          // Sometimes, the information in a response may be truncated, in which
+          // case it needs to be concatenated with the next one.
+          String tmpData = '';
           it.data.stream.listen(
             (it) {
               final rawData = utf8.decode(it);
@@ -276,9 +279,31 @@ class OpenAIClient extends OpenAIWrapper {
                     return;
                   }
 
-                  controller
-                    ..sink
-                    ..add(complete(json.decode(data)));
+                  try {
+                    controller
+                      ..sink
+                      ..add(complete(json.decode(data)));
+                    tmpData = '';
+                  } on FormatException catch (_) {
+                    // Sometimes, the information in a response may be truncated,
+                    // in which case it needs to be concatenated with the next one.
+                    tmpData = data;
+                  }
+                } else {
+                  // If the response does not start with 'data： ', it is considered
+                  // to be truncated, and at this time it needs to be concatenated
+                  // together with 'tmpData'.
+                  try {
+                    final decodeData = json.decode('$tmpData$line');
+                    controller
+                      ..sink
+                      ..add(complete(decodeData));
+                  } catch (e) {
+                    // skip
+                    log.log('unexpected exception: $e');
+                    log.log('tmpData=$tmpData\nline=$line');
+                  }
+                  tmpData = '';
                 }
               }
             },
