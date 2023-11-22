@@ -20,7 +20,7 @@ class Edit {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      kURL + kEditPrompt,
+      _client.apiUrl + kEditPrompt,
       request.toJson(),
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => EditResponse.fromJson(it),
@@ -36,7 +36,7 @@ class Edit {
     final mRequest = await request.convert();
 
     return _client.postFormData(
-      kURL + kImageEdit,
+      _client.apiUrl + kImageEdit,
       mRequest,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       complete: (it) => GenImgResponse.fromJson(it),
@@ -51,7 +51,7 @@ class Edit {
     final mRequest = await request.convert();
 
     return _client.postFormData(
-      kURL + kVariation,
+      _client.apiUrl + kVariation,
       mRequest,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       complete: (it) => GenImgResponse.fromJson(it),

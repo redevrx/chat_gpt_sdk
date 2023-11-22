@@ -11,8 +11,9 @@ import 'package:chat_gpt_sdk/src/model/error/openai_error.dart';
 import 'package:dio/dio.dart';
 
 class OpenAIClient extends OpenAIWrapper {
-  OpenAIClient({required Dio dio, bool isLogging = false}) {
+  OpenAIClient({required Dio dio, required String apiUrl, bool isLogging = false}) {
     _dio = dio;
+    _apiUrl = apiUrl;
     log = Logger.instance.builder(isLogging: isLogging);
   }
 
@@ -21,6 +22,10 @@ class OpenAIClient extends OpenAIWrapper {
 
   ///[log]
   late Logger log;
+
+  late String _apiUrl;
+
+  String get apiUrl => _apiUrl;
 
   Future<T> get<T>(
     String url, {
@@ -179,7 +184,7 @@ class OpenAIClient extends OpenAIWrapper {
       final cancelData = CancelData(cancelToken: CancelToken());
       onCancel(cancelData);
 
-      log.log("starting request");
+      log.log("starting request $url");
       log.log("request body :$request");
 
       final response = await _dio.post(
@@ -220,7 +225,7 @@ class OpenAIClient extends OpenAIWrapper {
     final cancelData = CancelData(cancelToken: CancelToken());
     onCancel(cancelData);
 
-    log.log("starting request");
+    log.log("starting request $url");
     log.log("request body :$request");
     final response = _dio
         .post(
@@ -239,7 +244,7 @@ class OpenAIClient extends OpenAIWrapper {
     required T Function(Map<String, dynamic> value) complete,
     required void Function(CancelData cancelData) onCancel,
   }) {
-    log.log("starting request");
+    log.log("starting request $url");
     log.log("request body :$request");
     final controller = StreamController<T>.broadcast();
     final cancelData = CancelData(cancelToken: CancelToken());
@@ -335,7 +340,7 @@ class OpenAIClient extends OpenAIWrapper {
       final cancelData = CancelData(cancelToken: CancelToken());
       onCancel(cancelData);
 
-      log.log("starting request");
+      log.log("starting request $url");
       log.log("request body :$request");
       final response = await _dio.post(
         url,

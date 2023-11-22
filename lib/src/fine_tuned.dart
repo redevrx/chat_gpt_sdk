@@ -21,7 +21,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      kURL + kFineTune,
+      _client.apiUrl + kFineTune,
       request.toJson(),
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => FineTuneModel.fromJson(it),
@@ -33,7 +33,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) async {
     return _client.get(
-      kURL + kFineTune,
+      _client.apiUrl + kFineTune,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {
         final data = it['data'] as List;
@@ -49,7 +49,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.get(
-      "$kURL$kFineTune/$fineTuneId",
+      "$_client.apiUrl$kFineTune/$fineTuneId",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => FineTuneModel.fromJson(it),
     );
@@ -61,7 +61,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      "$kURL$kFineTune/$fineTuneId/cancel",
+      "$_client.apiUrl$kFineTune/$fineTuneId/cancel",
       {},
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => FineTuneModel.fromJson(it),
@@ -74,7 +74,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.delete(
-      "$kURL$kFineTuneModel/$model",
+      "$_client.apiUrl$kFineTuneModel/$model",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => FineTuneDelete.fromJson(it),
     );
@@ -86,7 +86,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.getStream(
-      "$kURL$kFineTune/$fineTuneId/events",
+      "$_client.apiUrl$kFineTune/$fineTuneId/events",
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {
         final data = it['data'] as List;
@@ -108,7 +108,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      kURL + kFineTuneJob,
+      _client.apiUrl + kFineTuneJob,
       request.toJson(),
       onSuccess: FineTuneModelJob.fromJson,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
@@ -121,7 +121,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.get(
-      kURL + kFineTuneJob + "/$fineTuneId",
+      _client.apiUrl + kFineTuneJob + "/$fineTuneId",
       onSuccess: FineTuneList.fromJson,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
     );
@@ -132,7 +132,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) async {
     return _client.get(
-      kURL + kFineTune,
+      _client.apiUrl + kFineTune,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {
         final data = it['data'] as List;
@@ -148,7 +148,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      "$kURL$kFineTuneJob/$fineTuneId/cancel",
+      "$_client.apiUrl$kFineTuneJob/$fineTuneId/cancel",
       {},
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: FineTuneList.fromJson,
@@ -172,7 +172,7 @@ class FineTuned {
     }
 
     return _client.getStream(
-      "$kURL$kFineTuneJob/$fineTuneId/events",
+      "$_client.apiUrl$kFineTuneJob/$fineTuneId/events",
       queryParameters: query,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {

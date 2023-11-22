@@ -30,7 +30,7 @@ class Moderation {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      kURL + kModeration,
+      _client.apiUrl + kModeration,
       {"input": input, "model": model.model},
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) => ModerationData.fromJson(it),
