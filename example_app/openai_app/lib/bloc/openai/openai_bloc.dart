@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
@@ -135,11 +136,9 @@ class OpenAIBloc extends Cubit<OpenAIState> {
         }
         return false;
       });
-
       ///+= message
-      message?.message =
-          '${message?.message ?? ""}${it.choices.last.message?.content ?? ""}';
-      list.add(Message(isBot: true, id: '${it.id}', message: message?.message));
+      String msg = '${message?.message ?? ""}${it.choices.last.message?.content ?? ""}';
+      list.add(Message(isBot: true, id: '${it.id}', message: msg));
       emit(ChatCompletionState(
           isBot: true, messages: list, showStopButton: true));
     }, onDone: () {
