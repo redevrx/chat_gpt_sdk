@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
@@ -76,7 +75,8 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   void initOpenAISdk() async {
     _openAI = OpenAI.instance.build(
         token: getToken(),
-        apiUrl: 'https://api.openai.com/v1/', // you can replace with your api url
+        apiUrl:
+            'https://api.openai.com/v1/', // you can replace with your api url
         enableLog: true,
         baseOption: HttpSetup(
             receiveTimeout: const Duration(seconds: 30),
@@ -136,8 +136,10 @@ class OpenAIBloc extends Cubit<OpenAIState> {
         }
         return false;
       });
+
       ///+= message
-      String msg = '${message?.message ?? ""}${it.choices.last.message?.content ?? ""}';
+      String msg =
+          '${message?.message ?? ""}${it.choices.last.message?.content ?? ""}';
       list.add(Message(isBot: true, id: '${it.id}', message: msg));
       emit(ChatCompletionState(
           isBot: true, messages: list, showStopButton: true));

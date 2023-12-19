@@ -88,7 +88,7 @@ class OpenAI implements IOpenAI {
     dio.interceptors.add(InterceptorWrapper());
 
     final _apiUrl = (apiUrl?.isNotEmpty ?? false) ? apiUrl! : kURL;
-    _client = OpenAIClient(dio: dio, apiUrl: _apiUrl , isLogging: enableLog);
+    _client = OpenAIClient(dio: dio, apiUrl: _apiUrl, isLogging: enableLog);
 
     return instance;
   }

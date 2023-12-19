@@ -11,7 +11,8 @@ import 'package:chat_gpt_sdk/src/model/error/openai_error.dart';
 import 'package:dio/dio.dart';
 
 class OpenAIClient extends OpenAIWrapper {
-  OpenAIClient({required Dio dio, required String apiUrl, bool isLogging = false}) {
+  OpenAIClient(
+      {required Dio dio, required String apiUrl, bool isLogging = false}) {
     _dio = dio;
     _apiUrl = apiUrl;
     log = Logger.instance.builder(isLogging: isLogging);
