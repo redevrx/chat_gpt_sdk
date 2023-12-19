@@ -1,14 +1,14 @@
 name: chat_gpt_sdk
 description: create chat bot and other bot with ChatGPT SDK Support GPT-4 , 3.5 and SSE Generate Prompt (Stream)
-version: 2.2.6
+version: 2.2.8
 homepage: https://www.facebook.com/REDEVRX
 repository: https://github.com/redevRx/Flutter-ChatGPT
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
-  dio: ^5.3.3
+  dio: ^5.4.0
   http_parser: ^4.0.2
 
 dev_dependencies:
