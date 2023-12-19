@@ -173,3 +173,10 @@
 
 ## 2.2.6
  - Fix Bug Chunks error
+
+## 2.2.8
+ - Update Lib from community
+  - missing first word in sse response
+  - Fix sse bad state close 
+  - sse not work as intended
+  - custom OpenAI endpoint
