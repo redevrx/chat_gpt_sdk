@@ -60,6 +60,7 @@ const kChatGpt40314 = 'gpt-4-0314';
 const kChatGpt432k = 'gpt-4-32k';
 const kChatGpt432k0314 = 'gpt-4-32k-0314';
 const kChatGptTurbo0613 = 'gpt-3.5-turbo-0613';
+const kChatGptTurbo1106 = 'gpt-3.5-turbo-1106';
 const kChatGptTurbo16k0613 = 'gpt-3.5-turbo-16k-0613';
 const kChatGpt40631 = 'gpt-4-0613';
 
