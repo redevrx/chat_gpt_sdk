@@ -2,6 +2,7 @@ import 'package:chat_gpt_sdk/src/model/chat_complete/enum/chat_model.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/function_call.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/function_data.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/messages.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/response_format.dart';
 
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
@@ -37,6 +38,11 @@ class ChatCompleteText {
   /// are present. "auto" is the default if functions are present.{"name":\ "my_function"}
   /// [functionCall]
   final FunctionCall? functionCall;
+
+  ///Defines the format of the model's response output. Currently, only supports
+  /// "json_object", and it is available only for certain models.
+  /// [responseFormat]
+  final ResponseFormat? responseFormat;
 
   ///What sampling temperature to use, between 0 and
   ///2. Higher values like 0.8 will make the output more random,
@@ -111,6 +117,7 @@ class ChatCompleteText {
     this.user = "",
     this.functions,
     this.functionCall,
+    this.responseFormat,
   });
 
   Map<String, dynamic> toJson() {
@@ -130,6 +137,7 @@ class ChatCompleteText {
             "presence_penalty": presencePenalty,
             "frequency_penalty": frequencyPenalty,
             "user": user,
+            "response_format": responseFormat?.toJson(),
           })
         : Map.of({
             "model": model.model,
@@ -143,6 +151,7 @@ class ChatCompleteText {
             "presence_penalty": presencePenalty,
             "frequency_penalty": frequencyPenalty,
             "user": user,
+            "response_format": responseFormat?.toJson(),
           })
       ..removeWhere((key, value) => value == null);
 

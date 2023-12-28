@@ -44,3 +44,4 @@ export 'src/model/chat_complete/enum/role.dart';
 export 'src/model/chat_complete/enum/function_call.dart';
 export 'src/model/chat_complete/request/messages.dart';
 export 'src/model/chat_complete/request/function_data.dart';
+export 'src/model/chat_complete/request/response_format.dart';
