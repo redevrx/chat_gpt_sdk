@@ -299,16 +299,20 @@ class OpenAIClient extends OpenAIWrapper {
                   // to be truncated, and at this time it needs to be concatenated
                   // together with 'tmpData'.
                   try {
-                    final decodeData = json.decode('$tmpData$line');
+                    //add this
+                    tmpData = tmpData + line;
+
+                    final decodeData = json.decode(tmpData);
                     controller
                       ..sink
                       ..add(complete(decodeData));
+                    //when success
+                    tmpData = '';
                   } catch (e) {
                     // skip
-                    log.log('unexpected exception: $e');
-                    log.log('tmpData=$tmpData\nline=$line');
+                    log.log('$e');
                   }
-                  tmpData = '';
+                  // tmpData = '';
                 }
               }
             },
