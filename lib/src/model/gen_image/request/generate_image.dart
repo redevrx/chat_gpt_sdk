@@ -1,4 +1,5 @@
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/format.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/enum/generate_image_model.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/image_size.dart';
 
 class GenerateImage {
@@ -17,9 +18,12 @@ class GenerateImage {
   ///A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
   final String user;
 
+  final GenerateImageModel model;
+
   GenerateImage(
     this.prompt,
     this.n, {
+    required this.model,
     this.size = ImageSize.size1024,
     this.responseFormat = Format.url,
     this.user = "",
@@ -27,6 +31,7 @@ class GenerateImage {
 
   Map<String, dynamic> toJson() => Map.of({
         "prompt": prompt,
+        "model": model.model,
         "n": n,
         "size": size?.size,
         "response_format": responseFormat?.getName(),

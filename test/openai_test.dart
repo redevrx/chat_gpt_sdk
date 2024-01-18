@@ -73,6 +73,7 @@ void main() async {
     expect(
       () => ai.generateImage(GenerateImage(
         'prompt',
+        model: DallE3(),
         1,
         size: ImageSize.size256,
         responseFormat: Format.url,
@@ -631,7 +632,8 @@ void main() async {
 
   group('chatGPT Image Generate With Prompt test case', () {
     test('chatGPT Image Generate With Prompt success case  test', () async {
-      final request = GenerateImage('snake red eating cat.', 2);
+      final request =
+          GenerateImage('snake red eating cat.', model: DallE3(), 2);
 
       when(openAI.generateImage(request))
           .thenAnswer((_) async => GenImgResponse());
@@ -645,7 +647,8 @@ void main() async {
     test(
       'chatGPT Image Generate With Prompt success case return value test',
       () async {
-        final request = GenerateImage('snake red eating cat.', 2);
+        final request =
+            GenerateImage('snake red eating cat.', model: DallE3(), 2);
 
         when(openAI.generateImage(request))
             .thenAnswer((_) async => GenImgResponse(created: 1221120));
@@ -661,7 +664,8 @@ void main() async {
     test(
       'chatGPT Image Generate With Prompt error case with n is 0 test',
       () async {
-        final request = GenerateImage('snake red eating cat.', 1);
+        final request =
+            GenerateImage('snake red eating cat.', model: DallE3(), 1);
 
         when(openAI.generateImage(request))
             .thenAnswer((_) async => GenImgResponse(created: 1221120));
@@ -673,7 +677,7 @@ void main() async {
         expect(response?.created, 1221120);
         expect(response?.data, null);
         expect(
-          () => GenerateImage('snake red eating cat.', 0),
+          () => GenerateImage('snake red eating cat.', model: DallE3(), 0),
           throwsA(isA<AssertionError>()),
         );
       },
@@ -760,7 +764,7 @@ void main() async {
     test(
       'chatGPT Image Generate with success case',
       () async {
-        final request = GenerateImage('cat eating snake', 1);
+        final request = GenerateImage('cat eating snake', model: DallE3(), 1);
 
         when(openAI.generateImage(request))
             .thenAnswer((realInvocation) async => GenImgResponse(
@@ -779,7 +783,7 @@ void main() async {
     test(
       'chatGPT Image Generate with cancel gen success case',
       () {
-        final request = GenerateImage('cat eating snake', 1);
+        final request = GenerateImage('cat eating snake', model: DallE3(), 1);
 
         when(openAI.generateImage(request))
             .thenAnswer((realInvocation) async => GenImgResponse(
@@ -796,7 +800,7 @@ void main() async {
     test(
       'chatGPT Image Generate with return two image success case',
       () async {
-        final request = GenerateImage('cat eating snake', 2);
+        final request = GenerateImage('cat eating snake', model: DallE3(), 2);
 
         when(openAI.generateImage(request)).thenAnswer(
           (realInvocation) async => GenImgResponse(created: 912312, data: [
@@ -816,7 +820,7 @@ void main() async {
     test(
       'chatGPT Image Generate with error case',
       () async {
-        final request = GenerateImage('', 1);
+        final request = GenerateImage('', model: DallE3(), 1);
 
         when(openAI.generateImage(request))
             .thenAnswer((realInvocation) async => GenImgResponse(
@@ -833,7 +837,7 @@ void main() async {
     test(
       'chatGPT Image Generate with openai auth error case',
       () async {
-        final request = GenerateImage('snake', 1);
+        final request = GenerateImage('snake', model: DallE3(), 1);
 
         when(openAI.generateImage(request))
             .thenThrow(OpenAIAuthError(code: 404));

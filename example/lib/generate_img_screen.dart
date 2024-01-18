@@ -28,7 +28,7 @@ class _GenImgScreenState extends State<GenImgScreen> {
     const prompt = "Snake eat cat.";
 
     final request = GenerateImage(prompt, 1,
-        size: ImageSize.size256, responseFormat: Format.url);
+        model: DallE3(), size: ImageSize.size256, responseFormat: Format.url);
     final response = await openAI.generateImage(request);
     setState(() {
       img = "${response?.data?.last?.url}";

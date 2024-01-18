@@ -45,3 +45,4 @@ export 'src/model/chat_complete/enum/function_call.dart';
 export 'src/model/chat_complete/request/messages.dart';
 export 'src/model/chat_complete/request/function_data.dart';
 export 'src/model/chat_complete/request/response_format.dart';
+export 'src/model/gen_image/enum/generate_image_model.dart';

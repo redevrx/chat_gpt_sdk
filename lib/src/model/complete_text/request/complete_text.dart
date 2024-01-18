@@ -4,16 +4,6 @@ class CompleteText {
   final String prompt;
 
   /// ## completion models
-  /// - TextDavinci3Model();
-  /// - TextDavinci2Model();
-  /// - CodeDavinci2Model();
-  /// - TextCurie001Model();
-  /// - TextBabbage001Model();
-  /// - TextAda001Model();
-  /// - DavinciModel();
-  /// - CurieModel();
-  /// - BabbageModel();
-  /// - AdaModel();
   /// - ModelFromValue(model: 'your-model-name');
   final Model model;
   final double temperature;

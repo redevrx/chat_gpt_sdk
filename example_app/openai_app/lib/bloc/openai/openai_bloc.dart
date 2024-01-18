@@ -153,7 +153,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   ///[generateImage]
   void generateImage() async {
     final request = GenerateImage(_txtInput.value.text, 1,
-        size: ImageSize.size1024, responseFormat: Format.url);
+        model: DallE3(), size: ImageSize.size1024, responseFormat: Format.url);
 
     ///update user chat message
     list.add(Message(isBot: false, message: getTextInput().value.text));

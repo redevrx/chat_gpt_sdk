@@ -73,6 +73,10 @@ const kDavinci002Model = 'davinci-002';
 const kTextMStable = 'text-moderation-stable';
 const kTextMLast = 'text-moderation-latest';
 
+///generate image model
+const kDallE2 = 'dall-e-2';
+const kDallE3 = 'dall-e-3';
+
 ///default header
 Map<String, String> kHeader(
   String? token,
