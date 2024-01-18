@@ -303,6 +303,26 @@ class OpenAIClient extends OpenAIWrapper {
                     tmpData = tmpData + line;
 
                     final decodeData = json.decode(tmpData);
+
+                    // the decodeDate can be a error message like
+                    // {error: {message: This model's maximum context length is 4097 tokens.
+                    // However, you requested 4376 tokens (376 in the messages, 4000 in the completion).
+                    // Please reduce the length of the messages or completion.,
+                    // type: invalid_request_error, param: messages, code: context_length_exceeded}}
+                    if (decodeData['error'] != null) {
+                      controller
+                        ..sink
+                        ..addError(
+                          handleError(
+                            code: HttpStatus.internalServerError,
+                            message: '',
+                            data: decodeData,
+                          ),
+                        );
+
+                      return;
+                    }
+
                     controller
                       ..sink
                       ..add(complete(decodeData));
