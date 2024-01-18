@@ -1,28 +1,13 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/fine_tune/enum/fine_model.dart';
+import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('openai fine tune model test', () {
-    test('openai fine tune model test get value ada', () {
-      final ada = AdaFineModel();
-
-      expect(ada.model, kAdaModel);
-    });
     test('openai fine tune model test get value babbage', () {
-      final babbage = BabbageFineModel();
+      final babbage = Babbage002FineModel();
 
-      expect(babbage.model, kBabbageModel);
-    });
-    test('openai fine tune model test get value curie', () {
-      final curie = CurieFineModel();
-
-      expect(curie.model, kCurieModel);
-    });
-    test('openai fine tune model test get value davinci', () {
-      final davinci = DavinciFineModel();
-
-      expect(davinci.model, kDavinciModel);
+      expect(babbage.model, kBabbage002Model);
     });
     test('openai fine tune model test get from value', () {
       final davinci = FineModelFromValue(model: 'model');

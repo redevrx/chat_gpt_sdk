@@ -35,7 +35,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final request = CompleteText(
         prompt: translateEngToThai(word: _txtWord.text.toString()),
         maxTokens: 200,
-        model: TextDavinci3Model());
+        model: Gpt3TurboInstruct());
 
     setState(() {
       _translateFuture = openAI.onCompletion(request: request);

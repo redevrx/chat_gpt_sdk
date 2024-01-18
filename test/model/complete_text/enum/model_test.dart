@@ -3,55 +3,20 @@ import 'package:test/test.dart';
 
 void main() {
   group('openai completion model test', () {
-    test('openai completion model test set value textDavinci3', () {
-      final textDavinci3 = TextDavinci3Model();
+    test('openai completion model test set value Gpt3.5 Turbo Instruct', () {
+      final gpt3 = Gpt3TurboInstruct();
 
-      expect(textDavinci3.model, kTextDavinci3);
+      expect(gpt3.model, kGpt3TurboInstruct);
     });
-    test('openai completion model test set value textDavinci2', () {
-      final textDavinci2 = TextDavinci2Model();
+    test('openai completion model test set value davinci 002', () {
+      final davinci = Davinci002Model();
 
-      expect(textDavinci2.model, kTextDavinci2);
+      expect(davinci.model, kDavinci002Model);
     });
-    test('openai completion model test set value codeDavinci2', () {
-      final codeDavinci2 = CodeDavinci2Model();
+    test('openai completion model test set value Babbage002', () {
+      final babbage002 = Babbage002Model();
 
-      expect(codeDavinci2.model, kCodeDavinci2);
-    });
-    test('openai completion model test set value textCurie001', () {
-      final textCurie001 = TextCurie001Model();
-
-      expect(textCurie001.model, kTextCurie001);
-    });
-    test('openai completion model test set value textBabbage001', () {
-      final textBabbage001 = TextBabbage001Model();
-
-      expect(textBabbage001.model, kTextBabbage001);
-    });
-    test('openai completion model test set value textAda001', () {
-      final textAda001 = TextAda001Model();
-
-      expect(textAda001.model, kTextAda001);
-    });
-    test('openai completion model test set value davinci', () {
-      final davinci = DavinciModel();
-
-      expect(davinci.model, kDavinciModel);
-    });
-    test('openai completion model test set value curie', () {
-      final curie = CurieModel();
-
-      expect(curie.model, kCurieModel);
-    });
-    test('openai completion model test set value babbage', () {
-      final babbage = BabbageModel();
-
-      expect(babbage.model, kBabbageModel);
-    });
-    test('openai completion model test set value ada', () {
-      final ada = AdaModel();
-
-      expect(ada.model, kAdaModel);
+      expect(babbage002.model, kBabbage002Model);
     });
     test('openai completion model test set value null', () {
       Model? ada;

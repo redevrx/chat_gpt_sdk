@@ -201,7 +201,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     final request = CompleteText(
         prompt: _txtInput.value.text,
         maxTokens: 400,
-        model: TextDavinci3Model());
+        model: Gpt3TurboInstruct());
 
     ///clear text
     _txtInput.text = "";

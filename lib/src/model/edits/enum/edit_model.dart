@@ -5,12 +5,8 @@ sealed class EditModel {
   EditModel({required this.model});
 }
 
-class TextEditModel extends EditModel {
-  TextEditModel() : super(model: kEditsTextModel);
-}
-
-class CodeEditModel extends EditModel {
-  CodeEditModel() : super(model: kEditsCoedModel);
+class Gpt4 extends EditModel {
+  Gpt4() : super(model: kChatGpt4);
 }
 
 class EditModelFromValue extends EditModel {

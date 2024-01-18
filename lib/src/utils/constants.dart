@@ -45,12 +45,7 @@ const kFineTuneModel = 'models';
 const kModeration = 'moderations';
 
 ///model name
-const kTextDavinci3 = 'text-davinci-003';
-const kTextDavinci2 = 'text-davinci-002';
-const kCodeDavinci2 = 'code-davinci-002';
-const kTextCurie001 = 'text-curie-001';
-const kTextBabbage001 = 'text-babbage-001';
-const kTextAda001 = 'text-ada-001';
+const kGpt3TurboInstruct = 'gpt-3.5-turbo-instruct';
 
 ///chat complete 3.5 and gpt-4
 const kChatGptTurboModel = 'gpt-3.5-turbo'; // gpt 3.5
@@ -65,18 +60,14 @@ const kChatGptTurbo16k0613 = 'gpt-3.5-turbo-16k-0613';
 const kChatGpt40631 = 'gpt-4-0613';
 
 ///edits
-const kEditsTextModel = 'text-davinci-edit-001';
-const kEditsCoedModel = 'code-davinci-edit-001';
+// using gpt 4
 
 ///embeddings
 const kEmbeddingAda002 = 'text-embedding-ada-002';
-const kTextSearchAdaDoc001 = 'text-search-ada-doc-001';
 
 ///fine tune models
-const kAdaModel = 'ada';
-const kBabbageModel = 'babbage';
-const kCurieModel = 'curie';
-const kDavinciModel = 'davinci';
+const kBabbage002Model = 'babbage-002';
+const kDavinci002Model = 'davinci-002';
 
 ///moderation model
 const kTextMStable = 'text-moderation-stable';

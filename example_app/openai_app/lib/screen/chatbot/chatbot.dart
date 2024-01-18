@@ -26,9 +26,8 @@ class ChatBotScreen extends StatefulWidget {
 }
 
 class _ChatBotScreenState extends State<ChatBotScreen> {
-  Future<bool> clearMessages() {
+  void clearMessages(bool _) {
     BlocProvider.of<OpenAIBloc>(context, listen: false).clearMessage();
-    return Future.value(true);
   }
 
   ///setup openai sdk
@@ -47,8 +46,8 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return WillPopScope(
-        onWillPop: clearMessages,
+    return PopScope(
+        onPopInvoked: clearMessages,
         child: Scaffold(
           body: Material(
             color: Colors.transparent,

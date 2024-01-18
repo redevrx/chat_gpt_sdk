@@ -9,20 +9,8 @@ class GptTurbo0631Model extends FineModel {
   GptTurbo0631Model() : super(model: kChatGptTurbo0613);
 }
 
-class AdaFineModel extends FineModel {
-  AdaFineModel() : super(model: kAdaModel);
-}
-
-class BabbageFineModel extends FineModel {
-  BabbageFineModel() : super(model: kBabbageModel);
-}
-
-class CurieFineModel extends FineModel {
-  CurieFineModel() : super(model: kCurieModel);
-}
-
-class DavinciFineModel extends FineModel {
-  DavinciFineModel() : super(model: kDavinciModel);
+class Babbage002FineModel extends FineModel {
+  Babbage002FineModel() : super(model: kBabbage002Model);
 }
 
 class FineModelFromValue extends FineModel {

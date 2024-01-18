@@ -4,17 +4,11 @@ import 'package:test/test.dart';
 
 void main() {
   group('chat openai model test', () {
-    test('chat openai model test get codeEditModel', () {
-      final codeEditModel = CodeEditModel();
+    test('chat openai model test get gpt4 edit', () {
+      final codeEditModel = Gpt4();
 
-      expect(codeEditModel.model, kEditsCoedModel);
+      expect(codeEditModel.model, kChatGpt4);
       expect(codeEditModel.model, isA<String>());
-    });
-    test('chat openai model test get textEditModel', () {
-      final textEditModel = TextEditModel();
-
-      expect(textEditModel.model, kEditsTextModel);
-      expect(textEditModel.model, isA<String>());
     });
     test('chat openai model test get from value', () {
       final custom = EditModelFromValue(model: 'custom-model');

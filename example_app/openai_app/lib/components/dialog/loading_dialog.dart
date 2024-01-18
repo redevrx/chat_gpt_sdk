@@ -18,7 +18,8 @@ Future<void> loadingDialog(BuildContext context) {
       },
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) {
-        return WillPopScope(
+        return PopScope(
+          canPop: false,
           child: Material(
             color: Colors.transparent,
             child: Align(
@@ -39,7 +40,6 @@ Future<void> loadingDialog(BuildContext context) {
               ),
             )),
           ),
-          onWillPop: () => Future.value(false),
         );
       });
 }

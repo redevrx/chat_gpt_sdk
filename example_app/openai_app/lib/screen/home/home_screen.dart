@@ -26,76 +26,77 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return WillPopScope(
-        child: Scaffold(
-            appBar: buildAppBar(context, size),
-            body: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: size.height * .9,
-                    child: Material(
-                        color: Colors.transparent,
-                        child: Stack(
-                          children: [
-                            ///list features
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: kDefaultPadding),
-                              child: Column(
-                                children: [
-                                  size.height.toHeight(height: .04),
-                                  SizedBox(
-                                    height: size.height * .5,
-                                    child: ListView.builder(
-                                      itemCount: openAIFeatures.length,
-                                      itemBuilder: (context, index) {
-                                        return buildFutureCard(index, context);
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+          appBar: buildAppBar(context, size),
+          body: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: size.height * .9,
+                  child: Material(
+                      color: Colors.transparent,
+                      child: Stack(
+                        children: [
+                          ///list features
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kDefaultPadding),
+                            child: Column(
+                              children: [
+                                size.height.toHeight(height: .04),
+                                SizedBox(
+                                  height: size.height * .5,
+                                  child: ListView.builder(
+                                    itemCount: openAIFeatures.length,
+                                    itemBuilder: (context, index) {
+                                      return buildFutureCard(index, context);
+                                    },
+                                  ),
+                                )
+                              ],
                             ),
+                          ),
 
-                            ///open sheet
-                            BlocBuilder<OpenAIBloc, OpenAIState>(
-                              bloc: BlocProvider.of<OpenAIBloc>(context,
-                                  listen: false),
-                              builder: (context, state) {
-                                if (state is OpenSettingState) {
-                                  return state.isOpen
-                                      ? Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: SettingCard(
-                                              height: size.height * .5,
-                                              tab: () {
-                                                final bloc =
-                                                    BlocProvider.of<OpenAIBloc>(
-                                                        context,
-                                                        listen: false);
-                                                bloc.saveToken(
-                                                    success: () {
-                                                      bloc.openSettingSheet(
-                                                          !state.isOpen);
-                                                    },
-                                                    error: () =>
-                                                        errorNotFoundToken(
-                                                            context));
-                                              }),
-                                        )
-                                      : const SizedBox();
-                                }
-                                return const SizedBox();
-                              },
-                            ),
-                          ],
-                        )),
-                  ),
-                )
-              ],
-            )),
-        onWillPop: () => Future.value(false));
+                          ///open sheet
+                          BlocBuilder<OpenAIBloc, OpenAIState>(
+                            bloc: BlocProvider.of<OpenAIBloc>(context,
+                                listen: false),
+                            builder: (context, state) {
+                              if (state is OpenSettingState) {
+                                return state.isOpen
+                                    ? Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: SettingCard(
+                                            height: size.height * .5,
+                                            tab: () {
+                                              final bloc =
+                                                  BlocProvider.of<OpenAIBloc>(
+                                                      context,
+                                                      listen: false);
+                                              bloc.saveToken(
+                                                  success: () {
+                                                    bloc.openSettingSheet(
+                                                        !state.isOpen);
+                                                  },
+                                                  error: () =>
+                                                      errorNotFoundToken(
+                                                          context));
+                                            }),
+                                      )
+                                    : const SizedBox();
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ],
+                      )),
+                ),
+              )
+            ],
+          )),
+    );
   }
 
   Padding buildFutureCard(int index, BuildContext context) {

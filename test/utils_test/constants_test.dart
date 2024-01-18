@@ -83,34 +83,9 @@ void main() {
       expect(url, "moderations");
       expect(url, isA<String>());
     });
-    test('constants kURL value test found text-davinci-003 path', () {
-      const url = kTextDavinci3;
-      expect(url, "text-davinci-003");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found text-davinci-002 path', () {
-      const url = kTextDavinci2;
-      expect(url, "text-davinci-002");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found code-davinci-002 path', () {
-      const url = kCodeDavinci2;
-      expect(url, "code-davinci-002");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found text-curie-001 path', () {
-      const url = kTextCurie001;
-      expect(url, "text-curie-001");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found text-babbage-001 path', () {
-      const url = kTextBabbage001;
-      expect(url, "text-babbage-001");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found text-ada-001 path', () {
-      const url = kTextAda001;
-      expect(url, "text-ada-001");
+    test('constants kURL value test found gpt-3.5-turbo-instruct path', () {
+      const url = kGpt3TurboInstruct;
+      expect(url, "gpt-3.5-turbo-instruct");
       expect(url, isA<String>());
     });
     test('constants kURL value test found gpt-3.5-turbo model', () {
@@ -143,44 +118,24 @@ void main() {
       expect(url, "gpt-4-32k-0314");
       expect(url, isA<String>());
     });
-    test('constants kURL value test found text-davinci-edit-001 model', () {
-      const url = kEditsTextModel;
-      expect(url, "text-davinci-edit-001");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found code-davinci-edit-001 model', () {
-      const url = kEditsCoedModel;
-      expect(url, "code-davinci-edit-001");
-      expect(url, isA<String>());
-    });
     test('constants kURL value test found text-embedding-ada-002 model', () {
       const url = kEmbeddingAda002;
       expect(url, "text-embedding-ada-002");
       expect(url, isA<String>());
     });
-    test('constants kURL value test found text-search-ada-doc-001 model', () {
-      const url = kTextSearchAdaDoc001;
-      expect(url, "text-search-ada-doc-001");
+    test('constants kURL value test found text-embedding-ada-002model', () {
+      const url = kEmbeddingAda002;
+      expect(url, "text-embedding-ada-002");
       expect(url, isA<String>());
     });
     test('constants kURL value test found ada model', () {
-      const url = kAdaModel;
-      expect(url, "ada");
+      const url = kBabbage002Model;
+      expect(url, "babbage-002");
       expect(url, isA<String>());
     });
-    test('constants kURL value test found babbage model', () {
-      const url = kBabbageModel;
-      expect(url, "babbage");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found curie model', () {
-      const url = kCurieModel;
-      expect(url, "curie");
-      expect(url, isA<String>());
-    });
-    test('constants kURL value test found davinci model', () {
-      const url = kDavinciModel;
-      expect(url, "davinci");
+    test('constants kURL value test found davinci-002 model', () {
+      const url = kDavinci002Model;
+      expect(url, "davinci-002");
       expect(url, isA<String>());
     });
     test('constants kURL value test found text-moderation-stable model', () {

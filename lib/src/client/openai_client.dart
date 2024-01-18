@@ -11,8 +11,11 @@ import 'package:chat_gpt_sdk/src/model/error/openai_error.dart';
 import 'package:dio/dio.dart';
 
 class OpenAIClient extends OpenAIWrapper {
-  OpenAIClient(
-      {required Dio dio, required String apiUrl, bool isLogging = false}) {
+  OpenAIClient({
+    required Dio dio,
+    required String apiUrl,
+    bool isLogging = false,
+  }) {
     _dio = dio;
     _apiUrl = apiUrl;
     log = Logger.instance.builder(isLogging: isLogging);
@@ -64,7 +67,7 @@ class OpenAIClient extends OpenAIWrapper {
       throw handleError(
         code: err.response?.statusCode ?? HttpStatus.internalServerError,
         message: '${err.message}',
-        data: err.response?.data,
+        data: err.response?.extra,
       );
     }
   }
@@ -213,7 +216,7 @@ class OpenAIClient extends OpenAIWrapper {
       throw handleError(
         code: err.response?.statusCode ?? HttpStatus.internalServerError,
         message: "${err.response?.statusCode}",
-        data: err.response?.data,
+        data: err.response?.extra,
       );
     }
   }
@@ -277,6 +280,7 @@ class OpenAIClient extends OpenAIWrapper {
                   final data = line.substring(6);
                   if (data.startsWith("[DONE]")) {
                     log.log("stream response is done");
+
                     return;
                   }
 

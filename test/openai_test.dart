@@ -65,7 +65,7 @@ void main() async {
         request: CompleteText(
           prompt: "",
           maxTokens: 200,
-          model: TextDavinci3Model(),
+          model: Gpt3TurboInstruct(),
         ),
       ),
       throwsException,
@@ -81,7 +81,7 @@ void main() async {
     );
     expect(
       () => ai.editor.prompt(EditRequest(
-        model: TextEditModel(),
+        model: Gpt4(),
         input: 'input',
         instruction: 'instruction',
       )),
@@ -108,7 +108,7 @@ void main() async {
     expect(
       () => ai.fineTune.createFineTuneJob(CreateFineTuneJob(
         trainingFile: 'trainingFile',
-        model: CurieFineModel(),
+        model: Babbage002FineModel(),
       )),
       throwsException,
     );
@@ -149,7 +149,7 @@ void main() async {
     );
     expect(
       () => ai.embed.embedding(EmbedRequest(
-        model: TextSearchAdaDoc001EmbedModel(),
+        model: TextEmbeddingAda002EmbedModel(),
         input: 'input',
       )),
       throwsException,
@@ -166,7 +166,7 @@ void main() async {
       request: CompleteText(
         prompt: "",
         maxTokens: 200,
-        model: TextDavinci3Model(),
+        model: Gpt3TurboInstruct(),
       ),
     )
         .transform(StreamTransformer.fromHandlers(
@@ -178,7 +178,7 @@ void main() async {
 
   group('chatGPT-3 text completion test', () {
     test('text completion use success case', () {
-      final request = CompleteText(prompt: 'snake', model: TextDavinci3Model());
+      final request = CompleteText(prompt: 'snake', model: Gpt3TurboInstruct());
       final choice = [
         Choices(
           '',
@@ -196,7 +196,7 @@ void main() async {
       verify(openAI.onCompletion(request: request));
     });
     test('text completion use cancel success case', () {
-      final request = CompleteText(prompt: 'snake', model: TextDavinci3Model());
+      final request = CompleteText(prompt: 'snake', model: Gpt3TurboInstruct());
       final choice = [
         Choices(
           '',
@@ -220,7 +220,7 @@ void main() async {
     });
 
     test('text completion success case with return result', () async {
-      final request = CompleteText(prompt: 'snake', model: TextDavinci3Model());
+      final request = CompleteText(prompt: 'snake', model: Gpt3TurboInstruct());
       final choice = [
         Choices(
           '',
@@ -243,7 +243,7 @@ void main() async {
     });
 
     test('text completion error case with prompt empty', () async {
-      final request = CompleteText(prompt: '', model: TextDavinci3Model());
+      final request = CompleteText(prompt: '', model: Gpt3TurboInstruct());
       when(openAI.onCompletion(request: request))
           .thenAnswer((_) => throw RequestError(data: null, code: 404));
       verifyNever(openAI.onCompletion(request: request));
@@ -252,7 +252,8 @@ void main() async {
 
   group('chatGPT-3 text completion with stream SSE test', () {
     test('text completion stream case success', () {
-      final request = CompleteText(prompt: 'snake is ?', model: AdaModel());
+      final request =
+          CompleteText(prompt: 'snake is ?', model: Babbage002Model());
       final choice = [
         Choices(
           '',
@@ -272,7 +273,8 @@ void main() async {
       expect(response, const TypeMatcher<Stream<CompleteResponse>>());
     });
     test('text completion stream case cancel success', () {
-      final request = CompleteText(prompt: 'snake is ?', model: AdaModel());
+      final request =
+          CompleteText(prompt: 'snake is ?', model: Babbage002Model());
       final choice = [
         Choices(
           '',
@@ -296,7 +298,7 @@ void main() async {
     });
 
     test('text completion stream case error', () async {
-      final request = CompleteText(prompt: '', model: AdaModel());
+      final request = CompleteText(prompt: '', model: Babbage002Model());
 
       when(openAI.onCompletionSSE(request: request))
           .thenAnswer((_) => throw RequestError(data: null, code: 404));
@@ -1016,7 +1018,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: TextEditModel(),
+        model: Gpt4(),
       );
       final choice = [
         Choice(index: 1, text: "text"),
@@ -1040,7 +1042,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: TextEditModel(),
+        model: Gpt4(),
       );
       final choice = [
         Choice(index: 1, text: "text"),
@@ -1067,7 +1069,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: TextEditModel(),
+        model: Gpt4(),
       );
       when(edit.prompt(request)).thenThrow(OpenAIAuthError());
 
@@ -1078,7 +1080,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: TextEditModel(),
+        model: Gpt4(),
       );
       when(edit.prompt(request)).thenThrow(OpenAIRateLimitError());
 
@@ -1089,7 +1091,7 @@ void main() async {
       final request = EditRequest(
         input: "snake",
         instruction: "",
-        model: TextEditModel(),
+        model: Gpt4(),
       );
       when(edit.prompt(request)).thenThrow(OpenAIServerError());
 

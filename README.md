@@ -48,6 +48,7 @@ supervised and reinforcement learning techniques.
   - Support GPT3.5 and GPT-4 
   - Support Server Sent Event
   - Support Function Calling
+- [x] [Assistants API]
 - [x] [Error Handle](#error-handle)
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
