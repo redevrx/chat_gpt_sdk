@@ -21,6 +21,8 @@ void main() {
         ),
       ],
       usage: Usage(10, 20, 30),
+      systemFingerprint: '',
+      model: '',
     );
 
     expect(chatCTResponse.id, "id_test");
@@ -78,6 +80,8 @@ void main() {
         ),
       ],
       usage: Usage(10, 20, 30),
+      systemFingerprint: '',
+      model: '',
     );
 
     final Map<String, dynamic> json = chatCTResponse.toJson();

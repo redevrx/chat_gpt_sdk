@@ -9,6 +9,8 @@ class ChatCTResponse {
   final List<ChatChoice> choices;
   final Usage? usage;
   final String conversionId = "${DateTime.now().millisecondsSinceEpoch}";
+  final String? systemFingerprint;
+  final String model;
 
   ChatCTResponse({
     required this.id,
@@ -16,6 +18,8 @@ class ChatCTResponse {
     required this.created,
     required this.choices,
     required this.usage,
+    required this.systemFingerprint,
+    required this.model,
   });
 
   factory ChatCTResponse.fromJson(Map<String, dynamic> json) => ChatCTResponse(
@@ -26,6 +30,8 @@ class ChatCTResponse {
           json["choices"].map((x) => ChatChoice.fromJson(x)),
         ),
         usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
+        systemFingerprint: json['system_fingerprint'] ?? '',
+        model: json['model'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,5 +40,7 @@ class ChatCTResponse {
         "created": created,
         "choices": List<Map>.from(choices.map((x) => x.toJson())),
         "usage": usage?.toJson(),
+        "system_fingerprint": systemFingerprint,
+        'model': model,
       };
 }

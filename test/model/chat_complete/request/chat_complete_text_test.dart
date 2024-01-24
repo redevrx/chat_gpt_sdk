@@ -9,7 +9,7 @@ void main() {
           role: Role.user,
           content: 'Hello',
           name: 'function_name',
-        ).toJson(),
+        ).toJsonFunctionStruct(),
       ];
 
       final chatCompleteText = ChatCompleteText(
@@ -45,6 +45,7 @@ void main() {
         'presence_penalty': -0.5,
         'frequency_penalty': 0.5,
         'user': 'user123',
+        'logprobs': false,
       };
       expect(chatCompleteText.toJson(), expectedMap);
     });
@@ -57,12 +58,12 @@ void main() {
             role: Role.user,
             content: 'Hello',
             name: 'function_name',
-          ).toJson(),
+          ).toJsonFunctionStruct(),
           Messages(
             role: Role.assistant,
             content: 'Hi, how can I assist you today?',
             name: 'function_name',
-          ).toJson(),
+          ).toJsonFunctionStruct(),
         ],
         // functionCall: FunctionCall.auto,
         // functions: [
@@ -100,6 +101,7 @@ void main() {
         'presence_penalty': 0.0,
         'frequency_penalty': 0.0,
         'user': '',
+        'logprobs': false
       };
 
       expect(chatCompleteText.toJson(), expectedJson);

@@ -329,6 +329,8 @@ void main() async {
                 created: 1,
                 choices: choice,
                 usage: null,
+                systemFingerprint: '',
+                model: '',
               ));
 
       final response = await openAI.onChatCompletion(request: request);
@@ -356,6 +358,8 @@ void main() async {
                 created: 1,
                 choices: choice,
                 usage: null,
+                systemFingerprint: '',
+                model: '',
               ));
 
       openAI.onChatCompletion(
@@ -410,6 +414,8 @@ void main() async {
                 created: 1,
                 choices: choice,
                 usage: null,
+                systemFingerprint: '',
+                model: '',
               ));
 
       final response = await openAI.onChatCompletion(request: request);
@@ -437,6 +443,8 @@ void main() async {
                 created: 1,
                 choices: choice,
                 usage: null,
+                systemFingerprint: '',
+                model: '',
               ));
 
       openAI.onChatCompletion(
