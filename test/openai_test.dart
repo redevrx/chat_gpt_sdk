@@ -50,7 +50,7 @@ void main() async {
         Messages(
           role: Role.user,
           content: "Hello",
-        ),
+        ).toJson(),
       ],
       maxToken: 200,
       model: Gpt4ChatModel(),
@@ -315,7 +315,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -342,7 +342,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -375,7 +375,7 @@ void main() async {
             Messages(
               role: Role.user,
               content: "Hello",
-            ),
+            ).toJson(),
           ],
           maxToken: 200,
           model: GptTurbo0301ChatModel(),
@@ -396,7 +396,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -423,7 +423,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -456,7 +456,7 @@ void main() async {
             Messages(
               role: Role.user,
               content: "Hello",
-            ),
+            ).toJson(),
           ],
           maxToken: 200,
           model: Gpt4ChatModel(),
@@ -477,7 +477,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -506,7 +506,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: GptTurboChatModel(),
@@ -538,7 +538,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: GptTurbo0301ChatModel(),
@@ -557,7 +557,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -586,7 +586,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),
@@ -618,7 +618,7 @@ void main() async {
           Messages(
             role: Role.user,
             content: "Hello",
-          ),
+          ).toJson(),
         ],
         maxToken: 200,
         model: Gpt4ChatModel(),

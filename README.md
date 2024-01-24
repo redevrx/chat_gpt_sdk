@@ -204,7 +204,7 @@ FutureBuilder<CTResponse?>(
   void chatComplete() async {
     final request = ChatCompleteText(messages: [
       Map.of({"role": "user", "content": 'Hello!'})
-    ], maxToken: 200, model: GptTurbo0301ChatModel());
+    ], maxToken: 200, model: Gpt41106PreviewChatModel());
 
     final response = await openAI.onChatCompletion(request: request);
     for (var element in response!.choices) {
@@ -216,37 +216,69 @@ FutureBuilder<CTResponse?>(
 - Chat Complete Function Calling
 
 ```dart
-/// work only with gpt-turbo-0613,gpt-4-0613
   void gptFunctionCalling() async {
+    final request = ChatCompleteText(
+      messages: [
+        Messages(
+                role: Role.user,
+                content: "What is the weather like in Boston?",
+                name: "get_current_weather"),
+      ],
+      maxToken: 200,
+      model: Gpt41106PreviewChatModel(),
+      tools: [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_current_weather",
+            "description": "Get the current weather in a given location",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "description": "The city and state, e.g. San Francisco, CA"
+                },
+                "unit": {
+                  "type": "string",
+                  "enum": ["celsius", "fahrenheit"]
+                }
+              },
+              "required": ["location"]
+            }
+          }
+        }
+      ],
+      toolChoice: 'auto',
+    );
+
+    ChatCTResponse? response = await openAI.onChatCompletion(request: request);
+}
+```
+
+- Chat Complete Image Input
+
+```dart
+  void imageInput() async {
   final request = ChatCompleteText(
-          messages: [
-            Messages(
-                    role: Role.user, content: "What is the weather like in Boston?",name: "get_current_weather"),
-          ],
-          maxToken: 200,
-          model: GptTurbo0631Model(),
-          functions: [
-            FunctionData(
-                    name: "get_current_weather",
-                    description: "Get the current weather in a given location",
-                    parameters: {
-                      "type": "object",
-                      "properties": {
-                        "location": {
-                          "type": "string",
-                          "description": "The city and state, e.g. San Francisco, CA"
-                        },
-                        "unit": {
-                          "type": "string",
-                          "enum": ["celsius", "fahrenheit"]
-                        }
-                      },
-                      "required": ["location"]
-                    })
-          ],
-          functionCall: FunctionCall.auto);
+    messages: [
+      {
+        "role": "user",
+        "content": [
+          {"type": "text", "text": "What’s in this image?"},
+          {
+            "type": "image_url",
+            "image_url": {"url": "image-url"}
+          }
+        ]
+      }
+    ],
+    maxToken: 200,
+    model: Gpt4VisionPreviewChatModel(),
+  );
 
   ChatCTResponse? response = await openAI.onChatCompletion(request: request);
+  debugPrint("$response");
 }
 ```
 

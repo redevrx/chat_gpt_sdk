@@ -1,7 +1,6 @@
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/chat_model.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/function_call.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/function_data.dart';
-import 'package:chat_gpt_sdk/src/model/chat_complete/request/messages.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/response_format.dart';
 
 class ChatCompleteText {
@@ -23,7 +22,7 @@ class ChatCompleteText {
 
   ///The messages to generate chat completions for,
   /// in the chat format. [messages]
-  final List<Messages> messages;
+  final List<Map<String, dynamic>> messages;
 
   ///A list of functions the model may generate JSON inputs for.
   ///[functions]
@@ -197,47 +196,25 @@ class ChatCompleteText {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json;
-    json = model is Gpt40631ChatModel || model is GptTurbo0631Model
-        ? Map.of({
-            "model": model.model,
-            "messages": messages.map((e) => e.toJsonFunctionStruct()).toList(),
-            // "functions": functions?.map((e) => e.toJson()).toList(),
-            // "function_call": functionCall?.name,
-            "temperature": temperature,
-            "top_p": topP,
-            "n": n,
-            "stream": stream,
-            "stop": stop,
-            "max_tokens": maxToken,
-            "presence_penalty": presencePenalty,
-            "frequency_penalty": frequencyPenalty,
-            "user": user,
-            "response_format": responseFormat?.toJson(),
-            "logit_bias": logitBias,
-            "logprobs": logprobs,
-            "top_logprobs": topLogprobs,
-            "seed": seed,
-            "tool_choice": toolChoice,
-          })
-        : Map.of({
-            "model": model.model,
-            "messages": messages.map((e) => e.toJson()).toList(),
-            "temperature": temperature,
-            "top_p": topP,
-            "n": n,
-            "stream": stream,
-            "stop": stop,
-            "max_tokens": maxToken,
-            "presence_penalty": presencePenalty,
-            "frequency_penalty": frequencyPenalty,
-            "user": user,
-            "response_format": responseFormat?.toJson(),
-            "logit_bias": logitBias,
-            "logprobs": logprobs,
-            "top_logprobs": topLogprobs,
-            "seed": seed,
-            "tool_choice": toolChoice,
-          })
+    json = Map.of({
+      "model": model.model,
+      "messages": messages,
+      "temperature": temperature,
+      "top_p": topP,
+      "n": n,
+      "stream": stream,
+      "stop": stop,
+      "max_tokens": maxToken,
+      "presence_penalty": presencePenalty,
+      "frequency_penalty": frequencyPenalty,
+      "user": user,
+      "response_format": responseFormat?.toJson(),
+      "logit_bias": logitBias,
+      "logprobs": logprobs,
+      "top_logprobs": topLogprobs,
+      "seed": seed,
+      "tool_choice": toolChoice,
+    })
       ..removeWhere((key, value) => value == null);
 
     return json;

@@ -53,6 +53,10 @@ class Gpt4VisionPreviewChatModel extends ChatModel {
   Gpt4VisionPreviewChatModel() : super(model: kGpt4VisionPreview);
 }
 
+class Gpt41106PreviewChatModel extends ChatModel {
+  Gpt41106PreviewChatModel() : super(model: kGpt41106Preview);
+}
+
 // enum ChatModel {
 //   gptTurbo,
 //

@@ -118,6 +118,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
         model: _getVersion() ? Gpt4ChatModel() : GptTurboChatModel(),
         messages: [
           Messages(role: Role.user, content: getTextInput().value.text)
+              .toJson(),
         ],
         maxToken: 400);
 

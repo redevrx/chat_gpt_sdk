@@ -1,3 +1,4 @@
+@Deprecated('')
 class FunctionData {
   ///The name of the function to be called.
   /// Must be a-z, A-Z, 0-9, or contain underscores

@@ -9,7 +9,7 @@ void main() {
           role: Role.user,
           content: 'Hello',
           name: 'function_name',
-        ),
+        ).toJson(),
       ];
 
       final chatCompleteText = ChatCompleteText(
@@ -57,21 +57,21 @@ void main() {
             role: Role.user,
             content: 'Hello',
             name: 'function_name',
-          ),
+          ).toJson(),
           Messages(
             role: Role.assistant,
             content: 'Hi, how can I assist you today?',
             name: 'function_name',
-          ),
+          ).toJson(),
         ],
-        functionCall: FunctionCall.auto,
-        functions: [
-          FunctionData(
-            name: 'function_name',
-            description: '',
-            parameters: Map.of({}),
-          ),
-        ],
+        // functionCall: FunctionCall.auto,
+        // functions: [
+        //   FunctionData(
+        //     name: 'function_name',
+        //     description: '',
+        //     parameters: Map.of({}),
+        //   ),
+        // ],
       );
 
       final expectedJson = {
@@ -88,10 +88,10 @@ void main() {
             'name': 'function_name',
           },
         ],
-        'functions': [
-          {'name': 'function_name', 'description': '', 'parameters': {}},
-        ],
-        'function_call': 'auto',
+        // 'functions': [
+        //   {'name': 'function_name', 'description': '', 'parameters': {}},
+        // ],
+        // 'function_call': 'auto',
         'temperature': 0.3,
         'top_p': 1.0,
         'n': 1,
