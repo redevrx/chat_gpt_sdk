@@ -44,6 +44,9 @@ const kFineTuneModel = 'models';
 ///moderation's
 const kModeration = 'moderations';
 
+///assistants
+const kAssistants = 'assistants';
+
 ///model name
 const kGpt3TurboInstruct = 'gpt-3.5-turbo-instruct';
 
@@ -58,6 +61,8 @@ const kChatGptTurbo0613 = 'gpt-3.5-turbo-0613';
 const kChatGptTurbo1106 = 'gpt-3.5-turbo-1106';
 const kChatGptTurbo16k0613 = 'gpt-3.5-turbo-16k-0613';
 const kChatGpt40631 = 'gpt-4-0613';
+const kGpt41106Preview = 'gpt-4-1106-preview';
+const kGpt4VisionPreview = 'gpt-4-vision-preview';
 
 ///edits
 // using gpt 4

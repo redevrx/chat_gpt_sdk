@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:chat_gpt_sdk/src/assistants.dart';
 import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/client/exception/missing_token_exception.dart';
@@ -228,4 +229,7 @@ class OpenAI implements IOpenAI {
 
   ///moderation's
   Moderation get moderation => Moderation(_client);
+
+  ///Assistants
+  Assistants get assistant => Assistants(_client);
 }

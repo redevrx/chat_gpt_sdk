@@ -180,3 +180,8 @@
   - Fix sse bad state close 
   - sse not work as intended
   - custom OpenAI endpoint
+
+# 3.0.0
+ - Update OpenAi Model
+ - Add New Model Generate Image
+ - Add Assistants API

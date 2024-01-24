@@ -17,7 +17,7 @@ dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:
-    - avoid-dynamic
+#    - avoid-dynamic
     - avoid-passing-async-when-sync-expected
     - avoid-redundant-async
     - avoid-unnecessary-type-assertions

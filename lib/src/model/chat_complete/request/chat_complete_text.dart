@@ -27,6 +27,7 @@ class ChatCompleteText {
 
   ///A list of functions the model may generate JSON inputs for.
   ///[functions]
+  @Deprecated('using tools')
   final List<FunctionData>? functions;
 
   ///Controls how the model responds to function calls.
@@ -37,6 +38,7 @@ class ChatCompleteText {
   /// call that function. "none" is the default when no functions
   /// are present. "auto" is the default if functions are present.{"name":\ "my_function"}
   /// [functionCall]
+  @Deprecated('using tools')
   final FunctionCall? functionCall;
 
   ///Defines the format of the model's response output. Currently, only supports
@@ -56,6 +58,50 @@ class ChatCompleteText {
   /// mass are considered.
   ///We generally recommend altering this or temperature but not both. [topP]
   final double? topP;
+
+  ///A list of tools the model may call. Currently,
+  /// only functions are supported as a tool.
+  /// Use this to provide a list of functions
+  /// the model may generate JSON inputs for.
+  /// [tools]
+  /**
+   * ## Example
+   * ```dart
+   * final tools = [
+      {
+      "type": "function",
+      "function": {
+      "name": "get_current_weather",
+      "description": "Get the current weather in a given location",
+      "parameters": {
+      "type": "object",
+      "properties": {
+      "location": {
+      "type": "string",
+      "description": "The city and state, e.g. San Francisco, CA"
+      },
+      "unit": {
+      "type": "string",
+      "enum": ["celsius", "fahrenheit"]
+      }
+      },
+      "required": ["location"]}}},
+      ]
+   * ```
+   */
+  final List<Map<String, dynamic>>? tools;
+
+  ///[toolChoice]
+  /// ### Type String or Map
+  ///Controls which (if any) function is called by the model.
+  /// none means the model will not call a function and instead
+  /// generates a message. auto means the model can pick between
+  /// generating a message or calling a function.
+  /// Specifying a particular function via
+  /// {"type": "function", "function": {"name": "my_function"}}
+  /// forces the model to call that function.none is the default when no
+  /// functions are present. auto is the default if functions are present.
+  final dynamic toolChoice;
 
   ///How many chat completion choices to generate for each input message. [n]
   final int? n;
@@ -97,7 +143,30 @@ class ChatCompleteText {
   /// values between -1 and 1 should decrease or increase likelihood of selection;
   /// values like -100 or 100 should result in a ban or exclusive selection of the
   /// relevant token. [logitBias]
-  //final Map<String, dynamic>? logitBias;
+  final Map<String, dynamic>? logitBias;
+
+  ///Whether to return log probabilities of the output tokens or not.
+  /// If true, returns the log probabilities of each output token returned
+  /// in the content of message. This option is currently not available on
+  /// the gpt-4-vision-preview model.
+  /// [logprobs]
+  final bool logprobs;
+
+  ///An integer between 0 and 5 specifying the number of most
+  /// likely tokens to return at each token position,
+  /// each with an associated log probability.
+  /// logprobs must be set to true if this parameter is used.
+  /// [topLogprobs]
+  final int? topLogprobs;
+
+  ///This feature is in Beta.
+  /// If specified, our system will make a best effort to sample
+  /// deterministically, such that repeated requests with the same seed
+  /// and parameters should return the same result. Determinism is not
+  /// guaranteed, and you should refer to the system_fingerprint response
+  /// parameter to monitor changes in the backend.
+  /// [seed]
+  final int? seed;
 
   ///A unique identifier representing your end-user, which can help OpenAI
   ///to monitor and detect abuse.[user]
@@ -118,6 +187,12 @@ class ChatCompleteText {
     this.functions,
     this.functionCall,
     this.responseFormat,
+    this.logprobs = false,
+    this.logitBias,
+    this.topLogprobs,
+    this.seed,
+    this.tools,
+    this.toolChoice,
   });
 
   Map<String, dynamic> toJson() {
@@ -126,8 +201,8 @@ class ChatCompleteText {
         ? Map.of({
             "model": model.model,
             "messages": messages.map((e) => e.toJsonFunctionStruct()).toList(),
-            "functions": functions?.map((e) => e.toJson()).toList(),
-            "function_call": functionCall?.name,
+            // "functions": functions?.map((e) => e.toJson()).toList(),
+            // "function_call": functionCall?.name,
             "temperature": temperature,
             "top_p": topP,
             "n": n,
@@ -138,6 +213,11 @@ class ChatCompleteText {
             "frequency_penalty": frequencyPenalty,
             "user": user,
             "response_format": responseFormat?.toJson(),
+            "logit_bias": logitBias,
+            "logprobs": logprobs,
+            "top_logprobs": topLogprobs,
+            "seed": seed,
+            "tool_choice": toolChoice,
           })
         : Map.of({
             "model": model.model,
@@ -152,6 +232,11 @@ class ChatCompleteText {
             "frequency_penalty": frequencyPenalty,
             "user": user,
             "response_format": responseFormat?.toJson(),
+            "logit_bias": logitBias,
+            "logprobs": logprobs,
+            "top_logprobs": topLogprobs,
+            "seed": seed,
+            "tool_choice": toolChoice,
           })
       ..removeWhere((key, value) => value == null);
 
