@@ -36,13 +36,18 @@ class OpenAIClient extends OpenAIWrapper {
     required T Function(Map<String, dynamic>) onSuccess,
     required void Function(CancelData cancelData) onCancel,
     bool returnRawData = false,
+    Map<String, String>? headers,
   }) async {
     try {
       final cancelData = CancelData(cancelToken: CancelToken());
       onCancel(cancelData);
 
       log.log("starting request");
-      final rawData = await _dio.get(url, cancelToken: cancelData.cancelToken);
+      final rawData = await _dio.get(
+        url,
+        cancelToken: cancelData.cancelToken,
+        options: Options(headers: headers ?? {}),
+      );
 
       if (rawData.statusCode == HttpStatus.ok) {
         log.log("============= success ==================");
@@ -183,6 +188,7 @@ class OpenAIClient extends OpenAIWrapper {
     Map<String, dynamic> request, {
     required T Function(Map<String, dynamic>) onSuccess,
     required void Function(CancelData cancelData) onCancel,
+    Map<String, String>? headers,
   }) async {
     try {
       final cancelData = CancelData(cancelToken: CancelToken());
@@ -195,6 +201,7 @@ class OpenAIClient extends OpenAIWrapper {
         url,
         data: json.encode(request),
         cancelToken: cancelData.cancelToken,
+        options: Options(headers: headers ?? {}),
       );
 
       if (response.statusCode == HttpStatus.ok) {

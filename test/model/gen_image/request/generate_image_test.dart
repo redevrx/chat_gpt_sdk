@@ -45,20 +45,26 @@ main() {
     expect(target2.size?.size, '512x512');
     expect(target2.responseFormat?.name, 'url');
 
-    final target3 = GenerateImage('test', 1,
-        model: DallE3(), size: ImageSize.size1024, user: 'user');
+    final target3 = GenerateImage(
+      'test',
+      1,
+      model: DallE3(),
+      size: ImageSize.size1024,
+      user: 'user',
+    );
     expect(target3.size?.size, '1024x1024');
   });
 
   group('GeneratedImageSize', () {
     test('normal', () {
       expect(
-          GenerateImage(
-            'test',
-            2,
-            model: DallE3(),
-          ).size?.size,
-          '1024x1024');
+        GenerateImage(
+          'test',
+          2,
+          model: DallE3(),
+        ).size?.size,
+        '1024x1024',
+      );
       expect(
         GenerateImage('test', 2, model: DallE3(), size: ImageSize.size256)
             .size
@@ -81,10 +87,14 @@ main() {
   });
 
   test('n must be between 1 and 10', () {
-    expect(() => GenerateImage('test', model: DallE3(), 0),
-        throwsA(isA<AssertionError>()));
-    expect(() => GenerateImage('test', model: DallE3(), 11),
-        throwsA(isA<AssertionError>()));
+    expect(
+      () => GenerateImage('test', model: DallE3(), 0),
+      throwsA(isA<AssertionError>()),
+    );
+    expect(
+      () => GenerateImage('test', model: DallE3(), 11),
+      throwsA(isA<AssertionError>()),
+    );
 
     expect(GenerateImage('test', model: DallE3(), 1).n, 1);
     expect(GenerateImage('test', model: DallE3(), 10).n, 10);

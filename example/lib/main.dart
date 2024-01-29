@@ -93,7 +93,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
             {"type": "text", "text": "What’s in this image?"},
             {
               "type": "image_url",
-              "image_url": {"url": "image-url"}
+              "image_url": {
+                "url":
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+              }
             }
           ]
         }
@@ -169,16 +172,18 @@ class _TranslateScreenState extends State<TranslateScreen> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: MaterialButtonX(
-                message: "Translate",
-                height: 40.0,
-                width: 130.0,
-                color: Colors.blueAccent,
-                icon: Icons.translate,
-                iconSize: 18.0,
-                radius: 46.0,
-                onClick: () => _translateEngToThai())),
+          padding: const EdgeInsets.only(right: 16.0),
+          child: MaterialButtonX(
+            message: "Translate",
+            height: 40.0,
+            width: 130.0,
+            color: Colors.blueAccent,
+            icon: Icons.translate,
+            iconSize: 18.0,
+            radius: 46.0,
+            onClick: _translateEngToThai,
+          ),
+        ),
       ],
     );
   }

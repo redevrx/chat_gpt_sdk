@@ -101,7 +101,7 @@ void main() {
         'presence_penalty': 0.0,
         'frequency_penalty': 0.0,
         'user': '',
-        'logprobs': false
+        'logprobs': false,
       };
 
       expect(chatCompleteText.toJson(), expectedJson);
