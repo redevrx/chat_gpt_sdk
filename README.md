@@ -48,7 +48,8 @@ supervised and reinforcement learning techniques.
   - Support GPT3.5 and GPT-4 
   - Support Server Sent Event
   - Support Function Calling
-- [x] [Assistants API]
+- [x] [Assistants API](#assistants)
+  - CRUD
 - [x] [Error Handle](#error-handle)
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
@@ -281,6 +282,27 @@ FutureBuilder<CTResponse?>(
   debugPrint("$response");
 }
 ```
+
+## Assistants
+- Create Assistant
+```dart
+  void createAssistant() async {
+  final assistant = Assistant(
+    model: Gpt4AModel(),
+    name: 'Math Tutor',
+    instructions:
+    'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
+    tools: [
+      {
+        "type": "code_interpreter",
+      }
+    ],
+  );
+  await openAI.assistant.create(assistant: assistant);
+}
+
+```
+
 
 ## Error Handle
 

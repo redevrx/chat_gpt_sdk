@@ -6,14 +6,18 @@ sealed class AssistantModel {
   AssistantModel({required this.model});
 }
 
-class GptTurbo0301Model extends AssistantModel {
-  GptTurbo0301Model() : super(model: kChatGptTurbo0301Model);
+class Gpt4AModel extends AssistantModel {
+  Gpt4AModel() : super(model: kChatGpt4);
 }
 
-class GptTurbo1106Model extends AssistantModel {
-  GptTurbo1106Model() : super(model: kChatGptTurbo1106);
+class GptTurbo0301AModel extends AssistantModel {
+  GptTurbo0301AModel() : super(model: kChatGptTurbo0301Model);
 }
 
-class Gpt41106PreviewModel extends AssistantModel {
-  Gpt41106PreviewModel() : super(model: kGpt41106Preview);
+class GptTurbo1106AModel extends AssistantModel {
+  GptTurbo1106AModel() : super(model: kChatGptTurbo1106);
+}
+
+class Gpt41106PreviewAModel extends AssistantModel {
+  Gpt41106PreviewAModel() : super(model: kGpt41106Preview);
 }

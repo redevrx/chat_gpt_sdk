@@ -202,6 +202,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
     String? url, {
     required T Function(Map<String, dynamic>)? onSuccess,
     required void Function(_i7.CancelData)? onCancel,
+    Map<String, String>? headers,
   }) =>
       (super.noSuchMethod(
         Invocation.method(

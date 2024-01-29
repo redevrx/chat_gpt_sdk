@@ -150,14 +150,20 @@ class OpenAIClient extends OpenAIWrapper {
     String url, {
     required T Function(Map<String, dynamic>) onSuccess,
     required void Function(CancelData cancelData) onCancel,
+    Map<String, String>? headers,
   }) async {
     try {
       final cancelData = CancelData(cancelToken: CancelToken());
       onCancel(cancelData);
 
       log.log("starting request");
-      final rawData =
-          await _dio.delete(url, cancelToken: cancelData.cancelToken);
+      final rawData = await _dio.delete(
+        url,
+        cancelToken: cancelData.cancelToken,
+        options: Options(
+          headers: headers ?? {},
+        ),
+      );
 
       if (rawData.statusCode == HttpStatus.ok) {
         log.log("============= success ==================");

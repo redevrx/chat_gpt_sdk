@@ -1,8 +1,10 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/model/assistant/request/assistant.dart';
 import 'package:chat_gpt_sdk/src/model/assistant/response/assistant_data.dart';
 import 'package:chat_gpt_sdk/src/model/assistant/response/assistant_file_data.dart';
+import 'package:chat_gpt_sdk/src/model/assistant/response/delete_assistant.dart';
 import 'package:chat_gpt_sdk/src/model/assistant/response/list_assistant_file.dart';
+import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
+import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
 import 'client/client.dart';
 
@@ -48,7 +50,7 @@ class Assistants {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      _client.apiUrl + kAssistants + "/$assistantId/file",
+      _client.apiUrl + kAssistants + "/$assistantId/files",
       {
         'file_id': fileId,
       },
@@ -75,11 +77,85 @@ class Assistants {
 
   ///Returns a list of assistant files.
   ///[listFile]
-  Future<ListAssistantFile> listFile() {
+  ///[assistantId]
+  ///The ID of the assistant the file belongs to.
+  Future<ListAssistantFile> listFile({
+    required String assistantId,
+  }) {
     return _client.get(
-      _client.apiUrl + kAssistants,
+      _client.apiUrl + kAssistants + "/$assistantId/files",
       headers: _headers,
       onSuccess: ListAssistantFile.fromJson,
+      onCancel: (_) => null,
+    );
+  }
+
+  ///Retrieves an assistant.
+  ///[retrieves]
+  Future<AssistantData> retrieves({
+    required String assistantId,
+  }) {
+    return _client.get(
+      _client.apiUrl + kAssistants + "/$assistantId",
+      headers: _headers,
+      onSuccess: AssistantData.fromJson,
+      onCancel: (_) => null,
+    );
+  }
+
+  ///Retrieves an AssistantFile.
+  /// [retrievesFile]
+  Future<AssistantFileData> retrievesFile({
+    required String fileId,
+    required String assistantId,
+  }) {
+    return _client.get(
+      _client.apiUrl + kAssistants + "/$assistantId/files/$fileId",
+      headers: _headers,
+      onSuccess: AssistantFileData.fromJson,
+      onCancel: (_) => null,
+    );
+  }
+
+  ///Modifies an assistant.
+  /// [modifies]
+  Future<AssistantData> modifies({
+    required String assistantId,
+    required Assistant assistant,
+    void Function(CancelData cancelData)? onCancel,
+  }) {
+    return _client.post(
+      _client.apiUrl + kAssistants + "/$assistantId",
+      assistant.toJson(),
+      headers: _headers,
+      onSuccess: AssistantData.fromJson,
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+    );
+  }
+
+  ///Delete an assistant.
+  ///[delete]
+  Future<DeleteAssistant> delete({
+    required String assistantId,
+  }) {
+    return _client.delete(
+      _client.apiUrl + kAssistants + "/$assistantId",
+      headers: _headers,
+      onSuccess: DeleteAssistant.fromJson,
+      onCancel: (_) => null,
+    );
+  }
+
+  ///Delete an assistant file.
+  /// [deleteFile]
+  Future<DeleteAssistant> deleteFile({
+    required String fileId,
+    required String assistantId,
+  }) {
+    return _client.delete(
+      _client.apiUrl + kAssistants + "/$assistantId/files/$fileId",
+      headers: _headers,
+      onSuccess: DeleteAssistant.fromJson,
       onCancel: (_) => null,
     );
   }
