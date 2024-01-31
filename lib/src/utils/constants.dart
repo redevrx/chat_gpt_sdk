@@ -30,6 +30,7 @@ const kEmbedding = 'embeddings';
 ///audio
 const kTranscription = 'audio/transcriptions';
 const kTranslations = 'audio/translations';
+const kCreateSpeech = 'audio/speech';
 
 ///files
 const kFile = 'files';
@@ -69,6 +70,8 @@ const kGpt4VisionPreview = 'gpt-4-vision-preview';
 
 ///embeddings
 const kEmbeddingAda002 = 'text-embedding-ada-002';
+const kTextEmbedding3Small = 'text-embedding-3-small';
+const kTextEmbedding3Large = 'text-embedding-3-large';
 
 ///fine tune models
 const kBabbage002Model = 'babbage-002';

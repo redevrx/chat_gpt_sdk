@@ -10,6 +10,12 @@ class AudioRequest {
   /// m4a, wav, or webm.[file]
   final EditFile file;
 
+  ///The language of the input audio.
+  /// Supplying the input language in
+  ///<a href='https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'>ISO-639-1</a>
+  /// format will improve accuracy and latency.
+  final String? language;
+
   ///An optional text to guide the
   /// model's style or continue a previous
   /// audio segment. The prompt should match
@@ -29,12 +35,6 @@ class AudioRequest {
   /// until certain thresholds are hit.[temperature]
   final int temperature;
 
-  ///The language of the input audio.
-  /// Supplying the input language
-  /// in ISO-639-1 format will improve
-  /// accuracy and latency. [language]
-  final String? language;
-
   AudioRequest({
     required this.file,
     this.prompt,
@@ -45,8 +45,8 @@ class AudioRequest {
 
   Future<FormData> toJson() async {
     return FormData.fromMap({
-      'file': File(file.name).existsSync()
-          ? await MultipartFile.fromFile(file.path, filename: file.path)
+      'file': (await File(file.path).exists())
+          ? await MultipartFile.fromFile(file.path, filename: file.name)
           : null,
       'prompt': prompt,
       "model": "whisper-1",

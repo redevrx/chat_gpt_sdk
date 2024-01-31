@@ -15,15 +15,33 @@ class EmbedRequest {
   /// for multiple inputs in a single request, pass an array
   /// of strings or array of token arrays. Each input
   /// must not exceed 8192 tokens in length.[input]
-  final String input;
+  final dynamic input;
 
   ///A unique identifier representing
   /// your end-user, which can help
   /// OpenAI to monitor and detect abuse.[user]
   final String? user;
 
-  EmbedRequest({required this.model, required this.input, this.user = ""});
+  ///The format to return the embeddings in. Can be either float or base64.
+  /// [encodingFormat]
+  final String? encodingFormat;
 
-  Map<String, dynamic> toJson() =>
-      Map.of({'model': model.model, 'input': input, 'user': user});
+  final int? dimensions;
+
+  EmbedRequest({
+    required this.model,
+    required this.input,
+    this.user = "",
+    this.encodingFormat,
+    this.dimensions,
+  });
+
+  Map<String, dynamic> toJson() => Map.of({
+        'model': model.model,
+        'input': input,
+        'user': user,
+        'encoding_format': encodingFormat,
+        'dimensions': dimensions,
+      })
+        ..removeWhere((_, value) => value == null);
 }

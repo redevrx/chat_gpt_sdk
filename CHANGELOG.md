@@ -185,3 +185,10 @@
  - Update OpenAi Model
  - Add New Model Generate Image
  - Add Assistants API
+
+# 3.0.1
+- Audio 
+  - Fix create transcribes error
+  - Create speech
+- Embedding 
+  - Add new Model

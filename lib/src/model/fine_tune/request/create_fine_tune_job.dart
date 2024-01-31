@@ -44,11 +44,19 @@ class CreateFineTuneJob {
   ///The hyperparameters used for the fine-tuning job.
   final Hyperparameter? hyperparameters;
 
+  ///A string of up to 18 characters that will be added to your
+  /// fine-tuned model name.
+  /// For example, a suffix of "custom-model-name" would produce a model name
+  /// like ft:gpt-3.5-turbo:openai:custom-model-name:7p4lURel.
+  /// [suffix]
+  final String? suffix;
+
   CreateFineTuneJob({
     required this.trainingFile,
     this.validationFile,
     required this.model,
     this.hyperparameters,
+    this.suffix,
   });
 
   Map<String, dynamic> toJson() => Map.of({
@@ -56,5 +64,7 @@ class CreateFineTuneJob {
         'validation_file': validationFile,
         'hyperparameters': hyperparameters,
         'model': model.model,
-      });
+        'suffix': suffix,
+      })
+        ..removeWhere((_, value) => value == null);
 }

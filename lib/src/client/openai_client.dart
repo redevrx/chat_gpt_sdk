@@ -234,6 +234,56 @@ class OpenAIClient extends OpenAIWrapper {
     }
   }
 
+  ///return response bytes
+  Future<T> postRawBody<T>(
+    String url,
+    Map<String, dynamic> request, {
+    required Future<T> Function(List<int> bytes, String responseType) onSuccess,
+    required void Function(CancelData cancelData) onCancel,
+    Map<String, String>? headers,
+  }) async {
+    try {
+      final cancelData = CancelData(cancelToken: CancelToken());
+      onCancel(cancelData);
+
+      log.log("starting request $url");
+      log.log("request body :$request");
+
+      final response = await _dio.post(
+        url,
+        data: json.encode(request),
+        cancelToken: cancelData.cancelToken,
+        options: Options(
+          headers: headers ?? {},
+          responseType: ResponseType.bytes,
+        ),
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        log.log("============= success ==================");
+        final String fileResponseFormat = request["response_format"] ?? "mp3";
+
+        return onSuccess(response.data, fileResponseFormat);
+      } else {
+        log.log("code: ${response.statusCode}, message :${response.data}");
+        throw handleError(
+          code: response.statusCode ?? HttpStatus.internalServerError,
+          message: "${response.statusCode}",
+          data: response.data,
+        );
+      }
+    } on DioException catch (err) {
+      log.log(
+        "error code: ${err.response?.statusCode}, message :${err.message} data:${err.response?.data}",
+      );
+      throw handleError(
+        code: err.response?.statusCode ?? HttpStatus.internalServerError,
+        message: "${err.response?.statusCode}",
+        data: err.response?.extra,
+      );
+    }
+  }
+
   Stream<Response> postStream(
     String url,
     Map<String, dynamic> request, {
@@ -408,7 +458,7 @@ class OpenAIClient extends OpenAIWrapper {
       onCancel(cancelData);
 
       log.log("starting request $url");
-      log.log("request body :$request");
+      log.log("request body :${request}");
       final response = await _dio.post(
         url,
         data: request,
