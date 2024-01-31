@@ -192,3 +192,9 @@
   - Create speech
 - Embedding 
   - Add new Model
+- Thread
+  - Create a thread.
+  - Retrieves a thread.
+  - Modifies a thread.
+  - Delete a thread.
+  

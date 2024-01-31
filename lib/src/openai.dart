@@ -18,6 +18,7 @@ import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart'
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_model.dart';
 import 'package:chat_gpt_sdk/src/moderation.dart';
+import 'package:chat_gpt_sdk/src/threads.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:chat_gpt_sdk/src/utils/token_builder.dart';
 import 'package:dio/dio.dart';
@@ -232,4 +233,6 @@ class OpenAI implements IOpenAI {
 
   ///Assistants
   Assistants get assistant => Assistants(_client);
+
+  Threads get threads => Threads(client: _client);
 }
