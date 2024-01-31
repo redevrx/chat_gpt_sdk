@@ -51,6 +51,9 @@ const kModeration = 'moderations';
 ///assistants
 const kAssistants = 'assistants';
 
+///messages
+const kMessages = 'messages';
+
 ///model name
 const kGpt3TurboInstruct = 'gpt-3.5-turbo-instruct';
 
@@ -105,6 +108,8 @@ Map<String, String> kHeader(
 
   return headers;
 }
+
+Map<String, String> headersAssistants = {'OpenAI-Beta': 'assistants=v1'};
 
 ///key data
 const kTokenKey = 'token';

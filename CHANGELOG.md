@@ -197,4 +197,11 @@
   - Retrieves a thread.
   - Modifies a thread.
   - Delete a thread.
+- Message
+  - Create a message.
+  - List messages
+  - List message files
+  - Retrieve message
+  - Retrieve message file
+  - Modify message
   

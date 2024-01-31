@@ -234,5 +234,6 @@ class OpenAI implements IOpenAI {
   ///Assistants
   Assistants get assistant => Assistants(_client);
 
+  ///Threads
   Threads get threads => Threads(client: _client);
 }

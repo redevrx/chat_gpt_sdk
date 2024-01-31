@@ -11,14 +11,13 @@ import 'client/client.dart';
 class Assistants {
   final OpenAIClient _client;
   Assistants(this._client);
-  Map<String, String> _headers = {'OpenAI-Beta': 'assistants=v1'};
 
-  Map<String, String> get getHeader => _headers;
+  Map<String, String> get getHeader => headersAssistants;
 
   void addHeader(Map<String, String> mHeader) {
     if (mHeader == {}) return;
 
-    _headers.addAll(mHeader);
+    headersAssistants.addAll(mHeader);
   }
 
   ///Create an assistant with a model and instructions.
@@ -30,7 +29,7 @@ class Assistants {
     return _client.post(
       _client.apiUrl + kAssistants,
       assistant.toJson(),
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: AssistantData.fromJson,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
     );
@@ -54,7 +53,7 @@ class Assistants {
       {
         'file_id': fileId,
       },
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: AssistantFileData.fromJson,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
     );
@@ -65,7 +64,7 @@ class Assistants {
   Future<List<AssistantData>> list() {
     return _client.get(
       _client.apiUrl + kAssistants,
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: (it) => it['data'] == null
           ? []
           : List<AssistantData>.from(
@@ -84,7 +83,7 @@ class Assistants {
   }) {
     return _client.get(
       _client.apiUrl + kAssistants + "/$assistantId/files",
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: ListAssistantFile.fromJson,
       onCancel: (_) => null,
     );
@@ -97,7 +96,7 @@ class Assistants {
   }) {
     return _client.get(
       _client.apiUrl + kAssistants + "/$assistantId",
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: AssistantData.fromJson,
       onCancel: (_) => null,
     );
@@ -111,7 +110,7 @@ class Assistants {
   }) {
     return _client.get(
       _client.apiUrl + kAssistants + "/$assistantId/files/$fileId",
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: AssistantFileData.fromJson,
       onCancel: (_) => null,
     );
@@ -127,7 +126,7 @@ class Assistants {
     return _client.post(
       _client.apiUrl + kAssistants + "/$assistantId",
       assistant.toJson(),
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: AssistantData.fromJson,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
     );
@@ -140,7 +139,7 @@ class Assistants {
   }) {
     return _client.delete(
       _client.apiUrl + kAssistants + "/$assistantId",
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: DeleteAssistant.fromJson,
       onCancel: (_) => null,
     );
@@ -154,7 +153,7 @@ class Assistants {
   }) {
     return _client.delete(
       _client.apiUrl + kAssistants + "/$assistantId/files/$fileId",
-      headers: _headers,
+      headers: headersAssistants,
       onSuccess: DeleteAssistant.fromJson,
       onCancel: (_) => null,
     );

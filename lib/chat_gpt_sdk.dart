@@ -53,3 +53,6 @@ export 'src/model/assistant/response/assistant_file_data.dart';
 export 'src/model/assistant/response/delete_assistant.dart';
 export 'src/model/assistant/response/list_assistant_file.dart';
 export 'src/model/assistant/response/tool.dart';
+export 'src/model/thread/request/thread_request.dart';
+export 'src/model/thread/response/thread_delete_response.dart';
+export 'src/model/thread/response/thread_response.dart';
