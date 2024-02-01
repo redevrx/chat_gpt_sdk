@@ -11,6 +11,6 @@ class MessageCreation {
       );
 
   Map<String, dynamic> toJson() => {
-    "message_id": messageId,
-  };
+        "message_id": messageId,
+      };
 }

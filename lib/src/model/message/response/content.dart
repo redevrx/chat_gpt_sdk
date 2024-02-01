@@ -1,4 +1,4 @@
-import 'package:chat_gpt_sdk/src/model/message/response/text.dart';
+import 'package:chat_gpt_sdk/src/model/message/response/text_data.dart';
 
 class Content {
   Content({
@@ -6,11 +6,11 @@ class Content {
     required this.type,
   });
 
-  Text? text;
+  TextData? text;
   String type;
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-        text: json["text"] == null ? null : Text.fromJson(json["text"]),
+        text: json["text"] == null ? null : TextData.fromJson(json["text"]),
         type: json["type"] ?? '',
       );
 

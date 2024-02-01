@@ -1,6 +1,6 @@
 import 'package:chat_gpt_sdk/src/model/assistant/response/tool.dart';
+import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 import 'package:chat_gpt_sdk/src/model/run/response/step_detail.dart';
-import 'package:chat_gpt_sdk/src/model/run/response/usage.dart';
 
 class CreateRunResponse {
   CreateRunResponse({

@@ -1,10 +1,10 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/model/run/request/create_run.dart';
 import 'package:chat_gpt_sdk/src/model/run/request/create_thread_and_run.dart';
 import 'package:chat_gpt_sdk/src/model/run/response/create_run_response.dart';
 import 'package:chat_gpt_sdk/src/model/run/response/create_thread_and_run_data.dart';
 import 'package:chat_gpt_sdk/src/model/run/response/list_run.dart';
+import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
 class Runs {
   final OpenAIClient _client;
@@ -129,6 +129,45 @@ class Runs {
     return _client.post(
       _client.apiUrl + "$kThread/$threadId/$kRuns/$runId",
       metadata,
+      headers: _headers,
+      onSuccess: CreateRunResponse.fromJson,
+      onCancel: (cancelData) => null,
+    );
+  }
+
+  ///
+  /// When a run has the status: "requires_action"
+  /// and required_action.type is submit_tool_outputs,
+  /// this endpoint can be used to submit the outputs from
+  /// the tool calls once they're all completed.
+  /// All outputs must be submitted in a single request.
+  /// [submitToolOutputsToRun]
+  Future<CreateRunResponse> submitToolOutputsToRun({
+    required String threadId,
+    required String runId,
+    required List<Map<String, dynamic>> toolOutputs,
+  }) {
+    return _client.post(
+      _client.apiUrl + "$kThread/$threadId/$kRuns/$runId/submit_tool_outputs",
+      {
+        'tool_outputs': toolOutputs,
+      },
+      headers: _headers,
+      onSuccess: CreateRunResponse.fromJson,
+      onCancel: (cancelData) => null,
+    );
+  }
+
+  ///
+  /// Cancels a run that is in_progress.
+  /// [cancelRun]
+  Future<CreateRunResponse> cancelRun({
+    required String threadId,
+    required String runId,
+  }) {
+    return _client.post(
+      _client.apiUrl + "$kThread/$threadId/$kRuns/$runId/cancel",
+      {},
       headers: _headers,
       onSuccess: CreateRunResponse.fromJson,
       onCancel: (cancelData) => null,

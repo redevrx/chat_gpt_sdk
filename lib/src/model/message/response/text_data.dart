@@ -1,5 +1,5 @@
-class Text {
-  Text({
+class TextData {
+  TextData({
     required this.annotations,
     required this.value,
   });
@@ -7,7 +7,7 @@ class Text {
   List<dynamic> annotations;
   String value;
 
-  factory Text.fromJson(Map<dynamic, dynamic> json) => Text(
+  factory TextData.fromJson(Map<dynamic, dynamic> json) => TextData(
         annotations: json["annotations"] == null
             ? []
             : List<dynamic>.from(json["annotations"].map((x) => x)),
