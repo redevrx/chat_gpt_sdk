@@ -204,4 +204,14 @@
   - Retrieve message
   - Retrieve message file
   - Modify message
+- Run
+  - Create a run.
+  - Create a thread and run it in one request.
+  - List runs
+  - List run steps
+  - Retrieves a run.
+  - Retrieve run step
+  - Modifies a run.
+  - Submit tool outputs to run
+  - Cancel a run
   

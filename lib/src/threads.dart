@@ -1,5 +1,6 @@
 import 'package:chat_gpt_sdk/src/client/openai_client.dart';
 import 'package:chat_gpt_sdk/src/messages.dart';
+import 'package:chat_gpt_sdk/src/runs.dart';
 import 'package:chat_gpt_sdk/src/model/thread/request/thread_request.dart';
 import 'package:chat_gpt_sdk/src/model/thread/response/thread_delete_response.dart';
 import 'package:chat_gpt_sdk/src/model/thread/response/thread_response.dart';
@@ -72,4 +73,7 @@ class Threads {
   ///messages
   Messages get messages =>
       Messages(client: _client, headers: headersAssistants);
+
+  ///runs
+  Runs get runs => Runs(client: _client, headers: headersAssistants);
 }

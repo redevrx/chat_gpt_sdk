@@ -54,6 +54,9 @@ const kAssistants = 'assistants';
 ///messages
 const kMessages = 'messages';
 
+///runs
+const kRuns = 'runs';
+
 ///model name
 const kGpt3TurboInstruct = 'gpt-3.5-turbo-instruct';
 

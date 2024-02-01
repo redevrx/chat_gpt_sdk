@@ -1,10 +1,10 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/model/message/request/create_message.dart';
 import 'package:chat_gpt_sdk/src/model/message/response/create_message_response.dart';
 import 'package:chat_gpt_sdk/src/model/message/response/list_message_file.dart';
 import 'package:chat_gpt_sdk/src/model/message/response/list_message_file_data.dart';
 import 'package:chat_gpt_sdk/src/model/message/response/message_data.dart';
+import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
 class Messages {
   final OpenAIClient _client;
