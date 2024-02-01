@@ -116,22 +116,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
     await openAI.onChatCompletion(request: request);
   }
-
-  void createAssistant() async {
-    final assistant = Assistant(
-      model: Gpt4AModel(),
-      name: 'Math Tutor',
-      instructions:
-          'You are a personal math tutor. When asked a question, write and run Python code to answer the question.',
-      tools: [
-        {
-          "type": "code_interpreter",
-        }
-      ],
-    );
-    await openAI.assistant.create(assistant: assistant);
-  }
-
+  
   @override
   void initState() {
     openAI = OpenAI.instance.build(

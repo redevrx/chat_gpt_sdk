@@ -51,7 +51,7 @@ import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_list.dar
     as _i19;
 import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_model_job.dart'
     as _i18;
-import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart'
+import 'package:chat_gpt_sdk/src/model/gen_image/request/file_info.dart'
     as _i36;
 import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart'
     as _i32;

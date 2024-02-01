@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/format.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/enum/image_size.dart';
-import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/request/file_info.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -11,7 +11,7 @@ class Variation {
   /// and square. If mask is not provided, image must have transparency,
   /// which will be used as the mask.[image]
   /// file name is image
-  final EditFile image;
+  final FileInfo image;
 
   ///The number of images to generate. Must be between 1 and 10.[n]
   final int n;

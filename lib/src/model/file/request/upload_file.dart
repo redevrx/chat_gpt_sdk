@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/request/file_info.dart';
 import 'package:dio/dio.dart';
 
 class UploadFile {
@@ -8,7 +8,7 @@ class UploadFile {
   ///If the is set to "fine-tune",
   ///each line is a JSON record with "prompt" and "completion"
   /// fields representing your training examples.purpose. [file]
-  final EditFile file;
+  final FileInfo file;
 
   ///The intended purpose of the uploaded documents.
   ///Use "fine-tune" for Fine-tuning.

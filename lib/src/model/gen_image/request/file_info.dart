@@ -5,11 +5,11 @@ import 'package:chat_gpt_sdk/src/model/gen_image/enum/image_size.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
-class EditFile {
+class FileInfo {
   final String path;
   final String name;
 
-  EditFile(this.path, this.name);
+  FileInfo(this.path, this.name);
 
   @override
   String toString() => "[$path,$name]";
@@ -20,14 +20,14 @@ class EditImageRequest {
   /// and square. If mask is not provided, image must have transparency,
   /// which will be used as the mask.[image]
   /// file name is image
-  final EditFile image;
+  final FileInfo image;
 
   ///An additional image whose fully transparent areas
   /// (e.g. where alpha is zero) indicate where should be edited.
   /// Must be a valid PNG file, less than 4MB, and have
   /// the same dimensions as image. [mask]
   /// file name is mask
-  final EditFile? mask;
+  final FileInfo? mask;
 
   ///A text description of the desired image(s).
   /// The maximum length is 1000 characters.[prompt]

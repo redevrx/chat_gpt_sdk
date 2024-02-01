@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:chat_gpt_sdk/src/model/audio/enum/audio_format.dart';
-import 'package:chat_gpt_sdk/src/model/gen_image/request/edit_file.dart';
+import 'package:chat_gpt_sdk/src/model/gen_image/request/file_info.dart';
 import 'package:dio/dio.dart';
 
 class AudioRequest {
   ///The audio file to transcribe, in one of
   /// these formats: mp3, mp4, mpeg, mpga,
   /// m4a, wav, or webm.[file]
-  final EditFile file;
+  final FileInfo file;
 
   ///The language of the input audio.
   /// Supplying the input language in

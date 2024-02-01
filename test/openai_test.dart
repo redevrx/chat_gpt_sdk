@@ -90,14 +90,14 @@ void main() async {
     );
     expect(
       () => ai.editor.editImage(EditImageRequest(
-        image: EditFile('path', 'name'),
+        image: FileInfo('path', 'name'),
         prompt: 'prompt',
       )),
       throwsException,
     );
     expect(
       () => ai.editor.variation(
-        Variation(image: EditFile('path', 'name'), user: 'prompt'),
+        Variation(image: FileInfo('path', 'name'), user: 'prompt'),
       ),
       throwsException,
     );
@@ -137,15 +137,15 @@ void main() async {
     expect(() => ai.file.delete('fileId'), throwsException);
     expect(() => ai.file.retrieveContent('fileId'), throwsException);
     expect(
-      () => ai.file.uploadFile(UploadFile(file: EditFile('path', 'name'))),
+      () => ai.file.uploadFile(UploadFile(file: FileInfo('path', 'name'))),
       throwsException,
     );
     expect(
-      () => ai.audio.translate(AudioRequest(file: EditFile('path', 'name'))),
+      () => ai.audio.translate(AudioRequest(file: FileInfo('path', 'name'))),
       throwsException,
     );
     expect(
-      () => ai.audio.transcribes(AudioRequest(file: EditFile('path', 'name'))),
+      () => ai.audio.transcribes(AudioRequest(file: FileInfo('path', 'name'))),
       throwsException,
     );
     expect(
@@ -867,7 +867,7 @@ void main() async {
 
   group('chatGPT audio test', () {
     test('ChatGPT audio transcribes test with success case', () {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.transcribes(request))
           .thenAnswer((realInvocation) async => AudioResponse("text"));
 
@@ -877,7 +877,7 @@ void main() async {
       });
     });
     test('ChatGPT audio transcribes test cancel with success case', () {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.transcribes(request))
           .thenAnswer((realInvocation) async => AudioResponse("text"));
 
@@ -889,7 +889,7 @@ void main() async {
     test(
       'ChatGPT audio transcribes test with unauthenticated error case',
       () async {
-        final request = AudioRequest(file: EditFile("path", "name"));
+        final request = AudioRequest(file: FileInfo("path", "name"));
         when(audio.transcribes(request)).thenThrow(OpenAIAuthError());
 
         verifyNever(await audio.transcribes(request));
@@ -900,7 +900,7 @@ void main() async {
       },
     );
     test('ChatGPT audio transcribes test with rate limit error case', () async {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.transcribes(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(await audio.transcribes(request));
@@ -910,7 +910,7 @@ void main() async {
       );
     });
     test('ChatGPT audio transcribes test with rate limit error case', () async {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.transcribes(request)).thenThrow(OpenAIServerError());
 
       verifyNever(await audio.transcribes(request));
@@ -921,7 +921,7 @@ void main() async {
     });
 
     test('ChatGPT audio translate test cancel with success case', () {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.translate(request))
           .thenAnswer((realInvocation) async => AudioResponse("text"));
 
@@ -931,7 +931,7 @@ void main() async {
       });
     });
     test('ChatGPT audio translate test with success case', () {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.translate(request))
           .thenAnswer((realInvocation) async => AudioResponse("text"));
 
@@ -943,7 +943,7 @@ void main() async {
     test(
       'ChatGPT audio translate test with unauthenticated error case',
       () async {
-        final request = AudioRequest(file: EditFile("path", "name"));
+        final request = AudioRequest(file: FileInfo("path", "name"));
         when(audio.translate(request)).thenThrow(OpenAIAuthError());
 
         verifyNever(await audio.translate(request));
@@ -951,7 +951,7 @@ void main() async {
       },
     );
     test('ChatGPT audio translate test with rate limit error case', () async {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.translate(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(await audio.translate(request));
@@ -961,7 +961,7 @@ void main() async {
       );
     });
     test('ChatGPT audio translate test with rate limit error case', () async {
-      final request = AudioRequest(file: EditFile("path", "name"));
+      final request = AudioRequest(file: FileInfo("path", "name"));
       when(audio.translate(request)).thenThrow(OpenAIServerError());
 
       verifyNever(await audio.translate(request));
@@ -972,7 +972,7 @@ void main() async {
   group('chatGPT edit test', () {
     test('chatGPT Edit image test with success case', () {
       final request = EditImageRequest(
-        image: EditFile("path", "name"),
+        image: FileInfo("path", "name"),
         prompt: "fix color",
       );
       when(edit.editImage(request)).thenAnswer((realInvocation) async =>
@@ -985,7 +985,7 @@ void main() async {
     });
     test('chatGPT Edit image test cancel with success case', () {
       final request = EditImageRequest(
-        image: EditFile("path", "name"),
+        image: FileInfo("path", "name"),
         prompt: "fix color",
       );
       when(edit.editImage(request)).thenAnswer((realInvocation) async =>
@@ -998,7 +998,7 @@ void main() async {
     });
     test('ChatGPT Edit image test with unauthenticated error case', () async {
       final request =
-          EditImageRequest(image: EditFile("path", "name"), prompt: "fix body");
+          EditImageRequest(image: FileInfo("path", "name"), prompt: "fix body");
       when(edit.editImage(request)).thenThrow(OpenAIAuthError());
 
       verifyNever(await edit.editImage(request));
@@ -1006,7 +1006,7 @@ void main() async {
     });
     test('ChatGPT Edit image test with rate limit error case', () async {
       final request = EditImageRequest(
-        image: EditFile("path", "name"),
+        image: FileInfo("path", "name"),
         prompt: "fix color body",
       );
       when(edit.editImage(request)).thenThrow(OpenAIRateLimitError());
@@ -1019,7 +1019,7 @@ void main() async {
     });
     test('ChatGPT Edit image test with rate limit error case', () async {
       final request =
-          EditImageRequest(image: EditFile("path", "name"), prompt: "fix");
+          EditImageRequest(image: FileInfo("path", "name"), prompt: "fix");
       when(edit.editImage(request)).thenThrow(OpenAIServerError());
 
       verifyNever(await edit.editImage(request));
@@ -1112,7 +1112,7 @@ void main() async {
     });
 
     test('chatGPT edit variation test with success case', () {
-      final request = Variation(image: EditFile("path file", 'file name'));
+      final request = Variation(image: FileInfo("path file", 'file name'));
       when(edit.variation(request)).thenAnswer((realInvocation) async =>
           GenImgResponse(created: 1, data: [ImageData(url: "image url")]));
 
@@ -1122,7 +1122,7 @@ void main() async {
       });
     });
     test('chatGPT edit variation test cancel with success case', () {
-      final request = Variation(image: EditFile("path file", 'file name'));
+      final request = Variation(image: FileInfo("path file", 'file name'));
       when(edit.variation(request)).thenAnswer((realInvocation) async =>
           GenImgResponse(created: 1, data: [ImageData(url: "image url")]));
 
@@ -1136,14 +1136,14 @@ void main() async {
       );
     });
     test('ChatGPT Edit prompt test with unauthenticated error case', () async {
-      final request = Variation(image: EditFile("path file", 'file name'));
+      final request = Variation(image: FileInfo("path file", 'file name'));
       when(edit.variation(request)).thenThrow(OpenAIAuthError());
 
       verifyNever(await edit.variation(request));
       expect(() => edit.variation(request), throwsA(isA<OpenAIAuthError>()));
     });
     test('ChatGPT Edit prompt test with rate limit error case', () async {
-      final request = Variation(image: EditFile("path file", 'file name'));
+      final request = Variation(image: FileInfo("path file", 'file name'));
       when(edit.variation(request)).thenThrow(OpenAIRateLimitError());
 
       verifyNever(await edit.variation(request));
@@ -1153,7 +1153,7 @@ void main() async {
       );
     });
     test('ChatGPT Edit prompt test with rate limit error case', () async {
-      final request = Variation(image: EditFile("path file", 'file name'));
+      final request = Variation(image: FileInfo("path file", 'file name'));
       when(edit.variation(request)).thenThrow(OpenAIServerError());
 
       verifyNever(await edit.variation(request));

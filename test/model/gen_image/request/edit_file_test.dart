@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 void main() {
   group('edit file test', () {
     test('edit file test', () async {
-      final e = EditFile('path', 'name');
+      final e = FileInfo('path', 'name');
       final edit = await EditImageRequest(
         image: e,
         prompt: 'prompt',
@@ -21,7 +21,7 @@ void main() {
     });
 
     test('edit file test', () {
-      final e = EditFile('path', 'name');
+      final e = FileInfo('path', 'name');
       e.toString();
       final json = EditImageRequest(
         image: e,

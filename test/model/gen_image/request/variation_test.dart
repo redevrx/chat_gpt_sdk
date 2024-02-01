@@ -6,7 +6,7 @@ void main() {
   group('variation test', () {
     test('variation test from json', () async {
       final variation = await Variation(
-        image: EditFile('path', 'name'),
+        image: FileInfo('path', 'name'),
         size: ImageSize.size1024,
         responseFormat: Format.url,
         user: 'user',
@@ -17,7 +17,7 @@ void main() {
     });
     test('variation test to json', () {
       final json = Variation(
-        image: EditFile('path', 'name'),
+        image: FileInfo('path', 'name'),
         size: ImageSize.size1024,
         responseFormat: Format.url,
         user: 'user',

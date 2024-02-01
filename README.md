@@ -43,26 +43,56 @@ supervised and reinforcement learning techniques.
 - [x] [Create OpenAI Instance](#create-openai-instance)
 - [x] [Change Access Token](#change-access-token)
 - [x] [Complete Text](#complete-text)
-  - Support Server Sent Event
+  - [Complete with Future](#Complete-with-feature) 
+  - [Support Server Sent Event](#gpt-3-with-sse)
 - [x] [Chat Complete GPT-4](#chat-complete-gpt-4-and-gpt-35)
-  - Support GPT3.5 and GPT-4 
-  - Support Server Sent Event
-  - Support Function Calling
+  - [Support GPT3.5 and GPT-4](#chat-complete)
+  - [Support Server Sent Event](#gpt-4-with-sse)
+  - [Support Function Calling](#Chat-Complete-Function-Calling)
+  - [Chat Complete Image Input](#Chat-Complete-Image-Input)
 - [x] [Assistants API](#assistants)
-  - CRUD
+  - [Create assistant](#create-assistant)
+  - [Create assistant file](#create-assistant-file) 
+  - [List assistants](#list-assistants)
+  - [List assistant files](#list-assistants-files)
+  - [Retrieve assistant](#retrieve-assistant)
+  - [Retrieve assistant file](#retrieve-assistant-file)
+  - [Modify assistant](#modify-assistant)
+  - [Delete assistant](#delete-assistant)
+  - [Delete assistant file](#delete-assistant-file)
 - [x] [Error Handle](#error-handle)
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
 - [x] [Editing](#edit)
+  - [Edit Prompt](#Edit-Prompt)
+  - [Edit Image](#Edit-Image)
+  - [Variations](#Variations)
 - [x] [Cancel Generate](#cancel-generate)
+  - [Stop Generate Prompt](#Stop-Generate-Prompt)
+  - [Stop Edit](#Stop-Edit)
+  - [Stop Embedding](#Stop-Embedding)
 - [x] [File](#file)
+  - [Get File](#Get-File)
+  - [Upload File](#Upload-File)
+  - [Delete File](#Delete-File)
+  - [Retrieve File](#Retrieve-File)
+  - [Retrieve Content File](#Retrieve-Content-File)
 - [x] [Audio](#audio)
+  - [Audio Translate](#Audio-Translate)
+  - [Audio Transcribe](#Audio-Transcribe)
+  - [Create speech](#Create-speech)
 - [x] [Embedding](#embedding)
 - [x] [Fine-Tune](#fine-tune)
-  - Support Server Sent Event
+  - [Create Fine Tune](#Create-Fine-Tune) 
+  - [Fine Tune List](#Fine-Tune-List)
+  - [Fine Tune List Stream (SSE)](#Fine-Tune-List-Stream)
+  - [Fine Tune Get by Id](#Fine-Tune-Get-by-Id)
+  - [Cancel Fine Tune](#Cancel-Fine-Tune)
+  - [Delete Fine Tune](#Delete-Fine-Tune)
   - Fine-Tune Deprecate
   - New Fine-Tune Job
-- [x] [Moderations](#modelengine)
+- [x] [Moderations](#Moderations)
+  - [Create Moderation](#Create-Moderation)
 - [x] [Model And Engine](#modelengine)
 - [x] [Translate Example](#translate-app)
 - [x] [Video Tutorial](#video-tutorials)
@@ -112,7 +142,7 @@ openAI.token;
       - Find the time complexity of a function.
   - https://beta.openai.com/examples
 
-- Complete with Feature
+- ### Complete with Feature
 
 ```dart
   void _translateEngToThai() async{
@@ -146,7 +176,7 @@ FutureBuilder<CTResponse?>(
 })
 ```
 
-- GPT-3 with SSE
+- ### GPT 3 with SSE
 ```dart
  void completeWithSSE() {
   final request = CompleteText(
@@ -159,7 +189,7 @@ FutureBuilder<CTResponse?>(
 
 ## Chat Complete (GPT-4 and GPT-3.5)
 
-- GPT-4 
+- ### Chat Complete
 ```dart
   void chatComplete() async {
     final request = ChatCompleteText(messages: [
@@ -173,7 +203,7 @@ FutureBuilder<CTResponse?>(
   }
 ```
 
-- GPT-4 with SSE(Server Send Event)
+- ### GPT 4 with SSE
 ```dart
  void chatCompleteWithSSE() {
   final request = ChatCompleteText(messages: [
@@ -214,7 +244,7 @@ FutureBuilder<CTResponse?>(
   }
 ```
 
-- Chat Complete Function Calling
+- ### Chat Complete Function Calling
 
 ```dart
   void gptFunctionCalling() async {
@@ -257,7 +287,7 @@ FutureBuilder<CTResponse?>(
 }
 ```
 
-- Chat Complete Image Input
+- ### Chat Complete Image Input
 
 ```dart
   void imageInput() async {
@@ -284,7 +314,7 @@ FutureBuilder<CTResponse?>(
 ```
 
 ## Assistants
-- Create Assistant
+- ### Create Assistant
 ```dart
   void createAssistant() async {
   final assistant = Assistant(
@@ -301,6 +331,78 @@ FutureBuilder<CTResponse?>(
   await openAI.assistant.create(assistant: assistant);
 }
 
+```
+
+- ### Create Assistant File
+```dart
+void createAssistantFile() async {
+  await openAI.assistant.createFile(assistantId: '',fileId: '',);
+}
+```
+
+- ### List assistants
+```dart
+  void listAssistant() async {
+  final assistants = await openAI.assistant.list();
+  assistants.map((e) => e.toJson()).forEach(print);
+}
+```
+
+- ### List assistants files
+```dart
+  void listAssistantFile() async {
+  final assistants = await openAI.assistant.listFile(assistantId: '');
+  assistants.data.map((e) => e.toJson()).forEach(print);
+}
+```
+
+- ### Retrieve assistant
+```dart
+  void retrieveAssistant() async {
+  final assistants = await openAI.assistant.retrieves(assistantId: '');
+}
+```
+
+- ### Retrieve assistant file
+```dart
+  void retrieveAssistantFiles() async {
+  final assistants = await openAI.assistant.retrievesFile(assistantId: '',fileId: '');
+}
+```
+
+- ### Modify assistant
+```dart
+  void modifyAssistant() async {
+  final assistant = Assistant(
+    model: Gpt4AModel(),
+    instructions:
+    'You are an HR bot, and you have access to files to answer employee questions about company policies. Always response with info from either of the files.',
+    tools: [
+      {
+        "type": "retrieval",
+      }
+    ],
+    fileIds: [
+      "file-abc123",
+      "file-abc456",
+    ],
+  );
+  await openAI.assistant.modifies(assistantId: '', assistant: assistant);
+}
+```
+
+- ### Delete assistant
+```dart
+  void deleteAssistant() async {
+  await openAI.assistant.delete(assistantId: '');
+}
+```
+
+- ### Delete assistant file
+```dart
+  void deleteAssistantFile() async {
+  await openAI.assistant.deleteFile(assistantId: '',fileId: '');
+}
 ```
 
 
@@ -377,19 +479,20 @@ A: Human life expectancy in the United States is 78 years.
     - A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
 - 
 
-- Generate with feature
+- ### Generate with feature
 ```dart
   void _generateImage() {
   const prompt = "cat eating snake blue red.";
 
-  final request = GenerateImage(prompt, 1,size: ImageSize.size256,
+  final request = GenerateImage( model: DallE2(),prompt, 1,size: ImageSize.size256,
           responseFormat: Format.url);
   final response = openAI.generateImage(request);
   print("img url :${response.data?.last?.url}");
 }
 ```
+
 ## Edit
-- Edit Prompt
+- ### Edit Prompt
 ```dart
 void editPrompt() async {
     final response = await openAI.editor.prompt(EditRequest(
@@ -401,24 +504,25 @@ void editPrompt() async {
   }
 ```
 
-- Edit Image
+- ### Edit Image
 ```dart
  void editImage() async {
   final response = await openAI.editor.editImage(EditImageRequest(
-          image: EditFile("${image?.path}", '${image?.name}'),
-          mask: EditFile('file path', 'file name'),
+          image: FileInfo("${image?.path}", '${image?.name}'),
+          mask: FileInfo('file path', 'file name'),
           size: ImageSize.size1024,
-          prompt: 'King Snake'));
+          prompt: 'King Snake'),
+          model: DallE3(),);
 
   print(response.data?.last?.url);
 }
 ```
 
-- Variations 
+- ### Variations
 ```dart
   void variation() async {
   final request =
-  Variation(image: EditFile('${image?.path}', '${image?.name}'));
+  Variation(model: DallE2(),image: FileInfo('${image?.path}', '${image?.name}'));
   final response = await openAI.editor.variation(request);
 
   print(response.data?.last?.url);
@@ -426,7 +530,7 @@ void editPrompt() async {
 ```
 ## Cancel Generate
 
-- Stop Generate Prompt
+- ### Stop Generate Prompt
 ```dart
  _openAI
         .onChatCompletionSSE(request: request, onCancel: onCancel);
@@ -440,7 +544,7 @@ void onCancel(CancelData cancelData) {
 mCancel?.cancelToken.cancel("canceled ");
 ```
 
-- Stop Edit
+- ### Stop Edit
   - image
   - prompt
 ```dart
@@ -455,7 +559,7 @@ void onCancel(CancelData cancelData) {
 mCancel?.cancelToken.cancel("canceled edit image");
 ```
 
-- Stop Embedding
+- ### Stop Embedding
 ```dart
 openAI.embed.embedding(request,onCancel: onCancel);
 
@@ -501,7 +605,7 @@ mCancel?.cancelToken.cancel("canceled uploadFile");
 
 ## File
 
-- Get File
+- ### Get File
 ```dart
 void getFile() async {
   final response = await openAI.file.get();
@@ -509,16 +613,16 @@ void getFile() async {
 }
 ```
 
-- Upload File
+- ### Upload File
 ```dart
 void uploadFile() async {
-  final request = UploadFile(file: EditFile('file-path', 'file-name'),purpose: 'fine-tune');
+  final request = UploadFile(file: FileInfo('file-path', 'file-name'),purpose: 'fine-tune');
   final response = await openAI.file.uploadFile(request);
   print(response);
 }
 ```
 
-- Delete File
+- ### Delete File
 ```dart
   void delete() async {
   final response = await openAI.file.delete("file-Id");
@@ -526,7 +630,7 @@ void uploadFile() async {
 }
 ```
 
-- Retrieve File
+- ### Retrieve File
 ```dart
   void retrieve() async {
   final response = await openAI.file.retrieve("file-Id");
@@ -534,7 +638,7 @@ void uploadFile() async {
 }
 ```
 
-- Retrieve Content File
+- ### Retrieve Content File
 ```dart
   void retrieveContent() async {
   final response = await openAI.file.retrieveContent("file-Id");
@@ -544,27 +648,39 @@ void uploadFile() async {
 
 ## Audio
 
-- Audio Translate
+- ### Audio Translate
 ```dart
 void audioTranslate() async {
   final mAudio = File('mp3-path');
   final request =
-  AudioRequest(file: EditFile(mAudio.path, 'name'), prompt: '...');
+  AudioRequest(file: FileInfo(mAudio.path, 'name'), prompt: '...');
 
   final response = await openAI.audio.translate(request);
 }
 ```
 
-- Audio Transcribe
+- ### Audio Transcribe
 ```dart
 void audioTranscribe() async {
   final mAudio = File('mp3-path');
   final request =
-  AudioRequest(file: EditFile(mAudio.path, 'name'), prompt: '...');
+  AudioRequest(file: FileInfo(mAudio.path, 'name'), prompt: '...');
 
   final response = await openAI.audio.transcribes(request);
 }
 ```
+
+- ### Create speech
+```dart
+  void createSpeech() async {
+  final request = SpeechRequest(
+          model: 'tts-1', input: 'The quick brown fox jumped over the lazy dog.');
+
+  final response = await openAI.audio
+          .createSpeech(request: request, fileName: '', savePath: '');
+}
+```
+
 ## Embedding
 
 - Embedding
@@ -582,7 +698,7 @@ void embedding() async {
 
 ## Fine Tune
 
-- Create Fine Tune
+- ### Create Fine Tune
 ```dart
 void createTineTune() async {
   final request = CreateFineTuneJob(trainingFile: 'The ID of an uploaded file');
@@ -590,14 +706,14 @@ void createTineTune() async {
 }
 ```
 
-- Fine Tune List
+- ### Fine Tune List
 ```dart
  void tineTuneList() async {
     final response = await openAI.fineTune.listFineTuneJob();
   }
 ```
 
-- Fine Tune List Stream (SSE)
+- ### Fine Tune List Stream
 ```dart
  void tineTuneListStream() {
     openAI.fineTune.listFineTuneJobStream('fineTuneId').listen((it) {
@@ -606,21 +722,21 @@ void createTineTune() async {
   }
 ```
 
--  Fine Tune Get by Id
+-  ### Fine Tune Get by Id
 ```dart
 void tineTuneById() async {
     final response = await openAI.fineTune.retrieveFineTuneJob('fineTuneId');
   }
 ```
 
-- Cancel Fine Tune
+- ### Cancel Fine Tune
 ```dart
   void tineTuneCancel() async {
     final response = await openAI.fineTune.cancel('fineTuneId');
   }
 ```
 
-- Delete Fine Tune
+- ### Delete Fine Tune
 ```dart
  void deleteTineTune() async {
     final response = await openAI.fineTune.delete('model');
@@ -629,7 +745,7 @@ void tineTuneById() async {
 
 ## Moderations
 
-- Create Moderation
+- ### Create Moderation
 ```dart
   void createModeration() async {
   final response = await openAI.moderation
