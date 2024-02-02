@@ -116,7 +116,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
     await openAI.onChatCompletion(request: request);
   }
-  
+
   @override
   void initState() {
     openAI = OpenAI.instance.build(

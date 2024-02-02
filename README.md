@@ -1,16 +1,3 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
 # ChatGPT Application with flutter
 ChatGPT is a chat-bot launched by OpenAI in November 2022. It is built on top
 of OpenAI's GPT-3.5 family of large language models, and is fine-tuned with both
@@ -60,6 +47,28 @@ supervised and reinforcement learning techniques.
   - [Modify assistant](#modify-assistant)
   - [Delete assistant](#delete-assistant)
   - [Delete assistant file](#delete-assistant-file)
+- [Threads](#threads)
+  - [Create thread](#Create-threads)
+  - [Retrieve thread](#Retrieve-thread)
+  - [Modify thread](#Modify-thread)
+  - [Delete thread](#Delete-thread)
+- [Messages](#messages)
+  - [Create message](#Create-message)
+  - [List messages](#List-messages)
+  - [List message files](#List-message-files)
+  - [Retrieve message](#Retrieve-message)
+  - [Retrieve message file](#Retrieve-message-file)
+  - [Modify message](#Modify-message)
+- [Runs](#runs)
+  - [Create run](#Create-run)
+  - [Create thread and run](#Create-thread-and-run)
+  - [List runs](#List-runs)
+  - [List run steps](#List-run-steps)
+  - [Retrieve run](#Retrieve-run)
+  - [Retrieve run step](#Retrieve-run-step)
+  - [Modify run](#Modify-run)
+  - [Submit tool outputs to run](#Submit-tool-outputs-to-run)
+  - [Cancel a run](#Cancel-a-run)
 - [x] [Error Handle](#error-handle)
 - [x] [Example Q&A](#qa)
 - [x] [Generate Image With Prompt](#generate-image-with-prompt)
@@ -405,6 +414,210 @@ void createAssistantFile() async {
 }
 ```
 
+## Threads
+ - ### Create threads
+```dart
+///empty body
+  void createThreads()async {
+  await openAI.threads.createThread(request: ThreadRequest());
+}
+
+///with message
+void createThreads() async {
+  final request = ThreadRequest(messages: [
+    {
+      "role": "user",
+      "content": "Hello, what is AI?",
+      "file_ids": ["file-abc123"]
+    },
+    {
+      "role": "user",
+      "content": "How does AI work? Explain it in simple terms."
+    },
+  ]);
+
+  await openAI.threads.createThread(request: request);
+}
+```
+
+- ### Retrieve thread
+```dart
+ void retrieveThread()async {
+  final mThread = await openAI.threads.retrieveThread(threadId: 'threadId');
+}
+```
+
+- ### Modify thread
+```dart
+  void modifyThread() async {
+  await openAI.threads.modifyThread(threadId: 'threadId', metadata: {
+    "metadata": {
+      "modified": "true",
+      "user": "abc123",
+    },
+  });
+}
+```
+
+- ### Delete thread
+```dart
+  void deleteThread() async {
+  await openAI.threads.deleteThread(threadId: 'threadId');
+}
+```
+
+## Messages
+- ### Create Message
+```dart
+void createMessage() async {
+  final request = CreateMessage(
+    role: 'user',
+    content: 'How does AI work? Explain it in simple terms.',
+  );
+  await openAI.threads.messages.createMessage(
+    threadId: 'threadId',
+    request: request,
+  );
+}
+```
+
+- ### List messages
+```dart
+  void listMessage()async {
+  final mMessages = await openAI.threads.messages.listMessage(threadId: 'threadId');
+}
+```
+- ### List message files
+```dart
+  void listMessageFile() async {
+  final mMessagesFile = await openAI.threads.messages.listMessageFile(
+    threadId: 'threadId',
+    messageId: '',
+  );
+}
+```
+
+- ### Retrieve message
+```dart
+  void retrieveMessage() async {
+  final mMessage = await openAI.threads.messages.retrieveMessage(
+    threadId: 'threadId',
+    messageId: '',
+  );
+}
+```
+
+- ### Retrieve message file
+```dart
+void retrieveMessageFile() async {
+  final mMessageFile = await openAI.threads.messages.retrieveMessageFile(
+    threadId: 'threadId',
+    messageId: '',
+    fileId: '',
+  );
+}
+```
+
+- ### Modify message
+```dart
+  void modifyMessage() async {
+  await openAI.threads.messages.modifyMessage(
+    threadId: 'threadId',
+    messageId: 'messageId',
+    metadata: {
+      "metadata": {"modified": "true", "user": "abc123"},
+    },
+  );
+}
+```
+## Runs
+- ### Create run
+```dart
+void createRun() async {
+    final request = CreateRun(assistantId: 'assistantId');
+    await openAI.threads.runs.createRun(threadId: 'threadId', request: request);
+  }
+```
+
+- ### Create thread and run
+```dart
+  void createThreadAndRun() async {
+    final request = CreateThreadAndRun(assistantId: 'assistantId', thread: {
+      "messages": [
+        {"role": "user", "content": "Explain deep learning to a 5 year old."}
+      ],
+    });
+    await openAI.threads.runs.createThreadAndRun(request: request);
+  }
+```
+
+- ### List runs
+```dart
+ void listRuns() async {
+   final mRuns = await openAI.threads.runs.listRuns(threadId: 'threadId');
+  }
+```
+
+- ### List run steps
+```dart
+void listRunSteps() async {
+   final mRunSteps = await openAI.threads.runs.listRunSteps(threadId: 'threadId',runId: '',);
+  }
+```
+
+- ### Retrieve run
+```dart
+void retrieveRun() async {
+   final mRun = await openAI.threads.runs.retrieveRun(threadId: 'threadId',runId: '',);
+  }
+```
+
+- ### Retrieve run step
+```dart
+ void retrieveRunStep() async {
+   final mRun = await openAI.threads.runs.retrieveRunStep(threadId: 'threadId',runId: '',stepId: '');
+  }
+```
+
+- ### Modify run
+```dart
+void modifyRun() async {
+    await openAI.threads.runs.modifyRun(
+      threadId: 'threadId',
+      runId: '',
+      metadata: {
+        "metadata": {"user_id": "user_abc123"},
+      },
+    );
+  }
+```
+
+- ### Submit tool outputs to run
+```dart
+  void submitToolOutputsToRun() async {
+    await openAI.threads.runs.submitToolOutputsToRun(
+      threadId: 'threadId',
+      runId: '',
+      toolOutputs: [
+        {
+          "tool_call_id": "call_abc123",
+          "output": "28C",
+        },
+      ],
+    );
+  }
+```
+
+- ### Cancel a run
+```dart
+  void cancelRun() async {
+    await openAI.threads.runs.cancelRun(
+      threadId: 'threadId',
+      runId: '',
+    );
+  }
+
+```
 
 ## Error Handle
 
