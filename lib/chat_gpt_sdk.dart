@@ -71,3 +71,4 @@ export 'src/model/run/response/list_run.dart';
 export 'src/model/run/response/message_creation.dart';
 export 'src/model/run/response/step_detail.dart';
 export 'src/model/audio/request/speech_request.dart';
+export 'src/model/audio/enum/audio_format.dart';
