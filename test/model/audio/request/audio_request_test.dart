@@ -1,5 +1,4 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:chat_gpt_sdk/src/model/audio/enum/audio_format.dart';
 import 'package:dio/dio.dart';
 import 'package:test/test.dart';
 

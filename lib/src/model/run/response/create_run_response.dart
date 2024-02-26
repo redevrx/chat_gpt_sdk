@@ -55,7 +55,7 @@ class CreateRunResponse {
         tools: json["tools"] == null
             ? []
             : List<Tool>.from(json["tools"].map((x) => Tool.fromJson(x))),
-        completedAt: json["completed_at"] ?? '',
+        completedAt: json["completed_at"] ?? 0,
         threadId: json["thread_id"] ?? '',
         fileIds: json["file_ids"] == null
             ? []

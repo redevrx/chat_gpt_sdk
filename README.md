@@ -111,7 +111,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt_sdk: 3.0.1
+chat_gpt_sdk: 3.0.2
 ```
 
 ## Create OpenAI Instance
@@ -889,8 +889,8 @@ void audioTranscribe() async {
   final request = SpeechRequest(
           model: 'tts-1', input: 'The quick brown fox jumped over the lazy dog.');
 
-  final response = await openAI.audio
-          .createSpeech(request: request, fileName: '', savePath: '');
+  final List<int> response = await openAI.audio
+          .createSpeech(request: request);
 }
 ```
 

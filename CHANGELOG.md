@@ -214,4 +214,6 @@
   - Modifies a run.
   - Submit tool outputs to run
   - Cancel a run
+# 3.0.2
+ - Fix bugs
   
