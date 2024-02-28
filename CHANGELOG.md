@@ -216,4 +216,7 @@
   - Cancel a run
 # 3.0.2
  - Fix bugs
+## 3.0.3
+ - Fix bugs
+ - Update Demo App
   

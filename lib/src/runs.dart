@@ -50,13 +50,16 @@ class Runs {
     String? after,
     String? before,
   }) {
-    String url = after != null || before != null
-        ? _client.apiUrl +
-            kThread +
-            "/$threadId/$kRuns?limit=$limit&order=$order&after=$after&before=$before"
-        : _client.apiUrl +
-            kThread +
-            "/$threadId/$kRuns?limit=$limit&order=$order";
+    String url = _client.apiUrl +
+        kThread +
+        "/$threadId/$kRuns?limit=$limit&order=$order";
+
+    if (before != null && before.isNotEmpty) {
+      url += '&before=$before';
+    }
+    if (after != null && after.isNotEmpty) {
+      url += '&after=$after';
+    }
 
     return _client.get(
       url,
@@ -74,13 +77,16 @@ class Runs {
     String? after,
     String? before,
   }) {
-    String url = after != null || before != null
-        ? _client.apiUrl +
-            kThread +
-            "/$threadId/$kRuns/$runId/steps?limit=$limit&order=$order&after=$after&before=$before"
-        : _client.apiUrl +
-            kThread +
-            "/$threadId/$kRuns/$runId/steps?limit=$limit&order=$order";
+    String url = _client.apiUrl +
+        kThread +
+        "/$threadId/$kRuns/$runId/steps?limit=$limit&order=$order";
+
+    if (before != null && before.isNotEmpty) {
+      url += '&before=$before';
+    }
+    if (after != null && after.isNotEmpty) {
+      url += '&after=$after';
+    }
 
     return _client.get(
       url,

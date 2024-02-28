@@ -10,6 +10,8 @@ class MessageData {
     required this.id,
     required this.content,
     required this.object,
+    required this.assistantId,
+    required this.runId,
   });
 
   String threadId;
@@ -20,6 +22,8 @@ class MessageData {
   String id;
   List<Content> content;
   String object;
+  String assistantId;
+  String runId;
 
   factory MessageData.fromJson(Map<String, dynamic> json) => MessageData(
         threadId: json["thread_id"] ?? '',
@@ -36,6 +40,8 @@ class MessageData {
                 json["content"].map((x) => Content.fromJson(x)),
               ),
         object: json["object"] ?? '',
+        assistantId: json['assistant_id'] ?? '',
+        runId: json['run_id'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +53,7 @@ class MessageData {
         "id": id,
         "content": content.map((x) => x.toJson()).toList(),
         "object": object,
+        'assistant_id': assistantId,
+        'run_id': runId,
       };
 }

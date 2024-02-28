@@ -14,7 +14,7 @@ class Messages {
       : _client = client,
         _headers = headers;
 
-  Future<CreateMessageResponse> createMessage({
+  Future<MessageData> createMessage({
     required String threadId,
     required CreateMessage request,
   }) {
@@ -22,7 +22,7 @@ class Messages {
       _client.apiUrl + kThread + "/$threadId/$kMessages",
       request.toJson(),
       headers: _headers,
-      onSuccess: CreateMessageResponse.fromJson,
+      onSuccess: MessageData.fromJson,
       onCancel: (cancelData) => null,
     );
   }
@@ -34,13 +34,16 @@ class Messages {
     String? after,
     String? before,
   }) {
-    String url = after != null || before != null
-        ? _client.apiUrl +
-            kThread +
-            "/$threadId/$kMessages?limit=$limit&order=$order&after=$after&before=$before"
-        : _client.apiUrl +
-            kThread +
-            "/$threadId/$kMessages?limit=$limit&order=$order";
+    String url = _client.apiUrl +
+        kThread +
+        "/$threadId/$kMessages?limit=$limit&order=$order";
+
+    if (before != null && before.isNotEmpty) {
+      url += '&before=$before';
+    }
+    if (after != null && after.isNotEmpty) {
+      url += '&after=$after';
+    }
 
     return _client.get(
       url,
@@ -64,13 +67,16 @@ class Messages {
     String? after,
     String? before,
   }) {
-    String url = after != null || before != null
-        ? _client.apiUrl +
-            kThread +
-            "/$threadId/$kMessages/$messageId/$kFile?limit=$limit&order=$order&after=$after&before=$before"
-        : _client.apiUrl +
-            kThread +
-            "/$threadId/$kMessages/$messageId/$kFile?limit=$limit&order=$order";
+    String url = _client.apiUrl +
+        kThread +
+        "/$threadId/$kMessages/$messageId/$kFile?limit=$limit&order=$order";
+
+    if (before != null && before.isNotEmpty) {
+      url += '&before=$before';
+    }
+    if (after != null && after.isNotEmpty) {
+      url += '&after=$after';
+    }
 
     return _client.get(
       url,
