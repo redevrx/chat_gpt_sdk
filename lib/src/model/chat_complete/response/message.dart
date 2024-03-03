@@ -3,7 +3,7 @@ class Message {
   final String content;
   final String id = "${DateTime.now().millisecondsSinceEpoch}";
   final Map<String, dynamic>? functionCall;
-  final Map<String, dynamic>? toolCalls;
+  final List<Map<String, dynamic>>? toolCalls;
 
   Message({required this.role, required this.content, this.functionCall, this.toolCalls});
 
