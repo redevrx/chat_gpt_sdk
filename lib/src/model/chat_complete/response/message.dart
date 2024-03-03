@@ -11,13 +11,13 @@ class Message {
         role: json["role"] ?? "",
         content: json["content"] ?? "",
         functionCall: json["function_call"],
-        toolCalls: json["tools_call"],
+        toolCalls: json["tool_calls"],
       );
 
   Map<String, dynamic> toJson() => {
         "role": role,
         "content": content,
         "function_call": functionCall,
-        "tools_call": toolCalls,
+        "tool_calls": toolCalls,
       };
 }
