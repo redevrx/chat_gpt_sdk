@@ -11,7 +11,9 @@ class Message {
         role: json["role"] ?? "",
         content: json["content"] ?? "",
         functionCall: json["function_call"],
-        toolCalls: json["tool_calls"],
+        toolCalls: List<Map<String, dynamic>>.from(
+          json["tool_calls"].map((x) => Map<String, dynamic>.from(x)),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
