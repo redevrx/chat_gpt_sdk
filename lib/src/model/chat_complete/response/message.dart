@@ -11,7 +11,7 @@ class Message {
         role: json["role"] ?? "",
         content: json["content"] ?? "",
         functionCall: json["function_call"],
-        toolCalls: List<Map<String, dynamic>>.from(
+        toolCalls: json['tool_calls'] == null ? null : List<Map<String, dynamic>>.from(
           json["tool_calls"].map((x) => Map<String, dynamic>.from(x)),
         ),
       );
