@@ -9,6 +9,7 @@ void main() {
         'role': 'sender',
         'content': 'Hello, world!',
         'function_call': null,
+        'tool_calls': null,
       });
     });
 

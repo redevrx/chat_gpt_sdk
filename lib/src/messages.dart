@@ -27,7 +27,7 @@ class Messages {
     );
   }
 
-  Future<List<CreateMessageResponse>> listMessage({
+  Future<CreateMessageResponse> listMessage({
     required String threadId,
     int limit = 20,
     String order = 'desc',
@@ -48,13 +48,7 @@ class Messages {
     return _client.get(
       url,
       headers: _headers,
-      onSuccess: (it) => it['data'] == null
-          ? []
-          : List<CreateMessageResponse>.from(
-              it['data'].map(
-                (x) => CreateMessageResponse.fromJson(x),
-              ),
-            ),
+      onSuccess: CreateMessageResponse.fromJson,
       onCancel: (cancelData) => null,
     );
   }
