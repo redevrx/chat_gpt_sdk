@@ -214,6 +214,7 @@ class ChatCompleteText {
       "top_logprobs": topLogprobs,
       "seed": seed,
       "tool_choice": toolChoice,
+      "tools": tools,
     })
       ..removeWhere((key, value) => value == null);
 
