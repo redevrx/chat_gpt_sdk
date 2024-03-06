@@ -19,6 +19,8 @@ class GenerateImage {
   final String user;
 
   final GenerateImageModel model;
+  final String? quality;
+  final String? style;
 
   GenerateImage(
     this.prompt,
@@ -27,6 +29,8 @@ class GenerateImage {
     this.size = ImageSize.size1024,
     this.responseFormat = Format.url,
     this.user = "",
+    this.quality,
+    this.style,
   }) : assert(1 <= n && n <= 10, 'n must be between 1 and 10.');
 
   Map<String, dynamic> toJson() => Map.of({
@@ -36,5 +40,8 @@ class GenerateImage {
         "size": size?.size,
         "response_format": responseFormat?.getName(),
         "user": user,
-      });
+        "quality": quality,
+        "style": style,
+      })
+        ..removeWhere((key, value) => value == null);
 }

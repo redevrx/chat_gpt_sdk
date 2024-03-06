@@ -224,4 +224,5 @@
 - Fix bugs
 - Update Assistant Model
 - Add Support Tools to Json
+- Update Generate Image Request
   
