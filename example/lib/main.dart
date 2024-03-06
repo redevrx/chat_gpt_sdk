@@ -117,19 +117,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
     await openAI.onChatCompletion(request: request);
   }
 
-  void generateImage() async {
-    final request = GenerateImage(
-      "snake eating cat",
-      1,
-      model: DallE3(),
-      size: ImageSize.size1024,
-      responseFormat: Format.url,
-      quality: "hd"
-    );
-    final response = await openAI.generateImage(request);
-
-    debugPrint('${response?.data?.map((e) => e?.toJson())}');
-  }
 
   @override
   void initState() {
@@ -195,7 +182,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
             icon: Icons.translate,
             iconSize: 18.0,
             radius: 46.0,
-            onClick: generateImage,
+            onClick: _translateEngToThai,
           ),
         ),
       ],
