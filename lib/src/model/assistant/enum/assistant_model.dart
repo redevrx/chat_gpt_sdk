@@ -18,6 +18,14 @@ class GptTurbo1106AModel extends AssistantModel {
   GptTurbo1106AModel() : super(model: kChatGptTurbo1106);
 }
 
+class GptTurboModel extends AssistantModel {
+  GptTurboModel() : super(model: kChatGptTurboModel);
+}
+
 class Gpt41106PreviewAModel extends AssistantModel {
   Gpt41106PreviewAModel() : super(model: kGpt41106Preview);
+}
+
+class AssistantModelFromValue extends AssistantModel {
+  AssistantModelFromValue({required super.model});
 }

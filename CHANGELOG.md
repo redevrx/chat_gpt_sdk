@@ -219,4 +219,9 @@
 ## 3.0.3
  - Fix bugs
  - Update Demo App
+
+## 3.0.4
+- Fix bugs
+- Update Assistant Model
+- Add Support Tools to Json
   
