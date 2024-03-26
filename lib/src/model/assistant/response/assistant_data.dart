@@ -16,7 +16,7 @@ class AssistantData {
   String instructions;
   Map metadata;
   String name;
-  List<Map<String, dynamic>> fileIds;
+  List<String> fileIds;
   int createdAt;
   String model;
   String id;
@@ -29,7 +29,7 @@ class AssistantData {
         name: json["name"] ?? '',
         fileIds: json["file_ids"] == null
             ? []
-            : List<Map<String, dynamic>>.from(json["file_ids"].map((x) => x)),
+            : List<String>.from(json["file_ids"].map((x) => x)),
         createdAt: json["created_at"] ?? 0,
         model: json["model"] ?? '',
         id: json["id"] ?? '',
