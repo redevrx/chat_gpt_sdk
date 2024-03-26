@@ -225,4 +225,6 @@
 - Update Assistant Model
 - Add Support Tools to Json
 - Update Generate Image Request
-  
+
+## 3.0.5
+- Fix Assistant Data Json parsing bug
