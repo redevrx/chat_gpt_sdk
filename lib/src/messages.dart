@@ -33,6 +33,7 @@ class Messages {
     String order = 'desc',
     String? after,
     String? before,
+    String? runId,
   }) {
     String url = _client.apiUrl +
         kThread +
@@ -43,6 +44,9 @@ class Messages {
     }
     if (after != null && after.isNotEmpty) {
       url += '&after=$after';
+    }
+    if (runId != null && runId.isNotEmpty) {
+      url += '&run_id=$runId';
     }
 
     return _client.get(
