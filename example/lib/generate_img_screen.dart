@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class GenImgScreen extends StatefulWidget {
-  const GenImgScreen({Key? key}) : super(key: key);
+  const GenImgScreen({super.key});
 
   @override
   State<GenImgScreen> createState() => _GenImgScreenState();

@@ -20,7 +20,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../components/error/notfound_token.dart';
 
 class ChatBotScreen extends StatefulWidget {
-  const ChatBotScreen({Key? key, required this.data}) : super(key: key);
+  const ChatBotScreen({super.key, required this.data});
 
   final FeatureData data;
   @override

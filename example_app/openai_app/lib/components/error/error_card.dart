@@ -9,12 +9,11 @@ import 'package:openai_app/constants/theme/dimen.dart';
 
 class ErrorCard extends StatelessWidget {
   const ErrorCard(
-      {Key? key,
+      {super.key,
       required this.height,
       required this.animation,
       required this.title,
-      required this.error})
-      : super(key: key);
+      required this.error});
 
   final double height;
   final String animation;

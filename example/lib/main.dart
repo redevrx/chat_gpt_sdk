@@ -8,7 +8,7 @@ import 'package:material_buttonx/materialButtonX.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class TranslateScreen extends StatefulWidget {
-  const TranslateScreen({Key? key}) : super(key: key);
+  const TranslateScreen({super.key});
   @override
   State<TranslateScreen> createState() => _TranslateScreenState();
 }
@@ -116,7 +116,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
     await openAI.onChatCompletion(request: request);
   }
-
 
   @override
   void initState() {

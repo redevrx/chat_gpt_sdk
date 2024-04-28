@@ -7,7 +7,7 @@ import 'package:openai_app/screen/home/home_screen.dart';
 import 'package:openai_app/screen/preview/preview_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

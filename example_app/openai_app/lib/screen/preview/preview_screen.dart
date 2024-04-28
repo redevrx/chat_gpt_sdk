@@ -7,7 +7,7 @@ import 'package:openai_app/screen/home/home_screen.dart';
 import 'package:openai_app/screen/setup/setup_token.dart';
 
 class PreviewScreen extends StatelessWidget {
-  const PreviewScreen({Key? key}) : super(key: key);
+  const PreviewScreen({super.key});
 
   void toSetupScreen({required BuildContext context}) {
     Navigator.pushAndRemoveUntil(

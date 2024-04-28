@@ -6,7 +6,7 @@ import 'package:openai_app/components/setting/setting_card.dart';
 import 'package:openai_app/screen/home/home_screen.dart';
 
 class SetupScreen extends StatelessWidget {
-  const SetupScreen({Key? key}) : super(key: key);
+  const SetupScreen({super.key});
 
   void toHomeScreen({required BuildContext context}) {
     final bloc = BlocProvider.of<OpenAIBloc>(context, listen: false);

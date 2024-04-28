@@ -11,7 +11,7 @@ import 'package:openai_app/models/feature/feature_data.dart';
 import 'package:openai_app/screen/chatbot/chatbot.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
