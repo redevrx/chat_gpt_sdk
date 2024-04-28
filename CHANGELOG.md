@@ -229,7 +229,7 @@
 ## 3.0.5
 - Fix Assistant Data Json parsing bug
 
-## 3.0.6
+## 3.0.7
 - Fix list run case id is null
 - Message add runId
 - Add fix for assistant_data json parsing
