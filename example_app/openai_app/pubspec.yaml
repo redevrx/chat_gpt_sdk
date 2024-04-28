@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.1+6
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -34,20 +34,20 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.6
   chat_gpt_sdk:
     path: ../../
 #  chat_gpt_sdk: ^2.1.4
   flutter_bloc: ^8.1.2
   shared_preferences: ^2.1.1
-  google_fonts: ^4.0.4
-  lottie: ^2.3.2
+  google_fonts: ^6.2.1
+  lottie: ^3.1.0
   injectable: ^2.1.1
   get_it: ^7.6.0
-  flutter_markdown: ^0.6.14
+  flutter_markdown: ^0.7.1
   path_provider: ^2.0.15
-  http: ^0.13.6
-  permission_handler: ^10.2.0
+  http: ^1.2.1
+  permission_handler: ^11.3.1
 
 
 dev_dependencies:
