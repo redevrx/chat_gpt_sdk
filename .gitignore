@@ -29,3 +29,4 @@ migrate_working_dir/
 .packages
 build/
 .idea
+/.flutter-plugins
