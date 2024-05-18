@@ -73,6 +73,8 @@ const kChatGptTurbo16k0613 = 'gpt-3.5-turbo-16k-0613';
 const kChatGpt40631 = 'gpt-4-0613';
 const kGpt41106Preview = 'gpt-4-1106-preview';
 const kGpt4VisionPreview = 'gpt-4-vision-preview';
+const kGpt4o = 'gpt-4o';
+const kGpt4O2024 = 'gpt-4o-2024-05-13';
 
 ///edits
 // using gpt 4

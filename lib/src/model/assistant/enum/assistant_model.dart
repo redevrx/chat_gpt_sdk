@@ -26,6 +26,14 @@ class Gpt41106PreviewAModel extends AssistantModel {
   Gpt41106PreviewAModel() : super(model: kGpt41106Preview);
 }
 
+class Gpt4OModel extends AssistantModel {
+  Gpt4OModel() : super(model: kGpt4o);
+}
+
+class Gpt4O2024Model extends AssistantModel {
+  Gpt4O2024Model() : super(model: kGpt4O2024);
+}
+
 class AssistantModelFromValue extends AssistantModel {
   AssistantModelFromValue({required super.model});
 }

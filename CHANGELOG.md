@@ -233,3 +233,7 @@
 - Fix list run case id is null
 - Message add runId
 - Add fix for assistant_data json parsing
+
+## 3.0.8
+  - Assistants Add gpt4o model
+  - Complete Add gpt4o model
