@@ -115,6 +115,7 @@ Map<String, String> kHeader(
 }
 
 Map<String, String> headersAssistants = {'OpenAI-Beta': 'assistants=v1'};
+Map<String, String> headersAssistantsV2 = {'OpenAI-Beta': 'assistants=v2'};
 
 ///key data
 const kTokenKey = 'token';

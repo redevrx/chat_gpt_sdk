@@ -47,6 +47,8 @@ class Assistant {
   /// [metadata]
   final Map? metadata;
 
+  final Map<String,dynamic>? fileSearch;
+
   Assistant({
     required this.model,
     this.name,
@@ -55,6 +57,7 @@ class Assistant {
     this.tools,
     this.fileIds,
     this.metadata,
+    this.fileSearch,
   });
 
   Map<String, dynamic> toJson() => Map.of({
@@ -66,4 +69,35 @@ class Assistant {
         'file_ids': fileIds ?? [],
         'metadata': metadata ?? {},
       });
+
+
+  Map<String, dynamic> toJsonV2(){
+    final data = Map.of({
+      "model": model.model,
+      'name': name,
+      'description': description,
+      'instructions': instructions,
+      'tools': tools,
+      'tool_resources':{
+        'file_search':fileSearch,
+        'code_interpreter':{
+          "file_ids":fileIds ?? [],
+        },
+      },
+    });
+
+    if(fileSearch == null){
+      (data['tool_resources'] as Map?)?.remove('file_search');
+    }
+
+    if(fileIds?.isEmpty == true){
+      (data['tool_resources'] as Map?)?.remove('code_interpreter');
+    }
+
+    if(fileIds?.isEmpty == true && fileSearch == null){
+      data.remove('tool_resources');
+    }
+
+    return data;
+  }
 }

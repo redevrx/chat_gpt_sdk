@@ -1,5 +1,3 @@
-import 'package:chat_gpt_sdk/src/model/assistant/response/tool.dart';
-
 class AssistantData {
   AssistantData({
     required this.instructions,
@@ -11,6 +9,9 @@ class AssistantData {
     required this.id,
     required this.tools,
     required this.object,
+    this.description,
+    this.topP,
+    this.temperature,
   });
 
   String instructions;
@@ -20,8 +21,11 @@ class AssistantData {
   int createdAt;
   String model;
   String id;
-  List<Tool> tools;
+  List<dynamic> tools;
   String object;
+  final String? description;
+  final double? topP;
+  final double? temperature;
 
   factory AssistantData.fromJson(Map<String, dynamic> json) => AssistantData(
         instructions: json["instructions"] ?? '',
@@ -35,8 +39,11 @@ class AssistantData {
         id: json["id"] ?? '',
         tools: json["tools"] == null
             ? []
-            : List<Tool>.from(json["tools"].map((x) => Tool.fromJson(x))),
+            : List<dynamic>.from(json["tools"].map((x) => x)),
         object: json["object"],
+        description: json['description'],
+        topP: json['top_p'],
+    temperature: json['temperature'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,5 +56,8 @@ class AssistantData {
         "id": id,
         "tools": tools.map((x) => x.toJson()),
         "object": object,
+        'description': description,
+        'top_p': topP,
+    'temperature':temperature,
       };
 }
