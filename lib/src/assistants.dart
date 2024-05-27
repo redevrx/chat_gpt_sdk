@@ -14,6 +14,12 @@ class AssistantsV2 {
 
   Map<String, String> get getHeader => headersAssistantsV2;
 
+  void addHeader(Map<String, String> mHeader) {
+    if (mHeader == {}) return;
+
+    headersAssistantsV2.addAll(mHeader);
+  }
+
   ///Create an assistant with a model and instructions.
   ///[create]
   Future<AssistantData> create({
@@ -23,7 +29,7 @@ class AssistantsV2 {
     return _client.post(
       _client.apiUrl + kAssistants,
       assistant.toJsonV2(),
-      headers: headersAssistants,
+      headers: headersAssistantsV2,
       onSuccess: AssistantData.fromJson,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
     );
@@ -34,12 +40,12 @@ class AssistantsV2 {
   Future<List<AssistantData>> list() {
     return _client.get(
       _client.apiUrl + kAssistants,
-      headers: headersAssistants,
+      headers: headersAssistantsV2,
       onSuccess: (it) => it['data'] == null
           ? []
           : List<AssistantData>.from(
-        it['data'].map((x) => AssistantData.fromJson(x)),
-      ),
+              it['data'].map((x) => AssistantData.fromJson(x)),
+            ),
       onCancel: (_) => null,
     );
   }
@@ -51,7 +57,7 @@ class AssistantsV2 {
   }) {
     return _client.get(
       _client.apiUrl + kAssistants + "/$assistantId",
-      headers: headersAssistants,
+      headers: headersAssistantsV2,
       onSuccess: AssistantData.fromJson,
       onCancel: (_) => null,
     );
@@ -66,8 +72,8 @@ class AssistantsV2 {
   }) {
     return _client.post(
       _client.apiUrl + kAssistants + "/$assistantId",
-      assistant.toJson(),
-      headers: headersAssistants,
+      assistant.toJsonV2(),
+      headers: headersAssistantsV2,
       onSuccess: AssistantData.fromJson,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
     );
@@ -80,7 +86,7 @@ class AssistantsV2 {
   }) {
     return _client.delete(
       _client.apiUrl + kAssistants + "/$assistantId",
-      headers: headersAssistants,
+      headers: headersAssistantsV2,
       onSuccess: DeleteAssistant.fromJson,
       onCancel: (_) => null,
     );
@@ -108,6 +114,7 @@ class Assistants {
   AssistantsV2 get v2 => AssistantsV2(_client);
 
   @Deprecated('Using Assistants Version 2')
+
   ///Create an assistant with a model and instructions.
   ///[create]
   Future<AssistantData> create({
@@ -123,8 +130,8 @@ class Assistants {
     );
   }
 
-
   @Deprecated('Using Assistants Version 2')
+
   /// [assistantId]
   /// The ID of the assistant for which to create a File.
   /// [fileId]
@@ -149,6 +156,7 @@ class Assistants {
   }
 
   @Deprecated('Using Assistants Version 2')
+
   ///Returns a list of assistants.
   ///[list]
   Future<List<AssistantData>> list() {
@@ -165,6 +173,7 @@ class Assistants {
   }
 
   @Deprecated('Using Assistants Version 2')
+
   ///Returns a list of assistant files.
   ///[listFile]
   ///[assistantId]
@@ -181,6 +190,7 @@ class Assistants {
   }
 
   @Deprecated('Using Assistants Version 2')
+
   ///Retrieves an assistant.
   ///[retrieves]
   Future<AssistantData> retrieves({
@@ -195,6 +205,7 @@ class Assistants {
   }
 
   @Deprecated('Using Assistants Version 2')
+
   ///Retrieves an AssistantFile.
   /// [retrievesFile]
   Future<AssistantFileData> retrievesFile({
@@ -210,6 +221,7 @@ class Assistants {
   }
 
   @Deprecated('Using Assistants Version 2')
+
   ///Modifies an assistant.
   /// [modifies]
   Future<AssistantData> modifies({
@@ -227,6 +239,7 @@ class Assistants {
   }
 
   @Deprecated('Using Assistants Version 2')
+
   ///Delete an assistant.
   ///[delete]
   Future<DeleteAssistant> delete({

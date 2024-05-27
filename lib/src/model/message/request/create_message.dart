@@ -22,12 +22,14 @@ class CreateMessage {
   /// can be a maxium of 512 characters long.
   /// [metadata]
   final Map<String, dynamic>? metadata;
+  final List<Map<String, dynamic>>? attachments;
 
   CreateMessage({
     required this.role,
     required this.content,
     this.fileIds,
     this.metadata,
+    this.attachments,
   });
 
   Map<String, dynamic> toJson() => Map.of({
@@ -35,6 +37,14 @@ class CreateMessage {
         'content': content,
         'file_ids': fileIds,
         'metadata': metadata,
+      })
+        ..removeWhere((_, value) => value == null);
+
+  Map<String, dynamic> get toJsonV2 => Map.of({
+        'role': role,
+        'content': content,
+        'metadata': metadata,
+        'attachments': attachments?.map((it) => it).toList(),
       })
         ..removeWhere((_, value) => value == null);
 }

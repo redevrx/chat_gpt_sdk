@@ -37,7 +37,7 @@ class Assistant {
   /// There can be a maximum of 20 files attached to the assistant.
   /// Files are ordered by their creation date in ascending order.
   /// [fileIds]
-  final List? fileIds;
+  final List<String>? fileIds;
 
   ///Set of 16 key-value pairs that can be attached to an object.
   /// This can be useful for storing additional information
@@ -47,7 +47,7 @@ class Assistant {
   /// [metadata]
   final Map? metadata;
 
-  final Map<String,dynamic>? fileSearch;
+  final Map<String, dynamic>? fileSearch;
 
   Assistant({
     required this.model,
@@ -70,31 +70,30 @@ class Assistant {
         'metadata': metadata ?? {},
       });
 
-
-  Map<String, dynamic> toJsonV2(){
+  Map<String, dynamic> toJsonV2() {
     final data = Map.of({
       "model": model.model,
       'name': name,
       'description': description,
       'instructions': instructions,
       'tools': tools,
-      'tool_resources':{
-        'file_search':fileSearch,
-        'code_interpreter':{
-          "file_ids":fileIds ?? [],
+      'tool_resources': {
+        'file_search': fileSearch,
+        'code_interpreter': {
+          "file_ids": fileIds ?? [],
         },
       },
     });
 
-    if(fileSearch == null){
+    if (fileSearch == null) {
       (data['tool_resources'] as Map?)?.remove('file_search');
     }
 
-    if(fileIds?.isEmpty == true){
+    if (fileIds?.isEmpty == true) {
       (data['tool_resources'] as Map?)?.remove('code_interpreter');
     }
 
-    if(fileIds?.isEmpty == true && fileSearch == null){
+    if (fileIds?.isEmpty == true && fileSearch == null) {
       data.remove('tool_resources');
     }
 

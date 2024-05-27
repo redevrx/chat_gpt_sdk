@@ -29,6 +29,8 @@ class Runs {
     );
   }
 
+  @Deprecated("using version 2")
+
   ///Create a thread and run it in one request.
   ///[createThreadAndRun]
   Future<CreateThreadAndRunData> createThreadAndRun({
@@ -39,6 +41,20 @@ class Runs {
       request.toJson(),
       headers: _headers,
       onSuccess: CreateThreadAndRunData.fromJson,
+      onCancel: (cancelData) => null,
+    );
+  }
+
+  ///Create a thread and run it in one request.
+  ///[createThreadAndRunV2]
+  Future<CreateRunResponse> createThreadAndRunV2({
+    required CreateThreadAndRun request,
+  }) {
+    return _client.post(
+      _client.apiUrl + kThread + "/$kRuns",
+      request.toJson(),
+      headers: _headers,
+      onSuccess: CreateRunResponse.fromJson,
       onCancel: (cancelData) => null,
     );
   }

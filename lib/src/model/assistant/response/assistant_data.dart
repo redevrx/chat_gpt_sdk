@@ -43,7 +43,7 @@ class AssistantData {
         object: json["object"],
         description: json['description'],
         topP: json['top_p'],
-    temperature: json['temperature'],
+        temperature: json['temperature'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,6 +58,6 @@ class AssistantData {
         "object": object,
         'description': description,
         'top_p': topP,
-    'temperature':temperature,
+        'temperature': temperature,
       };
 }

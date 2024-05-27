@@ -237,3 +237,7 @@
 ## 3.0.8
   - Assistants Add gpt4o model
   - Complete Add gpt4o model
+
+## 3.0.9
+- Assistants v2
+- New docs API v2

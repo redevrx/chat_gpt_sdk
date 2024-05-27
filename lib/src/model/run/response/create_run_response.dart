@@ -1,4 +1,3 @@
-import 'package:chat_gpt_sdk/src/model/assistant/response/tool.dart';
 import 'package:chat_gpt_sdk/src/model/complete_text/response/usage.dart';
 import 'package:chat_gpt_sdk/src/model/run/response/step_detail.dart';
 
@@ -24,12 +23,22 @@ class CreateRunResponse {
     required this.expiresAt,
     required this.type,
     required this.stepDetails,
+    this.requiredAction,
+    this.incompleteDetails,
+    this.temperature,
+    this.topP,
+    this.maxPromptTokens,
+    this.maxCompletionTokens,
+    this.truncationStrategy,
+    this.toolChoice,
+    this.responseFormat,
+    this.toolResources,
   });
 
   Map<String, dynamic> metadata;
   String assistantId;
   int createdAt;
-  List<Tool> tools;
+  List tools;
   int completedAt;
   String threadId;
   List<String> fileIds;
@@ -46,6 +55,16 @@ class CreateRunResponse {
   int expiresAt;
   String type;
   StepDetail? stepDetails;
+  Map<String, dynamic>? requiredAction;
+  Map<String, dynamic>? incompleteDetails;
+  double? temperature;
+  double? topP;
+  int? maxPromptTokens;
+  int? maxCompletionTokens;
+  Map<String, dynamic>? truncationStrategy;
+  dynamic toolChoice;
+  dynamic responseFormat;
+  Map<String, dynamic>? toolResources;
 
   factory CreateRunResponse.fromJson(Map<String, dynamic> json) =>
       CreateRunResponse(
@@ -54,7 +73,7 @@ class CreateRunResponse {
         createdAt: json["created_at"] ?? 0,
         tools: json["tools"] == null
             ? []
-            : List<Tool>.from(json["tools"].map((x) => Tool.fromJson(x))),
+            : List<dynamic>.from(json["tools"].map((x) => x)),
         completedAt: json["completed_at"] ?? 0,
         threadId: json["thread_id"] ?? '',
         fileIds: json["file_ids"] == null
@@ -75,6 +94,16 @@ class CreateRunResponse {
         stepDetails: json['step_details'] == null
             ? null
             : StepDetail.fromJson(json['step_details']),
+        requiredAction: json['required_action'],
+        incompleteDetails: json['incomplete_details'],
+        temperature: json['temperature'],
+        topP: json['top_p'],
+        maxPromptTokens: json['max_prompt_tokens'],
+        maxCompletionTokens: json['max_completion_tokens'],
+        truncationStrategy: json['truncation_strategy'],
+        toolChoice: json['tool_choice'],
+        responseFormat: json['response_format'],
+        toolResources: json['tool_resources'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -98,5 +127,15 @@ class CreateRunResponse {
         'expires_at': expiresAt,
         'type': type,
         'step_details': stepDetails?.toJson(),
+        'required_action': requiredAction,
+        'incomplete_details': incompleteDetails,
+        'temperature': temperature,
+        'top_p': topP,
+        'max_prompt_tokens': maxPromptTokens,
+        'max_completion_tokens': maxCompletionTokens,
+        'truncation_strategy': truncationStrategy,
+        'tool_choice': toolChoice,
+        'response_format': responseFormat,
+        'tool_resources': toolResources,
       };
 }
