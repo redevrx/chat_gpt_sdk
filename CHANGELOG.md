@@ -240,4 +240,4 @@
 
 ## 3.0.9
 - Assistants v2
-- New docs API v2
+- Deprecate API
