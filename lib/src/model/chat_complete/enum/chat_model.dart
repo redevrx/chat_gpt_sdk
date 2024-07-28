@@ -61,6 +61,14 @@ class Gpt4O2024ChatModel extends ChatModel {
   Gpt4O2024ChatModel() : super(model: kGpt4O2024);
 }
 
+class Gpt4oMiniChatModel extends ChatModel {
+  Gpt4oMiniChatModel() : super(model: kGpt4oMini);
+}
+
+class Gpt4oMini2024ChatModel extends ChatModel {
+  Gpt4oMini2024ChatModel() : super(model: kGpt4oMini2024);
+}
+
 class Gpt41106PreviewChatModel extends ChatModel {
   Gpt41106PreviewChatModel() : super(model: kGpt41106Preview);
 }

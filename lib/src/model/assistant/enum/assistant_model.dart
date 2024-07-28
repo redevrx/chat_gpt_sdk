@@ -34,6 +34,14 @@ class Gpt4O2024Model extends AssistantModel {
   Gpt4O2024Model() : super(model: kGpt4O2024);
 }
 
+class Gpt4oMiniModel extends AssistantModel {
+  Gpt4oMiniModel() : super(model: kGpt4oMini);
+}
+
+class Gpt4oMini2024Model extends AssistantModel {
+  Gpt4oMini2024Model() : super(model: kGpt4oMini2024);
+}
+
 class AssistantModelFromValue extends AssistantModel {
   AssistantModelFromValue({required super.model});
 }
