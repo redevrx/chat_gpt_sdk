@@ -47,11 +47,13 @@ supervised and reinforcement learning techniques.
   - [Modify assistant](#modify-assistant)
   - [Delete assistant](#delete-assistant)
   - [Delete assistant file](#delete-assistant-file)
+  - [Using Assistants V2](#using-assistant-v2)
 - [Threads](#threads)
   - [Create thread](#Create-threads)
   - [Retrieve thread](#Retrieve-thread)
   - [Modify thread](#Modify-thread)
   - [Delete thread](#Delete-thread)
+  - [Using Thread V2](#using-thread-v2)
 - [Messages](#messages)
   - [Create message](#Create-message)
   - [List messages](#List-messages)
@@ -59,6 +61,7 @@ supervised and reinforcement learning techniques.
   - [Retrieve message](#Retrieve-message)
   - [Retrieve message file](#Retrieve-message-file)
   - [Modify message](#Modify-message)
+  - [Using Message V2](#using-message-v2)
 - [Runs](#runs)
   - [Create run](#Create-run)
   - [Create thread and run](#Create-thread-and-run)
@@ -111,7 +114,7 @@ supervised and reinforcement learning techniques.
 
 ## Install Package
 ```dart
-chat_gpt_sdk: 3.0.8
+chat_gpt_sdk: 3.1.0
 ```
 
 ## Create OpenAI Instance
@@ -414,6 +417,11 @@ void createAssistantFile() async {
 }
 ```
 
+- ## Using assistant v2
+```dart
+openAI.assistant.v2;
+```
+
 ## Threads
  - ### Create threads
 ```dart
@@ -464,6 +472,11 @@ void createThreads() async {
   void deleteThread() async {
   await openAI.threads.deleteThread(threadId: 'threadId');
 }
+```
+
+- ## Using Thread V2
+```dart
+openAI.threads.v2;
 ```
 
 ## Messages
@@ -530,6 +543,12 @@ void retrieveMessageFile() async {
   );
 }
 ```
+
+- ## Using Message V2
+```dart
+openAI.threads.v2.messages;
+```
+
 ## Runs
 - ### Create run
 ```dart

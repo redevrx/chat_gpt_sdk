@@ -241,3 +241,7 @@
 ## 3.0.9
 - Assistants v2
 - Deprecate API
+
+## 3.1.0
+ - Add Gpt 4o mini
+ - Add Doc API version 2 (Assistants v2)

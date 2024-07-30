@@ -18,7 +18,9 @@ class ThreadResponse {
       createdAt: json["created_at"] ?? 0,
       id: json["id"] ?? '',
       object: json["object"] ?? '',
-      toolResources: json['tool_resources'] is Map<String, double> ? json['tool_resources'] : null);
+      toolResources: json['tool_resources'] is Map<String, double>
+          ? json['tool_resources']
+          : null);
 
   Map<String, dynamic> toJson() => {
         "metadata": metadata,
