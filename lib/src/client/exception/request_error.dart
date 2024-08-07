@@ -18,6 +18,7 @@ class OpenAIAuthError extends BaseErrorWrapper {
 class OpenAIRateLimitError extends BaseErrorWrapper {
   OpenAIRateLimitError({super.data, super.code});
 }
+
 const kRateLimitMessage = 'Billing hard limit has been reached';
 
 ///Cause: Issue on our servers.

@@ -184,7 +184,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
       emit(RateLimitErrorState());
       // emit(ChatCompletionState(
       //     isBot: true, messages: list, showStopButton: false));
-    } on OpenAIServerError catch (e) {
+    } on OpenAIServerError {
       ///return state server error
       emit(OpenAIServerErrorState());
       // emit(ChatCompletionState(
