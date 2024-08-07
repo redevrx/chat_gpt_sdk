@@ -177,18 +177,18 @@ class OpenAIBloc extends Cubit<OpenAIState> {
     } on OpenAIAuthError catch (_) {
       ///return state auth error
       emit(AuthErrorState());
-      emit(ChatCompletionState(
-          isBot: true, messages: list, showStopButton: false));
+      // emit(ChatCompletionState(
+      //     isBot: true, messages: list, showStopButton: false));
     } on OpenAIRateLimitError catch (_) {
       ///return state rate limit error
       emit(RateLimitErrorState());
-      emit(ChatCompletionState(
-          isBot: true, messages: list, showStopButton: false));
-    } on OpenAIServerError catch (_) {
+      // emit(ChatCompletionState(
+      //     isBot: true, messages: list, showStopButton: false));
+    } on OpenAIServerError catch (e) {
       ///return state server error
       emit(OpenAIServerErrorState());
-      emit(ChatCompletionState(
-          isBot: true, messages: list, showStopButton: false));
+      // emit(ChatCompletionState(
+      //     isBot: true, messages: list, showStopButton: false));
     }
   }
 

@@ -49,7 +49,10 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return PopScope(
-        onPopInvoked: clearMessages,
+        canPop: true,
+        onPopInvokedWithResult: (didPop, _) {
+          clearMessages(didPop);
+        },
         child: Scaffold(
           body: Material(
             color: Colors.transparent,

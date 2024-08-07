@@ -61,7 +61,7 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("code: ${rawData.statusCode}, message :${rawData.data}");
         throw handleError(
           code: rawData.statusCode ?? HttpStatus.internalServerError,
-          message: "",
+          message: '${rawData.data}',
           data: rawData.data,
         );
       }
@@ -72,7 +72,7 @@ class OpenAIClient extends OpenAIWrapper {
       throw handleError(
         code: err.response?.statusCode ?? HttpStatus.internalServerError,
         message: '${err.message}',
-        data: err.response?.extra,
+        data: err.response?.data,
       );
     }
   }
@@ -173,7 +173,7 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("error code: ${rawData.statusCode}, message :${rawData.data}");
         throw handleError(
           code: rawData.statusCode ?? HttpStatus.internalServerError,
-          message: "${rawData.statusCode}",
+          message: "${rawData.data}",
           data: rawData.data,
         );
       }
@@ -183,7 +183,7 @@ class OpenAIClient extends OpenAIWrapper {
       );
       throw handleError(
         code: err.response?.statusCode ?? HttpStatus.internalServerError,
-        message: "${err.message}",
+        message: "${err.response?.data}",
         data: err.response?.data,
       );
     }
@@ -218,7 +218,7 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("code: ${response.statusCode}, message :${response.data}");
         throw handleError(
           code: response.statusCode ?? HttpStatus.internalServerError,
-          message: "${response.statusCode}",
+          message: "${response.extra}",
           data: response.data,
         );
       }
@@ -228,8 +228,8 @@ class OpenAIClient extends OpenAIWrapper {
       );
       throw handleError(
         code: err.response?.statusCode ?? HttpStatus.internalServerError,
-        message: "${err.response?.statusCode}",
-        data: err.response?.extra,
+        message: "${err.message}",
+        data: err.response?.data,
       );
     }
   }
@@ -268,7 +268,7 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("code: ${response.statusCode}, message :${response.data}");
         throw handleError(
           code: response.statusCode ?? HttpStatus.internalServerError,
-          message: "${response.statusCode}",
+          message: "${response.data}",
           data: response.data,
         );
       }
@@ -278,8 +278,8 @@ class OpenAIClient extends OpenAIWrapper {
       );
       throw handleError(
         code: err.response?.statusCode ?? HttpStatus.internalServerError,
-        message: "${err.response?.statusCode}",
-        data: err.response?.extra,
+        message: "${err.message}",
+        data: err.response?.data,
       );
     }
   }
@@ -412,7 +412,7 @@ class OpenAIClient extends OpenAIWrapper {
                       code: err.response?.statusCode ??
                           HttpStatus.internalServerError,
                       message: '${err.message}',
-                      data: err.response?.extra,
+                      data: err.response?.data,
                     ),
                     t,
                   );
@@ -431,7 +431,7 @@ class OpenAIClient extends OpenAIWrapper {
                   code: error.response?.statusCode ??
                       HttpStatus.internalServerError,
                   message: '${error.message}',
-                  data: error.response?.extra,
+                  data: error.response?.data,
                 ),
                 t,
               );
@@ -473,7 +473,7 @@ class OpenAIClient extends OpenAIWrapper {
         log.log("code: ${response.statusCode}, error: ${response.data}");
         throw handleError(
           code: response.statusCode ?? HttpStatus.internalServerError,
-          message: "${response.statusCode}",
+          message: "${response.data}",
           data: response.data,
         );
       }
@@ -483,7 +483,7 @@ class OpenAIClient extends OpenAIWrapper {
       );
       throw handleError(
         code: err.response?.statusCode ?? HttpStatus.internalServerError,
-        message: "${err.response?.statusCode}",
+        message: "${err.message}",
         data: err.response?.data,
       );
     }
@@ -500,6 +500,12 @@ class OpenAIClient extends OpenAIWrapper {
         data: OpenAIError.fromJson(data, message),
       );
     } else if (code == HttpStatus.tooManyRequests) {
+      return OpenAIRateLimitError(
+        code: code,
+        data: OpenAIError.fromJson(data, message),
+      );
+    } else if (code == HttpStatus.badRequest &&
+        '${data?['error']?['message']}'.contains(kRateLimitMessage)) {
       return OpenAIRateLimitError(
         code: code,
         data: OpenAIError.fromJson(data, message),

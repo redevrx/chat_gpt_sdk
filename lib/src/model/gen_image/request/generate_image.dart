@@ -43,5 +43,5 @@ class GenerateImage {
         "quality": quality,
         "style": style,
       })
-        ..removeWhere((key, value) => value == null);
+        ..removeWhere((key, value) => value == null || value == "");
 }
