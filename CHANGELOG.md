@@ -248,3 +248,7 @@
 
 ## 3.1.1
   - Update sdk
+
+## 3.1.2
+  - Update sdk
+  - remove path provider
