@@ -16,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void countDownTime({required BuildContext context}) {
     Future.delayed(const Duration(seconds: 3), () {
+      if (!context.mounted) return;
       BlocProvider.of<OpenAIBloc>(context, listen: false).isFirstSetting(
           success: () {
         ///navigate to preview screen

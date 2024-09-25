@@ -35,6 +35,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   ///setup openai sdk
   void initOpenAISDK() {
     Future.delayed(const Duration(milliseconds: 200), () {
+      if (!mounted) return;
       BlocProvider.of<OpenAIBloc>(context, listen: false).initOpenAISdk();
     });
   }

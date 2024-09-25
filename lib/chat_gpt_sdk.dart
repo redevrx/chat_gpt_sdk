@@ -72,6 +72,6 @@ export 'src/model/run/response/message_creation.dart';
 export 'src/model/run/response/step_detail.dart';
 export 'src/model/audio/request/speech_request.dart';
 export 'src/model/audio/enum/audio_format.dart';
-export 'src/model/message/response/ContentV2.dart';
+export 'src/model/message/response/content_v2.dart';
 export 'src/model/message/response/create_message_v2_response.dart';
 export 'src/model/message/response/message_data_response.dart';

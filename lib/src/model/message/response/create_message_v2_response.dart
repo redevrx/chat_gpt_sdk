@@ -1,4 +1,4 @@
-import 'package:chat_gpt_sdk/src/model/message/response/ContentV2.dart';
+import 'package:chat_gpt_sdk/src/model/message/response/content_v2.dart';
 
 class CreateMessageV2Response {
   String id;
