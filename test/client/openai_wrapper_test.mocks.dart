@@ -211,6 +211,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
           {
             #onSuccess: onSuccess,
             #onCancel: onCancel,
+            #headers: headers,
           },
         ),
         returnValue: _i6.ifNotNull(
@@ -222,6 +223,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
                   {
                     #onSuccess: onSuccess,
                     #onCancel: onCancel,
+                    #headers: headers,
                   },
                 ),
               ),
@@ -235,6 +237,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
                 {
                   #onSuccess: onSuccess,
                   #onCancel: onCancel,
+                  #headers: headers,
                 },
               ),
             ),
@@ -247,6 +250,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
                   {
                     #onSuccess: onSuccess,
                     #onCancel: onCancel,
+                    #headers: headers,
                   },
                 ),
               ),
@@ -260,6 +264,7 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
                 {
                   #onSuccess: onSuccess,
                   #onCancel: onCancel,
+                  #headers: headers,
                 },
               ),
             ),
@@ -341,6 +346,98 @@ class MockOpenAIClient extends _i1.Mock implements _i5.OpenAIClient {
               this,
               Invocation.method(
                 #post,
+                [
+                  url,
+                  request,
+                ],
+                {
+                  #onSuccess: onSuccess,
+                  #onCancel: onCancel,
+                  #headers: headers,
+                },
+              ),
+            ),
+      ) as _i3.Future<T>);
+
+  @override
+  _i3.Future<T> postRawBody<T>(
+    String? url,
+    Map<String, dynamic>? request, {
+    required _i3.Future<T> Function(
+      List<int>,
+      String,
+    )? onSuccess,
+    required void Function(_i7.CancelData)? onCancel,
+    Map<String, String>? headers,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #postRawBody,
+          [
+            url,
+            request,
+          ],
+          {
+            #onSuccess: onSuccess,
+            #onCancel: onCancel,
+            #headers: headers,
+          },
+        ),
+        returnValue: _i6.ifNotNull(
+              _i6.dummyValueOrNull<T>(
+                this,
+                Invocation.method(
+                  #postRawBody,
+                  [
+                    url,
+                    request,
+                  ],
+                  {
+                    #onSuccess: onSuccess,
+                    #onCancel: onCancel,
+                    #headers: headers,
+                  },
+                ),
+              ),
+              (T v) => _i3.Future<T>.value(v),
+            ) ??
+            _FakeFuture_1<T>(
+              this,
+              Invocation.method(
+                #postRawBody,
+                [
+                  url,
+                  request,
+                ],
+                {
+                  #onSuccess: onSuccess,
+                  #onCancel: onCancel,
+                  #headers: headers,
+                },
+              ),
+            ),
+        returnValueForMissingStub: _i6.ifNotNull(
+              _i6.dummyValueOrNull<T>(
+                this,
+                Invocation.method(
+                  #postRawBody,
+                  [
+                    url,
+                    request,
+                  ],
+                  {
+                    #onSuccess: onSuccess,
+                    #onCancel: onCancel,
+                    #headers: headers,
+                  },
+                ),
+              ),
+              (T v) => _i3.Future<T>.value(v),
+            ) ??
+            _FakeFuture_1<T>(
+              this,
+              Invocation.method(
+                #postRawBody,
                 [
                   url,
                   request,

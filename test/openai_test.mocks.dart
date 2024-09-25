@@ -3,7 +3,7 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i26;
+import 'dart:async' as _i27;
 
 import 'package:chat_gpt_sdk/src/assistants.dart' as _i8;
 import 'package:chat_gpt_sdk/src/audio.dart' as _i4;
@@ -11,65 +11,68 @@ import 'package:chat_gpt_sdk/src/edit.dart' as _i2;
 import 'package:chat_gpt_sdk/src/embedding.dart' as _i3;
 import 'package:chat_gpt_sdk/src/fine_tuned.dart' as _i6;
 import 'package:chat_gpt_sdk/src/model/audio/request/audio_request.dart'
-    as _i34;
-import 'package:chat_gpt_sdk/src/model/audio/response/audio_response.dart'
-    as _i12;
-import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart' as _i27;
-import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_complete_text.dart'
-    as _i31;
-import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_ct_response.dart'
-    as _i30;
-import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart'
-    as _i33;
-import 'package:chat_gpt_sdk/src/model/client/http_setup.dart' as _i25;
-import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart'
-    as _i29;
-import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart'
-    as _i28;
-import 'package:chat_gpt_sdk/src/model/edits/request/edit_request.dart' as _i35;
-import 'package:chat_gpt_sdk/src/model/edits/response/edit_response.dart'
-    as _i13;
-import 'package:chat_gpt_sdk/src/model/embedding/request/embed_request.dart'
-    as _i38;
-import 'package:chat_gpt_sdk/src/model/embedding/response/embed_response.dart'
-    as _i15;
-import 'package:chat_gpt_sdk/src/model/file/request/upload_file.dart' as _i42;
-import 'package:chat_gpt_sdk/src/model/file/response/delete_file.dart' as _i23;
-import 'package:chat_gpt_sdk/src/model/file/response/file_response.dart'
-    as _i21;
-import 'package:chat_gpt_sdk/src/model/file/response/upload_response.dart'
-    as _i22;
-import 'package:chat_gpt_sdk/src/model/fine_tune/request/create_fine_tune.dart'
-    as _i39;
-import 'package:chat_gpt_sdk/src/model/fine_tune/request/create_fine_tune_job.dart'
-    as _i40;
-import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_tune_delete.dart'
-    as _i17;
-import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_tune_model.dart'
-    as _i16;
-import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_list.dart'
-    as _i19;
-import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_model_job.dart'
-    as _i18;
-import 'package:chat_gpt_sdk/src/model/gen_image/request/file_info.dart'
+    as _i35;
+import 'package:chat_gpt_sdk/src/model/audio/request/speech_request.dart'
     as _i36;
-import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart'
+import 'package:chat_gpt_sdk/src/model/audio/response/audio_response.dart'
+    as _i13;
+import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart' as _i28;
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_complete_text.dart'
     as _i32;
-import 'package:chat_gpt_sdk/src/model/gen_image/request/variation.dart'
-    as _i37;
-import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart'
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_ct_response.dart'
+    as _i31;
+import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_response_sse.dart'
+    as _i34;
+import 'package:chat_gpt_sdk/src/model/client/http_setup.dart' as _i26;
+import 'package:chat_gpt_sdk/src/model/complete_text/request/complete_text.dart'
+    as _i30;
+import 'package:chat_gpt_sdk/src/model/complete_text/response/complete_response.dart'
+    as _i29;
+import 'package:chat_gpt_sdk/src/model/edits/request/edit_request.dart' as _i37;
+import 'package:chat_gpt_sdk/src/model/edits/response/edit_response.dart'
     as _i14;
-import 'package:chat_gpt_sdk/src/model/moderation/enum/moderation_model.dart'
+import 'package:chat_gpt_sdk/src/model/embedding/request/embed_request.dart'
+    as _i40;
+import 'package:chat_gpt_sdk/src/model/embedding/response/embed_response.dart'
+    as _i16;
+import 'package:chat_gpt_sdk/src/model/file/request/upload_file.dart' as _i44;
+import 'package:chat_gpt_sdk/src/model/file/response/delete_file.dart' as _i24;
+import 'package:chat_gpt_sdk/src/model/file/response/file_response.dart'
+    as _i22;
+import 'package:chat_gpt_sdk/src/model/file/response/upload_response.dart'
+    as _i23;
+import 'package:chat_gpt_sdk/src/model/fine_tune/request/create_fine_tune.dart'
     as _i41;
-import 'package:chat_gpt_sdk/src/model/moderation/response/moderation_data.dart'
+import 'package:chat_gpt_sdk/src/model/fine_tune/request/create_fine_tune_job.dart'
+    as _i42;
+import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_tune_delete.dart'
+    as _i18;
+import 'package:chat_gpt_sdk/src/model/fine_tune/response/fine_tune_model.dart'
+    as _i17;
+import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_list.dart'
     as _i20;
-import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart' as _i11;
-import 'package:chat_gpt_sdk/src/model/openai_model/openai_model.dart' as _i10;
+import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_model_job.dart'
+    as _i19;
+import 'package:chat_gpt_sdk/src/model/gen_image/request/file_info.dart'
+    as _i38;
+import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart'
+    as _i33;
+import 'package:chat_gpt_sdk/src/model/gen_image/request/variation.dart'
+    as _i39;
+import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart'
+    as _i15;
+import 'package:chat_gpt_sdk/src/model/moderation/enum/moderation_model.dart'
+    as _i43;
+import 'package:chat_gpt_sdk/src/model/moderation/response/moderation_data.dart'
+    as _i21;
+import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart' as _i12;
+import 'package:chat_gpt_sdk/src/model/openai_model/openai_model.dart' as _i11;
 import 'package:chat_gpt_sdk/src/moderation.dart' as _i7;
-import 'package:chat_gpt_sdk/src/openai.dart' as _i9;
+import 'package:chat_gpt_sdk/src/openai.dart' as _i10;
 import 'package:chat_gpt_sdk/src/openai_file.dart' as _i5;
+import 'package:chat_gpt_sdk/src/threads.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i24;
+import 'package:mockito/src/dummies.dart' as _i25;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -154,8 +157,8 @@ class _FakeAssistants_6 extends _i1.SmartFake implements _i8.Assistants {
         );
 }
 
-class _FakeOpenAI_7 extends _i1.SmartFake implements _i9.OpenAI {
-  _FakeOpenAI_7(
+class _FakeThreads_7 extends _i1.SmartFake implements _i9.Threads {
+  _FakeThreads_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -164,8 +167,8 @@ class _FakeOpenAI_7 extends _i1.SmartFake implements _i9.OpenAI {
         );
 }
 
-class _FakeOpenAiModel_8 extends _i1.SmartFake implements _i10.OpenAiModel {
-  _FakeOpenAiModel_8(
+class _FakeOpenAI_8 extends _i1.SmartFake implements _i10.OpenAI {
+  _FakeOpenAI_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -174,8 +177,8 @@ class _FakeOpenAiModel_8 extends _i1.SmartFake implements _i10.OpenAiModel {
         );
 }
 
-class _FakeEngineModel_9 extends _i1.SmartFake implements _i11.EngineModel {
-  _FakeEngineModel_9(
+class _FakeOpenAiModel_9 extends _i1.SmartFake implements _i11.OpenAiModel {
+  _FakeOpenAiModel_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -184,9 +187,8 @@ class _FakeEngineModel_9 extends _i1.SmartFake implements _i11.EngineModel {
         );
 }
 
-class _FakeAudioResponse_10 extends _i1.SmartFake
-    implements _i12.AudioResponse {
-  _FakeAudioResponse_10(
+class _FakeEngineModel_10 extends _i1.SmartFake implements _i12.EngineModel {
+  _FakeEngineModel_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -195,8 +197,9 @@ class _FakeAudioResponse_10 extends _i1.SmartFake
         );
 }
 
-class _FakeEditResponse_11 extends _i1.SmartFake implements _i13.EditResponse {
-  _FakeEditResponse_11(
+class _FakeAudioResponse_11 extends _i1.SmartFake
+    implements _i13.AudioResponse {
+  _FakeAudioResponse_11(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -205,9 +208,8 @@ class _FakeEditResponse_11 extends _i1.SmartFake implements _i13.EditResponse {
         );
 }
 
-class _FakeGenImgResponse_12 extends _i1.SmartFake
-    implements _i14.GenImgResponse {
-  _FakeGenImgResponse_12(
+class _FakeEditResponse_12 extends _i1.SmartFake implements _i14.EditResponse {
+  _FakeEditResponse_12(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -216,9 +218,9 @@ class _FakeGenImgResponse_12 extends _i1.SmartFake
         );
 }
 
-class _FakeEmbedResponse_13 extends _i1.SmartFake
-    implements _i15.EmbedResponse {
-  _FakeEmbedResponse_13(
+class _FakeGenImgResponse_13 extends _i1.SmartFake
+    implements _i15.GenImgResponse {
+  _FakeGenImgResponse_13(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -227,9 +229,9 @@ class _FakeEmbedResponse_13 extends _i1.SmartFake
         );
 }
 
-class _FakeFineTuneModel_14 extends _i1.SmartFake
-    implements _i16.FineTuneModel {
-  _FakeFineTuneModel_14(
+class _FakeEmbedResponse_14 extends _i1.SmartFake
+    implements _i16.EmbedResponse {
+  _FakeEmbedResponse_14(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -238,9 +240,9 @@ class _FakeFineTuneModel_14 extends _i1.SmartFake
         );
 }
 
-class _FakeFineTuneDelete_15 extends _i1.SmartFake
-    implements _i17.FineTuneDelete {
-  _FakeFineTuneDelete_15(
+class _FakeFineTuneModel_15 extends _i1.SmartFake
+    implements _i17.FineTuneModel {
+  _FakeFineTuneModel_15(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -249,9 +251,9 @@ class _FakeFineTuneDelete_15 extends _i1.SmartFake
         );
 }
 
-class _FakeFineTuneModelJob_16 extends _i1.SmartFake
-    implements _i18.FineTuneModelJob {
-  _FakeFineTuneModelJob_16(
+class _FakeFineTuneDelete_16 extends _i1.SmartFake
+    implements _i18.FineTuneDelete {
+  _FakeFineTuneDelete_16(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -260,8 +262,9 @@ class _FakeFineTuneModelJob_16 extends _i1.SmartFake
         );
 }
 
-class _FakeFineTuneList_17 extends _i1.SmartFake implements _i19.FineTuneList {
-  _FakeFineTuneList_17(
+class _FakeFineTuneModelJob_17 extends _i1.SmartFake
+    implements _i19.FineTuneModelJob {
+  _FakeFineTuneModelJob_17(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -270,9 +273,8 @@ class _FakeFineTuneList_17 extends _i1.SmartFake implements _i19.FineTuneList {
         );
 }
 
-class _FakeModerationData_18 extends _i1.SmartFake
-    implements _i20.ModerationData {
-  _FakeModerationData_18(
+class _FakeFineTuneList_18 extends _i1.SmartFake implements _i20.FineTuneList {
+  _FakeFineTuneList_18(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -281,8 +283,9 @@ class _FakeModerationData_18 extends _i1.SmartFake
         );
 }
 
-class _FakeFileResponse_19 extends _i1.SmartFake implements _i21.FileResponse {
-  _FakeFileResponse_19(
+class _FakeModerationData_19 extends _i1.SmartFake
+    implements _i21.ModerationData {
+  _FakeModerationData_19(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -291,9 +294,8 @@ class _FakeFileResponse_19 extends _i1.SmartFake implements _i21.FileResponse {
         );
 }
 
-class _FakeUploadResponse_20 extends _i1.SmartFake
-    implements _i22.UploadResponse {
-  _FakeUploadResponse_20(
+class _FakeFileResponse_20 extends _i1.SmartFake implements _i22.FileResponse {
+  _FakeFileResponse_20(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -302,8 +304,19 @@ class _FakeUploadResponse_20 extends _i1.SmartFake
         );
 }
 
-class _FakeDeleteFile_21 extends _i1.SmartFake implements _i23.DeleteFile {
-  _FakeDeleteFile_21(
+class _FakeUploadResponse_21 extends _i1.SmartFake
+    implements _i23.UploadResponse {
+  _FakeUploadResponse_21(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeDeleteFile_22 extends _i1.SmartFake implements _i24.DeleteFile {
+  _FakeDeleteFile_22(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -315,15 +328,15 @@ class _FakeDeleteFile_21 extends _i1.SmartFake implements _i23.DeleteFile {
 /// A class which mocks [OpenAI].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
+class MockOpenAI extends _i1.Mock implements _i10.OpenAI {
   @override
   String get token => (super.noSuchMethod(
         Invocation.getter(#token),
-        returnValue: _i24.dummyValue<String>(
+        returnValue: _i25.dummyValue<String>(
           this,
           Invocation.getter(#token),
         ),
-        returnValueForMissingStub: _i24.dummyValue<String>(
+        returnValueForMissingStub: _i25.dummyValue<String>(
           this,
           Invocation.getter(#token),
         ),
@@ -332,11 +345,11 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
   @override
   String get orgId => (super.noSuchMethod(
         Invocation.getter(#orgId),
-        returnValue: _i24.dummyValue<String>(
+        returnValue: _i25.dummyValue<String>(
           this,
           Invocation.getter(#orgId),
         ),
-        returnValueForMissingStub: _i24.dummyValue<String>(
+        returnValueForMissingStub: _i25.dummyValue<String>(
           this,
           Invocation.getter(#orgId),
         ),
@@ -434,6 +447,19 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
       ) as _i8.Assistants);
 
   @override
+  _i9.Threads get threads => (super.noSuchMethod(
+        Invocation.getter(#threads),
+        returnValue: _FakeThreads_7(
+          this,
+          Invocation.getter(#threads),
+        ),
+        returnValueForMissingStub: _FakeThreads_7(
+          this,
+          Invocation.getter(#threads),
+        ),
+      ) as _i9.Threads);
+
+  @override
   void setToken(String? token) => super.noSuchMethod(
         Invocation.method(
           #setToken,
@@ -452,11 +478,11 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
       );
 
   @override
-  _i9.OpenAI build({
+  _i10.OpenAI build({
     String? token,
     String? orgId,
     String? apiUrl,
-    _i25.HttpSetup? baseOption,
+    _i26.HttpSetup? baseOption,
     bool? enableLog = false,
   }) =>
       (super.noSuchMethod(
@@ -471,7 +497,7 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             #enableLog: enableLog,
           },
         ),
-        returnValue: _FakeOpenAI_7(
+        returnValue: _FakeOpenAI_8(
           this,
           Invocation.method(
             #build,
@@ -485,7 +511,7 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             },
           ),
         ),
-        returnValueForMissingStub: _FakeOpenAI_7(
+        returnValueForMissingStub: _FakeOpenAI_8(
           this,
           Invocation.method(
             #build,
@@ -499,18 +525,18 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             },
           ),
         ),
-      ) as _i9.OpenAI);
+      ) as _i10.OpenAI);
 
   @override
-  _i26.Future<_i10.OpenAiModel> listModel(
-          {void Function(_i27.CancelData)? onCancel}) =>
+  _i27.Future<_i11.OpenAiModel> listModel(
+          {void Function(_i28.CancelData)? onCancel}) =>
       (super.noSuchMethod(
         Invocation.method(
           #listModel,
           [],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i10.OpenAiModel>.value(_FakeOpenAiModel_8(
+        returnValue: _i27.Future<_i11.OpenAiModel>.value(_FakeOpenAiModel_9(
           this,
           Invocation.method(
             #listModel,
@@ -519,7 +545,7 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i10.OpenAiModel>.value(_FakeOpenAiModel_8(
+            _i27.Future<_i11.OpenAiModel>.value(_FakeOpenAiModel_9(
           this,
           Invocation.method(
             #listModel,
@@ -527,18 +553,18 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i10.OpenAiModel>);
+      ) as _i27.Future<_i11.OpenAiModel>);
 
   @override
-  _i26.Future<_i11.EngineModel> listEngine(
-          {void Function(_i27.CancelData)? onCancel}) =>
+  _i27.Future<_i12.EngineModel> listEngine(
+          {void Function(_i28.CancelData)? onCancel}) =>
       (super.noSuchMethod(
         Invocation.method(
           #listEngine,
           [],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i11.EngineModel>.value(_FakeEngineModel_9(
+        returnValue: _i27.Future<_i12.EngineModel>.value(_FakeEngineModel_10(
           this,
           Invocation.method(
             #listEngine,
@@ -547,7 +573,7 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i11.EngineModel>.value(_FakeEngineModel_9(
+            _i27.Future<_i12.EngineModel>.value(_FakeEngineModel_10(
           this,
           Invocation.method(
             #listEngine,
@@ -555,12 +581,12 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i11.EngineModel>);
+      ) as _i27.Future<_i12.EngineModel>);
 
   @override
-  _i26.Future<_i28.CompleteResponse?> onCompletion({
-    required _i29.CompleteText? request,
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i29.CompleteResponse?> onCompletion({
+    required _i30.CompleteText? request,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -571,14 +597,14 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i26.Future<_i28.CompleteResponse?>.value(),
-        returnValueForMissingStub: _i26.Future<_i28.CompleteResponse?>.value(),
-      ) as _i26.Future<_i28.CompleteResponse?>);
+        returnValue: _i27.Future<_i29.CompleteResponse?>.value(),
+        returnValueForMissingStub: _i27.Future<_i29.CompleteResponse?>.value(),
+      ) as _i27.Future<_i29.CompleteResponse?>);
 
   @override
-  _i26.Future<_i30.ChatCTResponse?> onChatCompletion({
-    required _i31.ChatCompleteText? request,
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i31.ChatCTResponse?> onChatCompletion({
+    required _i32.ChatCompleteText? request,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -589,14 +615,14 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i26.Future<_i30.ChatCTResponse?>.value(),
-        returnValueForMissingStub: _i26.Future<_i30.ChatCTResponse?>.value(),
-      ) as _i26.Future<_i30.ChatCTResponse?>);
+        returnValue: _i27.Future<_i31.ChatCTResponse?>.value(),
+        returnValueForMissingStub: _i27.Future<_i31.ChatCTResponse?>.value(),
+      ) as _i27.Future<_i31.ChatCTResponse?>);
 
   @override
-  _i26.Future<_i14.GenImgResponse?> generateImage(
-    _i32.GenerateImage? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i15.GenImgResponse?> generateImage(
+    _i33.GenerateImage? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -604,14 +630,14 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
           [request],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i14.GenImgResponse?>.value(),
-        returnValueForMissingStub: _i26.Future<_i14.GenImgResponse?>.value(),
-      ) as _i26.Future<_i14.GenImgResponse?>);
+        returnValue: _i27.Future<_i15.GenImgResponse?>.value(),
+        returnValueForMissingStub: _i27.Future<_i15.GenImgResponse?>.value(),
+      ) as _i27.Future<_i15.GenImgResponse?>);
 
   @override
-  _i26.Stream<_i33.ChatResponseSSE> onChatCompletionSSE({
-    required _i31.ChatCompleteText? request,
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Stream<_i34.ChatResponseSSE> onChatCompletionSSE({
+    required _i32.ChatCompleteText? request,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -622,14 +648,14 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i26.Stream<_i33.ChatResponseSSE>.empty(),
-        returnValueForMissingStub: _i26.Stream<_i33.ChatResponseSSE>.empty(),
-      ) as _i26.Stream<_i33.ChatResponseSSE>);
+        returnValue: _i27.Stream<_i34.ChatResponseSSE>.empty(),
+        returnValueForMissingStub: _i27.Stream<_i34.ChatResponseSSE>.empty(),
+      ) as _i27.Stream<_i34.ChatResponseSSE>);
 
   @override
-  _i26.Stream<_i28.CompleteResponse> onCompletionSSE({
-    required _i29.CompleteText? request,
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Stream<_i29.CompleteResponse> onCompletionSSE({
+    required _i30.CompleteText? request,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -640,9 +666,9 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i26.Stream<_i28.CompleteResponse>.empty(),
-        returnValueForMissingStub: _i26.Stream<_i28.CompleteResponse>.empty(),
-      ) as _i26.Stream<_i28.CompleteResponse>);
+        returnValue: _i27.Stream<_i29.CompleteResponse>.empty(),
+        returnValueForMissingStub: _i27.Stream<_i29.CompleteResponse>.empty(),
+      ) as _i27.Stream<_i29.CompleteResponse>);
 }
 
 /// A class which mocks [Audio].
@@ -650,9 +676,9 @@ class MockOpenAI extends _i1.Mock implements _i9.OpenAI {
 /// See the documentation for Mockito's code generation for more information.
 class MockAudio extends _i1.Mock implements _i4.Audio {
   @override
-  _i26.Future<_i12.AudioResponse> transcribes(
-    _i34.AudioRequest? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i13.AudioResponse> transcribes(
+    _i35.AudioRequest? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -661,7 +687,7 @@ class MockAudio extends _i1.Mock implements _i4.Audio {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i12.AudioResponse>.value(_FakeAudioResponse_10(
+            _i27.Future<_i13.AudioResponse>.value(_FakeAudioResponse_11(
           this,
           Invocation.method(
             #transcribes,
@@ -670,7 +696,7 @@ class MockAudio extends _i1.Mock implements _i4.Audio {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i12.AudioResponse>.value(_FakeAudioResponse_10(
+            _i27.Future<_i13.AudioResponse>.value(_FakeAudioResponse_11(
           this,
           Invocation.method(
             #transcribes,
@@ -678,12 +704,12 @@ class MockAudio extends _i1.Mock implements _i4.Audio {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i12.AudioResponse>);
+      ) as _i27.Future<_i13.AudioResponse>);
 
   @override
-  _i26.Future<_i12.AudioResponse> translate(
-    _i34.AudioRequest? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i13.AudioResponse> translate(
+    _i35.AudioRequest? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -692,7 +718,7 @@ class MockAudio extends _i1.Mock implements _i4.Audio {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i12.AudioResponse>.value(_FakeAudioResponse_10(
+            _i27.Future<_i13.AudioResponse>.value(_FakeAudioResponse_11(
           this,
           Invocation.method(
             #translate,
@@ -701,7 +727,7 @@ class MockAudio extends _i1.Mock implements _i4.Audio {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i12.AudioResponse>.value(_FakeAudioResponse_10(
+            _i27.Future<_i13.AudioResponse>.value(_FakeAudioResponse_11(
           this,
           Invocation.method(
             #translate,
@@ -709,7 +735,25 @@ class MockAudio extends _i1.Mock implements _i4.Audio {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i12.AudioResponse>);
+      ) as _i27.Future<_i13.AudioResponse>);
+
+  @override
+  _i27.Future<List<int>> createSpeech({
+    required _i36.SpeechRequest? request,
+    void Function(_i28.CancelData)? onCancel,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createSpeech,
+          [],
+          {
+            #request: request,
+            #onCancel: onCancel,
+          },
+        ),
+        returnValue: _i27.Future<List<int>>.value(<int>[]),
+        returnValueForMissingStub: _i27.Future<List<int>>.value(<int>[]),
+      ) as _i27.Future<List<int>>);
 }
 
 /// A class which mocks [Edit].
@@ -717,9 +761,9 @@ class MockAudio extends _i1.Mock implements _i4.Audio {
 /// See the documentation for Mockito's code generation for more information.
 class MockEdit extends _i1.Mock implements _i2.Edit {
   @override
-  _i26.Future<_i13.EditResponse> prompt(
-    _i35.EditRequest? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i14.EditResponse> prompt(
+    _i37.EditRequest? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -727,7 +771,7 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
           [request],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i13.EditResponse>.value(_FakeEditResponse_11(
+        returnValue: _i27.Future<_i14.EditResponse>.value(_FakeEditResponse_12(
           this,
           Invocation.method(
             #prompt,
@@ -736,7 +780,7 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i13.EditResponse>.value(_FakeEditResponse_11(
+            _i27.Future<_i14.EditResponse>.value(_FakeEditResponse_12(
           this,
           Invocation.method(
             #prompt,
@@ -744,12 +788,12 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i13.EditResponse>);
+      ) as _i27.Future<_i14.EditResponse>);
 
   @override
-  _i26.Future<_i14.GenImgResponse> editImage(
-    _i36.EditImageRequest? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i15.GenImgResponse> editImage(
+    _i38.EditImageRequest? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -758,7 +802,7 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i14.GenImgResponse>.value(_FakeGenImgResponse_12(
+            _i27.Future<_i15.GenImgResponse>.value(_FakeGenImgResponse_13(
           this,
           Invocation.method(
             #editImage,
@@ -767,7 +811,7 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i14.GenImgResponse>.value(_FakeGenImgResponse_12(
+            _i27.Future<_i15.GenImgResponse>.value(_FakeGenImgResponse_13(
           this,
           Invocation.method(
             #editImage,
@@ -775,12 +819,12 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i14.GenImgResponse>);
+      ) as _i27.Future<_i15.GenImgResponse>);
 
   @override
-  _i26.Future<_i14.GenImgResponse> variation(
-    _i37.Variation? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i15.GenImgResponse> variation(
+    _i39.Variation? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -789,7 +833,7 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i14.GenImgResponse>.value(_FakeGenImgResponse_12(
+            _i27.Future<_i15.GenImgResponse>.value(_FakeGenImgResponse_13(
           this,
           Invocation.method(
             #variation,
@@ -798,7 +842,7 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i14.GenImgResponse>.value(_FakeGenImgResponse_12(
+            _i27.Future<_i15.GenImgResponse>.value(_FakeGenImgResponse_13(
           this,
           Invocation.method(
             #variation,
@@ -806,7 +850,7 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i14.GenImgResponse>);
+      ) as _i27.Future<_i15.GenImgResponse>);
 }
 
 /// A class which mocks [Embedding].
@@ -814,9 +858,9 @@ class MockEdit extends _i1.Mock implements _i2.Edit {
 /// See the documentation for Mockito's code generation for more information.
 class MockEmbedding extends _i1.Mock implements _i3.Embedding {
   @override
-  _i26.Future<_i15.EmbedResponse> embedding(
-    _i38.EmbedRequest? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i16.EmbedResponse> embedding(
+    _i40.EmbedRequest? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -825,7 +869,7 @@ class MockEmbedding extends _i1.Mock implements _i3.Embedding {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i15.EmbedResponse>.value(_FakeEmbedResponse_13(
+            _i27.Future<_i16.EmbedResponse>.value(_FakeEmbedResponse_14(
           this,
           Invocation.method(
             #embedding,
@@ -834,7 +878,7 @@ class MockEmbedding extends _i1.Mock implements _i3.Embedding {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i15.EmbedResponse>.value(_FakeEmbedResponse_13(
+            _i27.Future<_i16.EmbedResponse>.value(_FakeEmbedResponse_14(
           this,
           Invocation.method(
             #embedding,
@@ -842,7 +886,7 @@ class MockEmbedding extends _i1.Mock implements _i3.Embedding {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i15.EmbedResponse>);
+      ) as _i27.Future<_i16.EmbedResponse>);
 }
 
 /// A class which mocks [FineTuned].
@@ -850,9 +894,9 @@ class MockEmbedding extends _i1.Mock implements _i3.Embedding {
 /// See the documentation for Mockito's code generation for more information.
 class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
   @override
-  _i26.Future<_i16.FineTuneModel> create(
-    _i39.CreateFineTune? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i17.FineTuneModel> create(
+    _i41.CreateFineTune? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -861,7 +905,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i16.FineTuneModel>.value(_FakeFineTuneModel_14(
+            _i27.Future<_i17.FineTuneModel>.value(_FakeFineTuneModel_15(
           this,
           Invocation.method(
             #create,
@@ -870,7 +914,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i16.FineTuneModel>.value(_FakeFineTuneModel_14(
+            _i27.Future<_i17.FineTuneModel>.value(_FakeFineTuneModel_15(
           this,
           Invocation.method(
             #create,
@@ -878,11 +922,11 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i16.FineTuneModel>);
+      ) as _i27.Future<_i17.FineTuneModel>);
 
   @override
-  _i26.Future<List<_i16.FineTuneModel>> list(
-          {void Function(_i27.CancelData)? onCancel}) =>
+  _i27.Future<List<_i17.FineTuneModel>> list(
+          {void Function(_i28.CancelData)? onCancel}) =>
       (super.noSuchMethod(
         Invocation.method(
           #list,
@@ -890,15 +934,15 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<List<_i16.FineTuneModel>>.value(<_i16.FineTuneModel>[]),
+            _i27.Future<List<_i17.FineTuneModel>>.value(<_i17.FineTuneModel>[]),
         returnValueForMissingStub:
-            _i26.Future<List<_i16.FineTuneModel>>.value(<_i16.FineTuneModel>[]),
-      ) as _i26.Future<List<_i16.FineTuneModel>>);
+            _i27.Future<List<_i17.FineTuneModel>>.value(<_i17.FineTuneModel>[]),
+      ) as _i27.Future<List<_i17.FineTuneModel>>);
 
   @override
-  _i26.Future<_i16.FineTuneModel> retrieve(
+  _i27.Future<_i17.FineTuneModel> retrieve(
     String? fineTuneId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -907,7 +951,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i16.FineTuneModel>.value(_FakeFineTuneModel_14(
+            _i27.Future<_i17.FineTuneModel>.value(_FakeFineTuneModel_15(
           this,
           Invocation.method(
             #retrieve,
@@ -916,7 +960,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i16.FineTuneModel>.value(_FakeFineTuneModel_14(
+            _i27.Future<_i17.FineTuneModel>.value(_FakeFineTuneModel_15(
           this,
           Invocation.method(
             #retrieve,
@@ -924,12 +968,12 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i16.FineTuneModel>);
+      ) as _i27.Future<_i17.FineTuneModel>);
 
   @override
-  _i26.Future<_i16.FineTuneModel> cancel(
+  _i27.Future<_i17.FineTuneModel> cancel(
     String? fineTuneId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -938,7 +982,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i16.FineTuneModel>.value(_FakeFineTuneModel_14(
+            _i27.Future<_i17.FineTuneModel>.value(_FakeFineTuneModel_15(
           this,
           Invocation.method(
             #cancel,
@@ -947,7 +991,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i16.FineTuneModel>.value(_FakeFineTuneModel_14(
+            _i27.Future<_i17.FineTuneModel>.value(_FakeFineTuneModel_15(
           this,
           Invocation.method(
             #cancel,
@@ -955,12 +999,12 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i16.FineTuneModel>);
+      ) as _i27.Future<_i17.FineTuneModel>);
 
   @override
-  _i26.Future<_i17.FineTuneDelete> delete(
+  _i27.Future<_i18.FineTuneDelete> delete(
     String? model, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -969,7 +1013,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i17.FineTuneDelete>.value(_FakeFineTuneDelete_15(
+            _i27.Future<_i18.FineTuneDelete>.value(_FakeFineTuneDelete_16(
           this,
           Invocation.method(
             #delete,
@@ -978,7 +1022,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i17.FineTuneDelete>.value(_FakeFineTuneDelete_15(
+            _i27.Future<_i18.FineTuneDelete>.value(_FakeFineTuneDelete_16(
           this,
           Invocation.method(
             #delete,
@@ -986,12 +1030,12 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i17.FineTuneDelete>);
+      ) as _i27.Future<_i18.FineTuneDelete>);
 
   @override
-  _i26.Stream<List<_i16.FineTuneModel>> listStream(
+  _i27.Stream<List<_i17.FineTuneModel>> listStream(
     String? fineTuneId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -999,15 +1043,15 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           [fineTuneId],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Stream<List<_i16.FineTuneModel>>.empty(),
+        returnValue: _i27.Stream<List<_i17.FineTuneModel>>.empty(),
         returnValueForMissingStub:
-            _i26.Stream<List<_i16.FineTuneModel>>.empty(),
-      ) as _i26.Stream<List<_i16.FineTuneModel>>);
+            _i27.Stream<List<_i17.FineTuneModel>>.empty(),
+      ) as _i27.Stream<List<_i17.FineTuneModel>>);
 
   @override
-  _i26.Future<_i18.FineTuneModelJob> createFineTuneJob(
-    _i40.CreateFineTuneJob? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i19.FineTuneModelJob> createFineTuneJob(
+    _i42.CreateFineTuneJob? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1016,7 +1060,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i18.FineTuneModelJob>.value(_FakeFineTuneModelJob_16(
+            _i27.Future<_i19.FineTuneModelJob>.value(_FakeFineTuneModelJob_17(
           this,
           Invocation.method(
             #createFineTuneJob,
@@ -1025,7 +1069,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i18.FineTuneModelJob>.value(_FakeFineTuneModelJob_16(
+            _i27.Future<_i19.FineTuneModelJob>.value(_FakeFineTuneModelJob_17(
           this,
           Invocation.method(
             #createFineTuneJob,
@@ -1033,12 +1077,12 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i18.FineTuneModelJob>);
+      ) as _i27.Future<_i19.FineTuneModelJob>);
 
   @override
-  _i26.Future<_i19.FineTuneList> retrieveFineTuneJob(
+  _i27.Future<_i20.FineTuneList> retrieveFineTuneJob(
     String? fineTuneId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1046,7 +1090,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           [fineTuneId],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i19.FineTuneList>.value(_FakeFineTuneList_17(
+        returnValue: _i27.Future<_i20.FineTuneList>.value(_FakeFineTuneList_18(
           this,
           Invocation.method(
             #retrieveFineTuneJob,
@@ -1055,7 +1099,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i19.FineTuneList>.value(_FakeFineTuneList_17(
+            _i27.Future<_i20.FineTuneList>.value(_FakeFineTuneList_18(
           this,
           Invocation.method(
             #retrieveFineTuneJob,
@@ -1063,11 +1107,11 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i19.FineTuneList>);
+      ) as _i27.Future<_i20.FineTuneList>);
 
   @override
-  _i26.Future<List<_i19.FineTuneList>> listFineTuneJob(
-          {void Function(_i27.CancelData)? onCancel}) =>
+  _i27.Future<List<_i20.FineTuneList>> listFineTuneJob(
+          {void Function(_i28.CancelData)? onCancel}) =>
       (super.noSuchMethod(
         Invocation.method(
           #listFineTuneJob,
@@ -1075,15 +1119,15 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<List<_i19.FineTuneList>>.value(<_i19.FineTuneList>[]),
+            _i27.Future<List<_i20.FineTuneList>>.value(<_i20.FineTuneList>[]),
         returnValueForMissingStub:
-            _i26.Future<List<_i19.FineTuneList>>.value(<_i19.FineTuneList>[]),
-      ) as _i26.Future<List<_i19.FineTuneList>>);
+            _i27.Future<List<_i20.FineTuneList>>.value(<_i20.FineTuneList>[]),
+      ) as _i27.Future<List<_i20.FineTuneList>>);
 
   @override
-  _i26.Future<_i19.FineTuneList> cancelFineTuneJob(
+  _i27.Future<_i20.FineTuneList> cancelFineTuneJob(
     String? fineTuneId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1091,7 +1135,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           [fineTuneId],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i19.FineTuneList>.value(_FakeFineTuneList_17(
+        returnValue: _i27.Future<_i20.FineTuneList>.value(_FakeFineTuneList_18(
           this,
           Invocation.method(
             #cancelFineTuneJob,
@@ -1100,7 +1144,7 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i19.FineTuneList>.value(_FakeFineTuneList_17(
+            _i27.Future<_i20.FineTuneList>.value(_FakeFineTuneList_18(
           this,
           Invocation.method(
             #cancelFineTuneJob,
@@ -1108,14 +1152,14 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i19.FineTuneList>);
+      ) as _i27.Future<_i20.FineTuneList>);
 
   @override
-  _i26.Stream<List<_i19.FineTuneList>> listFineTuneJobStream(
+  _i27.Stream<List<_i20.FineTuneList>> listFineTuneJobStream(
     String? fineTuneId, {
     String? after,
     int? limit,
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1127,9 +1171,9 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
             #onCancel: onCancel,
           },
         ),
-        returnValue: _i26.Stream<List<_i19.FineTuneList>>.empty(),
-        returnValueForMissingStub: _i26.Stream<List<_i19.FineTuneList>>.empty(),
-      ) as _i26.Stream<List<_i19.FineTuneList>>);
+        returnValue: _i27.Stream<List<_i20.FineTuneList>>.empty(),
+        returnValueForMissingStub: _i27.Stream<List<_i20.FineTuneList>>.empty(),
+      ) as _i27.Stream<List<_i20.FineTuneList>>);
 }
 
 /// A class which mocks [Moderation].
@@ -1137,10 +1181,10 @@ class MockFineTuned extends _i1.Mock implements _i6.FineTuned {
 /// See the documentation for Mockito's code generation for more information.
 class MockModeration extends _i1.Mock implements _i7.Moderation {
   @override
-  _i26.Future<_i20.ModerationData> create({
+  _i27.Future<_i21.ModerationData> create({
     required String? input,
-    required _i41.ModerationModel? model,
-    void Function(_i27.CancelData)? onCancel,
+    required _i43.ModerationModel? model,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1153,7 +1197,7 @@ class MockModeration extends _i1.Mock implements _i7.Moderation {
           },
         ),
         returnValue:
-            _i26.Future<_i20.ModerationData>.value(_FakeModerationData_18(
+            _i27.Future<_i21.ModerationData>.value(_FakeModerationData_19(
           this,
           Invocation.method(
             #create,
@@ -1166,7 +1210,7 @@ class MockModeration extends _i1.Mock implements _i7.Moderation {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i20.ModerationData>.value(_FakeModerationData_18(
+            _i27.Future<_i21.ModerationData>.value(_FakeModerationData_19(
           this,
           Invocation.method(
             #create,
@@ -1178,7 +1222,7 @@ class MockModeration extends _i1.Mock implements _i7.Moderation {
             },
           ),
         )),
-      ) as _i26.Future<_i20.ModerationData>);
+      ) as _i27.Future<_i21.ModerationData>);
 }
 
 /// A class which mocks [OpenAIFile].
@@ -1186,15 +1230,15 @@ class MockModeration extends _i1.Mock implements _i7.Moderation {
 /// See the documentation for Mockito's code generation for more information.
 class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
   @override
-  _i26.Future<_i21.FileResponse> get(
-          {void Function(_i27.CancelData)? onCancel}) =>
+  _i27.Future<_i22.FileResponse> get(
+          {void Function(_i28.CancelData)? onCancel}) =>
       (super.noSuchMethod(
         Invocation.method(
           #get,
           [],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i21.FileResponse>.value(_FakeFileResponse_19(
+        returnValue: _i27.Future<_i22.FileResponse>.value(_FakeFileResponse_20(
           this,
           Invocation.method(
             #get,
@@ -1203,7 +1247,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i21.FileResponse>.value(_FakeFileResponse_19(
+            _i27.Future<_i22.FileResponse>.value(_FakeFileResponse_20(
           this,
           Invocation.method(
             #get,
@@ -1211,12 +1255,12 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i21.FileResponse>);
+      ) as _i27.Future<_i22.FileResponse>);
 
   @override
-  _i26.Future<_i22.UploadResponse> uploadFile(
-    _i42.UploadFile? request, {
-    void Function(_i27.CancelData)? onCancel,
+  _i27.Future<_i23.UploadResponse> uploadFile(
+    _i44.UploadFile? request, {
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1225,7 +1269,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i22.UploadResponse>.value(_FakeUploadResponse_20(
+            _i27.Future<_i23.UploadResponse>.value(_FakeUploadResponse_21(
           this,
           Invocation.method(
             #uploadFile,
@@ -1234,7 +1278,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i22.UploadResponse>.value(_FakeUploadResponse_20(
+            _i27.Future<_i23.UploadResponse>.value(_FakeUploadResponse_21(
           this,
           Invocation.method(
             #uploadFile,
@@ -1242,12 +1286,12 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i22.UploadResponse>);
+      ) as _i27.Future<_i23.UploadResponse>);
 
   @override
-  _i26.Future<_i23.DeleteFile> delete(
+  _i27.Future<_i24.DeleteFile> delete(
     String? fileId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1255,7 +1299,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           [fileId],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<_i23.DeleteFile>.value(_FakeDeleteFile_21(
+        returnValue: _i27.Future<_i24.DeleteFile>.value(_FakeDeleteFile_22(
           this,
           Invocation.method(
             #delete,
@@ -1264,7 +1308,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i23.DeleteFile>.value(_FakeDeleteFile_21(
+            _i27.Future<_i24.DeleteFile>.value(_FakeDeleteFile_22(
           this,
           Invocation.method(
             #delete,
@@ -1272,12 +1316,12 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i23.DeleteFile>);
+      ) as _i27.Future<_i24.DeleteFile>);
 
   @override
-  _i26.Future<_i22.UploadResponse> retrieve(
+  _i27.Future<_i23.UploadResponse> retrieve(
     String? fileId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1286,7 +1330,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           {#onCancel: onCancel},
         ),
         returnValue:
-            _i26.Future<_i22.UploadResponse>.value(_FakeUploadResponse_20(
+            _i27.Future<_i23.UploadResponse>.value(_FakeUploadResponse_21(
           this,
           Invocation.method(
             #retrieve,
@@ -1295,7 +1339,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           ),
         )),
         returnValueForMissingStub:
-            _i26.Future<_i22.UploadResponse>.value(_FakeUploadResponse_20(
+            _i27.Future<_i23.UploadResponse>.value(_FakeUploadResponse_21(
           this,
           Invocation.method(
             #retrieve,
@@ -1303,12 +1347,12 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
             {#onCancel: onCancel},
           ),
         )),
-      ) as _i26.Future<_i22.UploadResponse>);
+      ) as _i27.Future<_i23.UploadResponse>);
 
   @override
-  _i26.Future<dynamic> retrieveContent(
+  _i27.Future<dynamic> retrieveContent(
     String? fileId, {
-    void Function(_i27.CancelData)? onCancel,
+    void Function(_i28.CancelData)? onCancel,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1316,7 +1360,7 @@ class MockOpenAIFile extends _i1.Mock implements _i5.OpenAIFile {
           [fileId],
           {#onCancel: onCancel},
         ),
-        returnValue: _i26.Future<dynamic>.value(),
-        returnValueForMissingStub: _i26.Future<dynamic>.value(),
-      ) as _i26.Future<dynamic>);
+        returnValue: _i27.Future<dynamic>.value(),
+        returnValueForMissingStub: _i27.Future<dynamic>.value(),
+      ) as _i27.Future<dynamic>);
 }
