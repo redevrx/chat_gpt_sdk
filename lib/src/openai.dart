@@ -23,6 +23,8 @@ import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:chat_gpt_sdk/src/utils/token_builder.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:dio_compatibility_layer/dio_compatibility_layer.dart';
+import 'package:fetch_client/fetch_client.dart';
 import 'client/interceptor/interceptor_wrapper.dart';
 import 'edit.dart';
 import 'i_openai.dart';
@@ -76,6 +78,19 @@ class OpenAI implements IOpenAI {
       connectTimeout: setup.connectTimeout,
       receiveTimeout: setup.receiveTimeout,
     ));
+
+    const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
+
+    assert(setup.proxy.isEmpty || !setup.streamingWebApi,
+        'You can\'t provide both proxy and experimental streaming api support currently');
+    assert(
+        !setup.streamingWebApi || kIsWeb,
+        'You can\'t run web specific API on other platforms');
+
+    if (setup.streamingWebApi) {
+      dio.httpClientAdapter =
+          ConversionLayerAdapter(FetchClient(mode: RequestMode.cors));
+    }
     if (setup.proxy.isNotEmpty) {
       dio.httpClientAdapter = IOHttpClientAdapter(createHttpClient: () {
         final client = HttpClient();

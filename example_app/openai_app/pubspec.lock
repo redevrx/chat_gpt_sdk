@@ -55,7 +55,7 @@ packages:
       path: "../.."
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   clock:
     dependency: transitive
     description:
@@ -96,6 +96,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.7.0"
+  dio_compatibility_layer:
+    dependency: transitive
+    description:
+      name: dio_compatibility_layer
+      sha256: bb7ea1dd6fe98b8f5e3d90da408802fc3abf14d4485416e882cf1b2c8fb4b209
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -112,6 +120,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  fetch_api:
+    dependency: transitive
+    description:
+      name: fetch_api
+      sha256: "97f46c25b480aad74f7cc2ad7ccba2c5c6f08d008e68f95c1077286ce243d0e6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  fetch_client:
+    dependency: transitive
+    description:
+      name: fetch_client
+      sha256: "9666ee14536778474072245ed5cba07db81ae8eb5de3b7bf4a2d1e2c49696092"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
   ffi:
     dependency: transitive
     description:

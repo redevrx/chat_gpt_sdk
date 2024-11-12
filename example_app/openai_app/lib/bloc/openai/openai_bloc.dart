@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
@@ -74,14 +75,16 @@ class OpenAIBloc extends Cubit<OpenAIState> {
   ///[initOpenAISdk]
   void initOpenAISdk() async {
     _openAI = OpenAI.instance.build(
-        token: getToken(),
-        apiUrl:
-            'https://api.openai.com/v1/', // you can replace with your api url
-        enableLog: true,
-        baseOption: HttpSetup(
-            receiveTimeout: const Duration(seconds: 30),
-            connectTimeout: const Duration(seconds: 30),
-            sendTimeout: const Duration(seconds: 30)));
+      token: getToken(),
+      apiUrl: 'https://api.openai.com/v1/', // you can replace with your api url
+      enableLog: true,
+      baseOption: HttpSetup(
+        receiveTimeout: const Duration(seconds: 30),
+        connectTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
+        streamingWebApi: kIsWeb,
+      ),
+    );
   }
 
   void openAIEvent(String event, {required Function() error}) {
