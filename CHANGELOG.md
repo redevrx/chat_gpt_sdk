@@ -252,3 +252,6 @@
 ## 3.1.2
   - Update sdk
   - remove path provider
+
+## 3.1.3
+  - Implement support for streaming responses from OpenAI on web platform
