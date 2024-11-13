@@ -255,8 +255,5 @@
 
 ## 3.1.3
   - Implement support for streaming responses from OpenAI on web platform
-
-## 3.1.4
-- Merge Code from contributors
-- Support Web streaming
-- Added json_schema support to ResponseFormat
+  - Merge Code from contributors
+  - Added json_schema support to ResponseFormat
