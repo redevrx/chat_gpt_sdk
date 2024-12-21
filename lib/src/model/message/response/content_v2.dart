@@ -16,20 +16,22 @@ class ContentV2 {
     final type = json["type"];
     final image = (type == 'image_url' || type == 'image_file')
         ? json[type] != null
-        ? ImageData.fromJson(json[type]!)
-        : null
+            ? ImageData.fromJson(json[type]!)
+            : null
         : null;
 
     return ContentV2(
       type: type,
-      text: type == 'text' && json["text"] != null ? TextData.fromJson(json["text"]!) : null,
+      text: type == 'text' && json["text"] != null
+          ? TextData.fromJson(json["text"]!)
+          : null,
       image: image,
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "type": type,
-    "text": text?.toJson(),
-    type: image?.toJson(), // Dynamically set 'image_url' or 'image_file'
-  };
+        "type": type,
+        "text": text?.toJson(),
+        type: image?.toJson(), // Dynamically set 'image_url' or 'image_file'
+      };
 }

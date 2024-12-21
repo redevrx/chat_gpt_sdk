@@ -83,8 +83,7 @@ class OpenAI implements IOpenAI {
 
     assert(setup.proxy.isEmpty || !setup.streamingWebApi,
         'You can\'t provide both proxy and experimental streaming api support currently');
-    assert(
-        !setup.streamingWebApi || kIsWeb,
+    assert(!setup.streamingWebApi || kIsWeb,
         'You can\'t run web specific API on other platforms');
 
     if (setup.streamingWebApi) {

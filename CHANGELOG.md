@@ -257,3 +257,6 @@
   - Implement support for streaming responses from OpenAI on web platform
   - Merge Code from contributors
   - Added json_schema support to ResponseFormat
+
+# 3.1.4
+  - Added support for image data i.e, type (image_file, image_url) in content v2
