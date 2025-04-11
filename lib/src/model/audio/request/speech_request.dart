@@ -15,6 +15,9 @@ class SpeechRequest {
   ///<a href='https://platform.openai.com/docs/guides/text-to-speech/voice-options'>Text to speech guide.</a>
   final String voice;
 
+  ///The instructions to use when generating the audio.
+  final String instructions;
+
   ///The format to audio in. Supported formats are mp3, opus, aac, and flac.
   ///[responseFormat]
   final String responseFormat;
@@ -28,6 +31,7 @@ class SpeechRequest {
     required this.model,
     required this.input,
     this.voice = 'alloy',
+    this.instructions="Speak in a cheerful and positive tone.",
     this.responseFormat = 'mp3',
     this.speed = 1,
   });
@@ -36,6 +40,7 @@ class SpeechRequest {
         'model': model,
         'input': input,
         'voice': voice,
+        'instructions': instructions,
         'response_format': responseFormat,
         'speed': speed,
       });
