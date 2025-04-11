@@ -34,7 +34,7 @@ class SettingCard extends StatelessWidget {
                 topLeft: Radius.circular(kDefaultPadding * 2)),
             boxShadow: [
               BoxShadow(
-                  color: kDarkOffBgColor.withOpacity(.4),
+                  color: kDarkOffBgColor.withValues(alpha: .4),
                   offset: const Offset(8, 0),
                   blurRadius: 27.0)
             ]),
@@ -62,7 +62,7 @@ class SettingCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(kDefaultPadding),
                       boxShadow: [
                         BoxShadow(
-                            color: kDarkOffBgColor.withOpacity(.23),
+                            color: kDarkOffBgColor.withValues(alpha: .23),
                             offset: const Offset(0, 5),
                             blurRadius: 6)
                       ]),
@@ -98,7 +98,7 @@ class SettingCard extends StatelessWidget {
                   title: 'Save',
                   boxShadow: [
                     BoxShadow(
-                        color: kButtonColor.withOpacity(.23),
+                        color: kButtonColor.withValues(alpha: .23),
                         offset: const Offset(0.0, 6),
                         blurRadius: 5.0)
                   ],

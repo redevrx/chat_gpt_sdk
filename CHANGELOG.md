@@ -260,3 +260,6 @@
 
 # 3.1.4
   - Added support for image data i.e, type (image_file, image_url) in content v2
+
+## 3.1.5
+ - add instructions in SpeechRequest

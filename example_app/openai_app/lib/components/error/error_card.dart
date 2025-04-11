@@ -33,7 +33,7 @@ class ErrorCard extends StatelessWidget {
                 topLeft: Radius.circular(kDefaultPadding * 2)),
             boxShadow: [
               BoxShadow(
-                  color: kDarkOffBgColor.withOpacity(.4),
+                  color: kDarkOffBgColor.withValues(alpha: .4),
                   offset: const Offset(8, 0),
                   blurRadius: 27.0)
             ]),
@@ -74,7 +74,7 @@ class ErrorCard extends StatelessWidget {
                   title: 'Close',
                   boxShadow: [
                     BoxShadow(
-                        color: kButtonColor.withOpacity(.23),
+                        color: kButtonColor.withValues(alpha: .23),
                         offset: const Offset(0.0, 6),
                         blurRadius: 5.0)
                   ],

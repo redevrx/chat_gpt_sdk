@@ -31,7 +31,7 @@ class SpeechRequest {
     required this.model,
     required this.input,
     this.voice = 'alloy',
-    this.instructions="Speak in a cheerful and positive tone.",
+    this.instructions = "Speak in a cheerful and positive tone.",
     this.responseFormat = 'mp3',
     this.speed = 1,
   });

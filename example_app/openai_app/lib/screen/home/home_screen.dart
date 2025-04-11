@@ -134,7 +134,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: kDefaultPadding / 2.5),
                     decoration: BoxDecoration(
-                        color: openAIFeatures[index].bgColor.withOpacity(.12),
+                        color: openAIFeatures[index]
+                            .bgColor
+                            .withValues(alpha: .12),
                         borderRadius:
                             BorderRadius.circular(kDefaultPadding / 2)),
                     child: Image.asset(
@@ -175,11 +177,11 @@ class _HomeScreenState extends State<HomeScreen> {
             width: size.width * .11,
             height: size.height * .044,
             decoration: BoxDecoration(
-                color: kButtonColor.withOpacity(.32),
+                color: kButtonColor.withValues(alpha: .32),
                 borderRadius: BorderRadius.circular(kDefaultPadding / 2),
                 boxShadow: [
                   BoxShadow(
-                      color: kButtonColor.withOpacity(.1),
+                      color: kButtonColor.withValues(alpha: .1),
                       offset: const Offset(0, 3),
                       blurRadius: 6.0)
                 ]),

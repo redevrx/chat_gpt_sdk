@@ -7,7 +7,7 @@ import 'package:openai_app/constants/theme/dimen.dart';
 Future<void> loadingDialog(BuildContext context) {
   return showGeneralDialog(
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 700),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
@@ -31,7 +31,7 @@ Future<void> loadingDialog(BuildContext context) {
                     padding: const EdgeInsets.all(kDefaultPadding * 1.5),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.grey.shade200.withOpacity(0.5)),
+                        color: Colors.grey.shade200.withValues(alpha: 0.5)),
                     child: const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(kButtonColor),
                     ),

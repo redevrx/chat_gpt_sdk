@@ -14,8 +14,6 @@ extension AudioFormatExtension on AudioFormat {
         return 'verbose_json';
       case AudioFormat.vtt:
         return 'vtt';
-      default:
-        return '';
     }
   }
 }

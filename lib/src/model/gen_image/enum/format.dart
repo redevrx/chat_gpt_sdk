@@ -11,8 +11,6 @@ extension FormatExtension on Format {
         return 'url';
       case Format.b64Json:
         return 'b64_json';
-      default:
-        return '';
     }
   }
 }

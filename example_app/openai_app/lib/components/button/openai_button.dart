@@ -30,7 +30,7 @@ class OpenAIButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(kDefaultPadding * 1.22),
           boxShadow: boxShadow),
       child: InkWell(
-        splashColor: kDarkOffBgColor.withOpacity(.23),
+        splashColor: kDarkOffBgColor.withValues(alpha: .23),
         onTap: tab,
         child: Center(
           child: Text(title, style: Theme.of(context).textTheme.titleMedium),
