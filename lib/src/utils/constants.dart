@@ -77,6 +77,9 @@ const kGpt4o = 'gpt-4o';
 const kGpt4O2024 = 'gpt-4o-2024-05-13';
 const kGpt4oMini = 'gpt-4o-mini';
 const kGpt4oMini2024 = 'gpt-4o-mini-2024-07-18';
+const kGpt41 = 'gpt-4.1-2025-04-14';
+const kGpt41Mini = 'gpt-4.1-mini-2025-04-14';
+const kGpt41Nano = 'gpt-4.1-nano-2025-04-14';
 
 ///edits
 // using gpt 4
