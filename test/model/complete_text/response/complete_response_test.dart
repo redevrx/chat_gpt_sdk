@@ -34,14 +34,9 @@ void main() {
         "index": 1,
       };
 
-      final json = CompleteResponse(
-        "id",
-        "object",
-        1,
-        "model",
-        [Choices.fromJson(choiceJson)],
-        null,
-      ).toJson();
+      final json = CompleteResponse("id", "object", 1, "model", [
+        Choices.fromJson(choiceJson),
+      ], null).toJson();
 
       expect(json['model'], 'model');
       expect(json['id'], 'id');

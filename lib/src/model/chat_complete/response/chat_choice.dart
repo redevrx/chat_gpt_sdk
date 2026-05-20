@@ -9,10 +9,12 @@ class ChatChoice {
   ChatChoice({required this.index, required this.message, this.finishReason});
 
   factory ChatChoice.fromJson(Map<String, dynamic> json) => ChatChoice(
-    index: json["index"],
-    message: json["message"] == null ? null : Message.fromJson(json["message"]),
-    finishReason: json["finish_reason"],
-  );
+        index: json["index"] as int? ?? 0,
+        message: json["message"] == null
+            ? null
+            : Message.fromJson(Map<String, dynamic>.from(json["message"])),
+        finishReason: json["finish_reason"] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
     "index": index,

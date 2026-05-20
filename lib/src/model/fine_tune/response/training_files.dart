@@ -24,13 +24,13 @@ class TrainingFiles {
 
   factory TrainingFiles.fromJson(Map<String, dynamic> json) {
     return TrainingFiles(
-      id: json['id'],
-      bytes: json['bytes'],
+      id: json['id'] as String? ?? '',
+      bytes: json['bytes'] as int? ?? 0,
       createdAt: DateTime.fromMillisecondsSinceEpoch(
-        json['created_at'] == null ? 0 : json['created_at'] * 1000,
+        json['created_at'] == null ? 0 : (json['created_at'] as int) * 1000,
       ),
-      filename: json['filename'],
-      purpose: json['purpose'],
+      filename: json['filename'] as String? ?? '',
+      purpose: json['purpose'] as String?,
     );
   }
 }

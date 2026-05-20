@@ -11,9 +11,9 @@ class DeleteAssistant {
 
   factory DeleteAssistant.fromJson(Map<String, dynamic> json) =>
       DeleteAssistant(
-        deleted: json["deleted"],
-        id: json["id"],
-        object: json["object"],
+        deleted: json["deleted"] as bool? ?? false,
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
       );
 
   Map<String, dynamic> toJson() => {

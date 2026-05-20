@@ -63,7 +63,7 @@ class FineTuned {
     void Function(CancelData cancelData)? onCancel,
   }) {
     return _client.post(
-      "$_client.apiUrl$kFineTuneJob/$fineTuneId/cancel",
+      "${_client.apiUrl}$kFineTuneJob/$fineTuneId/cancel",
       {},
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: FineTuneList.fromJson,
@@ -84,7 +84,7 @@ class FineTuned {
     }
 
     return _client.getStream(
-      "$_client.apiUrl$kFineTuneJob/$fineTuneId/events",
+      "${_client.apiUrl}$kFineTuneJob/$fineTuneId/events",
       queryParameters: query,
       onCancel: (it) => onCancel != null ? onCancel(it) : null,
       onSuccess: (it) {

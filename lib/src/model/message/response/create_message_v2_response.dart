@@ -27,22 +27,25 @@ class CreateMessageV2Response {
 
   factory CreateMessageV2Response.fromJson(Map<String, dynamic> json) =>
       CreateMessageV2Response(
-        id: json["id"] ?? '',
-        object: json["object"] ?? '',
-        createdAt: json["created_at"] ?? 0,
-        threadId: json["thread_id"] ?? '',
-        role: json["role"] ?? '',
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
+        createdAt: json["created_at"] as int? ?? 0,
+        threadId: json["thread_id"] as String? ?? '',
+        role: json["role"] as String? ?? '',
         content: json["content"] == null
             ? []
             : List<ContentV2>.from(
-                json["content"].map((x) => ContentV2.fromJson(x)),
+                (json["content"] as List? ?? [])
+                    .map((x) => ContentV2.fromJson(Map<String, dynamic>.from(x))),
               ),
-        assistantId: json["assistant_id"] ?? '',
-        runId: json["run_id"] ?? '',
+        assistantId: json["assistant_id"] as String? ?? '',
+        runId: json["run_id"] as String? ?? '',
         attachments: json["attachments"] == null
             ? []
-            : List<dynamic>.from(json["attachments"].map((x) => x)),
-        metadata: json["metadata"] ?? {},
+            : List<dynamic>.from((json["attachments"] as List? ?? []).map((x) => x)),
+        metadata: json["metadata"] == null
+            ? {}
+            : Map<String, dynamic>.from(json["metadata"]),
       );
 
   Map<String, dynamic> toJson() => {

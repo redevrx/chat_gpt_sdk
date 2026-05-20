@@ -9,10 +9,7 @@ void main() {
         "object": "object",
         "created": 1,
         "choices": [
-          {
-            "text": "text",
-            "index": 1,
-          },
+          {"text": "text", "index": 1},
         ],
         "usage": {
           "prompt_tokens": 1,
@@ -32,14 +29,13 @@ void main() {
         object: "object",
         created: 1,
         choices: [
-          Choice.fromJson({
-            "text": "text",
-            "index": 1,
-          }),
+          Choice.fromJson({"text": "text", "index": 1}),
         ],
-        usage: Usage.fromJson(
-          {"prompt_tokens": 1, "completion_tokens": 0, "total_tokens": 1},
-        ),
+        usage: Usage.fromJson({
+          "prompt_tokens": 1,
+          "completion_tokens": 0,
+          "total_tokens": 1,
+        }),
       ).toJson();
 
       expect(json['choices'].length, 1);

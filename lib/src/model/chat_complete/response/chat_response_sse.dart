@@ -21,16 +21,18 @@ class ChatResponseSSE {
 
   factory ChatResponseSSE.fromJson(Map<String, dynamic> json) =>
       ChatResponseSSE(
-        id: json["id"],
-        object: json["object"],
-        created: json["created"],
-        model: json["model"],
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
+        created: json["created"] as int?,
+        model: json["model"] as String?,
         choices: (json["choices"] == null)
             ? null
-            : (json["choices"] as List)
-                  .map((e) => ChatChoiceSSE.fromJson(e))
+            : (json["choices"] as List? ?? [])
+                  .map((e) => ChatChoiceSSE.fromJson(Map<String, dynamic>.from(e)))
                   .toList(),
-        usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
+        usage: json["usage"] == null
+            ? null
+            : Usage.fromJson(Map<String, dynamic>.from(json["usage"])),
       );
 
   Map<String, dynamic> toJson() => {

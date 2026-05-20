@@ -12,7 +12,7 @@ void main() {
         reasoning: {'effort': 'high'},
         include: ['code_interpreter_call.outputs'],
         tools: [
-          {'type': 'web_search'}
+          {'type': 'web_search'},
         ],
         toolChoice: 'auto',
       );
@@ -33,7 +33,7 @@ void main() {
       final request = OpenAiResponseRequest(
         model: 'gpt-5.5',
         input: [
-          {'role': 'user', 'content': 'Hello!'}
+          {'role': 'user', 'content': 'Hello!'},
         ],
       );
 
@@ -62,16 +62,17 @@ void main() {
             'content': [
               {
                 'type': 'output_text',
-                'text': 'Here is the quicksort implementation in Dart:\n```dart\n...\n```',
-              }
-            ]
-          }
+                'text':
+                    'Here is the quicksort implementation in Dart:\n```dart\n...\n```',
+              },
+            ],
+          },
         ],
         'usage': {
           'prompt_tokens': 150,
           'completion_tokens': 200,
           'total_tokens': 350,
-        }
+        },
       };
 
       final response = OpenAiResponseData.fromJson(json);
@@ -100,13 +101,16 @@ void main() {
       expect(response.usage!.totalTokens, 350);
     });
 
-    test('OpenAiResponseData outputText returns empty when output is missing or empty', () {
-      final responseEmptyOutput = OpenAiResponseData(output: []);
-      final responseNullOutput = OpenAiResponseData(output: null);
+    test(
+      'OpenAiResponseData outputText returns empty when output is missing or empty',
+      () {
+        final responseEmptyOutput = OpenAiResponseData(output: []);
+        final responseNullOutput = OpenAiResponseData(output: null);
 
-      expect(responseEmptyOutput.outputText, '');
-      expect(responseNullOutput.outputText, '');
-    });
+        expect(responseEmptyOutput.outputText, '');
+        expect(responseNullOutput.outputText, '');
+      },
+    );
 
     test('OpenAiResponseData serialization to json', () {
       final response = OpenAiResponseData(
@@ -120,9 +124,12 @@ void main() {
             type: 'message',
             role: 'assistant',
             content: [
-              ResponseContentPart(type: 'output_text', text: 'Working on it...'),
+              ResponseContentPart(
+                type: 'output_text',
+                text: 'Working on it...',
+              ),
             ],
-          )
+          ),
         ],
       );
 

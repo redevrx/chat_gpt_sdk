@@ -23,16 +23,21 @@ class ChatCTResponse {
   });
 
   factory ChatCTResponse.fromJson(Map<String, dynamic> json) => ChatCTResponse(
-    id: json["id"],
-    object: json["object"],
-    created: json["created"],
-    choices: List<ChatChoice>.from(
-      json["choices"].map((x) => ChatChoice.fromJson(x)),
-    ),
-    usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
-    systemFingerprint: json['system_fingerprint'] ?? '',
-    model: json['model'] ?? '',
-  );
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
+        created: json["created"] as int? ?? 0,
+        choices: json["choices"] == null
+            ? []
+            : List<ChatChoice>.from(
+                (json["choices"] as List? ?? [])
+                    .map((x) => ChatChoice.fromJson(Map<String, dynamic>.from(x))),
+              ),
+        usage: json["usage"] == null
+            ? null
+            : Usage.fromJson(Map<String, dynamic>.from(json["usage"])),
+        systemFingerprint: json['system_fingerprint'] as String? ?? '',
+        model: json['model'] as String? ?? '',
+      );
 
   Map<String, dynamic> toJson() => {
     "id": id,

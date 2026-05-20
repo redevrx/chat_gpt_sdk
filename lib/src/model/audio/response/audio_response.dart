@@ -4,5 +4,5 @@ class AudioResponse {
   AudioResponse(this.text);
 
   factory AudioResponse.fromJson(Map<String, dynamic> json) =>
-      AudioResponse(json["text"]);
+      AudioResponse(json["text"] as String? ?? '');
 }

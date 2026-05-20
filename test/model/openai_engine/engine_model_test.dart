@@ -7,12 +7,7 @@ void main() {
     test('engine model test from json', () {
       final json = {
         'data': [
-          {
-            'id': 'id',
-            'object': 'object',
-            'owner': 'owner',
-            'ready': false,
-          },
+          {'id': 'id', 'object': 'object', 'owner': 'owner', 'ready': false},
         ],
         'object': 'object',
       };
@@ -24,17 +19,14 @@ void main() {
     });
 
     test('engine model test to json', () {
-      final json = EngineModel(
-        [
-          EngineData.fromJson({
-            'id': 'id',
-            'object': 'object',
-            'owner': 'owner',
-            'ready': false,
-          }),
-        ],
-        'object',
-      ).toJson();
+      final json = EngineModel([
+        EngineData.fromJson({
+          'id': 'id',
+          'object': 'object',
+          'owner': 'owner',
+          'ready': false,
+        }),
+      ], 'object').toJson();
 
       expect(json['object'], 'object');
       expect(json['data'].length, 1);

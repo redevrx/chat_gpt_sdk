@@ -9,11 +9,10 @@ class Choices {
   Choices(this.text, this.index, this.finishReason);
 
   factory Choices.fromJson(Map<String, dynamic> json) => Choices(
-    json['text'],
-    json['index'],
-    // json['logprobs'],
-    json['finish_reason'],
-  );
+        json['text'] as String? ?? '',
+        json['index'] as int? ?? 0,
+        json['finish_reason'] as String?,
+      );
 
   Map<String, dynamic> toJson() => choicesToJson(this);
 

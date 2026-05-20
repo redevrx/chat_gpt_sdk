@@ -9,15 +9,15 @@ class ModelData {
   ModelData(this.id, this.object, this.ownerBy, this.permission);
 
   factory ModelData.fromJson(Map<String, dynamic> json) => ModelData(
-    json['id'] as String,
-    json['object'] as String,
-    json['owned_by'] as String,
-    json['permission'] == null
-        ? null
-        : (json['permission'] as List<Map>)
-              .map((e) => Permission.fromJson(e as Map<String, dynamic>))
-              .toList(),
-  );
+        json['id'] as String? ?? '',
+        json['object'] as String? ?? '',
+        json['owned_by'] as String? ?? '',
+        json['permission'] == null
+            ? null
+            : (json['permission'] as List? ?? [])
+                .map((e) => Permission.fromJson(Map<String, dynamic>.from(e)))
+                .toList(),
+      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'id': id,

@@ -17,15 +17,16 @@ class ListMessageFile {
 
   factory ListMessageFile.fromJson(Map<String, dynamic> json) =>
       ListMessageFile(
-        firstId: json["first_id"] ?? '',
+        firstId: json["first_id"] as String? ?? '',
         data: json["data"] == null
             ? []
             : List<ListMessageFileData>.from(
-                json["data"].map((x) => ListMessageFileData.fromJson(x)),
+                (json["data"] as List? ?? [])
+                    .map((x) => ListMessageFileData.fromJson(Map<String, dynamic>.from(x))),
               ),
-        lastId: json["last_id"] ?? '',
-        hasMore: json["has_more"] ?? false,
-        object: json["object"] ?? '',
+        lastId: json["last_id"] as String? ?? '',
+        hasMore: json["has_more"] as bool? ?? false,
+        object: json["object"] as String? ?? '',
       );
 
   Map<String, dynamic> toJson() => {

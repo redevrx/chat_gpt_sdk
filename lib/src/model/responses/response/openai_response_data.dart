@@ -52,14 +52,14 @@ class OpenAiResponseData {
       status: json['status'] as String?,
       model: json['model'] as String?,
       output: json['output'] != null
-          ? (json['output'] as List)
+          ? (json['output'] as List? ?? [])
                 .map(
-                  (e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>),
+                  (e) => ResponseOutputItem.fromJson(Map<String, dynamic>.from(e)),
                 )
                 .toList()
           : null,
       usage: json['usage'] != null
-          ? Usage.fromJson(json['usage'] as Map<String, dynamic>)
+          ? Usage.fromJson(Map<String, dynamic>.from(json['usage']))
           : null,
     );
   }
@@ -105,10 +105,10 @@ class ResponseOutputItem {
       status: json['status'] as String?,
       role: json['role'] as String?,
       content: json['content'] != null
-          ? (json['content'] as List)
+          ? (json['content'] as List? ?? [])
                 .map(
                   (e) =>
-                      ResponseContentPart.fromJson(e as Map<String, dynamic>),
+                      ResponseContentPart.fromJson(Map<String, dynamic>.from(e)),
                 )
                 .toList()
           : null,

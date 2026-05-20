@@ -58,8 +58,8 @@ class ListUsersResponse {
       object: json['object'] as String?,
       data: json['data'] == null
           ? null
-          : (json['data'] as List)
-                .map((x) => UserResponse.fromJson(x as Map<String, dynamic>))
+          : (json['data'] as List? ?? [])
+                .map((x) => UserResponse.fromJson(Map<String, dynamic>.from(x)))
                 .toList(),
       firstId: json['first_id'] as String?,
       lastId: json['last_id'] as String?,

@@ -17,15 +17,16 @@ class ListAssistantFile {
 
   factory ListAssistantFile.fromJson(Map<String, dynamic> json) =>
       ListAssistantFile(
-        object: json["object"] ?? '',
+        object: json["object"] as String? ?? '',
         data: json["data"] == null
             ? []
             : List<AssistantFileData>.from(
-                json["data"].map((x) => AssistantFileData.fromJson(x)),
+                (json["data"] as List? ?? [])
+                    .map((x) => AssistantFileData.fromJson(Map<String, dynamic>.from(x))),
               ),
-        firstId: json["first_id"] ?? '',
-        lastId: json["last_id"] ?? '',
-        hasMore: json["has_more"] ?? '',
+        firstId: json["first_id"] as String? ?? '',
+        lastId: json["last_id"] as String? ?? '',
+        hasMore: json["has_more"] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {

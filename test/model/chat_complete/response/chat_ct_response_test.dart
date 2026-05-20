@@ -13,10 +13,7 @@ void main() {
       choices: [
         ChatChoice(
           index: 0,
-          message: Message(
-            role: "role_test",
-            content: "content_test",
-          ),
+          message: Message(role: "role_test", content: "content_test"),
           finishReason: "finish_reason_test",
         ),
       ],
@@ -72,10 +69,7 @@ void main() {
       choices: [
         ChatChoice(
           index: 0,
-          message: Message(
-            role: "role_test",
-            content: "content_test",
-          ),
+          message: Message(role: "role_test", content: "content_test"),
           finishReason: "finish_reason_test",
         ),
       ],
@@ -95,44 +89,56 @@ void main() {
     expect(json["usage"]["total_tokens"], 30);
   });
 
-  test('ChatCTResponse can be instantiated from json with message audio response', () {
-    final Map<String, dynamic> json = {
-      "id": "chatcmpl-audio123",
-      "object": "chat.completion",
-      "created": 1715000000,
-      "model": "gpt-4o",
-      "choices": [
-        {
-          "index": 0,
-          "message": {
-            "role": "assistant",
-            "content": "",
-            "audio": {
-              "id": "audio_abc123",
-              "expires_at": 1715003600,
-              "data": "base64_data_here",
-              "transcript": "Hello, how can I help you?"
-            }
+  test(
+    'ChatCTResponse can be instantiated from json with message audio response',
+    () {
+      final Map<String, dynamic> json = {
+        "id": "chatcmpl-audio123",
+        "object": "chat.completion",
+        "created": 1715000000,
+        "model": "gpt-4o",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "",
+              "audio": {
+                "id": "audio_abc123",
+                "expires_at": 1715003600,
+                "data": "base64_data_here",
+                "transcript": "Hello, how can I help you?",
+              },
+            },
+            "finish_reason": "stop",
           },
-          "finish_reason": "stop"
-        }
-      ],
-      "usage": {
-        "prompt_tokens": 15,
-        "completion_tokens": 25,
-        "total_tokens": 40
-      }
-    };
+        ],
+        "usage": {
+          "prompt_tokens": 15,
+          "completion_tokens": 25,
+          "total_tokens": 40,
+        },
+      };
 
-    final ChatCTResponse chatCTResponse = ChatCTResponse.fromJson(json);
+      final ChatCTResponse chatCTResponse = ChatCTResponse.fromJson(json);
 
-    expect(chatCTResponse.id, "chatcmpl-audio123");
-    expect(chatCTResponse.choices.first.message?.role, "assistant");
-    expect(chatCTResponse.choices.first.message?.audio?.id, "audio_abc123");
-    expect(chatCTResponse.choices.first.message?.audio?.expiresAt, 1715003600);
-    expect(chatCTResponse.choices.first.message?.audio?.data, "base64_data_here");
-    expect(chatCTResponse.choices.first.message?.audio?.transcript, "Hello, how can I help you?");
-  });
+      expect(chatCTResponse.id, "chatcmpl-audio123");
+      expect(chatCTResponse.choices.first.message?.role, "assistant");
+      expect(chatCTResponse.choices.first.message?.audio?.id, "audio_abc123");
+      expect(
+        chatCTResponse.choices.first.message?.audio?.expiresAt,
+        1715003600,
+      );
+      expect(
+        chatCTResponse.choices.first.message?.audio?.data,
+        "base64_data_here",
+      );
+      expect(
+        chatCTResponse.choices.first.message?.audio?.transcript,
+        "Hello, how can I help you?",
+      );
+    },
+  );
 
   test('toJson should return a map with message audio response', () {
     final ChatCTResponse chatCTResponse = ChatCTResponse(
@@ -165,6 +171,9 @@ void main() {
     expect(json["choices"][0]["message"]["audio"]["id"], "audio_abc123");
     expect(json["choices"][0]["message"]["audio"]["expires_at"], 1715003600);
     expect(json["choices"][0]["message"]["audio"]["data"], "base64_data_here");
-    expect(json["choices"][0]["message"]["audio"]["transcript"], "Hello, how can I help you?");
+    expect(
+      json["choices"][0]["message"]["audio"]["transcript"],
+      "Hello, how can I help you?",
+    );
   });
 }

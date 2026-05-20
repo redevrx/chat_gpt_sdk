@@ -6,10 +6,7 @@ void main() {
     test('generate image response test', () {
       final json = {
         'data': [
-          {
-            'url': 'url',
-            'b64_json': 'b64_json',
-          },
+          {'url': 'url', 'b64_json': 'b64_json'},
         ],
         'created': 1231,
       };

@@ -6,10 +6,10 @@ class DeleteFile {
   bool deleted;
 
   factory DeleteFile.fromJson(Map<String, dynamic> json) => DeleteFile(
-    id: json["id"],
-    object: json["object"],
-    deleted: json["deleted"],
-  );
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
+        deleted: json["deleted"] as bool? ?? false,
+      );
 
   Map<String, dynamic> toJson() => {
     "id": id,

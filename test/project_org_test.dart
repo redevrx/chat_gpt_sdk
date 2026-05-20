@@ -65,7 +65,7 @@ void main() {
         "name": "My test project",
         "created_at": 1715000000,
         "archived_at": null,
-        "status": "active"
+        "status": "active",
       };
 
       final project = ProjectResponse.fromJson(projectJson);
@@ -88,12 +88,12 @@ void main() {
             "name": "Project A",
             "created_at": 1715000000,
             "archived_at": null,
-            "status": "active"
-          }
+            "status": "active",
+          },
         ],
         "first_id": "proj_123",
         "last_id": "proj_123",
-        "has_more": false
+        "has_more": false,
       };
 
       final response = ListProjectsResponse.fromJson(listJson);
@@ -116,7 +116,7 @@ void main() {
         "name": "John Doe",
         "email": "john@example.com",
         "role": "owner",
-        "added_at": 1715000000
+        "added_at": 1715000000,
       };
 
       final user = UserResponse.fromJson(userJson);
@@ -133,7 +133,7 @@ void main() {
       final deleteJson = {
         "object": "organization.user.deleted",
         "id": "user_123",
-        "deleted": true
+        "deleted": true,
       };
 
       final response = DeleteUserResponse.fromJson(deleteJson);
@@ -154,21 +154,27 @@ void main() {
       api = ProjectAndOrg(client);
     });
 
-    test('listProjects calls GET organization/projects with query strings', () async {
-      client.mockResponse = {
-        "object": "list",
-        "data": [],
-        "first_id": null,
-        "last_id": null,
-        "has_more": false
-      };
+    test(
+      'listProjects calls GET organization/projects with query strings',
+      () async {
+        client.mockResponse = {
+          "object": "list",
+          "data": [],
+          "first_id": null,
+          "last_id": null,
+          "has_more": false,
+        };
 
-      final result = await api.listProjects(limit: 5, after: 'proj_abc');
+        final result = await api.listProjects(limit: 5, after: 'proj_abc');
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/projects?limit=5&after=proj_abc");
-      expect(client.lastMethod, "GET");
-      expect(result.object, "list");
-    });
+        expect(
+          client.lastUrl,
+          "https://api.openai.com/v1/organization/projects?limit=5&after=proj_abc",
+        );
+        expect(client.lastMethod, "GET");
+        expect(result.object, "list");
+      },
+    );
 
     test('createProject calls POST organization/projects', () async {
       client.mockResponse = {
@@ -176,7 +182,7 @@ void main() {
         "id": "proj_123",
         "name": "Brand New Project",
         "created_at": 1715000000,
-        "status": "active"
+        "status": "active",
       };
 
       final result = await api.createProject(name: "Brand New Project");
@@ -191,12 +197,15 @@ void main() {
       client.mockResponse = {
         "object": "organization.project",
         "id": "proj_123",
-        "name": "My Project"
+        "name": "My Project",
       };
 
       final result = await api.retrieveProject(projectId: "proj_123");
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/projects/proj_123");
+      expect(
+        client.lastUrl,
+        "https://api.openai.com/v1/organization/projects/proj_123",
+      );
       expect(client.lastMethod, "GET");
       expect(result.id, "proj_123");
     });
@@ -205,30 +214,42 @@ void main() {
       client.mockResponse = {
         "object": "organization.project",
         "id": "proj_123",
-        "name": "Updated Name"
+        "name": "Updated Name",
       };
 
-      final result = await api.modifyProject(projectId: "proj_123", name: "Updated Name");
+      final result = await api.modifyProject(
+        projectId: "proj_123",
+        name: "Updated Name",
+      );
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/projects/proj_123");
+      expect(
+        client.lastUrl,
+        "https://api.openai.com/v1/organization/projects/proj_123",
+      );
       expect(client.lastMethod, "POST");
       expect(client.lastBody, {'name': "Updated Name"});
       expect(result.name, "Updated Name");
     });
 
-    test('archiveProject calls POST organization/projects/{id}/archive', () async {
-      client.mockResponse = {
-        "object": "organization.project",
-        "id": "proj_123",
-        "status": "archived"
-      };
+    test(
+      'archiveProject calls POST organization/projects/{id}/archive',
+      () async {
+        client.mockResponse = {
+          "object": "organization.project",
+          "id": "proj_123",
+          "status": "archived",
+        };
 
-      final result = await api.archiveProject(projectId: "proj_123");
+        final result = await api.archiveProject(projectId: "proj_123");
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/projects/proj_123/archive");
-      expect(client.lastMethod, "POST");
-      expect(result.status, "archived");
-    });
+        expect(
+          client.lastUrl,
+          "https://api.openai.com/v1/organization/projects/proj_123/archive",
+        );
+        expect(client.lastMethod, "POST");
+        expect(result.status, "archived");
+      },
+    );
 
     test('listUsers calls GET organization/users with query strings', () async {
       client.mockResponse = {
@@ -236,12 +257,15 @@ void main() {
         "data": [],
         "first_id": null,
         "last_id": null,
-        "has_more": false
+        "has_more": false,
       };
 
       final result = await api.listUsers(limit: 10, after: 'user_abc');
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/users?limit=10&after=user_abc");
+      expect(
+        client.lastUrl,
+        "https://api.openai.com/v1/organization/users?limit=10&after=user_abc",
+      );
       expect(client.lastMethod, "GET");
       expect(result.object, "list");
     });
@@ -250,12 +274,15 @@ void main() {
       client.mockResponse = {
         "object": "organization.user",
         "id": "user_123",
-        "email": "test@test.com"
+        "email": "test@test.com",
       };
 
       final result = await api.retrieveUser(userId: "user_123");
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/users/user_123");
+      expect(
+        client.lastUrl,
+        "https://api.openai.com/v1/organization/users/user_123",
+      );
       expect(client.lastMethod, "GET");
       expect(result.id, "user_123");
     });
@@ -264,12 +291,18 @@ void main() {
       client.mockResponse = {
         "object": "organization.user",
         "id": "user_123",
-        "role": "reader"
+        "role": "reader",
       };
 
-      final result = await api.modifyUserRole(userId: "user_123", role: "reader");
+      final result = await api.modifyUserRole(
+        userId: "user_123",
+        role: "reader",
+      );
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/users/user_123");
+      expect(
+        client.lastUrl,
+        "https://api.openai.com/v1/organization/users/user_123",
+      );
       expect(client.lastMethod, "POST");
       expect(client.lastBody, {'role': "reader"});
       expect(result.role, "reader");
@@ -279,12 +312,15 @@ void main() {
       client.mockResponse = {
         "object": "organization.user.deleted",
         "id": "user_123",
-        "deleted": true
+        "deleted": true,
       };
 
       final result = await api.deleteUser(userId: "user_123");
 
-      expect(client.lastUrl, "https://api.openai.com/v1/organization/users/user_123");
+      expect(
+        client.lastUrl,
+        "https://api.openai.com/v1/organization/users/user_123",
+      );
       expect(client.lastMethod, "DELETE");
       expect(result.deleted, true);
     });

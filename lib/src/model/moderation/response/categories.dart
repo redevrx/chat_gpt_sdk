@@ -18,13 +18,13 @@ class Categories {
   late final bool violenceGraphic;
 
   Categories.fromJson(Map<String, dynamic> json) {
-    hate = json['hate'];
-    hateThreatening = json['hate/threatening'];
-    selfHarm = json['self-harm'];
-    sexual = json['sexual'];
-    sexualMinors = json['sexual/minors'];
-    violence = json['violence'];
-    violenceGraphic = json['violence/graphic'];
+    hate = json['hate'] as bool? ?? false;
+    hateThreatening = json['hate/threatening'] as bool? ?? false;
+    selfHarm = json['self-harm'] as bool? ?? false;
+    sexual = json['sexual'] as bool? ?? false;
+    sexualMinors = json['sexual/minors'] as bool? ?? false;
+    violence = json['violence'] as bool? ?? false;
+    violenceGraphic = json['violence/graphic'] as bool? ?? false;
   }
 
   Map<String, dynamic> toJson() {

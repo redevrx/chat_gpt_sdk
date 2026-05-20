@@ -54,8 +54,10 @@ void main() {
     });
 
     test('constructor creates a valid instance with default values', () {
-      final completeText =
-          CompleteText(prompt: 'Hello world!', model: Gpt3TurboInstruct());
+      final completeText = CompleteText(
+        prompt: 'Hello world!',
+        model: Gpt3TurboInstruct(),
+      );
 
       expect(completeText.prompt, 'Hello world!');
       expect(completeText.model.model, Gpt3TurboInstruct().model);

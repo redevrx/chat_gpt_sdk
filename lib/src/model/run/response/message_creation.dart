@@ -4,7 +4,7 @@ class MessageCreation {
   String messageId;
 
   factory MessageCreation.fromJson(Map<String, dynamic> json) =>
-      MessageCreation(messageId: json["message_id"] ?? '');
+      MessageCreation(messageId: json["message_id"] as String? ?? '');
 
   Map<String, dynamic> toJson() => {"message_id": messageId};
 }

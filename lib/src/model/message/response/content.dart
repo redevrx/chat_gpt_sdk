@@ -7,9 +7,11 @@ class Content {
   String type;
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-    text: json["text"] == null ? null : TextData.fromJson(json["text"]),
-    type: json["type"] ?? '',
-  );
+        text: json["text"] == null
+            ? null
+            : TextData.fromJson(Map<String, dynamic>.from(json["text"])),
+        type: json["type"] as String? ?? '',
+      );
 
   Map<String, dynamic> toJson() => {"text": text?.toJson(), "type": type};
 }

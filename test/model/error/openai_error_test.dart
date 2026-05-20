@@ -16,16 +16,19 @@ void main() {
     test('openai error data test to json', () {
       final json = OpenAIError(
         message: 'message',
-        error: ErrorData.fromJson(
-          {"message": "message", "code": '404', "type": "type"},
-        ),
+        error: ErrorData.fromJson({
+          "message": "message",
+          "code": '404',
+          "type": "type",
+        }),
       );
 
       expect(json.message, 'message');
-      expect(
-        json.error.toMap(),
-        {"message": "message", "code": '404', "type": "type"},
-      );
+      expect(json.error.toMap(), {
+        "message": "message",
+        "code": '404',
+        "type": "type",
+      });
     });
   });
 }

@@ -17,8 +17,11 @@ void main() {
       expect(request.embedding.length, 2);
     });
     test('embed data test to json', () {
-      final json =
-          EmbedData(object: "object", embedding: [.0, .6], index: 2).toJson();
+      final json = EmbedData(
+        object: "object",
+        embedding: [.0, .6],
+        index: 2,
+      ).toJson();
 
       expect(json['object'], 'object');
       expect(json['index'], 2);

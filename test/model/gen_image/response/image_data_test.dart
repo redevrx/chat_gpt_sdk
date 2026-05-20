@@ -4,10 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('image data test', () {
     test('image data test from json', () {
-      final json = {
-        'url': 'url',
-        'b64_json': 'b64_json',
-      };
+      final json = {'url': 'url', 'b64_json': 'b64_json'};
 
       final data = ImageData.fromJson(json);
 

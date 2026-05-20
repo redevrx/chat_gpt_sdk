@@ -61,12 +61,12 @@ class Usage {
     completionTokensDetails: json['completion_tokens_details'] == null
         ? null
         : CompletionTokensDetails.fromJson(
-            json['completion_tokens_details'] as Map<String, dynamic>,
+            Map<String, dynamic>.from(json['completion_tokens_details']),
           ),
     promptTokensDetails: json['prompt_tokens_details'] == null
         ? null
         : PromptTokensDetails.fromJson(
-            json['prompt_tokens_details'] as Map<String, dynamic>,
+            Map<String, dynamic>.from(json['prompt_tokens_details']),
           ),
   );
 

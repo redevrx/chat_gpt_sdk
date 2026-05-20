@@ -7,11 +7,11 @@ class OpenAiModel {
   OpenAiModel(this.data, this.object);
 
   factory OpenAiModel.fromJson(Map<String, dynamic> json) => OpenAiModel(
-    (json['data'] as List<Map>)
-        .map((e) => ModelData.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    json['object'],
-  );
+        (json['data'] as List? ?? [])
+            .map((e) => ModelData.fromJson(Map<String, dynamic>.from(e)))
+            .toList(),
+        json['object'] as String? ?? '',
+      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'data': data,

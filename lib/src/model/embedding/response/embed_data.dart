@@ -10,10 +10,14 @@ class EmbedData {
   int index;
 
   factory EmbedData.fromJson(Map<String, dynamic> json) => EmbedData(
-    object: json["object"],
-    embedding: List<double>.from(json["embedding"].map((x) => x?.toDouble())),
-    index: json["index"],
-  );
+        object: json["object"] as String? ?? '',
+        embedding: json["embedding"] == null
+            ? []
+            : List<double>.from(
+                (json["embedding"] as List? ?? []).map((x) => (x as num?)?.toDouble() ?? 0.0),
+              ),
+        index: json["index"] as int? ?? 0,
+      );
 
   Map<String, dynamic> toJson() => {
     "object": object,

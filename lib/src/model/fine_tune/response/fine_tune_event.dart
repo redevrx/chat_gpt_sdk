@@ -17,10 +17,10 @@ class FineTuneEvent {
   factory FineTuneEvent.fromJson(Map<String, dynamic> json) {
     return FineTuneEvent(
       createdAt: DateTime.fromMillisecondsSinceEpoch(
-        json['created_at'] == null ? 0 : json['created_at'] * 1000,
+        json['created_at'] == null ? 0 : (json['created_at'] as int) * 1000,
       ),
-      level: json['level'],
-      message: json['message'],
+      level: json['level'] as String?,
+      message: json['message'] as String?,
     );
   }
 }

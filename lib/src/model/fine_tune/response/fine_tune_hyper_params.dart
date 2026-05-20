@@ -20,10 +20,10 @@ class FineTuneHyperParams {
 
   factory FineTuneHyperParams.fromJson(Map<String, dynamic> json) {
     return FineTuneHyperParams(
-      batchSize: json['batch_size'],
-      learningRateMultiplier: json['learning_rate_multiplier'],
-      nEpochs: json['n_epochs'],
-      promptLossWeight: json['prompt_loss_weight'],
+      batchSize: json['batch_size'] as int?,
+      learningRateMultiplier: (json['learning_rate_multiplier'] as num?)?.toDouble(),
+      nEpochs: json['n_epochs'] as int?,
+      promptLossWeight: (json['prompt_loss_weight'] as num?)?.toDouble(),
     );
   }
 }

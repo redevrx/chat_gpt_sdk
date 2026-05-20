@@ -12,8 +12,10 @@ void main() {
       expect(request.toJson(), isA<Future<FormData>>());
     });
     test('audio request test set language', () {
-      final request =
-          AudioRequest(file: FileInfo("path", "name"), language: "en");
+      final request = AudioRequest(
+        file: FileInfo("path", "name"),
+        language: "en",
+      );
 
       expect(request.file.name, 'name');
       expect(request.file.path, 'path');

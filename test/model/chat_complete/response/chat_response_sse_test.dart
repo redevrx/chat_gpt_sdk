@@ -13,10 +13,7 @@ void main() {
       choices: [
         ChatChoiceSSE(
           index: 0,
-          message: Message(
-            role: "role_test",
-            content: "content_test",
-          ),
+          message: Message(role: "role_test", content: "content_test"),
           finishReason: "finish_reason_test",
         ),
       ],
@@ -70,10 +67,7 @@ void main() {
       choices: [
         ChatChoiceSSE(
           index: 0,
-          message: Message(
-            role: "role_test",
-            content: "content_test",
-          ),
+          message: Message(role: "role_test", content: "content_test"),
           finishReason: "finish_reason_test",
         ),
       ],

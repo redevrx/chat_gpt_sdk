@@ -16,16 +16,17 @@ class ListRun {
   String object;
 
   factory ListRun.fromJson(Map<String, dynamic> json) => ListRun(
-    firstId: json["first_id"] ?? '',
-    data: json["data"] == null
-        ? []
-        : List<CreateRunResponse>.from(
-            json["data"].map((x) => CreateRunResponse.fromJson(x)),
-          ),
-    lastId: json["last_id"] ?? '',
-    hasMore: json["has_more"],
-    object: json["object"],
-  );
+        firstId: json["first_id"] as String? ?? '',
+        data: json["data"] == null
+            ? []
+            : List<CreateRunResponse>.from(
+                (json["data"] as List? ?? [])
+                    .map((x) => CreateRunResponse.fromJson(Map<String, dynamic>.from(x))),
+              ),
+        lastId: json["last_id"] as String? ?? '',
+        hasMore: json["has_more"] as bool? ?? false,
+        object: json["object"] as String? ?? '',
+      );
 
   Map<String, dynamic> toJson() => {
     "first_id": firstId,

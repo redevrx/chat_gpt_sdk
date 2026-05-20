@@ -11,9 +11,9 @@ class ThreadDeleteResponse {
 
   factory ThreadDeleteResponse.fromJson(Map<String, dynamic> json) =>
       ThreadDeleteResponse(
-        deleted: json["deleted"] ?? false,
-        id: json["id"] ?? '',
-        object: json["object"] ?? '',
+        deleted: json["deleted"] as bool? ?? false,
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
       );
 
   Map<String, dynamic> toJson() => {

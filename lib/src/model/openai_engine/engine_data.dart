@@ -7,11 +7,11 @@ class EngineData {
   EngineData(this.id, this.object, this.owner, this.ready);
 
   factory EngineData.fromJson(Map<String, dynamic> json) => EngineData(
-    json['id'] as String,
-    json['object'] as String,
-    json['owner'] as String,
-    json['ready'] as bool,
-  );
+        json['id'] as String? ?? '',
+        json['object'] as String? ?? '',
+        json['owner'] as String? ?? '',
+        json['ready'] as bool? ?? false,
+      );
 
   Map<String, dynamic> toJson() => engineDataToJson(this);
 

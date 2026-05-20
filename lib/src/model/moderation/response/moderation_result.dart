@@ -13,9 +13,13 @@ class ModerationResult {
   late final bool flagged;
 
   ModerationResult.fromJson(Map<String, dynamic> json) {
-    categories = Categories.fromJson(json['categories']);
-    categoryScores = CategoryScores.fromJson(json['category_scores']);
-    flagged = json['flagged'];
+    categories = json['categories'] == null
+        ? Categories.fromJson({})
+        : Categories.fromJson(Map<String, dynamic>.from(json['categories']));
+    categoryScores = json['category_scores'] == null
+        ? CategoryScores.fromJson({})
+        : CategoryScores.fromJson(Map<String, dynamic>.from(json['category_scores']));
+    flagged = json['flagged'] as bool? ?? false;
   }
 
   Map<String, dynamic> toJson() {

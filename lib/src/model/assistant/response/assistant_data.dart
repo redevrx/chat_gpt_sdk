@@ -28,23 +28,27 @@ class AssistantData {
   final double? temperature;
 
   factory AssistantData.fromJson(Map<String, dynamic> json) => AssistantData(
-    instructions: json["instructions"] ?? '',
-    metadata: json["metadata"] ?? {},
-    name: json["name"] ?? '',
-    fileIds: json["file_ids"] == null
-        ? []
-        : List<String>.from(json["file_ids"].map((x) => x)),
-    createdAt: json["created_at"] ?? 0,
-    model: json["model"] ?? '',
-    id: json["id"] ?? '',
-    tools: json["tools"] == null
-        ? []
-        : List<dynamic>.from(json["tools"].map((x) => x)),
-    object: json["object"] ?? '',
-    description: json['description'],
-    topP: json['top_p'],
-    temperature: json['temperature'],
-  );
+        instructions: json["instructions"] as String? ?? '',
+        metadata: json["metadata"] == null
+            ? {}
+            : Map<dynamic, dynamic>.from(json["metadata"]),
+        name: json["name"] as String? ?? '',
+        fileIds: json["file_ids"] == null
+            ? []
+            : List<String>.from(
+                (json["file_ids"] as List? ?? []).map((x) => x.toString()),
+              ),
+        createdAt: json["created_at"] as int? ?? 0,
+        model: json["model"] as String? ?? '',
+        id: json["id"] as String? ?? '',
+        tools: json["tools"] == null
+            ? []
+            : List<dynamic>.from((json["tools"] as List? ?? []).map((x) => x)),
+        object: json["object"] as String? ?? '',
+        description: json['description'] as String?,
+        topP: (json['top_p'] as num?)?.toDouble(),
+        temperature: (json['temperature'] as num?)?.toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
     "instructions": instructions,

@@ -10,10 +10,7 @@ void main() {
     });
     test('interceptor test onResponse', () {
       final intercept = InterceptorsWrapper();
-      final response = Response(
-        data: "data",
-        requestOptions: RequestOptions(),
-      );
+      final response = Response(data: "data", requestOptions: RequestOptions());
       intercept.onResponse(response, ResponseInterceptorHandler());
       expect(response.data, 'data');
     });

@@ -12,13 +12,13 @@ class ModerationData {
   late final List<ModerationResult> results;
 
   ModerationData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    model = json['model'];
+    id = json['id'] as String? ?? '';
+    model = json['model'] as String? ?? '';
     results = json['results'] == null
-        ? List.empty()
-        : List.from(
-            json['results'],
-          ).map((e) => ModerationResult.fromJson(e)).toList();
+        ? []
+        : (json['results'] as List? ?? [])
+            .map((e) => ModerationResult.fromJson(Map<String, dynamic>.from(e)))
+            .toList();
   }
 
   Map<String, dynamic> toJson() {

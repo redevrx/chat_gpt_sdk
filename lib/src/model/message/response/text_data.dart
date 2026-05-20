@@ -5,11 +5,11 @@ class TextData {
   String value;
 
   factory TextData.fromJson(Map<dynamic, dynamic> json) => TextData(
-    annotations: json["annotations"] == null
-        ? []
-        : List<dynamic>.from(json["annotations"].map((x) => x)),
-    value: json["value"] ?? '',
-  );
+        annotations: json["annotations"] == null
+            ? []
+            : List<dynamic>.from((json["annotations"] as List? ?? []).map((x) => x)),
+        value: json["value"] as String? ?? '',
+      );
 
   Map<String, dynamic> toJson() => {
     "annotations": List<dynamic>.from(annotations.map((x) => x)),

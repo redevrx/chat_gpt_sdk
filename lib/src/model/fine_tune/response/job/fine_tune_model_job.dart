@@ -21,14 +21,18 @@ class FineTuneModelJob {
 
   factory FineTuneModelJob.fromJson(Map<dynamic, dynamic> json) =>
       FineTuneModelJob(
-        trainingFile: json["training_file"],
-        resultFiles: json["result_files"],
-        organizationId: json["organization_id"],
-        createdAt: json["created_at"],
-        model: json["model"],
-        id: json["id"],
-        object: json["object"],
-        status: json["status"],
+        trainingFile: json["training_file"] as String? ?? '',
+        resultFiles: json["result_files"] == null
+            ? []
+            : List<Object>.from(
+                (json["result_files"] as List? ?? []).map((x) => x as Object),
+              ),
+        organizationId: json["organization_id"] as String? ?? '',
+        createdAt: json["created_at"] as int? ?? 0,
+        model: json["model"] as String? ?? '',
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
+        status: json["status"] as String? ?? '',
       );
 
   Map<dynamic, dynamic> toJson() => {

@@ -13,7 +13,7 @@ class ChatAudioConfig {
 
   factory ChatAudioConfig.fromJson(Map<String, dynamic> json) =>
       ChatAudioConfig(
-        voice: json['voice'] as String,
-        format: json['format'] as String,
+        voice: json['voice'] as String? ?? '',
+        format: json['format'] as String? ?? '',
       );
 }

@@ -17,18 +17,21 @@ class Message {
   });
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
-    role: json["role"] ?? "",
-    content: json["content"] ?? "",
-    functionCall: json["function_call"],
-    toolCalls: json['tool_calls'] == null
-        ? null
-        : List<Map<String, dynamic>>.from(
-            json["tool_calls"].map((x) => Map<String, dynamic>.from(x)),
-          ),
-    audio: json['audio'] == null
-        ? null
-        : MessageAudio.fromJson(json['audio'] as Map<String, dynamic>),
-  );
+        role: json["role"] as String? ?? "",
+        content: json["content"] as String? ?? "",
+        functionCall: json["function_call"] == null
+            ? null
+            : Map<String, dynamic>.from(json["function_call"]),
+        toolCalls: json['tool_calls'] == null
+            ? null
+            : List<Map<String, dynamic>>.from(
+                (json["tool_calls"] as List? ?? [])
+                    .map((x) => Map<String, dynamic>.from(x)),
+              ),
+        audio: json['audio'] == null
+            ? null
+            : MessageAudio.fromJson(Map<String, dynamic>.from(json['audio'])),
+      );
 
   Map<String, dynamic> toJson() => {
     "role": role,

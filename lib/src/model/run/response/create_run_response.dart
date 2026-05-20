@@ -68,42 +68,60 @@ class CreateRunResponse {
 
   factory CreateRunResponse.fromJson(Map<String, dynamic> json) =>
       CreateRunResponse(
-        metadata: json["metadata"] ?? {},
-        assistantId: json["assistant_id"] ?? '',
-        createdAt: json["created_at"] ?? 0,
+        metadata: json["metadata"] == null
+            ? {}
+            : Map<String, dynamic>.from(json["metadata"]),
+        assistantId: json["assistant_id"] as String? ?? '',
+        createdAt: json["created_at"] as int? ?? 0,
         tools: json["tools"] == null
             ? []
-            : List<dynamic>.from(json["tools"].map((x) => x)),
-        completedAt: json["completed_at"] ?? 0,
-        threadId: json["thread_id"] ?? '',
+            : List<dynamic>.from((json["tools"] as List? ?? []).map((x) => x)),
+        completedAt: json["completed_at"] as int? ?? 0,
+        threadId: json["thread_id"] as String? ?? '',
         fileIds: json["file_ids"] == null
             ? []
-            : List<String>.from(json["file_ids"].map((x) => x)),
-        startedAt: json["started_at"] ?? 0,
-        model: json["model"] ?? '',
-        id: json["id"] ?? '',
-        object: json["object"] ?? '',
-        status: json["status"] ?? '',
-        usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
-        instructions: json['instructions'] ?? '',
-        lastError: json['last_error'] ?? {},
-        failedAt: json['failed_at'] ?? 0,
-        cancelledAt: json['cancelled_at'] ?? 0,
-        expiresAt: json['expires_at'] ?? 0,
-        type: json['type'] ?? '',
+            : List<String>.from(
+                (json["file_ids"] as List? ?? []).map((x) => x.toString()),
+              ),
+        startedAt: json["started_at"] as int? ?? 0,
+        model: json["model"] as String? ?? '',
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
+        status: json["status"] as String? ?? '',
+        usage: json["usage"] == null
+            ? null
+            : Usage.fromJson(Map<String, dynamic>.from(json["usage"])),
+        instructions: json['instructions'] as String? ?? '',
+        lastError: json['last_error'] == null
+            ? {}
+            : Map<String, dynamic>.from(json['last_error']),
+        failedAt: json['failed_at'] as int? ?? 0,
+        cancelledAt: json['cancelled_at'] as int? ?? 0,
+        expiresAt: json['expires_at'] as int? ?? 0,
+        type: json['type'] as String? ?? '',
         stepDetails: json['step_details'] == null
             ? null
-            : StepDetail.fromJson(json['step_details']),
-        requiredAction: json['required_action'],
-        incompleteDetails: json['incomplete_details'],
-        temperature: json['temperature'],
-        topP: json['top_p'],
-        maxPromptTokens: json['max_prompt_tokens'],
-        maxCompletionTokens: json['max_completion_tokens'],
-        truncationStrategy: json['truncation_strategy'],
+            : StepDetail.fromJson(
+                Map<String, dynamic>.from(json['step_details']),
+              ),
+        requiredAction: json['required_action'] == null
+            ? null
+            : Map<String, dynamic>.from(json['required_action']),
+        incompleteDetails: json['incomplete_details'] == null
+            ? null
+            : Map<String, dynamic>.from(json['incomplete_details']),
+        temperature: (json['temperature'] as num?)?.toDouble(),
+        topP: (json['top_p'] as num?)?.toDouble(),
+        maxPromptTokens: json['max_prompt_tokens'] as int?,
+        maxCompletionTokens: json['max_completion_tokens'] as int?,
+        truncationStrategy: json['truncation_strategy'] == null
+            ? null
+            : Map<String, dynamic>.from(json['truncation_strategy']),
         toolChoice: json['tool_choice'],
         responseFormat: json['response_format'],
-        toolResources: json['tool_resources'],
+        toolResources: json['tool_resources'] == null
+            ? null
+            : Map<String, dynamic>.from(json['tool_resources']),
       );
 
   Map<String, dynamic> toJson() => {

@@ -32,16 +32,17 @@ class CompleteText {
   });
 
   factory CompleteText.fromJson(Map<String, dynamic> json) => CompleteText(
-    prompt: json['prompt'] as String,
-    model: ModelFromValue(model: json['model'].toString()),
-    //json['model'] as String,
-    temperature: (json['temperature'] as num?)?.toDouble() ?? .3,
-    maxTokens: json['max_tokens'] as int? ?? 100,
-    topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
-    frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? .0,
-    presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? .0,
-    stop: (json['stop'] as List<String>?),
-  );
+        prompt: json['prompt'] as String? ?? '',
+        model: ModelFromValue(model: json['model']?.toString() ?? ''),
+        temperature: (json['temperature'] as num?)?.toDouble() ?? .3,
+        maxTokens: json['max_tokens'] as int? ?? 100,
+        topP: (json['top_p'] as num?)?.toDouble() ?? 1.0,
+        frequencyPenalty: (json['frequency_penalty'] as num?)?.toDouble() ?? .0,
+        presencePenalty: (json['presence_penalty'] as num?)?.toDouble() ?? .0,
+        stop: json['stop'] == null
+            ? null
+            : (json['stop'] as List? ?? []).map((e) => e.toString()).toList(),
+      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'prompt': prompt,

@@ -18,13 +18,13 @@ class CategoryScores {
   late final double violenceGraphic;
 
   CategoryScores.fromJson(Map<String, dynamic> json) {
-    hate = json['hate'];
-    hateThreatening = json['hate/threatening'];
-    selfHarm = json['self-harm'];
-    sexual = json['sexual'];
-    sexualMinors = json['sexual/minors'];
-    violence = json['violence'];
-    violenceGraphic = json['violence/graphic'];
+    hate = (json['hate'] as num?)?.toDouble() ?? 0.0;
+    hateThreatening = (json['hate/threatening'] as num?)?.toDouble() ?? 0.0;
+    selfHarm = (json['self-harm'] as num?)?.toDouble() ?? 0.0;
+    sexual = (json['sexual'] as num?)?.toDouble() ?? 0.0;
+    sexualMinors = (json['sexual/minors'] as num?)?.toDouble() ?? 0.0;
+    violence = (json['violence'] as num?)?.toDouble() ?? 0.0;
+    violenceGraphic = (json['violence/graphic'] as num?)?.toDouble() ?? 0.0;
   }
 
   Map<String, dynamic> toJson() {

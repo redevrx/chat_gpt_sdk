@@ -30,19 +30,27 @@ class FineTuneList {
   String status;
 
   factory FineTuneList.fromJson(Map<dynamic, dynamic> json) => FineTuneList(
-    trainingFile: json["training_file"],
-    resultFiles: json["result_files"],
-    finishedAt: json["finished_at"],
-    fineTunedModel: json["fine_tuned_model"],
-    createdAt: json["created_at"],
-    organizationId: json["organization_id"],
-    hyperparameters: Hyperparameter.fromJson(json["hyperparameters"]),
-    model: json["model"],
-    id: json["id"],
-    trainedTokens: json["trained_tokens"],
-    object: json["object"],
-    status: json["status"],
-  );
+        trainingFile: json["training_file"] as String? ?? '',
+        resultFiles: json["result_files"] == null
+            ? []
+            : List<String>.from(
+                (json["result_files"] as List? ?? []).map((x) => x.toString()),
+              ),
+        finishedAt: json["finished_at"] as int? ?? 0,
+        fineTunedModel: json["fine_tuned_model"] as String?,
+        createdAt: json["created_at"] as int? ?? 0,
+        organizationId: json["organization_id"] as String? ?? '',
+        hyperparameters: json["hyperparameters"] == null
+            ? Hyperparameter(nEpochs: 0)
+            : Hyperparameter.fromJson(
+                Map<dynamic, dynamic>.from(json["hyperparameters"]),
+              ),
+        model: json["model"] as String? ?? '',
+        id: json["id"] as String? ?? '',
+        trainedTokens: json["trained_tokens"] as int? ?? 0,
+        object: json["object"] as String? ?? '',
+        status: json["status"] as String? ?? '',
+      );
 
   Map<dynamic, dynamic> toJson() => {
     "training_file": trainingFile,

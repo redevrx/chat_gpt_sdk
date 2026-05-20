@@ -29,22 +29,30 @@ class CreateThreadAndRunData {
 
   factory CreateThreadAndRunData.fromJson(Map<String, dynamic> json) =>
       CreateThreadAndRunData(
-        instructions: json["instructions"] ?? '',
-        metadata: json["metadata"] ?? {},
-        assistantId: json["assistant_id"] ?? '',
-        createdAt: json["created_at"] ?? '',
+        instructions: json["instructions"] as String? ?? '',
+        metadata: json["metadata"] == null
+            ? {}
+            : Map<String, dynamic>.from(json["metadata"]),
+        assistantId: json["assistant_id"] as String? ?? '',
+        createdAt: json["created_at"] as int? ?? 0,
         tools: json["tools"] == null
             ? []
-            : List<Map<String, dynamic>>.from(json["tools"].map((x) => x)),
-        threadId: json["thread_id"] ?? '',
-        expiresAt: json["expires_at"] ?? '',
+            : List<Map<String, dynamic>>.from(
+                (json["tools"] as List? ?? [])
+                    .map((x) => Map<String, dynamic>.from(x)),
+              ),
+        threadId: json["thread_id"] as String? ?? '',
+        expiresAt: json["expires_at"] as int? ?? 0,
         fileIds: json["file_ids"] == null
             ? []
-            : List<Map<String, dynamic>>.from(json["file_ids"].map((x) => x)),
-        model: json["model"] ?? '',
-        id: json["id"] ?? '',
-        object: json["object"] ?? '',
-        status: json["status"] ?? '',
+            : List<Map<String, dynamic>>.from(
+                (json["file_ids"] as List? ?? [])
+                    .map((x) => Map<String, dynamic>.from(x)),
+              ),
+        model: json["model"] as String? ?? '',
+        id: json["id"] as String? ?? '',
+        object: json["object"] as String? ?? '',
+        status: json["status"] as String? ?? '',
       );
 
   Map<String, dynamic> toJson() => {

@@ -15,11 +15,18 @@ class EmbedResponse {
   Usage usage;
 
   factory EmbedResponse.fromJson(Map<String, dynamic> json) => EmbedResponse(
-    object: json["object"],
-    data: List<EmbedData>.from(json["data"].map((x) => EmbedData.fromJson(x))),
-    model: json["model"],
-    usage: Usage.fromJson(json["usage"]),
-  );
+        object: json["object"] as String? ?? '',
+        data: json["data"] == null
+            ? []
+            : List<EmbedData>.from(
+                (json["data"] as List? ?? [])
+                    .map((x) => EmbedData.fromJson(Map<String, dynamic>.from(x))),
+              ),
+        model: json["model"] as String? ?? '',
+        usage: json["usage"] == null
+            ? Usage(0, 0, 0)
+            : Usage.fromJson(Map<String, dynamic>.from(json["usage"])),
+      );
 
   Map<String, dynamic> toJson() => {
     "object": object,

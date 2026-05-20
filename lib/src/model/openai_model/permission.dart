@@ -29,19 +29,18 @@ class Permission {
   );
 
   factory Permission.fromJson(Map<String, dynamic> json) => Permission(
-    json['id'] as String,
-    json['object'] as String,
-    json['created'] as int,
-    json['allow_create_engine'] as bool,
-    json['allow_sampling'] as bool,
-    json['allow_logprobs'] as bool,
-    json['allow_search_indices'] as bool,
-    json['allow_view'] as bool,
-    json['allow_fine_tuning'] as bool,
-    json['organization'] as String,
-    // json['group'],
-    json['is_blocking'] as bool?,
-  );
+        json['id'] as String? ?? '',
+        json['object'] as String? ?? '',
+        json['created'] as int? ?? 0,
+        json['allow_create_engine'] as bool? ?? false,
+        json['allow_sampling'] as bool? ?? false,
+        json['allow_logprobs'] as bool? ?? false,
+        json['allow_search_indices'] as bool? ?? false,
+        json['allow_view'] as bool? ?? false,
+        json['allow_fine_tuning'] as bool? ?? false,
+        json['organization'] as String? ?? '',
+        json['is_blocking'] as bool?,
+      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'id': id,

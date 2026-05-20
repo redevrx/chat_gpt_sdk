@@ -23,16 +23,16 @@ class CompleteResponse {
 
   factory CompleteResponse.fromJson(Map<String, dynamic> json) =>
       CompleteResponse(
-        json['id'],
-        json['object'],
-        json['created'],
-        json['model'],
-        (json['choices'] as List)
-            .map((e) => Choices.fromJson(e as Map<String, dynamic>))
+        json['id'] as String? ?? '',
+        json['object'] as String? ?? '',
+        json['created'] as int? ?? 0,
+        json['model'] as String? ?? '',
+        (json['choices'] as List? ?? [])
+            .map((e) => Choices.fromJson(Map<String, dynamic>.from(e)))
             .toList(),
         json['usage'] == null
             ? null
-            : Usage.fromJson(json['usage'] as Map<String, dynamic>),
+            : Usage.fromJson(Map<String, dynamic>.from(json['usage'])),
       );
 
   Map<String, dynamic> toJson() => responseToJson(this);

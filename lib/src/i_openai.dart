@@ -20,9 +20,13 @@ mixin IOpenAI {
 
   OpenAI build({String? token, HttpSetup? baseOption, bool enableLog = false});
 
-  Future<OpenAiModel> listModel({void Function(CancelData cancelData)? onCancel});
+  Future<OpenAiModel> listModel({
+    void Function(CancelData cancelData)? onCancel,
+  });
 
-  Future<EngineModel> listEngine({void Function(CancelData cancelData)? onCancel});
+  Future<EngineModel> listEngine({
+    void Function(CancelData cancelData)? onCancel,
+  });
 
   Future<CompleteResponse?> onCompletion({
     required CompleteText request,
