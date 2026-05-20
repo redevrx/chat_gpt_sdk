@@ -37,10 +37,10 @@ jobs:
         run: dart format .
 
       - name: Run Flutter Test
-        run: flutter test
+        run: flutter test --coverage
         
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
