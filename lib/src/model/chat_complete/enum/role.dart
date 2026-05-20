@@ -1,1 +1,1 @@
-enum Role { system, user, assistant, function }
+enum Role { system, user, assistant, function, developer, tool }

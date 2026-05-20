@@ -60,17 +60,7 @@ class Assistant {
     this.fileSearch,
   });
 
-  Map<String, dynamic> toJson() => Map.of({
-        "model": model.model,
-        'name': name,
-        'description': description,
-        'instructions': instructions,
-        'tools': tools ?? [],
-        'file_ids': fileIds ?? [],
-        'metadata': metadata ?? {},
-      });
-
-  Map<String, dynamic> toJsonV2() {
+  Map<String, dynamic> toJson() {
     final data = Map.of({
       "model": model.model,
       'name': name,

@@ -117,6 +117,19 @@ class _TranslateScreenState extends State<TranslateScreen> {
     await openAI.onChatCompletion(request: request);
   }
 
+  void reasoningModelExample() async {
+    final request = ChatCompleteText(
+      messages: [
+        Messages(role: Role.user, content: 'Explain quantum computing in simple terms.').toJson(),
+      ],
+      model: O3MiniChatModel(),
+      reasoningEffort: 'medium',
+    );
+
+    ChatCTResponse? response = await openAI.onChatCompletion(request: request);
+    debugPrint("Reasoning Response: ${response?.choices.last.message?.content}");
+  }
+
   @override
   void initState() {
     openAI = OpenAI.instance.build(

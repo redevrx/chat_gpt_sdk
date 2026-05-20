@@ -35,14 +35,6 @@ class CreateMessage {
   Map<String, dynamic> toJson() => Map.of({
         'role': role,
         'content': content,
-        'file_ids': fileIds,
-        'metadata': metadata,
-      })
-        ..removeWhere((_, value) => value == null);
-
-  Map<String, dynamic> get toJsonV2 => Map.of({
-        'role': role,
-        'content': content,
         'metadata': metadata,
         'attachments': attachments?.map((it) => it).toList(),
       })

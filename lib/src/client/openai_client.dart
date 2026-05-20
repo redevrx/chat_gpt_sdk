@@ -492,28 +492,42 @@ class OpenAIClient extends OpenAIWrapper {
   BaseErrorWrapper handleError({
     required int code,
     required String message,
-    Map<String, dynamic>? data,
+    dynamic data,
   }) {
+    Map<String, dynamic>? errorData;
+    if (data is Map<String, dynamic>) {
+      errorData = data;
+    } else if (data is String) {
+      try {
+        final decoded = json.decode(data);
+        if (decoded is Map<String, dynamic>) {
+          errorData = decoded;
+        }
+      } catch (_) {
+        // Not a JSON map string
+      }
+    }
+
     if (code == HttpStatus.unauthorized) {
       return OpenAIAuthError(
         code: code,
-        data: OpenAIError.fromJson(data, message),
+        data: OpenAIError.fromJson(errorData, message),
       );
     } else if (code == HttpStatus.tooManyRequests) {
       return OpenAIRateLimitError(
         code: code,
-        data: OpenAIError.fromJson(data, message),
+        data: OpenAIError.fromJson(errorData, message),
       );
     } else if (code == HttpStatus.badRequest &&
-        '${data?['error']?['message']}'.contains(kRateLimitMessage)) {
+        '${errorData?['error']?['message']}'.contains(kRateLimitMessage)) {
       return OpenAIRateLimitError(
         code: code,
-        data: OpenAIError.fromJson(data, message),
+        data: OpenAIError.fromJson(errorData, message),
       );
     } else {
       return OpenAIServerError(
         code: code,
-        data: OpenAIError.fromJson(data, message),
+        data: OpenAIError.fromJson(errorData, message),
       );
     }
   }

@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.1+8
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.11.5
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   chat_gpt_sdk:
     path: ../../
-#  chat_gpt_sdk: ^2.1.4
+#  chat_gpt_sdk: ^3.1.6
   flutter_bloc: ^8.1.6
   shared_preferences: ^2.3.2
   google_fonts: ^6.2.1

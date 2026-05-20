@@ -2,6 +2,7 @@ import 'package:chat_gpt_sdk/src/model/chat_complete/enum/chat_model.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/function_call.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/function_data.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/response_format.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_audio_config.dart';
 
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
@@ -171,6 +172,42 @@ class ChatCompleteText {
   ///to monitor and detect abuse.[user]
   final String? user;
 
+  ///Constrains effort on reasoning for reasoning models.
+  /// Currently supported values are low, medium, and high.
+  /// [reasoningEffort]
+  final String? reasoningEffort;
+
+  ///An upper bound for the number of tokens that can be generated for a completion,
+  /// including visible output tokens and reasoning tokens.
+  /// [maxCompletionTokens]
+  final int? maxCompletionTokens;
+
+  ///Whether to enable parallel function calling during tool use.
+  /// [parallelToolCalls]
+  final bool? parallelToolCalls;
+
+  ///Whether or not to store the output of this chat completion request
+  /// for training/evaluations.
+  /// [store]
+  final bool? store;
+
+  ///Developer-defined metadata to attach to the request.
+  /// [metadata]
+  final Map<String, String>? metadata;
+
+  ///Options for streaming response. Only set this when stream is true.
+  /// [streamOptions]
+  final Map<String, dynamic>? streamOptions;
+
+  ///Output types we'd like from the model.
+  /// e.g. ["text", "audio"]
+  /// [modalities]
+  final List<String>? modalities;
+
+  ///Configuration for audio output when modalities contains "audio".
+  /// [audio]
+  final ChatAudioConfig? audio;
+
   ChatCompleteText({
     required this.model,
     required this.messages,
@@ -192,6 +229,14 @@ class ChatCompleteText {
     this.seed,
     this.tools,
     this.toolChoice,
+    this.reasoningEffort,
+    this.maxCompletionTokens,
+    this.parallelToolCalls,
+    this.store,
+    this.metadata,
+    this.streamOptions,
+    this.modalities,
+    this.audio,
   });
 
   Map<String, dynamic> toJson() {
@@ -215,6 +260,14 @@ class ChatCompleteText {
       "seed": seed,
       "tool_choice": toolChoice,
       "tools": tools,
+      "reasoning_effort": reasoningEffort,
+      "max_completion_tokens": maxCompletionTokens,
+      "parallel_tool_calls": parallelToolCalls,
+      "store": store,
+      "metadata": metadata,
+      "stream_options": streamOptions,
+      "modalities": modalities,
+      "audio": audio?.toJson(),
     })
       ..removeWhere((key, value) => value == null);
 

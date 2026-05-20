@@ -58,5 +58,53 @@ void main() {
       expect(gpt40631.model, 'model');
       expect(gpt40631.model, isA<String>());
     });
+
+    test('chat openai model test get o1', () {
+      final o1 = O1ChatModel();
+      expect(o1.model, 'o1');
+      expect(o1.model, isA<String>());
+    });
+
+    test('chat openai model test get o1-2024-12-17', () {
+      final o1_2024 = O12024ChatModel();
+      expect(o1_2024.model, 'o1-2024-12-17');
+      expect(o1_2024.model, isA<String>());
+    });
+
+    test('chat openai model test get o1-preview', () {
+      final o1Preview = O1PreviewChatModel();
+      expect(o1Preview.model, 'o1-preview');
+      expect(o1Preview.model, isA<String>());
+    });
+
+    test('chat openai model test get o1-preview-2024-09-12', () {
+      final o1Preview2024 = O1Preview2024ChatModel();
+      expect(o1Preview2024.model, 'o1-preview-2024-09-12');
+      expect(o1Preview2024.model, isA<String>());
+    });
+
+    test('chat openai model test get o1-mini', () {
+      final o1Mini = O1MiniChatModel();
+      expect(o1Mini.model, 'o1-mini');
+      expect(o1Mini.model, isA<String>());
+    });
+
+    test('chat openai model test get o1-mini-2024-09-12', () {
+      final o1Mini2024 = O1Mini2024ChatModel();
+      expect(o1Mini2024.model, 'o1-mini-2024-09-12');
+      expect(o1Mini2024.model, isA<String>());
+    });
+
+    test('chat openai model test get o3-mini', () {
+      final o3Mini = O3MiniChatModel();
+      expect(o3Mini.model, 'o3-mini');
+      expect(o3Mini.model, isA<String>());
+    });
+
+    test('chat openai model test get o3-mini-2025-01-31', () {
+      final o3Mini2025 = O3Mini2025ChatModel();
+      expect(o3Mini2025.model, 'o3-mini-2025-01-31');
+      expect(o3Mini2025.model, isA<String>());
+    });
   });
 }

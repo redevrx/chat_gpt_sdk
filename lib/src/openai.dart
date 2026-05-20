@@ -29,6 +29,10 @@ import 'client/interceptor/interceptor_wrapper.dart';
 import 'edit.dart';
 import 'i_openai.dart';
 import 'model/cancel/cancel_data.dart';
+import 'package:chat_gpt_sdk/src/project_org.dart';
+import 'package:chat_gpt_sdk/src/model/responses/request/openai_response_request.dart';
+import 'package:chat_gpt_sdk/src/model/responses/response/openai_response_data.dart';
+
 
 //const msgDeprecate = "not support in version 2.0.6";
 
@@ -250,4 +254,25 @@ class OpenAI implements IOpenAI {
 
   ///Threads
   Threads get threads => Threads(client: _client);
+
+  ///Project & Organization
+  @override
+  ProjectAndOrg get projectAndOrg => ProjectAndOrg(_client);
+
+  ///### About Method [onResponse]
+  /// - Creates a model response. Provide text or image inputs to generate text or JSON outputs.
+  /// - Supports the latest unified reasoning and code generation models.
+  @override
+  Future<OpenAiResponseData?> onResponse({
+    required OpenAiResponseRequest request,
+    void Function(CancelData cancelData)? onCancel,
+  }) {
+    return _client.post<OpenAiResponseData>(
+      "${_client.apiUrl}$kResponses",
+      request.toJson(),
+      onCancel: (it) => onCancel != null ? onCancel(it) : null,
+      onSuccess: (it) => OpenAiResponseData.fromJson(it),
+    );
+  }
 }
+

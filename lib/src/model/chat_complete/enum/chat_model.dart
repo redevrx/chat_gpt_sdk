@@ -85,6 +85,46 @@ class Gpt41106PreviewChatModel extends ChatModel {
   Gpt41106PreviewChatModel() : super(model: kGpt41106Preview);
 }
 
+class O1ChatModel extends ChatModel {
+  O1ChatModel() : super(model: kO1);
+}
+
+class O12024ChatModel extends ChatModel {
+  O12024ChatModel() : super(model: kO120241217);
+}
+
+class O1PreviewChatModel extends ChatModel {
+  O1PreviewChatModel() : super(model: kO1Preview);
+}
+
+class O1Preview2024ChatModel extends ChatModel {
+  O1Preview2024ChatModel() : super(model: kO1Preview20240912);
+}
+
+class O1MiniChatModel extends ChatModel {
+  O1MiniChatModel() : super(model: kO1Mini);
+}
+
+class O1Mini2024ChatModel extends ChatModel {
+  O1Mini2024ChatModel() : super(model: kO1Mini20240912);
+}
+
+class O3MiniChatModel extends ChatModel {
+  O3MiniChatModel() : super(model: kO3Mini);
+}
+
+class O3Mini2025ChatModel extends ChatModel {
+  O3Mini2025ChatModel() : super(model: kO3Mini20250131);
+}
+
+class Gpt5ChatModel extends ChatModel {
+  Gpt5ChatModel() : super(model: kGpt5);
+}
+
+class Gpt5MiniChatModel extends ChatModel {
+  Gpt5MiniChatModel() : super(model: kGpt5Mini);
+}
+
 // enum ChatModel {
 //   gptTurbo,
 //

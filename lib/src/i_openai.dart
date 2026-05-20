@@ -1,3 +1,4 @@
+import 'package:chat_gpt_sdk/src/project_org.dart';
 import 'model/cancel/cancel_data.dart';
 import 'model/chat_complete/request/chat_complete_text.dart';
 import 'model/chat_complete/response/chat_ct_response.dart';
@@ -7,9 +8,12 @@ import 'model/complete_text/request/complete_text.dart';
 import 'model/complete_text/response/complete_response.dart';
 import 'model/gen_image/request/generate_image.dart';
 import 'model/gen_image/response/gen_img_response.dart';
+import 'model/responses/request/openai_response_request.dart';
+import 'model/responses/response/openai_response_data.dart';
 import 'openai.dart';
 
 mixin IOpenAI {
+  ProjectAndOrg get projectAndOrg;
   OpenAI build({String? token, HttpSetup? baseOption, bool enableLog = false});
   listModel({void Function(CancelData cancelData)? onCancel});
   listEngine({void Function(CancelData cancelData)? onCancel});
@@ -33,4 +37,9 @@ mixin IOpenAI {
     GenerateImage request, {
     void Function(CancelData cancelData)? onCancel,
   });
+  Future<OpenAiResponseData?> onResponse({
+    required OpenAiResponseRequest request,
+    void Function(CancelData cancelData)? onCancel,
+  });
 }
+

@@ -10,6 +10,7 @@ void main() {
         'content': 'Hello, world!',
         'function_call': null,
         'tool_calls': null,
+        'audio': null,
       });
     });
 

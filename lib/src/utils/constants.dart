@@ -57,6 +57,14 @@ const kMessages = 'messages';
 ///runs
 const kRuns = 'runs';
 
+///responses
+const kResponses = 'responses';
+
+
+///organization projects
+const kOrganizationProjects = 'organization/projects';
+const kOrganizationUsers = 'organization/users';
+
 ///model name
 const kGpt3TurboInstruct = 'gpt-3.5-turbo-instruct';
 
@@ -80,6 +88,18 @@ const kGpt4oMini2024 = 'gpt-4o-mini-2024-07-18';
 const kGpt41 = 'gpt-4.1-2025-04-14';
 const kGpt41Mini = 'gpt-4.1-mini-2025-04-14';
 const kGpt41Nano = 'gpt-4.1-nano-2025-04-14';
+
+const kGpt5 = 'gpt-5';
+const kGpt5Mini = 'gpt-5-mini';
+
+const kO1 = 'o1';
+const kO120241217 = 'o1-2024-12-17';
+const kO1Preview = 'o1-preview';
+const kO1Preview20240912 = 'o1-preview-2024-09-12';
+const kO1Mini = 'o1-mini';
+const kO1Mini20240912 = 'o1-mini-2024-09-12';
+const kO3Mini = 'o3-mini';
+const kO3Mini20250131 = 'o3-mini-2025-01-31';
 
 ///edits
 // using gpt 4

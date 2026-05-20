@@ -1,3 +1,15 @@
+## 3.1.6
+ - Update Platform & SDK: Update Flutter to `3.41.9` and Dart to `3.11.5`
+ - Promote Assistants, Messages, Threads, and Runs V2 to be default and delete obsolete V1 endpoints and model classes
+ - Support OpenAI Reasoning Models (o1, o1-preview, o1-mini, o3-mini) and parameter settings (`reasoningEffort`, `maxCompletionTokens`)
+ - Support Modern OpenAI Features: `developer` and `tool` message roles, `store`, `metadata`, `parallelToolCalls`, and `streamOptions`
+ - Support Prompt Caching details: capture `cachedTokens` metrics inside `CompletionTokensDetails`
+ - Support Audio Completions: audio input/output with chat completion modalities and configurations
+ - Support Project & User Organization Management APIs (`openAI.projectAndOrg`)
+ - Support OpenAI Responses API (`/v1/responses`) for advanced reasoning and code-generation, including `tools` & `toolChoice` parameters
+ - Fix Table of Contents navigation, casing, and broken anchor links in `README.md`
+ - Verify robust Null Safety configurations across critical response models (AssistantData, ThreadResponse, CreateMessageV2Response, CreateRunResponse)
+
 ## 1.0.1+4
   - Fix bug  Http status error [429] error
 

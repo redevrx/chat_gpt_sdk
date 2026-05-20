@@ -111,7 +111,13 @@ class CreateRunResponse {
         "assistant_id": assistantId,
         "created_at": createdAt,
         "usage": usage?.toJson(),
-        "tools": tools.map((x) => x.toJson()),
+        "tools": tools.map((x) {
+          try {
+            return x.toJson();
+          } catch (_) {
+            return x;
+          }
+        }).toList(),
         "completed_at": completedAt,
         "thread_id": threadId,
         "file_ids": fileIds,

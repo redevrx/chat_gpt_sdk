@@ -40,7 +40,7 @@ class AssistantData {
         tools: json["tools"] == null
             ? []
             : List<dynamic>.from(json["tools"].map((x) => x)),
-        object: json["object"],
+        object: json["object"] ?? '',
         description: json['description'],
         topP: json['top_p'],
         temperature: json['temperature'],
@@ -50,11 +50,17 @@ class AssistantData {
         "instructions": instructions,
         "metadata": metadata,
         "name": name,
-        "file_ids": fileIds.map((x) => x),
+        "file_ids": fileIds.map((x) => x).toList(),
         "created_at": createdAt,
         "model": model,
         "id": id,
-        "tools": tools.map((x) => x.toJson()),
+        "tools": tools.map((x) {
+          try {
+            return x.toJson();
+          } catch (_) {
+            return x;
+          }
+        }).toList(),
         "object": object,
         'description': description,
         'top_p': topP,

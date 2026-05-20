@@ -32,11 +32,15 @@ class CreateMessageV2Response {
         createdAt: json["created_at"] ?? 0,
         threadId: json["thread_id"] ?? '',
         role: json["role"] ?? '',
-        content: List<ContentV2>.from(
-            json["content"].map((x) => ContentV2.fromJson(x))),
+        content: json["content"] == null
+            ? []
+            : List<ContentV2>.from(
+                json["content"].map((x) => ContentV2.fromJson(x))),
         assistantId: json["assistant_id"] ?? '',
         runId: json["run_id"] ?? '',
-        attachments: List<dynamic>.from(json["attachments"].map((x) => x)),
+        attachments: json["attachments"] == null
+            ? []
+            : List<dynamic>.from(json["attachments"].map((x) => x)),
         metadata: json["metadata"] ?? {},
       );
 

@@ -21,13 +21,7 @@ class ThreadRequest {
     this.fileIds,
   });
 
-  Map<String, dynamic> toJson() => Map.of({
-        'messages': messages,
-        'metadata': metadata,
-      })
-        ..removeWhere((_, value) => value == null);
-
-  Map<String, dynamic> toJsonV2() {
+  Map<String, dynamic> toJson() {
     final data = Map.of({
       'messages': messages,
       'metadata': metadata,
