@@ -118,7 +118,7 @@ class OpenAIBloc extends Cubit<OpenAIState> {
 
     ///start send request
     final request = ChatCompleteText(
-        model: _getVersion() ? Gpt4ChatModel() : GptTurboChatModel(),
+        model: _getVersion() ? Gpt4OChatModel() : Gpt4oMiniChatModel(),
         messages: [
           Messages(role: Role.user, content: getTextInput().value.text)
               .toJson(),
@@ -202,34 +202,35 @@ class OpenAIBloc extends Cubit<OpenAIState> {
         isBot: false, messages: list, showStopButton: true));
 
     ///setup request body
-    final request = CompleteText(
-        prompt: _txtInput.value.text,
-        maxTokens: 400,
-        model: Gpt3TurboInstruct());
+    final request = ChatCompleteText(
+        model: Gpt4oMiniChatModel(),
+        messages: [
+          Messages(role: Role.user, content: getTextInput().value.text)
+              .toJson(),
+        ],
+        maxToken: 400);
 
     ///clear text
-    _txtInput.text = "";
+    getTextInput().text = "";
 
     ///send request
     _openAI
-        .onCompletionSSE(request: request, onCancel: onCancel)
+        .onChatCompletionSSE(request: request, onCancel: onCancel)
         .transform(StreamTransformer.fromHandlers(handleError: handleError))
         .listen((it) {
-      ///new message object
       Message? message;
-      for (final m in list) {
-        if (m.id == it.id) {
-          message = m;
-          list.remove(m);
-          break;
+      list.removeWhere((element) {
+        if (element.id == '${it.id}') {
+          message = element;
+          return true;
         }
-      }
+        return false;
+      });
 
       ///+= message
-      message?.message = '${message.message ?? ""}${it.choices.last.text}';
-
-      ///add new message
-      list.add(Message(isBot: true, message: message?.message, id: it.id));
+      String msg =
+          '${message?.message ?? ""}${it.choices.last.message?.content ?? ""}';
+      list.add(Message(isBot: true, id: '${it.id}', message: msg));
       emit(ChatCompletionState(
           isBot: true, messages: list, showStopButton: true));
     }, onDone: () {

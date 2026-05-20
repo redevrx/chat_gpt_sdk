@@ -38,15 +38,15 @@ dependencies:
   chat_gpt_sdk:
     path: ../../
 #  chat_gpt_sdk: ^3.1.6
-  flutter_bloc: ^8.1.6
-  shared_preferences: ^2.3.2
-  google_fonts: ^6.2.1
+  flutter_bloc: ^9.1.1
+  shared_preferences: ^2.5.5
+  google_fonts: ^8.1.0
   lottie: ^3.3.2
   injectable: ^2.5.2
   get_it: any
-  flutter_markdown: ^0.7.7+1
+  flutter_markdown_plus: ^1.0.7
   path_provider: ^2.1.5
-  http: ^1.5.0
+  http: ^1.6.0
   permission_handler: ^12.0.1
 
 
