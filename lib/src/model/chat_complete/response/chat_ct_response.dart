@@ -23,24 +23,24 @@ class ChatCTResponse {
   });
 
   factory ChatCTResponse.fromJson(Map<String, dynamic> json) => ChatCTResponse(
-        id: json["id"],
-        object: json["object"],
-        created: json["created"],
-        choices: List<ChatChoice>.from(
-          json["choices"].map((x) => ChatChoice.fromJson(x)),
-        ),
-        usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
-        systemFingerprint: json['system_fingerprint'] ?? '',
-        model: json['model'] ?? '',
-      );
+    id: json["id"],
+    object: json["object"],
+    created: json["created"],
+    choices: List<ChatChoice>.from(
+      json["choices"].map((x) => ChatChoice.fromJson(x)),
+    ),
+    usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
+    systemFingerprint: json['system_fingerprint'] ?? '',
+    model: json['model'] ?? '',
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "object": object,
-        "created": created,
-        "choices": List<Map>.from(choices.map((x) => x.toJson())),
-        "usage": usage?.toJson(),
-        "system_fingerprint": systemFingerprint,
-        'model': model,
-      };
+    "id": id,
+    "object": object,
+    "created": created,
+    "choices": List<Map>.from(choices.map((x) => x.toJson())),
+    "usage": usage?.toJson(),
+    "system_fingerprint": systemFingerprint,
+    'model': model,
+  };
 }

@@ -7,6 +7,7 @@ class ModerationResult {
     required this.categoryScores,
     required this.flagged,
   });
+
   late final Categories categories;
   late final CategoryScores categoryScores;
   late final bool flagged;

@@ -9,6 +9,7 @@ import 'client/client.dart';
 
 class OpenAIFile {
   final OpenAIClient _client;
+
   OpenAIFile(this._client);
 
   ///Returns a list of files that belong to the user's organization.

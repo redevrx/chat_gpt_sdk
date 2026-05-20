@@ -28,13 +28,13 @@ class UserResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'object': object,
-        'id': id,
-        'name': name,
-        'email': email,
-        'role': role,
-        'added_at': addedAt,
-      };
+    'object': object,
+    'id': id,
+    'name': name,
+    'email': email,
+    'role': role,
+    'added_at': addedAt,
+  };
 }
 
 class ListUsersResponse {
@@ -59,8 +59,8 @@ class ListUsersResponse {
       data: json['data'] == null
           ? null
           : (json['data'] as List)
-              .map((x) => UserResponse.fromJson(x as Map<String, dynamic>))
-              .toList(),
+                .map((x) => UserResponse.fromJson(x as Map<String, dynamic>))
+                .toList(),
       firstId: json['first_id'] as String?,
       lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool?,
@@ -68,12 +68,12 @@ class ListUsersResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'object': object,
-        'data': data?.map((x) => x.toJson()).toList(),
-        'first_id': firstId,
-        'last_id': lastId,
-        'has_more': hasMore,
-      };
+    'object': object,
+    'data': data?.map((x) => x.toJson()).toList(),
+    'first_id': firstId,
+    'last_id': lastId,
+    'has_more': hasMore,
+  };
 }
 
 class DeleteUserResponse {
@@ -81,11 +81,7 @@ class DeleteUserResponse {
   final String? id;
   final bool? deleted;
 
-  DeleteUserResponse({
-    this.object,
-    this.id,
-    this.deleted,
-  });
+  DeleteUserResponse({this.object, this.id, this.deleted});
 
   factory DeleteUserResponse.fromJson(Map<String, dynamic>? json) {
     if (json == null) return DeleteUserResponse();
@@ -97,8 +93,8 @@ class DeleteUserResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'object': object,
-        'id': id,
-        'deleted': deleted,
-      };
+    'object': object,
+    'id': id,
+    'deleted': deleted,
+  };
 }

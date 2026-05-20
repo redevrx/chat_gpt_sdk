@@ -1,8 +1,8 @@
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/chat_model.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/enum/function_call.dart';
+import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_audio_config.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/function_data.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/response_format.dart';
-import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_audio_config.dart';
 
 class ChatCompleteText {
   ///ID of the model to use. Currently, only gpt-3.5-turbo and
@@ -268,8 +268,7 @@ class ChatCompleteText {
       "stream_options": streamOptions,
       "modalities": modalities,
       "audio": audio?.toJson(),
-    })
-      ..removeWhere((key, value) => value == null);
+    })..removeWhere((key, value) => value == null);
 
     return json;
   }

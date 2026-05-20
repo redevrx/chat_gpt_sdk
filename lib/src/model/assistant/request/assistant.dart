@@ -69,9 +69,7 @@ class Assistant {
       'tools': tools,
       'tool_resources': {
         'file_search': fileSearch,
-        'code_interpreter': {
-          "file_ids": fileIds ?? [],
-        },
+        'code_interpreter': {"file_ids": fileIds ?? []},
       },
     });
 

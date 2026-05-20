@@ -28,42 +28,42 @@ class AssistantData {
   final double? temperature;
 
   factory AssistantData.fromJson(Map<String, dynamic> json) => AssistantData(
-        instructions: json["instructions"] ?? '',
-        metadata: json["metadata"] ?? {},
-        name: json["name"] ?? '',
-        fileIds: json["file_ids"] == null
-            ? []
-            : List<String>.from(json["file_ids"].map((x) => x)),
-        createdAt: json["created_at"] ?? 0,
-        model: json["model"] ?? '',
-        id: json["id"] ?? '',
-        tools: json["tools"] == null
-            ? []
-            : List<dynamic>.from(json["tools"].map((x) => x)),
-        object: json["object"] ?? '',
-        description: json['description'],
-        topP: json['top_p'],
-        temperature: json['temperature'],
-      );
+    instructions: json["instructions"] ?? '',
+    metadata: json["metadata"] ?? {},
+    name: json["name"] ?? '',
+    fileIds: json["file_ids"] == null
+        ? []
+        : List<String>.from(json["file_ids"].map((x) => x)),
+    createdAt: json["created_at"] ?? 0,
+    model: json["model"] ?? '',
+    id: json["id"] ?? '',
+    tools: json["tools"] == null
+        ? []
+        : List<dynamic>.from(json["tools"].map((x) => x)),
+    object: json["object"] ?? '',
+    description: json['description'],
+    topP: json['top_p'],
+    temperature: json['temperature'],
+  );
 
   Map<String, dynamic> toJson() => {
-        "instructions": instructions,
-        "metadata": metadata,
-        "name": name,
-        "file_ids": fileIds.map((x) => x).toList(),
-        "created_at": createdAt,
-        "model": model,
-        "id": id,
-        "tools": tools.map((x) {
-          try {
-            return x.toJson();
-          } catch (_) {
-            return x;
-          }
-        }).toList(),
-        "object": object,
-        'description': description,
-        'top_p': topP,
-        'temperature': temperature,
-      };
+    "instructions": instructions,
+    "metadata": metadata,
+    "name": name,
+    "file_ids": fileIds.map((x) => x).toList(),
+    "created_at": createdAt,
+    "model": model,
+    "id": id,
+    "tools": tools.map((x) {
+      try {
+        return x.toJson();
+      } catch (_) {
+        return x;
+      }
+    }).toList(),
+    "object": object,
+    'description': description,
+    'top_p': topP,
+    'temperature': temperature,
+  };
 }

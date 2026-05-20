@@ -17,8 +17,8 @@ class DeleteAssistant {
       );
 
   Map<String, dynamic> toJson() => {
-        "deleted": deleted,
-        "id": id,
-        "object": object,
-      };
+    "deleted": deleted,
+    "id": id,
+    "object": object,
+  };
 }

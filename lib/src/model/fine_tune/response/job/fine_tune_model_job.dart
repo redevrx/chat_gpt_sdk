@@ -32,13 +32,13 @@ class FineTuneModelJob {
       );
 
   Map<dynamic, dynamic> toJson() => {
-        "training_file": trainingFile,
-        "result_files": resultFiles.map((x) => x).toList(),
-        "organization_id": organizationId,
-        "created_at": createdAt,
-        "model": model,
-        "id": id,
-        "object": object,
-        "status": status,
-      };
+    "training_file": trainingFile,
+    "result_files": resultFiles.map((x) => x).toList(),
+    "organization_id": organizationId,
+    "created_at": createdAt,
+    "model": model,
+    "id": id,
+    "object": object,
+    "status": status,
+  };
 }

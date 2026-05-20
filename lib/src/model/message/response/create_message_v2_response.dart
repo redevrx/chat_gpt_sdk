@@ -35,7 +35,8 @@ class CreateMessageV2Response {
         content: json["content"] == null
             ? []
             : List<ContentV2>.from(
-                json["content"].map((x) => ContentV2.fromJson(x))),
+                json["content"].map((x) => ContentV2.fromJson(x)),
+              ),
         assistantId: json["assistant_id"] ?? '',
         runId: json["run_id"] ?? '',
         attachments: json["attachments"] == null
@@ -45,15 +46,15 @@ class CreateMessageV2Response {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "object": object,
-        "created_at": createdAt,
-        "thread_id": threadId,
-        "role": role,
-        "content": List<dynamic>.from(content.map((x) => x.toJson())),
-        "assistant_id": assistantId,
-        "run_id": runId,
-        "attachments": List<dynamic>.from(attachments.map((x) => x)),
-        "metadata": metadata,
-      };
+    "id": id,
+    "object": object,
+    "created_at": createdAt,
+    "thread_id": threadId,
+    "role": role,
+    "content": List<dynamic>.from(content.map((x) => x.toJson())),
+    "assistant_id": assistantId,
+    "run_id": runId,
+    "attachments": List<dynamic>.from(attachments.map((x) => x)),
+    "metadata": metadata,
+  };
 }

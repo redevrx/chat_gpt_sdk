@@ -29,10 +29,10 @@ class ListAssistantFile {
       );
 
   Map<String, dynamic> toJson() => {
-        "object": object,
-        "data": data.map((x) => x.toJson()),
-        "first_id": firstId,
-        "last_id": lastId,
-        "has_more": hasMore,
-      };
+    "object": object,
+    "data": data.map((x) => x.toJson()),
+    "first_id": firstId,
+    "last_id": lastId,
+    "has_more": hasMore,
+  };
 }

@@ -52,10 +52,10 @@ class Variation {
   }
 
   Map<String, dynamic> toJson() => Map.of({
-        'image': image,
-        'n': n,
-        'size': size.size,
-        'response_format': responseFormat.name,
-        "user": user,
-      });
+    'image': image,
+    'n': n,
+    'size': size.size,
+    'response_format': responseFormat.name,
+    "user": user,
+  });
 }

@@ -37,13 +37,13 @@ class OpenAiResponseRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'model': model,
-        'input': input,
-        if (reasoning != null) 'reasoning': reasoning,
-        if (background != null) 'background': background,
-        if (conversation != null) 'conversation': conversation,
-        if (include != null) 'include': include,
-        if (tools != null) 'tools': tools,
-        if (toolChoice != null) 'tool_choice': toolChoice,
-      };
+    'model': model,
+    'input': input,
+    if (reasoning != null) 'reasoning': reasoning,
+    if (background != null) 'background': background,
+    if (conversation != null) 'conversation': conversation,
+    if (include != null) 'include': include,
+    if (tools != null) 'tools': tools,
+    if (toolChoice != null) 'tool_choice': toolChoice,
+  };
 }

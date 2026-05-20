@@ -8,6 +8,7 @@ import 'client/client.dart';
 
 class Assistants {
   final OpenAIClient _client;
+
   Assistants(this._client);
 
   Map<String, String> get getHeader => headersAssistantsV2;
@@ -50,9 +51,7 @@ class Assistants {
 
   ///Retrieves an assistant.
   ///[retrieves]
-  Future<AssistantData> retrieves({
-    required String assistantId,
-  }) {
+  Future<AssistantData> retrieves({required String assistantId}) {
     return _client.get(
       _client.apiUrl + kAssistants + "/$assistantId",
       headers: headersAssistantsV2,
@@ -79,9 +78,7 @@ class Assistants {
 
   ///Delete an assistant.
   ///[delete]
-  Future<DeleteAssistant> delete({
-    required String assistantId,
-  }) {
+  Future<DeleteAssistant> delete({required String assistantId}) {
     return _client.delete(
       _client.apiUrl + kAssistants + "/$assistantId",
       headers: headersAssistantsV2,

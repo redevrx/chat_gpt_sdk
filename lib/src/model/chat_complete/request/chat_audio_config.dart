@@ -7,17 +7,12 @@ class ChatAudioConfig {
   /// wav, mp3, flac, opus, pcm16
   final String format;
 
-  ChatAudioConfig({
-    required this.voice,
-    required this.format,
-  });
+  ChatAudioConfig({required this.voice, required this.format});
 
-  Map<String, dynamic> toJson() => {
-        'voice': voice,
-        'format': format,
-      };
+  Map<String, dynamic> toJson() => {'voice': voice, 'format': format};
 
-  factory ChatAudioConfig.fromJson(Map<String, dynamic> json) => ChatAudioConfig(
+  factory ChatAudioConfig.fromJson(Map<String, dynamic> json) =>
+      ChatAudioConfig(
         voice: json['voice'] as String,
         format: json['format'] as String,
       );

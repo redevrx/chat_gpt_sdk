@@ -89,20 +89,19 @@ class CreateThreadAndRun {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        'assistant_id': assistantId,
-        'thread': thread,
-        'model': model,
-        'instructions': instructions,
-        'tools': tools,
-        'metadata': metadata,
-        'tool_resources': toolResources,
-        'temperature': temperature,
-        'top_p': topP,
-        'max_prompt_tokens': maxPromptTokens,
-        'max_completion_tokens': maxCompletionTokens,
-        'truncation_strategy': truncationStrategy,
-        'tool_choice': toolChoice,
-        'response_format': responseFormat,
-      })
-        ..removeWhere((_, value) => value == null);
+    'assistant_id': assistantId,
+    'thread': thread,
+    'model': model,
+    'instructions': instructions,
+    'tools': tools,
+    'metadata': metadata,
+    'tool_resources': toolResources,
+    'temperature': temperature,
+    'top_p': topP,
+    'max_prompt_tokens': maxPromptTokens,
+    'max_completion_tokens': maxCompletionTokens,
+    'truncation_strategy': truncationStrategy,
+    'tool_choice': toolChoice,
+    'response_format': responseFormat,
+  })..removeWhere((_, value) => value == null);
 }

@@ -5,5 +5,6 @@ enum ImageSize {
   size256("256x256");
 
   const ImageSize(this.size);
+
   final String size;
 }

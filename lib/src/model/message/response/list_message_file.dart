@@ -29,10 +29,10 @@ class ListMessageFile {
       );
 
   Map<String, dynamic> toJson() => {
-        "first_id": firstId,
-        "data": data.map((x) => x.toJson()),
-        "last_id": lastId,
-        "has_more": hasMore,
-        "object": object,
-      };
+    "first_id": firstId,
+    "data": data.map((x) => x.toJson()),
+    "last_id": lastId,
+    "has_more": hasMore,
+    "object": object,
+  };
 }

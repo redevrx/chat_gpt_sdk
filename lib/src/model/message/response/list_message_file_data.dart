@@ -20,9 +20,9 @@ class ListMessageFileData {
       );
 
   Map<String, dynamic> toJson() => {
-        "created_at": createdAt,
-        "message_id": messageId,
-        "id": id,
-        "object": object,
-      };
+    "created_at": createdAt,
+    "message_id": messageId,
+    "id": id,
+    "object": object,
+  };
 }

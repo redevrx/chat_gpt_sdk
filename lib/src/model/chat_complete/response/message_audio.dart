@@ -11,12 +11,7 @@ class MessageAudio {
   /// Transcript of the generated audio.
   final String? transcript;
 
-  MessageAudio({
-    this.id,
-    this.expiresAt,
-    this.data,
-    this.transcript,
-  });
+  MessageAudio({this.id, this.expiresAt, this.data, this.transcript});
 
   factory MessageAudio.fromJson(Map<String, dynamic>? json) {
     if (json == null) return MessageAudio();
@@ -29,9 +24,9 @@ class MessageAudio {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'expires_at': expiresAt,
-        'data': data,
-        'transcript': transcript,
-      };
+    'id': id,
+    'expires_at': expiresAt,
+    'data': data,
+    'transcript': transcript,
+  };
 }

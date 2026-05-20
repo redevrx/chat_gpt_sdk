@@ -14,17 +14,18 @@ class ThreadResponse {
   Map<String, dynamic>? toolResources;
 
   factory ThreadResponse.fromJson(Map<String, dynamic> json) => ThreadResponse(
-      metadata: json["metadata"] ?? {},
-      createdAt: json["created_at"] ?? 0,
-      id: json["id"] ?? '',
-      object: json["object"] ?? '',
-      toolResources: json['tool_resources']);
+    metadata: json["metadata"] ?? {},
+    createdAt: json["created_at"] ?? 0,
+    id: json["id"] ?? '',
+    object: json["object"] ?? '',
+    toolResources: json['tool_resources'],
+  );
 
   Map<String, dynamic> toJson() => {
-        "metadata": metadata,
-        "created_at": createdAt,
-        "id": id,
-        "object": object,
-        'tool_resources': toolResources,
-      };
+    "metadata": metadata,
+    "created_at": createdAt,
+    "id": id,
+    "object": object,
+    'tool_resources': toolResources,
+  };
 }

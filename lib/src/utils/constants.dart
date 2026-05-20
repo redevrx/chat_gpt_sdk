@@ -60,7 +60,6 @@ const kRuns = 'runs';
 ///responses
 const kResponses = 'responses';
 
-
 ///organization projects
 const kOrganizationProjects = 'organization/projects';
 const kOrganizationUsers = 'organization/users';
@@ -122,10 +121,7 @@ const kDallE2 = 'dall-e-2';
 const kDallE3 = 'dall-e-3';
 
 ///default header
-Map<String, String> kHeader(
-  String? token,
-  String? orgId,
-) {
+Map<String, String> kHeader(String? token, String? orgId) {
   final headers = {'Content-Type': 'application/json'};
 
   if (token != null) {
@@ -148,8 +144,10 @@ const kOrgIdKey = 'orgId';
 
 String translateEngToThai({required String word}) =>
     "Translate this into thai : $word";
+
 String translateThaiToEng({required String word}) =>
     "Translate this into English : $word";
+
 String translateToJapanese({required String word}) =>
     "Translate this into Japanese : $word";
 

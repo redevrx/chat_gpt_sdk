@@ -40,11 +40,11 @@ class EditRequest {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        "model": model.model,
-        "input": input,
-        "instruction": instruction,
-        "n": n,
-        "temperature": temperature,
-        "top_p": topP,
-      });
+    "model": model.model,
+    "input": input,
+    "instruction": instruction,
+    "n": n,
+    "temperature": temperature,
+    "top_p": topP,
+  });
 }

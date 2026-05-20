@@ -2,7 +2,6 @@ import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/model/run/request/create_run.dart';
 import 'package:chat_gpt_sdk/src/model/run/request/create_thread_and_run.dart';
 import 'package:chat_gpt_sdk/src/model/run/response/create_run_response.dart';
-import 'package:chat_gpt_sdk/src/model/run/response/create_thread_and_run_data.dart';
 import 'package:chat_gpt_sdk/src/model/run/response/list_run.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
@@ -11,8 +10,8 @@ class Runs {
   final Map<String, String> _headers;
 
   Runs({required OpenAIClient client, required Map<String, String> headers})
-      : _client = client,
-        _headers = headers;
+    : _client = client,
+      _headers = headers;
 
   ///Create a run.
   ///[createRun]
@@ -50,7 +49,8 @@ class Runs {
     String? after,
     String? before,
   }) {
-    String url = _client.apiUrl +
+    String url =
+        _client.apiUrl +
         kThread +
         "/$threadId/$kRuns?limit=$limit&order=$order";
 
@@ -77,7 +77,8 @@ class Runs {
     String? after,
     String? before,
   }) {
-    String url = _client.apiUrl +
+    String url =
+        _client.apiUrl +
         kThread +
         "/$threadId/$kRuns/$runId/steps?limit=$limit&order=$order";
 
@@ -155,9 +156,7 @@ class Runs {
   }) {
     return _client.post(
       _client.apiUrl + "$kThread/$threadId/$kRuns/$runId/submit_tool_outputs",
-      {
-        'tool_outputs': toolOutputs,
-      },
+      {'tool_outputs': toolOutputs},
       headers: _headers,
       onSuccess: CreateRunResponse.fromJson,
       onCancel: (cancelData) => null,

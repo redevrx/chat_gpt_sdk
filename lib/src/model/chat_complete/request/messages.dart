@@ -28,22 +28,16 @@ class Messages {
   Messages({required this.role, this.content, this.name, this.functionCall});
 
   ///normal model
-  Map<String, dynamic> toJson() => Map.of(
-        {
-          "role": role.name,
-          "content": content,
-        },
-      );
+  Map<String, dynamic> toJson() =>
+      Map.of({"role": role.name, "content": content});
 
   ///function model
   Map<String, dynamic> toJsonFunctionStruct() {
-    return Map.of(
-      {
-        "role": role.name,
-        "content": content,
-        "name": name,
-        "function_call": functionCall,
-      },
-    )..removeWhere((key, value) => value == null);
+    return Map.of({
+      "role": role.name,
+      "content": content,
+      "name": name,
+      "function_call": functionCall,
+    })..removeWhere((key, value) => value == null);
   }
 }

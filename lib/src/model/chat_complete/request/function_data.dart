@@ -22,11 +22,9 @@ class FunctionData {
 
   FunctionData({required this.name, this.description, this.parameters});
 
-  Map<String, dynamic> toJson() => Map.of(
-        {
-          "name": name,
-          "description": description,
-          "parameters": parameters,
-        },
-      );
+  Map<String, dynamic> toJson() => Map.of({
+    "name": name,
+    "description": description,
+    "parameters": parameters,
+  });
 }

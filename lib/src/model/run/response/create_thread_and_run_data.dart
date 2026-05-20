@@ -48,17 +48,17 @@ class CreateThreadAndRunData {
       );
 
   Map<String, dynamic> toJson() => {
-        "instructions": instructions,
-        "metadata": metadata,
-        "assistant_id": assistantId,
-        "created_at": createdAt,
-        "tools": tools,
-        "thread_id": threadId,
-        "expires_at": expiresAt,
-        "file_ids": fileIds,
-        "model": model,
-        "id": id,
-        "object": object,
-        "status": status,
-      };
+    "instructions": instructions,
+    "metadata": metadata,
+    "assistant_id": assistantId,
+    "created_at": createdAt,
+    "tools": tools,
+    "thread_id": threadId,
+    "expires_at": expiresAt,
+    "file_ids": fileIds,
+    "model": model,
+    "id": id,
+    "object": object,
+    "status": status,
+  };
 }

@@ -60,11 +60,10 @@ class CreateFineTuneJob {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        'training_file': trainingFile,
-        'validation_file': validationFile,
-        'hyperparameters': hyperparameters,
-        'model': model.model,
-        'suffix': suffix,
-      })
-        ..removeWhere((_, value) => value == null);
+    'training_file': trainingFile,
+    'validation_file': validationFile,
+    'hyperparameters': hyperparameters,
+    'model': model.model,
+    'suffix': suffix,
+  })..removeWhere((_, value) => value == null);
 }

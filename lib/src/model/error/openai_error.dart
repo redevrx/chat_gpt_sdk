@@ -5,10 +5,7 @@ class OpenAIError {
   OpenAIError({required this.message, required this.error});
 
   factory OpenAIError.fromJson(Map<String, dynamic>? json, String message) =>
-      OpenAIError(
-        message: message,
-        error: ErrorData.fromJson(json?['error']),
-      );
+      OpenAIError(message: message, error: ErrorData.fromJson(json?['error']));
 }
 
 class ErrorData {

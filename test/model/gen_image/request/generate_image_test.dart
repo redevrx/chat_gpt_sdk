@@ -1,7 +1,7 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   test('default value', () {
     final target = GenerateImage(
       'test',

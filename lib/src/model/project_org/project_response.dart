@@ -28,13 +28,13 @@ class ProjectResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'object': object,
-        'id': id,
-        'name': name,
-        'created_at': createdAt,
-        'archived_at': archivedAt,
-        'status': status,
-      };
+    'object': object,
+    'id': id,
+    'name': name,
+    'created_at': createdAt,
+    'archived_at': archivedAt,
+    'status': status,
+  };
 }
 
 class ListProjectsResponse {
@@ -59,8 +59,8 @@ class ListProjectsResponse {
       data: json['data'] == null
           ? null
           : (json['data'] as List)
-              .map((x) => ProjectResponse.fromJson(x as Map<String, dynamic>))
-              .toList(),
+                .map((x) => ProjectResponse.fromJson(x as Map<String, dynamic>))
+                .toList(),
       firstId: json['first_id'] as String?,
       lastId: json['last_id'] as String?,
       hasMore: json['has_more'] as bool?,
@@ -68,10 +68,10 @@ class ListProjectsResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'object': object,
-        'data': data?.map((x) => x.toJson()).toList(),
-        'first_id': firstId,
-        'last_id': lastId,
-        'has_more': hasMore,
-      };
+    'object': object,
+    'data': data?.map((x) => x.toJson()).toList(),
+    'first_id': firstId,
+    'last_id': lastId,
+    'has_more': hasMore,
+  };
 }

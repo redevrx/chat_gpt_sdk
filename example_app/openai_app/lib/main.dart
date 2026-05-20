@@ -18,16 +18,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider(create: (context) => ThemeBloc()),
-      BlocProvider(create: (context) => OpenAIBloc()),
-      BlocProvider(create: (context) => SelectVersionBloc())
-    ], child: const App());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ThemeBloc()),
+        BlocProvider(create: (context) => OpenAIBloc()),
+        BlocProvider(create: (context) => SelectVersionBloc()),
+      ],
+      child: const App(),
+    );
   }
 }
 
 class App extends StatelessWidget {
   const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

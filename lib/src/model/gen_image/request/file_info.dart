@@ -82,12 +82,12 @@ class EditImageRequest {
   }
 
   Map<String, dynamic> toJson() => Map.of({
-        'image': image,
-        'mask': mask,
-        'prompt': prompt,
-        'n': n,
-        'size': size.size,
-        'response_format': responseFormat.name,
-        "user": user,
-      });
+    'image': image,
+    'mask': mask,
+    'prompt': prompt,
+    'n': n,
+    'size': size.size,
+    'response_format': responseFormat.name,
+    "user": user,
+  });
 }

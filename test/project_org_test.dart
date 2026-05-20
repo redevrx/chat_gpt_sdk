@@ -1,9 +1,5 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
-import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
-import 'package:chat_gpt_sdk/src/model/project_org/project_response.dart';
-import 'package:chat_gpt_sdk/src/model/project_org/user_response.dart';
-import 'package:chat_gpt_sdk/src/project_org.dart';
 import 'package:test/test.dart';
 
 // A simple mock for testing the request serialization and response parsing.

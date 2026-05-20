@@ -22,11 +22,7 @@ extension GetItInjectableX on _i1.GetIt {
     String? environment,
     _i2.EnvironmentFilter? environmentFilter,
   }) async {
-    final gh = _i2.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i2.GetItHelper(this, environment, environmentFilter);
     final sharedPreferenceService = _$SharedPreferenceService();
     await gh.factoryAsync<_i3.SharedPreferences>(
       () => sharedPreferenceService.prefs,

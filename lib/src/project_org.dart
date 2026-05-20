@@ -6,6 +6,7 @@ import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
 class ProjectAndOrg {
   final OpenAIClient _client;
+
   ProjectAndOrg(this._client);
 
   /// List projects in the organization.

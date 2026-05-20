@@ -1,9 +1,9 @@
 import 'package:chat_gpt_sdk/src/client/openai_client.dart';
 import 'package:chat_gpt_sdk/src/messages.dart';
-import 'package:chat_gpt_sdk/src/runs.dart';
 import 'package:chat_gpt_sdk/src/model/thread/request/thread_request.dart';
 import 'package:chat_gpt_sdk/src/model/thread/response/thread_delete_response.dart';
 import 'package:chat_gpt_sdk/src/model/thread/response/thread_response.dart';
+import 'package:chat_gpt_sdk/src/runs.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
 class Threads {
@@ -21,9 +21,7 @@ class Threads {
 
   ///Create a thread.
   /// [createThread]
-  Future<ThreadResponse> createThread({
-    ThreadRequest? request,
-  }) {
+  Future<ThreadResponse> createThread({ThreadRequest? request}) {
     return _client.post(
       _client.apiUrl + kThread,
       request == null ? {} : request.toJson(),
@@ -35,9 +33,7 @@ class Threads {
 
   ///The ID of the thread to retrieve.[threadId]
   /// [retrieveThread]
-  Future<ThreadResponse> retrieveThread({
-    required String threadId,
-  }) {
+  Future<ThreadResponse> retrieveThread({required String threadId}) {
     return _client.get(
       _client.apiUrl + kThread + "/$threadId",
       headers: headersAssistantsV2,
@@ -69,9 +65,7 @@ class Threads {
     );
   }
 
-  Future<ThreadDeleteResponse> deleteThread({
-    required String threadId,
-  }) {
+  Future<ThreadDeleteResponse> deleteThread({required String threadId}) {
     return _client.delete(
       _client.apiUrl + kThread + "/$threadId",
       headers: headersAssistantsV2,

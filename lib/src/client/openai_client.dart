@@ -91,41 +91,49 @@ class OpenAIClient extends OpenAIWrapper {
     log.log("starting request");
     _dio
         .get(
-      url,
-      queryParameters: queryParameters,
-      cancelToken: cancelData.cancelToken,
-      options: Options(responseType: ResponseType.stream),
-    )
+          url,
+          queryParameters: queryParameters,
+          cancelToken: cancelData.cancelToken,
+          options: Options(responseType: ResponseType.stream),
+        )
         .then(
-      (it) {
-        (it.data.stream as Stream).listen(
           (it) {
-            chunks.addAll(it);
-          },
-          onDone: () {
-            final rawData = utf8.decode(chunks);
+            (it.data.stream as Stream).listen(
+              (it) {
+                chunks.addAll(it);
+              },
+              onDone: () {
+                final rawData = utf8.decode(chunks);
 
-            final dataList = rawData
-                .split("\n")
-                .where((element) => element.isNotEmpty)
-                .toList();
+                final dataList = rawData
+                    .split("\n")
+                    .where((element) => element.isNotEmpty)
+                    .toList();
 
-            for (final line in dataList) {
-              if (line.startsWith("data: ")) {
-                final data = line.substring(6);
-                if (data.startsWith("[DONE]")) {
-                  log.log("stream response is done");
+                for (final line in dataList) {
+                  if (line.startsWith("data: ")) {
+                    final data = line.substring(6);
+                    if (data.startsWith("[DONE]")) {
+                      log.log("stream response is done");
 
-                  return;
+                      return;
+                    }
+
+                    controller
+                      ..sink
+                      ..add(onSuccess(json.decode(data)));
+
+                    controller.close();
+                  }
                 }
-
+              },
+              onError: (err, t) {
+                log.error(err, t);
                 controller
                   ..sink
-                  ..add(onSuccess(json.decode(data)));
-
-                controller.close();
-              }
-            }
+                  ..addError(err, t);
+              },
+            );
           },
           onError: (err, t) {
             log.error(err, t);
@@ -134,14 +142,6 @@ class OpenAIClient extends OpenAIWrapper {
               ..addError(err, t);
           },
         );
-      },
-      onError: (err, t) {
-        log.error(err, t);
-        controller
-          ..sink
-          ..addError(err, t);
-      },
-    );
 
     return controller.stream;
   }
@@ -160,9 +160,7 @@ class OpenAIClient extends OpenAIWrapper {
       final rawData = await _dio.delete(
         url,
         cancelToken: cancelData.cancelToken,
-        options: Options(
-          headers: headers ?? {},
-        ),
+        options: Options(headers: headers ?? {}),
       );
 
       if (rawData.statusCode == HttpStatus.ok) {
@@ -320,124 +318,126 @@ class OpenAIClient extends OpenAIWrapper {
       onCancel(cancelData);
       _dio
           .post(
-        url,
-        cancelToken: cancelData.cancelToken,
-        data: json.encode(request),
-        options: Options(responseType: ResponseType.stream),
-      )
+            url,
+            cancelToken: cancelData.cancelToken,
+            data: json.encode(request),
+            options: Options(responseType: ResponseType.stream),
+          )
           .then(
-        (it) {
-          // Sometimes, the information in a response may be truncated, in which
-          // case it needs to be concatenated with the next one.
-          String tmpData = '';
-          it.data.stream.listen(
             (it) {
-              final rawData = utf8.decode(it);
-              final dataList = rawData
-                  .split("\n")
-                  .where((element) => element.isNotEmpty)
-                  .toList();
+              // Sometimes, the information in a response may be truncated, in which
+              // case it needs to be concatenated with the next one.
+              String tmpData = '';
+              it.data.stream.listen(
+                (it) {
+                  final rawData = utf8.decode(it);
+                  final dataList = rawData
+                      .split("\n")
+                      .where((element) => element.isNotEmpty)
+                      .toList();
 
-              for (final line in dataList) {
-                if (line.startsWith("data: ")) {
-                  final data = line.substring(6);
-                  if (data.startsWith("[DONE]")) {
-                    log.log("stream response is done");
+                  for (final line in dataList) {
+                    if (line.startsWith("data: ")) {
+                      final data = line.substring(6);
+                      if (data.startsWith("[DONE]")) {
+                        log.log("stream response is done");
 
-                    return;
-                  }
+                        return;
+                      }
 
-                  try {
-                    controller
-                      ..sink
-                      ..add(complete(json.decode(data)));
-                    tmpData = '';
-                  } on FormatException catch (_) {
-                    // Sometimes, the information in a response may be truncated,
-                    // in which case it needs to be concatenated with the next one.
-                    tmpData = data;
-                  }
-                } else {
-                  // If the response does not start with 'data： ', it is considered
-                  // to be truncated, and at this time it needs to be concatenated
-                  // together with 'tmpData'.
-                  try {
-                    //add this
-                    tmpData = tmpData + line;
+                      try {
+                        controller
+                          ..sink
+                          ..add(complete(json.decode(data)));
+                        tmpData = '';
+                      } on FormatException catch (_) {
+                        // Sometimes, the information in a response may be truncated,
+                        // in which case it needs to be concatenated with the next one.
+                        tmpData = data;
+                      }
+                    } else {
+                      // If the response does not start with 'data： ', it is considered
+                      // to be truncated, and at this time it needs to be concatenated
+                      // together with 'tmpData'.
+                      try {
+                        //add this
+                        tmpData = tmpData + line;
 
-                    final decodeData = json.decode(tmpData);
+                        final decodeData = json.decode(tmpData);
 
-                    // the decodeDate can be a error message like
-                    // {error: {message: This model's maximum context length is 4097 tokens.
-                    // However, you requested 4376 tokens (376 in the messages, 4000 in the completion).
-                    // Please reduce the length of the messages or completion.,
-                    // type: invalid_request_error, param: messages, code: context_length_exceeded}}
-                    if (decodeData['error'] != null) {
-                      controller
-                        ..sink
-                        ..addError(
-                          handleError(
-                            code: HttpStatus.internalServerError,
-                            message: '',
-                            data: decodeData,
-                          ),
-                        );
+                        // the decodeDate can be a error message like
+                        // {error: {message: This model's maximum context length is 4097 tokens.
+                        // However, you requested 4376 tokens (376 in the messages, 4000 in the completion).
+                        // Please reduce the length of the messages or completion.,
+                        // type: invalid_request_error, param: messages, code: context_length_exceeded}}
+                        if (decodeData['error'] != null) {
+                          controller
+                            ..sink
+                            ..addError(
+                              handleError(
+                                code: HttpStatus.internalServerError,
+                                message: '',
+                                data: decodeData,
+                              ),
+                            );
 
-                      return;
+                          return;
+                        }
+
+                        controller
+                          ..sink
+                          ..add(complete(decodeData));
+                        //when success
+                        tmpData = '';
+                      } catch (e) {
+                        // skip
+                        log.log('$e');
+                      }
+                      // tmpData = '';
                     }
-
+                  }
+                },
+                onDone: () {
+                  controller.close();
+                },
+                onError: (err, t) {
+                  log.error(err, t);
+                  if (err is DioException) {
                     controller
                       ..sink
-                      ..add(complete(decodeData));
-                    //when success
-                    tmpData = '';
-                  } catch (e) {
-                    // skip
-                    log.log('$e');
+                      ..addError(
+                        handleError(
+                          code:
+                              err.response?.statusCode ??
+                              HttpStatus.internalServerError,
+                          message: '${err.message}',
+                          data: err.response?.data,
+                        ),
+                        t,
+                      );
                   }
-                  // tmpData = '';
-                }
-              }
-            },
-            onDone: () {
-              controller.close();
+                },
+              );
             },
             onError: (err, t) {
               log.error(err, t);
               if (err is DioException) {
+                final error = err;
                 controller
                   ..sink
                   ..addError(
                     handleError(
-                      code: err.response?.statusCode ??
+                      code:
+                          error.response?.statusCode ??
                           HttpStatus.internalServerError,
-                      message: '${err.message}',
-                      data: err.response?.data,
+                      message: '${error.message}',
+                      data: error.response?.data,
                     ),
                     t,
                   );
               }
             },
           );
-        },
-        onError: (err, t) {
-          log.error(err, t);
-          if (err is DioException) {
-            final error = err;
-            controller
-              ..sink
-              ..addError(
-                handleError(
-                  code: error.response?.statusCode ??
-                      HttpStatus.internalServerError,
-                  message: '${error.message}',
-                  data: error.response?.data,
-                ),
-                t,
-              );
-          }
-        },
-      );
     } on DioException catch (e) {
       if (CancelToken.isCancel(e)) {
         log.log("cancel request");

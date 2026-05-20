@@ -18,19 +18,23 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       if (!context.mounted) return;
       BlocProvider.of<OpenAIBloc>(context, listen: false).isFirstSetting(
-          success: () {
-        ///navigate to preview screen
-        Navigator.pushAndRemoveUntil(
+        success: () {
+          ///navigate to preview screen
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const HomeScreen()),
-            (route) => false);
-      }, error: () {
-        ///navigate to preview screen
-        Navigator.pushAndRemoveUntil(
+            (route) => false,
+          );
+        },
+        error: () {
+          ///navigate to preview screen
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const PreviewScreen()),
-            (route) => false);
-      });
+            (route) => false,
+          );
+        },
+      );
     });
   }
 
@@ -44,20 +48,24 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-            child: Center(
-              child: buildPreviewAnimation(size),
-            )));
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+        child: Center(child: buildPreviewAnimation(size)),
+      ),
+    );
   }
 
   Widget buildPreviewAnimation(Size size) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Lottie.asset('assets/animation/robot_loading_screen.json',
-            width: 200, height: 200, fit: BoxFit.fill),
-        SizedBox(height: size.height * .3)
+        Lottie.asset(
+          'assets/animation/robot_loading_screen.json',
+          width: 200,
+          height: 200,
+          fit: BoxFit.fill,
+        ),
+        SizedBox(height: size.height * .3),
       ],
     );
   }

@@ -10,32 +10,35 @@ class SetupScreen extends StatelessWidget {
 
   void toHomeScreen({required BuildContext context}) {
     final bloc = BlocProvider.of<OpenAIBloc>(context, listen: false);
-    bloc.saveToken(success: () {
-      Navigator.pushAndRemoveUntil(
+    bloc.saveToken(
+      success: () {
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-          (route) => false);
-    }, error: () {
-      errorNotFoundToken(context);
-    });
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
+        );
+      },
+      error: () {
+        errorNotFoundToken(context);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverToBoxAdapter(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: buildSettingCard(context),
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: buildSettingCard(context),
+            ),
           ),
-        )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 
   Column buildSettingCard(BuildContext context) {
@@ -43,14 +46,13 @@ class SetupScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AspectRatio(
-            aspectRatio: 4 / 3,
-            child: Image.asset(
-              'assets/images/robot_hello.png',
-            )),
+          aspectRatio: 4 / 3,
+          child: Image.asset('assets/images/robot_hello.png'),
+        ),
         SettingCard(
           height: MediaQuery.of(context).size.height * .5,
           tab: () => toHomeScreen(context: context),
-        )
+        ),
       ],
     );
   }

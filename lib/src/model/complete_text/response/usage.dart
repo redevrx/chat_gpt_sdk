@@ -19,10 +19,10 @@ class CompletionTokensDetails {
   }
 
   Map<String, dynamic> toJson() => {
-        'reasoning_tokens': reasoningTokens,
-        'accepted_prediction_tokens': acceptedPredictionTokens,
-        'rejected_prediction_tokens': rejectedPredictionTokens,
-      };
+    'reasoning_tokens': reasoningTokens,
+    'accepted_prediction_tokens': acceptedPredictionTokens,
+    'rejected_prediction_tokens': rejectedPredictionTokens,
+  };
 }
 
 class PromptTokensDetails {
@@ -32,14 +32,10 @@ class PromptTokensDetails {
 
   factory PromptTokensDetails.fromJson(Map<String, dynamic>? json) {
     if (json == null) return PromptTokensDetails();
-    return PromptTokensDetails(
-      cachedTokens: json['cached_tokens'],
-    );
+    return PromptTokensDetails(cachedTokens: json['cached_tokens']);
   }
 
-  Map<String, dynamic> toJson() => {
-        'cached_tokens': cachedTokens,
-      };
+  Map<String, dynamic> toJson() => {'cached_tokens': cachedTokens};
 }
 
 class Usage {
@@ -59,25 +55,28 @@ class Usage {
   });
 
   factory Usage.fromJson(Map<String, dynamic> json) => Usage(
-        json['prompt_tokens'],
-        json['completion_tokens'],
-        json['total_tokens'],
-        completionTokensDetails: json['completion_tokens_details'] == null
-            ? null
-            : CompletionTokensDetails.fromJson(
-                json['completion_tokens_details'] as Map<String, dynamic>),
-        promptTokensDetails: json['prompt_tokens_details'] == null
-            ? null
-            : PromptTokensDetails.fromJson(
-                json['prompt_tokens_details'] as Map<String, dynamic>),
-      );
+    json['prompt_tokens'],
+    json['completion_tokens'],
+    json['total_tokens'],
+    completionTokensDetails: json['completion_tokens_details'] == null
+        ? null
+        : CompletionTokensDetails.fromJson(
+            json['completion_tokens_details'] as Map<String, dynamic>,
+          ),
+    promptTokensDetails: json['prompt_tokens_details'] == null
+        ? null
+        : PromptTokensDetails.fromJson(
+            json['prompt_tokens_details'] as Map<String, dynamic>,
+          ),
+  );
+
   Map<String, dynamic> toJson() => usageToJson(this);
 
   Map<String, dynamic> usageToJson(Usage instance) => <String, dynamic>{
-        'prompt_tokens': instance.promptTokens,
-        'completion_tokens': instance.completionTokens,
-        'total_tokens': instance.totalTokens,
-        'completion_tokens_details': instance.completionTokensDetails?.toJson(),
-        'prompt_tokens_details': instance.promptTokensDetails?.toJson(),
-      }..removeWhere((key, value) => value == null);
+    'prompt_tokens': instance.promptTokens,
+    'completion_tokens': instance.completionTokens,
+    'total_tokens': instance.totalTokens,
+    'completion_tokens_details': instance.completionTokensDetails?.toJson(),
+    'prompt_tokens_details': instance.promptTokensDetails?.toJson(),
+  }..removeWhere((key, value) => value == null);
 }

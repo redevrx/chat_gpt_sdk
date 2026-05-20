@@ -107,41 +107,41 @@ class CreateRunResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "metadata": metadata,
-        "assistant_id": assistantId,
-        "created_at": createdAt,
-        "usage": usage?.toJson(),
-        "tools": tools.map((x) {
-          try {
-            return x.toJson();
-          } catch (_) {
-            return x;
-          }
-        }).toList(),
-        "completed_at": completedAt,
-        "thread_id": threadId,
-        "file_ids": fileIds,
-        "started_at": startedAt,
-        "model": model,
-        "id": id,
-        "object": object,
-        "status": status,
-        'instructions': instructions,
-        'last_error': lastError,
-        'failed_at': failedAt,
-        'cancelled_at': cancelledAt,
-        'expires_at': expiresAt,
-        'type': type,
-        'step_details': stepDetails?.toJson(),
-        'required_action': requiredAction,
-        'incomplete_details': incompleteDetails,
-        'temperature': temperature,
-        'top_p': topP,
-        'max_prompt_tokens': maxPromptTokens,
-        'max_completion_tokens': maxCompletionTokens,
-        'truncation_strategy': truncationStrategy,
-        'tool_choice': toolChoice,
-        'response_format': responseFormat,
-        'tool_resources': toolResources,
-      };
+    "metadata": metadata,
+    "assistant_id": assistantId,
+    "created_at": createdAt,
+    "usage": usage?.toJson(),
+    "tools": tools.map((x) {
+      try {
+        return x.toJson();
+      } catch (_) {
+        return x;
+      }
+    }).toList(),
+    "completed_at": completedAt,
+    "thread_id": threadId,
+    "file_ids": fileIds,
+    "started_at": startedAt,
+    "model": model,
+    "id": id,
+    "object": object,
+    "status": status,
+    'instructions': instructions,
+    'last_error': lastError,
+    'failed_at': failedAt,
+    'cancelled_at': cancelledAt,
+    'expires_at': expiresAt,
+    'type': type,
+    'step_details': stepDetails?.toJson(),
+    'required_action': requiredAction,
+    'incomplete_details': incompleteDetails,
+    'temperature': temperature,
+    'top_p': topP,
+    'max_prompt_tokens': maxPromptTokens,
+    'max_completion_tokens': maxCompletionTokens,
+    'truncation_strategy': truncationStrategy,
+    'tool_choice': toolChoice,
+    'response_format': responseFormat,
+    'tool_resources': toolResources,
+  };
 }

@@ -12,12 +12,9 @@ class Hyperparameter {
 
   Hyperparameter({required this.nEpochs, this.suffix});
 
-  factory Hyperparameter.fromJson(Map<dynamic, dynamic> json) => Hyperparameter(
-        nEpochs: json["n_epochs"],
-      );
+  factory Hyperparameter.fromJson(Map<dynamic, dynamic> json) =>
+      Hyperparameter(nEpochs: json["n_epochs"]);
 
-  Map<String, dynamic> toJson() => Map.of({
-        "n_epochs": nEpochs,
-        "suffix": suffix,
-      });
+  Map<String, dynamic> toJson() =>
+      Map.of({"n_epochs": nEpochs, "suffix": suffix});
 }

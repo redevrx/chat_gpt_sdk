@@ -1,8 +1,6 @@
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/model/file/response/delete_file.dart';
 import 'package:chat_gpt_sdk/src/model/message/request/create_message.dart';
-import 'package:chat_gpt_sdk/src/model/message/response/list_message_file.dart';
-import 'package:chat_gpt_sdk/src/model/message/response/list_message_file_data.dart';
 import 'package:chat_gpt_sdk/src/model/message/response/message_data.dart';
 import 'package:chat_gpt_sdk/src/model/message/response/message_data_response.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
@@ -13,10 +11,9 @@ class Messages {
   final OpenAIClient _client;
   final Map<String, String> _headers;
 
-  Messages(
-      {required OpenAIClient client, required Map<String, String> headers})
-      : _client = client,
-        _headers = headers;
+  Messages({required OpenAIClient client, required Map<String, String> headers})
+    : _client = client,
+      _headers = headers;
 
   Future<CreateMessageV2Response> createMessage({
     required String threadId,
@@ -39,7 +36,8 @@ class Messages {
     String? before,
     String? runId,
   }) {
-    String url = _client.apiUrl +
+    String url =
+        _client.apiUrl +
         kThread +
         "/$threadId/$kMessages?limit=$limit&order=$order";
 

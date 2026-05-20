@@ -10,6 +10,7 @@ import 'model/gen_image/request/variation.dart';
 
 class Edit {
   final OpenAIClient _client;
+
   Edit(this._client);
 
   ///Given a prompt and an instruction,

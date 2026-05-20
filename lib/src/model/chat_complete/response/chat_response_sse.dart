@@ -28,17 +28,17 @@ class ChatResponseSSE {
         choices: (json["choices"] == null)
             ? null
             : (json["choices"] as List)
-                .map((e) => ChatChoiceSSE.fromJson(e))
-                .toList(),
+                  .map((e) => ChatChoiceSSE.fromJson(e))
+                  .toList(),
         usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "object": object,
-        "created": created,
-        "choices": choices?.map((e) => e.toJson()).toList(),
-        "usage": usage?.toJson(),
-        "model": model,
-      };
+    "id": id,
+    "object": object,
+    "created": created,
+    "choices": choices?.map((e) => e.toJson()).toList(),
+    "usage": usage?.toJson(),
+    "model": model,
+  };
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:example/constants.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: TranslateScreen(),
-    );
+    return const MaterialApp(home: TranslateScreen());
   }
 }
 
 class TranslateScreen extends StatefulWidget {
   const TranslateScreen({super.key});
+
   @override
   State<TranslateScreen> createState() => _TranslateScreenState();
 }
@@ -31,11 +31,13 @@ class _TranslateScreenState extends State<TranslateScreen> {
   late OpenAI openAI;
 
   Future<CompleteResponse?>? _translateFuture;
+
   void _translateEngToThai() async {
     final request = CompleteText(
-        prompt: translateEngToThai(word: _txtWord.text.toString()),
-        maxTokens: 200,
-        model: Gpt3TurboInstruct());
+      prompt: translateEngToThai(word: _txtWord.text.toString()),
+      maxTokens: 200,
+      model: Gpt3TurboInstruct(),
+    );
 
     setState(() {
       _translateFuture = openAI.onCompletion(request: request);
@@ -47,10 +49,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final request = ChatCompleteText(
       messages: [
         Messages(
-                role: Role.user,
-                content: "What is the weather like in Boston?",
-                name: "get_current_weather")
-            .toJson(),
+          role: Role.user,
+          content: "What is the weather like in Boston?",
+          name: "get_current_weather",
+        ).toJson(),
       ],
       maxToken: 200,
       model: Gpt41106PreviewChatModel(),
@@ -65,17 +67,17 @@ class _TranslateScreenState extends State<TranslateScreen> {
               "properties": {
                 "location": {
                   "type": "string",
-                  "description": "The city and state, e.g. San Francisco, CA"
+                  "description": "The city and state, e.g. San Francisco, CA",
                 },
                 "unit": {
                   "type": "string",
-                  "enum": ["celsius", "fahrenheit"]
-                }
+                  "enum": ["celsius", "fahrenheit"],
+                },
               },
-              "required": ["location"]
-            }
-          }
-        }
+              "required": ["location"],
+            },
+          },
+        },
       ],
       toolChoice: 'auto',
     );
@@ -95,11 +97,11 @@ class _TranslateScreenState extends State<TranslateScreen> {
               "type": "image_url",
               "image_url": {
                 "url":
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
-              }
-            }
-          ]
-        }
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              },
+            },
+          ],
+        },
       ],
       maxToken: 200,
       model: Gpt4VisionPreviewChatModel(),
@@ -110,9 +112,11 @@ class _TranslateScreenState extends State<TranslateScreen> {
   }
 
   void gpt4() async {
-    final request = ChatCompleteText(messages: [
-      Messages(role: Role.assistant, content: 'Hello!').toJson(),
-    ], maxToken: 200, model: Gpt4ChatModel());
+    final request = ChatCompleteText(
+      messages: [Messages(role: Role.assistant, content: 'Hello!').toJson()],
+      maxToken: 200,
+      model: Gpt4ChatModel(),
+    );
 
     await openAI.onChatCompletion(request: request);
   }
@@ -120,24 +124,31 @@ class _TranslateScreenState extends State<TranslateScreen> {
   void reasoningModelExample() async {
     final request = ChatCompleteText(
       messages: [
-        Messages(role: Role.user, content: 'Explain quantum computing in simple terms.').toJson(),
+        Messages(
+          role: Role.user,
+          content: 'Explain quantum computing in simple terms.',
+        ).toJson(),
       ],
       model: O3MiniChatModel(),
       reasoningEffort: 'medium',
     );
 
     ChatCTResponse? response = await openAI.onChatCompletion(request: request);
-    debugPrint("Reasoning Response: ${response?.choices.last.message?.content}");
+    debugPrint(
+      "Reasoning Response: ${response?.choices.last.message?.content}",
+    );
   }
 
   @override
   void initState() {
     openAI = OpenAI.instance.build(
-        token: kToken,
-        baseOption: HttpSetup(
-            receiveTimeout: const Duration(seconds: 20),
-            connectTimeout: const Duration(seconds: 20)),
-        enableLog: true);
+      token: kToken,
+      baseOption: HttpSetup(
+        receiveTimeout: const Duration(seconds: 20),
+        connectTimeout: const Duration(seconds: 20),
+      ),
+      enableLog: true,
+    );
     super.initState();
   }
 
@@ -170,7 +181,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 /**
                  * button translate
                  */
-                _btnTranslate()
+                _btnTranslate(),
               ],
             ),
           ),
@@ -203,56 +214,50 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Widget _resultCard(Size size) {
     return FutureBuilder<CompleteResponse?>(
-        future: _translateFuture,
-        builder: (context, snapshot) {
-          final text = snapshot.data?.choices.last.text;
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 32.0),
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            alignment: Alignment.bottomCenter,
-            width: size.width * .86,
-            height: size.height * .3,
-            decoration: heroCard,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    text ?? 'Loading...',
-                    style: const TextStyle(color: Colors.black, fontSize: 18.0),
-                  ),
-                  SizedBox(
-                    width: size.width,
-                    child: const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(
-                          Icons.copy_outlined,
+      future: _translateFuture,
+      builder: (context, snapshot) {
+        final text = snapshot.data?.choices.last.text;
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          alignment: Alignment.bottomCenter,
+          width: size.width * .86,
+          height: size.height * .3,
+          decoration: heroCard,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  text ?? 'Loading...',
+                  style: const TextStyle(color: Colors.black, fontSize: 18.0),
+                ),
+                SizedBox(
+                  width: size.width,
+                  child: const Divider(color: Colors.grey, thickness: 1),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.copy_outlined, color: Colors.grey, size: 22.0),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Icon(
+                          Icons.delete_forever,
                           color: Colors.grey,
                           size: 22.0,
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Icon(
-                            Icons.delete_forever,
-                            color: Colors.grey,
-                            size: 22.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   Padding _navigation(Size size) {
@@ -268,8 +273,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
             Container(
               padding: const EdgeInsets.all(4.0),
               decoration: BoxDecoration(
-                  color: Colors.indigoAccent,
-                  borderRadius: BorderRadius.circular(50.0)),
+                color: Colors.indigoAccent,
+                borderRadius: BorderRadius.circular(50.0),
+              ),
               child: const Icon(
                 Icons.translate,
                 color: Colors.white,
@@ -281,16 +287,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
               color: Colors.indigoAccent,
               size: 22.0,
             ),
-            const Icon(
-              Icons.favorite,
-              color: Colors.indigoAccent,
-              size: 22.0,
-            ),
-            const Icon(
-              Icons.person,
-              color: Colors.indigoAccent,
-              size: 22.0,
-            )
+            const Icon(Icons.favorite, color: Colors.indigoAccent, size: 22.0),
+            const Icon(Icons.person, color: Colors.indigoAccent, size: 22.0),
           ],
         ),
       ),
@@ -331,7 +329,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                   size: 16.0,
                   color: Colors.grey,
                 ),
-              )
+              ),
             ],
           ),
           const Padding(
@@ -367,9 +365,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
                   size: 16.0,
                   color: Colors.grey,
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -387,9 +385,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
           children: [
             TextField(
               decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none),
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+              ),
               controller: _txtWord,
               maxLines: 6,
               textInputAction: TextInputAction.newline,
@@ -397,21 +396,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
             ),
             SizedBox(
               width: size.width,
-              child: const Divider(
-                color: Colors.grey,
-                thickness: 1,
-              ),
+              child: const Divider(color: Colors.grey, thickness: 1),
             ),
             const Padding(
               padding: EdgeInsets.all(12.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Icon(
-                    Icons.copy_outlined,
-                    color: Colors.grey,
-                    size: 22.0,
-                  ),
+                  Icon(Icons.copy_outlined, color: Colors.grey, size: 22.0),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Icon(
@@ -419,10 +411,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       color: Colors.grey,
                       size: 22.0,
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

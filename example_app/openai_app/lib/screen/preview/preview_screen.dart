@@ -11,30 +11,30 @@ class PreviewScreen extends StatelessWidget {
 
   void toSetupScreen({required BuildContext context}) {
     Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SetupScreen(),
-        ),
-        (route) => false);
+      context,
+      MaterialPageRoute(builder: (context) => const SetupScreen()),
+      (route) => false,
+    );
   }
 
   void toHomeScreen({required BuildContext context}) {
     Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-        (route) => false);
+      context,
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      (route) => false,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
-      child: Material(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: kDefaultPadding,
+          vertical: kDefaultPadding * 2,
+        ),
+        child: Material(
           color: Colors.transparent,
           child: SingleChildScrollView(
             child: SizedBox(
@@ -45,10 +45,9 @@ class PreviewScreen extends StatelessWidget {
                   buildSkipButton(context),
                   const Spacer(),
                   AspectRatio(
-                      aspectRatio: 4 / 3,
-                      child: Image.asset(
-                        'assets/images/robot_hello.png',
-                      )),
+                    aspectRatio: 4 / 3,
+                    child: Image.asset('assets/images/robot_hello.png'),
+                  ),
                   const Spacer(),
                   Text(
                     "Chat with OpenAI",
@@ -63,31 +62,34 @@ class PreviewScreen extends StatelessWidget {
                   ),
                   kDefaultPadding.toHeight(height: 2),
                   OpenAIButton(
-                      height: size.height * .05,
-                      width: double.infinity,
-                      title: "Get Started",
-                      tab: () => toSetupScreen(context: context)),
-                  const Spacer()
+                    height: size.height * .05,
+                    width: double.infinity,
+                    title: "Get Started",
+                    tab: () => toSetupScreen(context: context),
+                  ),
+                  const Spacer(),
                 ],
               ),
             ),
-          )),
-    ));
+          ),
+        ),
+      ),
+    );
   }
 
   Row buildSkipButton(BuildContext context) {
     return Row(
       children: [
         ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: kDarkOffBgColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(kDefaultPadding))),
-            onPressed: () => toHomeScreen(context: context),
-            child: Text(
-              "Skip",
-              style: Theme.of(context).textTheme.titleSmall,
-            ))
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kDarkOffBgColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kDefaultPadding),
+            ),
+          ),
+          onPressed: () => toHomeScreen(context: context),
+          child: Text("Skip", style: Theme.of(context).textTheme.titleSmall),
+        ),
       ],
     );
   }
@@ -95,9 +97,11 @@ class PreviewScreen extends StatelessWidget {
   Widget buildImageBackground() {
     return Container(
       decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/robot_bg.jpg'),
-              fit: BoxFit.cover)),
+        image: DecorationImage(
+          image: AssetImage('assets/images/robot_bg.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

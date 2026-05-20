@@ -26,9 +26,10 @@ class OpenAIButton extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(kDefaultPadding * 1.22),
-          boxShadow: boxShadow),
+        color: color,
+        borderRadius: BorderRadius.circular(kDefaultPadding * 1.22),
+        boxShadow: boxShadow,
+      ),
       child: InkWell(
         splashColor: kDarkOffBgColor.withValues(alpha: .23),
         onTap: tab,

@@ -53,8 +53,10 @@ class OpenAiResponseData {
       model: json['model'] as String?,
       output: json['output'] != null
           ? (json['output'] as List)
-              .map((e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map(
+                  (e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>),
+                )
+                .toList()
           : null,
       usage: json['usage'] != null
           ? Usage.fromJson(json['usage'] as Map<String, dynamic>)
@@ -63,13 +65,13 @@ class OpenAiResponseData {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'object': object,
-        'status': status,
-        'model': model,
-        if (output != null) 'output': output?.map((e) => e.toJson()).toList(),
-        if (usage != null) 'usage': usage?.toJson(),
-      }..removeWhere((key, value) => value == null);
+    'id': id,
+    'object': object,
+    'status': status,
+    'model': model,
+    if (output != null) 'output': output?.map((e) => e.toJson()).toList(),
+    if (usage != null) 'usage': usage?.toJson(),
+  }..removeWhere((key, value) => value == null);
 }
 
 class ResponseOutputItem {
@@ -104,19 +106,22 @@ class ResponseOutputItem {
       role: json['role'] as String?,
       content: json['content'] != null
           ? (json['content'] as List)
-              .map((e) => ResponseContentPart.fromJson(e as Map<String, dynamic>))
-              .toList()
+                .map(
+                  (e) =>
+                      ResponseContentPart.fromJson(e as Map<String, dynamic>),
+                )
+                .toList()
           : null,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type,
-        'status': status,
-        'role': role,
-        if (content != null) 'content': content?.map((e) => e.toJson()).toList(),
-      }..removeWhere((key, value) => value == null);
+    'id': id,
+    'type': type,
+    'status': status,
+    'role': role,
+    if (content != null) 'content': content?.map((e) => e.toJson()).toList(),
+  }..removeWhere((key, value) => value == null);
 }
 
 class ResponseContentPart {
@@ -135,8 +140,6 @@ class ResponseContentPart {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'type': type,
-        'text': text,
-      }..removeWhere((key, value) => value == null);
+  Map<String, dynamic> toJson() =>
+      {'type': type, 'text': text}..removeWhere((key, value) => value == null);
 }

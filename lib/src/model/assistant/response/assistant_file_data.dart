@@ -20,9 +20,9 @@ class AssistantFileData {
       );
 
   Map<String, dynamic> toJson() => {
-        "assistant_id": assistantId,
-        "created_at": createdAt,
-        "id": id,
-        "object": object,
-      };
+    "assistant_id": assistantId,
+    "created_at": createdAt,
+    "id": id,
+    "object": object,
+  };
 }

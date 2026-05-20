@@ -37,11 +37,11 @@ class SpeechRequest {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        'model': model,
-        'input': input,
-        'voice': voice,
-        'instructions': instructions,
-        'response_format': responseFormat,
-        'speed': speed,
-      });
+    'model': model,
+    'input': input,
+    'voice': voice,
+    'instructions': instructions,
+    'response_format': responseFormat,
+    'speed': speed,
+  });
 }

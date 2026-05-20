@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:chat_gpt_sdk/src/assistants.dart';
 import 'package:chat_gpt_sdk/src/audio.dart';
 import 'package:chat_gpt_sdk/src/client/client.dart';
 import 'package:chat_gpt_sdk/src/client/exception/missing_token_exception.dart';
 import 'package:chat_gpt_sdk/src/embedding.dart';
-import 'package:chat_gpt_sdk/src/openai_file.dart';
 import 'package:chat_gpt_sdk/src/fine_tuned.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/request/chat_complete_text.dart';
 import 'package:chat_gpt_sdk/src/model/chat_complete/response/chat_ct_response.dart';
@@ -17,7 +17,11 @@ import 'package:chat_gpt_sdk/src/model/gen_image/request/generate_image.dart';
 import 'package:chat_gpt_sdk/src/model/gen_image/response/gen_img_response.dart';
 import 'package:chat_gpt_sdk/src/model/openai_engine/engine_model.dart';
 import 'package:chat_gpt_sdk/src/model/openai_model/openai_model.dart';
+import 'package:chat_gpt_sdk/src/model/responses/request/openai_response_request.dart';
+import 'package:chat_gpt_sdk/src/model/responses/response/openai_response_data.dart';
 import 'package:chat_gpt_sdk/src/moderation.dart';
+import 'package:chat_gpt_sdk/src/openai_file.dart';
+import 'package:chat_gpt_sdk/src/project_org.dart';
 import 'package:chat_gpt_sdk/src/threads.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'package:chat_gpt_sdk/src/utils/token_builder.dart';
@@ -25,14 +29,11 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:dio_compatibility_layer/dio_compatibility_layer.dart';
 import 'package:fetch_client/fetch_client.dart';
+
 import 'client/interceptor/interceptor_wrapper.dart';
 import 'edit.dart';
 import 'i_openai.dart';
 import 'model/cancel/cancel_data.dart';
-import 'package:chat_gpt_sdk/src/project_org.dart';
-import 'package:chat_gpt_sdk/src/model/responses/request/openai_response_request.dart';
-import 'package:chat_gpt_sdk/src/model/responses/response/openai_response_data.dart';
-
 
 //const msgDeprecate = "not support in version 2.0.6";
 
@@ -77,33 +78,42 @@ class OpenAI implements IOpenAI {
       setOrgId(orgId);
     }
 
-    final dio = Dio(BaseOptions(
-      sendTimeout: setup.sendTimeout,
-      connectTimeout: setup.connectTimeout,
-      receiveTimeout: setup.receiveTimeout,
-    ));
+    final dio = Dio(
+      BaseOptions(
+        sendTimeout: setup.sendTimeout,
+        connectTimeout: setup.connectTimeout,
+        receiveTimeout: setup.receiveTimeout,
+      ),
+    );
 
     const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
-    assert(setup.proxy.isEmpty || !setup.streamingWebApi,
-        'You can\'t provide both proxy and experimental streaming api support currently');
-    assert(!setup.streamingWebApi || kIsWeb,
-        'You can\'t run web specific API on other platforms');
+    assert(
+      setup.proxy.isEmpty || !setup.streamingWebApi,
+      'You can\'t provide both proxy and experimental streaming api support currently',
+    );
+    assert(
+      !setup.streamingWebApi || kIsWeb,
+      'You can\'t run web specific API on other platforms',
+    );
 
     if (setup.streamingWebApi) {
-      dio.httpClientAdapter =
-          ConversionLayerAdapter(FetchClient(mode: RequestMode.cors));
+      dio.httpClientAdapter = ConversionLayerAdapter(
+        FetchClient(mode: RequestMode.cors),
+      );
     }
     if (setup.proxy.isNotEmpty) {
-      dio.httpClientAdapter = IOHttpClientAdapter(createHttpClient: () {
-        final client = HttpClient();
-        client.findProxy = (uri) {
-          /// "PROXY localhost:7890"
-          return setup.proxy;
-        };
+      dio.httpClientAdapter = IOHttpClientAdapter(
+        createHttpClient: () {
+          final client = HttpClient();
+          client.findProxy = (uri) {
+            /// "PROXY localhost:7890"
+            return setup.proxy;
+          };
 
-        return client;
-      });
+          return client;
+        },
+      );
     }
     dio.interceptors.add(InterceptorWrapper());
 
@@ -149,15 +159,14 @@ class OpenAI implements IOpenAI {
   Future<CompleteResponse?> onCompletion({
     required CompleteText request,
     void Function(CancelData cancelData)? onCancel,
-  }) =>
-      _client.post(
-        "${_client.apiUrl}$kCompletion",
-        request.toJson(),
-        onCancel: (it) => onCancel != null ? onCancel(it) : null,
-        onSuccess: (it) {
-          return CompleteResponse.fromJson(it);
-        },
-      );
+  }) => _client.post(
+    "${_client.apiUrl}$kCompletion",
+    request.toJson(),
+    onCancel: (it) => onCancel != null ? onCancel(it) : null,
+    onSuccess: (it) {
+      return CompleteResponse.fromJson(it);
+    },
+  );
 
   ///Given a chat conversation,
   /// the model will return a chat completion response.[onChatCompletion]
@@ -275,4 +284,3 @@ class OpenAI implements IOpenAI {
     );
   }
 }
-

@@ -13,15 +13,14 @@ class ChatChoiceSSE {
   });
 
   factory ChatChoiceSSE.fromJson(Map<String, dynamic> json) => ChatChoiceSSE(
-        index: json["index"],
-        message: json["delta"] == null ? null : Message.fromJson(json["delta"]),
-        finishReason:
-            json["finish_reason"] == null ? "" : json["finish_reason"],
-      );
+    index: json["index"],
+    message: json["delta"] == null ? null : Message.fromJson(json["delta"]),
+    finishReason: json["finish_reason"] == null ? "" : json["finish_reason"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "index": index,
-        "delta": message?.toJson(),
-        "finish_reason": finishReason ?? "",
-      };
+    "index": index,
+    "delta": message?.toJson(),
+    "finish_reason": finishReason ?? "",
+  };
 }

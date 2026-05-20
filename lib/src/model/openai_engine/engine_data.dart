@@ -5,12 +5,14 @@ class EngineData {
   final bool ready;
 
   EngineData(this.id, this.object, this.owner, this.ready);
+
   factory EngineData.fromJson(Map<String, dynamic> json) => EngineData(
-        json['id'] as String,
-        json['object'] as String,
-        json['owner'] as String,
-        json['ready'] as bool,
-      );
+    json['id'] as String,
+    json['object'] as String,
+    json['owner'] as String,
+    json['ready'] as bool,
+  );
+
   Map<String, dynamic> toJson() => engineDataToJson(this);
 
   Map<String, dynamic> engineDataToJson(EngineData instance) =>

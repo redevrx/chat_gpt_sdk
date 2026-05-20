@@ -16,20 +16,20 @@ class UploadResponse {
   String purpose;
 
   factory UploadResponse.fromJson(Map<String, dynamic> json) => UploadResponse(
-        id: json["id"],
-        object: json["object"],
-        bytes: json["bytes"],
-        createdAt: json["created_at"],
-        filename: json["filename"],
-        purpose: json["purpose"],
-      );
+    id: json["id"],
+    object: json["object"],
+    bytes: json["bytes"],
+    createdAt: json["created_at"],
+    filename: json["filename"],
+    purpose: json["purpose"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "object": object,
-        "bytes": bytes,
-        "created_at": createdAt,
-        "filename": filename,
-        "purpose": purpose,
-      };
+    "id": id,
+    "object": object,
+    "bytes": bytes,
+    "created_at": createdAt,
+    "filename": filename,
+    "purpose": purpose,
+  };
 }

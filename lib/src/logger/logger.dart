@@ -1,5 +1,6 @@
-import 'package:chat_gpt_sdk/src/utils/constants.dart';
 import 'dart:developer' as dev;
+
+import 'package:chat_gpt_sdk/src/utils/constants.dart';
 
 class Logger {
   Logger._();

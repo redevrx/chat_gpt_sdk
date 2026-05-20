@@ -28,12 +28,9 @@ class ThreadRequest {
       "tools": tools,
       'tool_resources': {
         'file_search': fileSearch,
-        'code_interpreter': {
-          "file_ids": fileIds ?? [],
-        },
+        'code_interpreter': {"file_ids": fileIds ?? []},
       },
-    })
-      ..removeWhere((_, value) => value == null);
+    })..removeWhere((_, value) => value == null);
 
     if (fileSearch == null) {
       (data['tool_resources'] as Map?)?.remove('file_search');

@@ -19,8 +19,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   void toChatBotScreen(BuildContext context, FeatureData data) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ChatBotScreen(data: data)));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ChatBotScreen(data: data)),
+    );
   }
 
   @override
@@ -29,73 +31,81 @@ class _HomeScreenState extends State<HomeScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-          appBar: buildAppBar(context, size),
-          body: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: size.height * .9,
-                  child: Material(
-                      color: Colors.transparent,
-                      child: Stack(
-                        children: [
-                          ///list features
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: kDefaultPadding),
-                            child: Column(
-                              children: [
-                                size.height.toHeight(height: .04),
-                                SizedBox(
-                                  height: size.height * .5,
-                                  child: ListView.builder(
-                                    itemCount: openAIFeatures.length,
-                                    itemBuilder: (context, index) {
-                                      return buildFutureCard(index, context);
-                                    },
-                                  ),
-                                )
-                              ],
+        appBar: buildAppBar(context, size),
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: size.height * .9,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      ///list features
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding,
+                        ),
+                        child: Column(
+                          children: [
+                            size.height.toHeight(height: .04),
+                            SizedBox(
+                              height: size.height * .5,
+                              child: ListView.builder(
+                                itemCount: openAIFeatures.length,
+                                itemBuilder: (context, index) {
+                                  return buildFutureCard(index, context);
+                                },
+                              ),
                             ),
-                          ),
+                          ],
+                        ),
+                      ),
 
-                          ///open sheet
-                          BlocBuilder<OpenAIBloc, OpenAIState>(
-                            bloc: BlocProvider.of<OpenAIBloc>(context,
-                                listen: false),
-                            builder: (context, state) {
-                              if (state is OpenSettingState) {
-                                return state.isOpen
-                                    ? Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: SettingCard(
-                                            height: size.height * .5,
-                                            tab: () {
-                                              final bloc =
-                                                  BlocProvider.of<OpenAIBloc>(
-                                                      context,
-                                                      listen: false);
-                                              bloc.saveToken(
-                                                  success: () {
-                                                    bloc.openSettingSheet(
-                                                        !state.isOpen);
-                                                  },
-                                                  error: () =>
-                                                      errorNotFoundToken(
-                                                          context));
-                                            }),
-                                      )
-                                    : const SizedBox();
-                              }
-                              return const SizedBox();
-                            },
-                          ),
-                        ],
-                      )),
+                      ///open sheet
+                      BlocBuilder<OpenAIBloc, OpenAIState>(
+                        bloc: BlocProvider.of<OpenAIBloc>(
+                          context,
+                          listen: false,
+                        ),
+                        builder: (context, state) {
+                          if (state is OpenSettingState) {
+                            return state.isOpen
+                                ? Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: SettingCard(
+                                      height: size.height * .5,
+                                      tab: () {
+                                        final bloc =
+                                            BlocProvider.of<OpenAIBloc>(
+                                              context,
+                                              listen: false,
+                                            );
+                                        bloc.saveToken(
+                                          success: () {
+                                            bloc.openSettingSheet(
+                                              !state.isOpen,
+                                            );
+                                          },
+                                          error: () =>
+                                              errorNotFoundToken(context),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : const SizedBox();
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              )
-            ],
-          )),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -104,22 +114,24 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
       child: Ink(
         decoration: BoxDecoration(
-            color: kDarkBgColor,
-            borderRadius: BorderRadius.circular(kDefaultPadding / 2),
-            border: Border.all(color: Colors.white10)),
+          color: kDarkBgColor,
+          borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+          border: Border.all(color: Colors.white10),
+        ),
         child: InkWell(
           onTap: () async {
             final bloc = BlocProvider.of<OpenAIBloc>(context, listen: false);
             bloc.isHasToken(
-                success: () => toChatBotScreen(context, openAIFeatures[index]),
-                error: () {
-                  errorNotFoundToken(context);
-                  bool openSheet = false;
-                  if (bloc.state is OpenSettingState) {
-                    openSheet = (bloc.state as OpenSettingState).isOpen;
-                  }
-                  bloc.openSettingSheet(!openSheet);
-                });
+              success: () => toChatBotScreen(context, openAIFeatures[index]),
+              error: () {
+                errorNotFoundToken(context);
+                bool openSheet = false;
+                if (bloc.state is OpenSettingState) {
+                  openSheet = (bloc.state as OpenSettingState).isOpen;
+                }
+                bloc.openSettingSheet(!openSheet);
+              },
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(kDefaultPadding / 4),
@@ -128,32 +140,35 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    width: 50,
-                    height: 40,
-                    margin: const EdgeInsets.only(left: kDefaultPadding / 2),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: kDefaultPadding / 2.5),
-                    decoration: BoxDecoration(
-                        color: openAIFeatures[index]
-                            .bgColor
-                            .withValues(alpha: .12),
-                        borderRadius:
-                            BorderRadius.circular(kDefaultPadding / 2)),
-                    child: Image.asset(
-                      openAIFeatures[index].image,
-                      color: openAIFeatures[index].imageColor,
-                    ) //const Icon(Icons.question_answer,color: Colors.indigo),
-                    ),
+                  width: 50,
+                  height: 40,
+                  margin: const EdgeInsets.only(left: kDefaultPadding / 2),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding / 2.5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: openAIFeatures[index].bgColor.withValues(alpha: .12),
+                    borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+                  ),
+                  child: Image.asset(
+                    openAIFeatures[index].image,
+                    color: openAIFeatures[index].imageColor,
+                  ), //const Icon(Icons.question_answer,color: Colors.indigo),
+                ),
                 kDefaultPadding.toWidth(),
                 Expanded(
-                    child: Text(openAIFeatures[index].title,
-                        style: Theme.of(context).textTheme.titleMedium)),
+                  child: Text(
+                    openAIFeatures[index].title,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
                 IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.arrow_right_alt_sharp,
-                      color: openAIFeatures[index].imageColor,
-                    ))
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.arrow_right_alt_sharp,
+                    color: openAIFeatures[index].imageColor,
+                  ),
+                ),
               ],
             ),
           ),
@@ -177,29 +192,36 @@ class _HomeScreenState extends State<HomeScreen> {
             width: size.width * .11,
             height: size.height * .044,
             decoration: BoxDecoration(
-                color: kButtonColor.withValues(alpha: .32),
-                borderRadius: BorderRadius.circular(kDefaultPadding / 2),
-                boxShadow: [
-                  BoxShadow(
-                      color: kButtonColor.withValues(alpha: .1),
-                      offset: const Offset(0, 3),
-                      blurRadius: 6.0)
-                ]),
+              color: kButtonColor.withValues(alpha: .32),
+              borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+              boxShadow: [
+                BoxShadow(
+                  color: kButtonColor.withValues(alpha: .1),
+                  offset: const Offset(0, 3),
+                  blurRadius: 6.0,
+                ),
+              ],
+            ),
             child: InkWell(
               onTap: () {
-                final bloc =
-                    BlocProvider.of<OpenAIBloc>(context, listen: false);
+                final bloc = BlocProvider.of<OpenAIBloc>(
+                  context,
+                  listen: false,
+                );
                 bool openSheet = false;
                 if (bloc.state is OpenSettingState) {
                   openSheet = (bloc.state as OpenSettingState).isOpen;
                 }
                 bloc.openSettingSheet(!openSheet);
               },
-              child: const Icon(Icons.settings,
-                  color: kButtonColor, size: kDefaultPadding * 1.2),
+              child: const Icon(
+                Icons.settings,
+                color: kButtonColor,
+                size: kDefaultPadding * 1.2,
+              ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

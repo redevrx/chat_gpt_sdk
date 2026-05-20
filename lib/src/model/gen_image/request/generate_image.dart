@@ -34,14 +34,13 @@ class GenerateImage {
   }) : assert(1 <= n && n <= 10, 'n must be between 1 and 10.');
 
   Map<String, dynamic> toJson() => Map.of({
-        "prompt": prompt,
-        "model": model.model,
-        "n": n,
-        "size": size?.size,
-        "response_format": responseFormat?.getName(),
-        "user": user,
-        "quality": quality,
-        "style": style,
-      })
-        ..removeWhere((key, value) => value == null || value == "");
+    "prompt": prompt,
+    "model": model.model,
+    "n": n,
+    "size": size?.size,
+    "response_format": responseFormat?.getName(),
+    "user": user,
+    "quality": quality,
+    "style": style,
+  })..removeWhere((key, value) => value == null || value == "");
 }

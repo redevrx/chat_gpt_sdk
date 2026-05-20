@@ -3,15 +3,17 @@ import 'package:chat_gpt_sdk/src/model/fine_tune/request/create_fine_tune_job.da
 import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_list.dart';
 import 'package:chat_gpt_sdk/src/model/fine_tune/response/job/fine_tune_model_job.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
+
 import 'client/client.dart';
 
 class FineTuned {
   final OpenAIClient _client;
+
   FineTuned(this._client);
 
-/**
- * new api
- */
+  /**
+   * new api
+   */
 
   ///Creates a job that fine-tunes a specified model from a given dataset.
   ///Response includes details of the enqueued job including job status
@@ -78,10 +80,7 @@ class FineTuned {
     Map<String, dynamic>? query;
 
     if (after != null || limit != null) {
-      query = Map.of({
-        'after': after,
-        'limit': limit,
-      });
+      query = Map.of({'after': after, 'limit': limit});
     }
 
     return _client.getStream(

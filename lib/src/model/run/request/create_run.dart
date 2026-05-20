@@ -118,20 +118,19 @@ class CreateRun {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        'assistant_id': assistantId,
-        'model': model,
-        'instructions': instructions,
-        'additional_instructions': additionalInstructions,
-        'tools': tools,
-        'metadata': metadata,
-        'additional_messages': additionalMessages,
-        'temperature': temperature,
-        'top_p': topP,
-        'max_prompt_tokens': maxPromptTokens,
-        'max_completion_tokens': maxCompletionTokens,
-        'truncation_strategy': truncationStrategy,
-        'tool_choice': toolChoice,
-        'response_format': responseFormat,
-      })
-        ..removeWhere((_, value) => value == null);
+    'assistant_id': assistantId,
+    'model': model,
+    'instructions': instructions,
+    'additional_instructions': additionalInstructions,
+    'tools': tools,
+    'metadata': metadata,
+    'additional_messages': additionalMessages,
+    'temperature': temperature,
+    'top_p': topP,
+    'max_prompt_tokens': maxPromptTokens,
+    'max_completion_tokens': maxCompletionTokens,
+    'truncation_strategy': truncationStrategy,
+    'tool_choice': toolChoice,
+    'response_format': responseFormat,
+  })..removeWhere((_, value) => value == null);
 }

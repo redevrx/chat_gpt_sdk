@@ -6,6 +6,7 @@ class ModerationData {
     required this.model,
     required this.results,
   });
+
   late final String id;
   late final String model;
   late final List<ModerationResult> results;
@@ -15,9 +16,9 @@ class ModerationData {
     model = json['model'];
     results = json['results'] == null
         ? List.empty()
-        : List.from(json['results'])
-            .map((e) => ModerationResult.fromJson(e))
-            .toList();
+        : List.from(
+            json['results'],
+          ).map((e) => ModerationResult.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {

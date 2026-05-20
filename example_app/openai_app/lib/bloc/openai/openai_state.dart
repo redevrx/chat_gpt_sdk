@@ -22,8 +22,11 @@ class ChatCompletionState extends OpenAIState {
   final bool isBot;
   final bool showStopButton;
 
-  ChatCompletionState(
-      {this.messages, required this.isBot, required this.showStopButton});
+  ChatCompletionState({
+    this.messages,
+    required this.isBot,
+    required this.showStopButton,
+  });
 }
 
 class AuthErrorState extends OpenAIState {}

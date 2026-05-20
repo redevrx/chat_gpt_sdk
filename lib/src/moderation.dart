@@ -1,11 +1,13 @@
 import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
+
 import 'client/client.dart';
 import 'model/moderation/enum/moderation_model.dart';
 import 'model/moderation/response/moderation_data.dart';
 
 class Moderation {
   final OpenAIClient _client;
+
   Moderation(this._client);
 
   ///[input]

@@ -37,11 +37,10 @@ class EmbedRequest {
   });
 
   Map<String, dynamic> toJson() => Map.of({
-        'model': model.model,
-        'input': input,
-        'user': user,
-        'encoding_format': encodingFormat,
-        'dimensions': dimensions,
-      })
-        ..removeWhere((_, value) => value == null);
+    'model': model.model,
+    'input': input,
+    'user': user,
+    'encoding_format': encodingFormat,
+    'dimensions': dimensions,
+  })..removeWhere((_, value) => value == null);
 }

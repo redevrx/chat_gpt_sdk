@@ -2,11 +2,13 @@ import 'package:chat_gpt_sdk/src/model/audio/request/audio_request.dart';
 import 'package:chat_gpt_sdk/src/model/audio/request/speech_request.dart';
 import 'package:chat_gpt_sdk/src/model/cancel/cancel_data.dart';
 import 'package:chat_gpt_sdk/src/utils/constants.dart';
+
 import 'client/client.dart';
 import 'model/audio/response/audio_response.dart';
 
 class Audio {
   final OpenAIClient _client;
+
   Audio(this._client);
 
   ///Transcribes audio into the input language.[transcribes]

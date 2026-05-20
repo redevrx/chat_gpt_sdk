@@ -8,6 +8,7 @@ class CategoryScores {
     required this.violence,
     required this.violenceGraphic,
   });
+
   late final double hate;
   late final double hateThreatening;
   late final double selfHarm;

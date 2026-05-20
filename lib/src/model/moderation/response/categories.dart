@@ -8,6 +8,7 @@ class Categories {
     required this.violence,
     required this.violenceGraphic,
   });
+
   late final bool hate;
   late final bool hateThreatening;
   late final bool selfHarm;
